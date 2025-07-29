@@ -11,6 +11,11 @@
 
 #include "Core/Template.h"
 
+nemesis::ConditionalStatement::ConditionSyntaxError::ConditionSyntaxError(const std::string& msg)
+    : std::runtime_error(msg)
+{
+}
+
 nemesis::ConditionalStatement::ConditionalCollection*
 nemesis::ConditionalStatement::ConditionalNode::And(nemesis::ConditionalStatement::ConditionalNode* node)
 {
@@ -60,7 +65,7 @@ nemesis::ConditionalStatement::ConditionalString::ConditionalString(const std::s
             switch (expression[i])
             {
                 case '"':
-                    throw std::runtime_error("Invalid character near '\"'");
+                    throw ConditionSyntaxError("Invalid character near '\"'");
             }
         }
 
@@ -114,7 +119,7 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse1Component(
 
             if (!templt_class->GetModel(name))
             {
-                throw std::runtime_error("Unsupported option name (" + name + ")");
+                throw ConditionSyntaxError("Unsupported option name (" + name + ")");
             }
 
             auto request = GetBaseRequest(state);
@@ -145,7 +150,7 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse1Component(
 
     if (!templt_class->GetModel(name))
     {
-        throw std::runtime_error("Unsupported option name (" + name + ")");
+        throw ConditionSyntaxError("Unsupported option name (" + name + ")");
     }
 
     IsTrueFunction = [this, &name](nemesis::CompileState& state)
@@ -176,7 +181,7 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse2Components(
 
             if (!templt_class->GetModel(name))
             {
-                throw std::runtime_error("Unsupported option name (" + name + ")");
+                throw ConditionSyntaxError("Unsupported option name (" + name + ")");
             }
 
             size_t index = std::stoul(Components.back());
@@ -200,7 +205,7 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse2Components(
 
     if (!templt_class->GetModel(name))
     {
-        throw std::runtime_error("Unsupported option name (" + name + ")");
+        throw ConditionSyntaxError("Unsupported option name (" + name + ")");
     }
 
     size_t index = std::stoul(Components.back());
@@ -234,7 +239,7 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse3Components(
 
             if (templt_class->GetModel(name)) return request->GetOption(name) != nullptr;
 
-            throw std::runtime_error("Unsupported option name (" + name + ")");
+            throw ConditionSyntaxError("Unsupported option name (" + name + ")");
         };
     }
     else if (name == "@MotionData")
@@ -254,7 +259,7 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse3Components(
     }
     else
     {
-        throw std::runtime_error("Unsupported option name (" + name + ")");
+        throw ConditionSyntaxError("Unsupported option name (" + name + ")");
     }
 
     callback_requests = CallbackTargetRequests(*templt_class, manager, callback);
@@ -315,7 +320,7 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse4Components(
         return;
     }
 
-    if (!templt_class->GetModel(name)) throw std::runtime_error("Unsupported option name (" + name + ")");
+    if (!templt_class->GetModel(name)) throw ConditionSyntaxError("Unsupported option name (" + name + ")");
 
     IsTrueFunction = [get_request_func, &name, get_key = std::move(get_key)](nemesis::CompileState& state)
     {
@@ -359,7 +364,7 @@ nemesis::ConditionalStatement::ConditionalBoolean::ConditionalBoolean(const std:
             break;
         }
         default:
-            throw std::runtime_error("Invalid conditional statement");
+            throw ConditionSyntaxError("Invalid conditional statement");
     }
 }
 
@@ -389,7 +394,7 @@ nemesis::ConditionalStatement::ConditionalAnimationRequest::ConditionalAnimation
 
     if (Components.size() != 2)
     {
-        throw std::runtime_error("ConditionalAnimationRequest only accepts 1 argument");
+        throw ConditionSyntaxError("ConditionalAnimationRequest only accepts 1 argument");
     }
 
     GetRequestFunction = *GetTargetRequest(*templt_class, manager);
@@ -797,7 +802,10 @@ bool nemesis::ConditionalStatement::ConditionalStatementParser::Match(
 const nemesis::ConditionalStatement::ConditionalStatementParser::Token&
 nemesis::ConditionalStatement::ConditionalStatementParser::Consume(TokenType type) const
 {
-    if (!Match(type)) throw std::runtime_error("Invalid character near \"" + Tokens[TokenIndex].Value + "\"");
+    if (!Match(type))
+    {
+        throw ConditionSyntaxError("Invalid character near \"" + Tokens[TokenIndex].Value + "\"");
+    }
 
     return Advance();
 }
@@ -905,7 +913,7 @@ nemesis::ConditionalStatement::ConditionalStatementParser::ParseFactor() const
 
             if (Match(TokenType::EQL))
             {
-                if (negative) throw std::runtime_error("Invalid character near \"" + token.Value + "\"");
+                if (negative) throw ConditionSyntaxError("Invalid character near \"" + token.Value + "\"");
 
                 Consume(TokenType::EQL);
                 auto& templt_obj = *SemanticManager.GetCurrentTemplate();
@@ -940,7 +948,7 @@ nemesis::ConditionalStatement::ConditionalStatementParser::ParseFactor() const
             }
             else if (Match(TokenType::NEQL))
             {
-                if (negative) throw std::runtime_error("Invalid character near \"" + token.Value + "\"");
+                if (negative) throw ConditionSyntaxError("Invalid character near \"" + token.Value + "\"");
 
                 Consume(TokenType::NEQL);
                 auto& templt_obj = *SemanticManager.GetCurrentTemplate();
@@ -979,7 +987,7 @@ nemesis::ConditionalStatement::ConditionalStatementParser::ParseFactor() const
         }
 
         auto token = Advance();
-        throw std::runtime_error("Invalid character near \"" + token.Value + "\"");
+        throw ConditionSyntaxError("Invalid character near \"" + token.Value + "\"");
     }
     catch (const std::exception&)
     {
@@ -1059,7 +1067,7 @@ nemesis::ConditionalStatement::ConditionalStatementParser::MakeCondition() const
     if (IsEnd()) return SPtr<nemesis::ConditionalStatement::ConditionalNode>(node);
 
     auto token = Advance();
-    throw std::runtime_error("Invalid character near \"" + token.Value + "\"");
+    throw ConditionSyntaxError("Invalid character near \"" + token.Value + "\"");
 }
 
 nemesis::ConditionalStatement::ConditionalStatement(const std::string& expression,
@@ -1077,7 +1085,7 @@ nemesis::ConditionalStatement::ConditionalStatement(const std::string& expressio
         CondNode = parser.MakeCondition();
         Components.emplace_back(CondNode->GetExpression());
     }
-    catch (const std::runtime_error& ex)
+    catch (const ConditionSyntaxError& ex)
     {
         ThrowSyntaxError(ex.what());
     }
@@ -1096,7 +1104,7 @@ nemesis::ConditionalStatement::ConditionalStatement(const nemesis::Line& line,
         CondNode = parser.MakeCondition();
         Components.emplace_back(CondNode->GetExpression());
     }
-    catch (const std::runtime_error& ex)
+    catch (const ConditionSyntaxError& ex)
     {
         ThrowSyntaxError(ex.what());
     }

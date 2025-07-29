@@ -21,6 +21,11 @@ namespace nemesis
         struct ConditionOptionComparer;
         struct ConditionalCollection;
 
+        struct ConditionSyntaxError : public std::runtime_error
+        {
+            ConditionSyntaxError(const std::string& msg);
+        };
+
         struct ConditionalNode
         {
         protected:
