@@ -25,9 +25,10 @@ namespace nemesis
         size_t Id;
         mutable long Index = -1;
 
-        const nemesis::TemplateClass& TemplateClass;
+        std::string ListName;
         std::string AnimationEvent;
         std::filesystem::path AnimationFilePath;
+        const nemesis::TemplateClass& TemplateClass;
 
         VecNstr MotionDataList;
         VecNstr RotationDataList;
@@ -37,10 +38,12 @@ namespace nemesis
         static std::atomic_uint32_t IdCounter;
 
     public:
-        AnimationRequest(const nemesis::TemplateClass& templt_class) noexcept;
+        AnimationRequest(const std::string& list_name, const nemesis::TemplateClass& templt_class) noexcept;
         ~AnimationRequest() noexcept;
 
         void SetIndex(size_t index) noexcept;
+
+        const std::string& GetListName() const noexcept;
 
         size_t GetId() const noexcept;
         size_t GetIndex() const noexcept;

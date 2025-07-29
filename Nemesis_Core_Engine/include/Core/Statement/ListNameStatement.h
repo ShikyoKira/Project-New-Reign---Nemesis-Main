@@ -1,0 +1,24 @@
+#pragma once
+
+#include "Core/SemanticManager.h"
+
+#include "Core/Statement/Statement.h"
+
+namespace nemesis
+{
+	struct ListNameStatement : public nemesis::Statement
+    {
+    private:
+        std::function<std::string(nemesis::CompileState&)> GetValueFunction;
+
+    public:
+        ListNameStatement(const std::string& expression,
+                          size_t linenum,
+                          const std::filesystem::path& filepath,
+                          const nemesis::SemanticManager& manager);
+
+        std::string Serialize() const override;
+
+        std::string GetValue(nemesis::CompileState& state) const;
+    };
+}

@@ -44,8 +44,11 @@ nemesis::TemplateRepository::TemplateRepository(const std::filesystem::path& tem
     thread_pool.join_all();
 }
 
-UPtr<nemesis::AnimationRequest> nemesis::TemplateRepository::CreateRequest(
-    const std::string& request_info, size_t linenum, const std::filesystem::path& filepath)
+UPtr<nemesis::AnimationRequest>
+nemesis::TemplateRepository::CreateRequest(const std::string& list_name,
+                                           const std::string& request_info,
+                                           size_t linenum,
+                                           const std::filesystem::path& filepath)
 {
     std::string templt_code;
 
@@ -60,7 +63,7 @@ UPtr<nemesis::AnimationRequest> nemesis::TemplateRepository::CreateRequest(
     {
         if (!nemesis::iequals(templt_class->GetName(), templt_code)) continue;
 
-        return templt_class->CreateRequest(request_info, linenum, filepath);
+        return templt_class->CreateRequest(list_name, request_info, linenum, filepath);
     }
 
     return nullptr;

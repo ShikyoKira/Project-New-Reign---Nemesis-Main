@@ -4,8 +4,10 @@
 
 std::atomic_uint32_t nemesis::AnimationRequest::IdCounter = 0;
 
-nemesis::AnimationRequest::AnimationRequest(const nemesis::TemplateClass& templt_class) noexcept
-    : TemplateClass(templt_class)
+nemesis::AnimationRequest::AnimationRequest(const std::string& list_name,
+                                            const nemesis::TemplateClass& templt_class) noexcept
+    : ListName(list_name)
+    , TemplateClass(templt_class)
 {
     Id = ++IdCounter;
 }
@@ -18,6 +20,11 @@ nemesis::AnimationRequest::~AnimationRequest() noexcept
 void nemesis::AnimationRequest::SetIndex(size_t index) noexcept
 {
     Index = static_cast<long>(index);
+}
+
+const std::string& nemesis::AnimationRequest::GetListName() const noexcept
+{
+    return ListName;
 }
 
 size_t nemesis::AnimationRequest::GetId() const noexcept

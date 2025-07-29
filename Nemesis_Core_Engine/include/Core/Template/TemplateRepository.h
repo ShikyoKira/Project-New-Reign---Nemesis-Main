@@ -19,7 +19,8 @@ namespace nemesis
         TemplateRepository() = default;
         TemplateRepository(const std::filesystem::path& templt_dir, nemesis::NObjectRepository& repo);
 
-        UPtr<nemesis::AnimationRequest> CreateRequest(const std::string& request_info,
+        UPtr<nemesis::AnimationRequest> CreateRequest(const std::string& list_name,
+                                                      const std::string& request_info,
                                                       size_t linenum,
                                                       const std::filesystem::path& filepath);
 

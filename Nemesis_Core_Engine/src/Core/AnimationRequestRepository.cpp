@@ -21,6 +21,7 @@ void nemesis::AnimationRequestRepository::AddRequestsFromFile(const std::filesys
     Vec<nemesis::AnimationRequest*> request_layers;
     std::string aa_prefix;
     std::filesystem::path dir_path = filepath.parent_path();
+    std::string list_name          = nemesis::to_utf8_string(dir_path.stem());
 
     for (auto& line : lines)
     {
@@ -80,7 +81,7 @@ void nemesis::AnimationRequestRepository::AddRequestsFromFile(const std::filesys
             {
                 auto parent = request_layers.back();
                 auto child_request
-                    = parent->GetTemplateClass().CreateRequest(line, line.GetLineNumber(), filepath);
+                    = parent->GetTemplateClass().CreateRequest(list_name, line, line.GetLineNumber(), filepath);
                 request_layers.emplace_back(child_request.get());
                 parent->AddRequest(std::move(child_request));
                 continue;
@@ -100,13 +101,14 @@ void nemesis::AnimationRequestRepository::AddRequestsFromFile(const std::filesys
 
             auto parent = request_layers[length - 1];
             auto child_request
-                = parent->GetTemplateClass().CreateRequest(line, line.GetLineNumber(), filepath);
+                = parent->GetTemplateClass().CreateRequest(list_name, line, line.GetLineNumber(), filepath);
             request_layers.back() = child_request.get();
             parent->AddRequest(std::move(child_request));
             continue;
         }
 
-        auto request = templt_repo.CreateRequest(line, line.GetLineNumber(), filepath);
+        auto request = templt_repo.CreateRequest(
+            list_name, line.substr(0, line.find("'")), line.GetLineNumber(), filepath);
 
         if (request)
         {

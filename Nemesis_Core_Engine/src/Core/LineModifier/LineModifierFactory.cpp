@@ -12,6 +12,7 @@
 #include "Core/LineModifier/EventIdModifier.h"
 #include "Core/LineModifier/LengthModifier.h"
 #include "Core/LineModifier/LineModifierFactory.h"
+#include "Core/LineModifier/ListNameModifier.h"
 #include "Core/LineModifier/MapModifier.h"
 #include "Core/LineModifier/MathModifier.h"
 #include "Core/LineModifier/MaxModifier.h"
@@ -50,9 +51,10 @@ nemesis::LineModifierFactory::ModifierBuilderCollection::ModifierBuilderCollecti
     FirstBuilders["@Max"]            = std::make_unique<ModifierBuilder<nemesis::MaxModifier>>();
     FirstBuilders["@Min"]            = std::make_unique<ModifierBuilder<nemesis::MinModifier>>();
 
-    LastBuilders["@ID"]             = std::make_unique<ModifierBuilder<nemesis::RequestIdModifier>>();
-    LastBuilders["@Index"]          = std::make_unique<ModifierBuilder<nemesis::RequestIndexModifier>>();
-    LastBuilders["@AnimationEvent"] = std::make_unique<ModifierBuilder<nemesis::AnimationEventModifier>>();
+    LastBuilders["@ListNameModifier"] = std::make_unique<ModifierBuilder<nemesis::ListNameModifier>>();
+    LastBuilders["@ID"]               = std::make_unique<ModifierBuilder<nemesis::RequestIdModifier>>();
+    LastBuilders["@Index"]            = std::make_unique<ModifierBuilder<nemesis::RequestIndexModifier>>();
+    LastBuilders["@AnimationEvent"]   = std::make_unique<ModifierBuilder<nemesis::AnimationEventModifier>>();
     LastBuilders["@AnimationFilePath"]
         = std::make_unique<ModifierBuilder<nemesis::AnimationFilePathModifier>>();
     LastBuilders["@AnimationFilename"]
