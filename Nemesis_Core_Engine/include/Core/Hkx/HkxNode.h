@@ -29,8 +29,8 @@ namespace nemesis
         static bool ClassHasVecf(const std::string& class_name);
         static bool IsNodeEnd(nemesis::LineStream& stream, bool& start);
 
-        void TryInjectEventNames(DeqNstr& lines, size_t start_pos, nemesis::CompileState& state) const;
-        void TryInjectVariableNames(DeqNstr& lines, size_t start_pos, nemesis::CompileState& state) const;
+        bool TryInjectEventNames(DeqNstr& lines, size_t start_pos, nemesis::CompileState& state) const;
+        bool TryInjectVariableNames(DeqNstr& lines, size_t start_pos, nemesis::CompileState& state) const;
 
     public:
         void CompileTo(DeqNstr& lines, nemesis::CompileState& state) const override;

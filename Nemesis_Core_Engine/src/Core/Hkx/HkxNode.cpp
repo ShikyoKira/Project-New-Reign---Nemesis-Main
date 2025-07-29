@@ -122,7 +122,9 @@ bool nemesis::HkxNode::IsNodeEnd(nemesis::LineStream& stream, bool& start)
     return true;
 }
 
-void nemesis::HkxNode::TryInjectEventNames(DeqNstr& lines, size_t start_pos, nemesis::CompileState& state) const
+bool nemesis::HkxNode::TryInjectEventNames(DeqNstr& lines,
+                                           size_t start_pos,
+                                           nemesis::CompileState& state) const
 {
     static USet<std::string> classes_with_events = {
         "hkbEventDrivenModifier",
@@ -168,7 +170,7 @@ void nemesis::HkxNode::TryInjectEventNames(DeqNstr& lines, size_t start_pos, nem
     }
     else
     {
-        return;
+        return false;
     }
 
     for (size_t i = start_pos; i < lines.size(); ++i)
@@ -193,13 +195,15 @@ void nemesis::HkxNode::TryInjectEventNames(DeqNstr& lines, size_t start_pos, nem
 
         line += "\t\t\t<!-- " + name + "-->";
     }
+
+    return true;
 }
 
-void nemesis::HkxNode::TryInjectVariableNames(DeqNstr& lines,
+bool nemesis::HkxNode::TryInjectVariableNames(DeqNstr& lines,
                                               size_t start_pos,
                                               nemesis::CompileState& state) const
 {
-    if (ClassName != "hkbVariableBindingSet") return;
+    if (ClassName != "hkbVariableBindingSet") return false;
 
     static const std::regex var_param_rgx("^.*<hkparam name=\"variableIndex\">([^<]+)</hkparam>.*$");
 
@@ -225,6 +229,8 @@ void nemesis::HkxNode::TryInjectVariableNames(DeqNstr& lines,
 
         line += "\t\t\t<!-- " + name + "-->";
     }
+
+    return true;
 }
 
 void nemesis::HkxNode::CompileTo(DeqNstr& lines, nemesis::CompileState& state) const
