@@ -43,55 +43,63 @@ nemesis::NLine::NLine(const nemesis::Line& line, const nemesis::SemanticManager&
 
 void nemesis::NLine::CompileTo(DeqNstr& lines, nemesis::CompileState& state) const
 {
-    if (!ModLines.empty())
+    try
     {
-        auto mods = state.GetSelectedMods();
-
-        for (auto& mod : mods)
+        if (!ModLines.empty())
         {
-            auto modline = ModLines.find(mod);
+            auto mods = state.GetSelectedMods();
 
-            if (modline == ModLines.end()) continue;
+            for (auto& mod : mods)
+            {
+                auto modline = ModLines.find(mod);
 
-            modline->second->CompileTo(lines, state);
+                if (modline == ModLines.end()) continue;
+
+                modline->second->CompileTo(lines, state);
+                return;
+            }
+        }
+
+        if (!Value || Value->find(ns::DeleteLine()) != NOT_FOUND) return;
+
+        if (Modifiers.empty())
+        {
+            auto& line = lines.emplace_back(*Value);
+            state.RaiseAddLineEvent(line, *this);
             return;
         }
-    }
 
-    if (!Value || Value->find(ns::DeleteLine()) != NOT_FOUND) return;
+        VecStr tokens;
+        std::string merged;
 
-    if (Modifiers.empty())
-    {
-        auto& line = lines.emplace_back(*Value);
-        state.RaiseAddLineEvent(line, *this);
-        return;
-    }
-
-    VecStr tokens;
-    std::string merged;
-
-    for (size_t i = 0; i < Value->length(); ++i)
-    {
-        tokens.emplace_back(1, (*Value)[i]);
-    }
-
-    for (auto& modifier_list : Modifiers)
-    {
-        for (auto& mod : modifier_list.second)
+        for (size_t i = 0; i < Value->length(); ++i)
         {
-            mod->Apply(tokens, state);
+            tokens.emplace_back(1, (*Value)[i]);
         }
-    }
 
-    for (size_t i = 0; i < tokens.size(); ++i)
+        for (auto& modifier_list : Modifiers)
+        {
+            for (auto& mod : modifier_list.second)
+            {
+                mod->Apply(tokens, state);
+            }
+        }
+
+        for (size_t i = 0; i < tokens.size(); ++i)
+        {
+            merged.append(tokens[i]);
+        }
+
+        if (merged.find(ns::DeleteLine()) != NOT_FOUND) return;
+
+        auto& line_ref = lines.emplace_back(merged, Value->GetLineNumber(), Value->GetFilePath());
+        state.RaiseAddLineEvent(line_ref, *this);
+    }
+    catch (const std::exception& ex)
     {
-        merged.append(tokens[i]);
+        throw std::runtime_error(std::string(ex.what()) + " (Line: " + std::to_string(Value->GetLineNumber())
+                                 + ", File: " + nemesis::to_utf8_string(Value->GetFilePath()) + ")");
     }
-
-    if (merged.find(ns::DeleteLine()) != NOT_FOUND) return;
-
-    auto& line_ref = lines.emplace_back(merged, Value->GetLineNumber(), Value->GetFilePath());
-    state.RaiseAddLineEvent(line_ref, *this);
 }
 
 void nemesis::NLine::SerializeTo(DeqNstr& lines) const

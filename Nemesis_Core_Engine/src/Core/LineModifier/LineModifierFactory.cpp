@@ -163,7 +163,9 @@ nemesis::LineModifierFactory::BuildModifier(size_t begin,
 
         if (!std::regex_match(line, match, start_counter_rgx))
         {
-            throw std::runtime_error("Syntax Error: Element counter name not found");
+            throw std::runtime_error(
+                "Syntax Error: Element counter name not found (Expression: @Counter, Line: "
+                + std::to_string(linenum) + ", File: " + nemesis::to_utf8_string(filepath) + ")");
         }
 
         return std::make_shared<nemesis::CounterModifier>(begin - 1, end - 1, match[1], linenum, filepath);

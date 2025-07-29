@@ -234,7 +234,7 @@ const nemesis::AnimationRequest* nemesis::CompileState::GetCurrentRequest(const 
 
     if (itr != CurrentRequest.end()) return itr->second.back();
 
-    throw std::runtime_error("Syntax Error: Request group does not exist in current context");
+    throw std::runtime_error("Request group '" + group + "' does not exist in the current context");
 }
 
 void nemesis::CompileState::QueueChildRequestList(const std::string& group,
