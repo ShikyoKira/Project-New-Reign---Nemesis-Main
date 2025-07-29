@@ -200,7 +200,7 @@ Window {
 
         if (!appConfig.isDevMode()) {
             preloadEngine();
-    }
+        }
     }
 
     function preloadEngine() {
@@ -751,12 +751,12 @@ Window {
                         console.log("preloaded");
                         appLauncher.writeToProgram(mods);
                     } else {
-                    let args = [
-                            "-p"
-                            , appConfig.getPlatform()
-                            , "-pi"
-                        ];
-
+                        let args = [
+                                "-p"
+                                , appConfig.getPlatform()
+                                , "-pi"
+                            ];
+                            
                         if (!dataDirectory.isEmpty()) {
                             args.push("-d");
                             args.push(dataDirectory);
@@ -769,14 +769,14 @@ Window {
                         
                         args.push("-m");
 
-                    for (var i = 0; i < visualModel.count; ++i) {
-                        var item = visualModel.items.get(i);
-                        console.log(item.model.mod_code + ": " + item.model.checked.toString());
+                        for (var i = 0; i < visualModel.count; ++i) {
+                            var item = visualModel.items.get(i);
+                            console.log(item.model.mod_code + ": " + item.model.checked.toString());
 
-                        if (!item.model.checked) continue;
+                            if (!item.model.checked) continue;
 
-                        args.push(item.model.mod_code);
-                    }
+                            args.push(item.model.mod_code);
+                        }
                     
                         appLauncher.launchProgram(enginePath, args, false);
                     }
@@ -822,6 +822,10 @@ Window {
                     hoverEnabled: true
                     enabled: true
                     opacity: theme.blurOpacity
+                    borderColor: buttonBorderColor
+
+                    property bool effective: true
+                    property color buttonBorderColor: "white"
 
                     onEntered: {
                         opacity = 1;
@@ -832,8 +836,24 @@ Window {
                     }
 
                     onClicked: {
+                        if (!effective) return;
+
                         startZone.start();
                         progressLoader.start();
+                    }
+
+                    Rectangle {
+                        id: proxyBorder
+                        z: -1
+                        radius: 10
+
+                        anchors {
+                            fill: parent
+                            margins: -1
+                        }
+
+                        color: buttonBorderColor
+                        opacity: 0
                     }
                 }
 
@@ -854,9 +874,8 @@ Window {
                         PropertyChanges {
                             target: button
                             visible: true
-                            enabled: true
                         }
-
+                        
                         PropertyChanges {
                             target: progressBar
                             width: button.width
@@ -899,7 +918,13 @@ Window {
                         PropertyChanges {
                             target: button
                             enabled: false
-                            borderColor: "transparent"
+                            buttonBorderColor: "transparent"
+                            effective: false
+                        }
+                        
+                        PropertyChanges {
+                            target: proxyBorder
+                            opacity: 0
                         }
 
                         PropertyChanges {
@@ -925,12 +950,6 @@ Window {
                                 property: "opacity"
                                 duration: startZone.transitionTime
                             }
-
-                            PropertyAction {
-                                target: button
-                                property: "borderColor"
-                                value: progressBar.border.color
-                            }
                         }
 
                         SequentialAnimation {
@@ -945,11 +964,46 @@ Window {
                                 property: "visible"
                                 value: false
                             }
+
+                            PauseAnimation {
+                                duration: 400
+                            }
+
+                            PropertyAnimation {
+                                target: proxyBorder
+                                property: "opacity"
+                                to: 1
+                                duration: 100
+                            }
+                            
+                            PropertyAction {
+                                target: proxyBorder
+                                property: "opacity"
+                                value: 0
+                            }
+
+                            PropertyAction {
+                                target: button
+                                property: "buttonBorderColor"
+                                value: progressBar.border.color
+                            }
+
+                            PropertyAction {
+                                target: button
+                                property: "effective"
+                                value: true
+                            }
                         }
                     },
                     Transition {
                         from: "DONE"
                         to: "PROCESSING"
+                        
+                        PropertyAction {
+                            target: proxyBorder
+                            property: "opacity"
+                            value: 0
+                        }
 
                         SequentialAnimation {
                             NumberAnimation {
