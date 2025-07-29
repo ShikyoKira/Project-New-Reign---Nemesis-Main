@@ -211,12 +211,12 @@ Window {
                 , "-pr"
             ];
 
-        if (!dataDirectory.isEmpty()) {
+        if (dataDirectory !== "") {
             args.push("-d");
             args.push(dataDirectory);
         }
 
-        if (!stageDirectory.isEmpty()) {
+        if (stageDirectory !== "") {
             args.push("-o");
             args.push(stageDirectory);
         }
@@ -757,12 +757,12 @@ Window {
                                 , "-pi"
                             ];
                             
-                        if (!dataDirectory.isEmpty()) {
+                        if (dataDirectory !== "") {
                             args.push("-d");
                             args.push(dataDirectory);
                         }
 
-                        if (!stageDirectory.isEmpty()) {
+                        if (stageDirectory !== "") {
                             args.push("-o");
                             args.push(stageDirectory);
                         }
@@ -852,7 +852,7 @@ Window {
                             margins: -1
                         }
 
-                        color: buttonBorderColor
+                        color: button.buttonBorderColor
                         opacity: 0
                     }
                 }
