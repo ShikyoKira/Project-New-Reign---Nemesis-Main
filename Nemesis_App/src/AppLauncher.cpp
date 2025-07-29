@@ -1,3 +1,4 @@
+#include <memory>
 #include <QProcess>
 #include <QDebug>
 #include <QDir>
@@ -19,8 +20,17 @@ AppLauncher::AppLauncher(QObject* parent)
     connect(process, &QProcess::finished, this, &AppLauncher::runFinished);
 }
 
-void AppLauncher::launchProgram(const QString& program_path, const QStringList& args)
+AppLauncher::~AppLauncher()
 {
+    quitRunningProcess();
+}
+
+void AppLauncher::launchProgram(const QString& program_path, const QStringList& args, bool is_preload)
+{
+    this->is_preload = is_preload;
+    is_read_ready = !is_preload;
+    output_buffer.clear();
+
     std::string args_str;
 
     for (int i = 0; i < args.count(); ++i)
@@ -50,22 +60,51 @@ void AppLauncher::launchProgram(const QString& program_path, const QStringList& 
     emit finishedReceived();
 }
 
-void AppLauncher::readOutput()
+Q_INVOKABLE void AppLauncher::writeToProgram(const QStringList& args)
+{
+    if (!process->isWritable()) return;
+
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::high_resolution_clock::now().time_since_epoch());
+    auto ms_str = std::to_string(duration.count());
+
+    if (args.isEmpty())
+    {
+        input_buffer = QString::fromStdString(ms_str).toUtf8();
+    }
+    else
+    {
+        input_buffer = args.join(' ').append(" " + ms_str).toUtf8();
+    }
+
+    std::scoped_lock<std::mutex> lock(read_mutex);
+    is_read_ready = true;
+    QTextStream stream(&output_buffer, QIODevice::ReadOnly);
+
+    while (!stream.atEnd())
+    {
+        readFormattedOutput(stream.readLine() + "\n");
+    }
+
+    output_buffer.clear();
+}
+
+void AppLauncher::readFormattedOutput(const QString& output)
 {
     static const QRegularExpression progress_rgx("\\x1b\\[999P(\\d+) / (\\d+)\\x1b\\[999E\n");
-    QString output = process->readAllStandardOutput();
     int pos = 0;
 
     while (pos < output.length())
     {
         QRegularExpressionMatch match = progress_rgx.match(output, pos);
 
-        if (match.hasMatch()) {
+        if (match.hasMatch())
+        {
             // We found a progress indicator!
 
             // Extract and process the progress number
             int step = match.captured(1).toInt();
-            int max = match.captured(2).toInt();
+            int max  = match.captured(2).toInt();
             qDebug() << step << " / " << max;
             emit progressUp(step, max);
 
@@ -77,17 +116,48 @@ void AppLauncher::readOutput()
             // No more progress indicators from pos
             // If there's a full line, print it as regular output
             int newlineIndex = output.indexOf('\n', pos);
+            QString regularLine;
 
-            if (newlineIndex == -1) break;
+            if (newlineIndex != -1)
+            {
+                regularLine = output.mid(pos, newlineIndex - pos + 1);
+            }
+            else
+            {
+                regularLine = output.mid(pos);
+                newlineIndex = output.length();
+            }
 
-            QString regularLine = output.mid(pos, newlineIndex - pos + 1);
+            if (regularLine.startsWith("Mod Codes: "))
+            {
+                process->write(input_buffer + "\n");
+                input_buffer.clear();
+            }
+            else
+            {
+                qDebug() << regularLine;
+                emit outputReceived(regularLine);
+            }
 
-            qDebug() << regularLine;
-
-            emit outputReceived(regularLine);
             pos = newlineIndex + 1;
         }
     }
+}
+
+void AppLauncher::readOutput()
+{
+    QString output = process->readAllStandardOutput();
+
+    std::scoped_lock<std::mutex> lock(read_mutex);
+
+    if (!is_read_ready)
+    {
+        output_buffer += output;
+        return;
+    }
+
+    qDebug() << "Console: " << output;
+    readFormattedOutput(output);
 }
 
 void AppLauncher::readError()
@@ -99,4 +169,15 @@ void AppLauncher::readError()
 void AppLauncher::runFinished()
 {
     emit finishedReceived();
+}
+
+void AppLauncher::quitRunningProcess()
+{
+    if (process->state() != QProcess::NotRunning)
+    {
+        process->terminate();
+        process->waitForFinished(3000);
+
+        if (process->state() != QProcess::NotRunning) process->kill();
+    }
 }

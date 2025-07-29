@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
             &app,
             []() { QCoreApplication::exit(-1); },
             Qt::QueuedConnection);
+        QObject::connect(&app, &QApplication::aboutToQuit, &app_launcher, &AppLauncher::quitRunningProcess);
         engine.loadFromModule("Nemesis_App", "Main");
         return app.exec();
     }

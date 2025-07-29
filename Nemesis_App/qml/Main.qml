@@ -35,6 +35,7 @@ Window {
     property int priorityWidth: 50
     property string dataDirectory
     property string stageDirectory
+    property string enginePath
     property bool isLoading: true
     property int heightOffset: height
 
@@ -176,6 +177,7 @@ Window {
     Component.onCompleted: {
         dataDirectory = appConfig.getDataDirectory();
         stageDirectory = appConfig.getStageDirectory();
+        enginePath = dataDirectory + "/nemesis_engine/Nemesis_Engine" + (Qt.platform.os === "windows" ? ".exe" : "");
         minimumHeight = appConfig.getHeight();
         minimumWidth = appConfig.getWidth();
         modNameWidth = appConfig.getModNameWidth();
@@ -195,6 +197,31 @@ Window {
 
         modHandler.populateModel(dataDirectory + "/nemesis_engine/mods", appConfig.isDevMode());
         loader.state = "START";
+
+        if (!appConfig.isDevMode()) {
+            preloadEngine();
+    }
+    }
+
+    function preloadEngine() {
+        let args = [
+                "-p"
+                , appConfig.getPlatform()
+                , "-pi"
+                , "-pr"
+            ];
+
+        if (!dataDirectory.isEmpty()) {
+            args.push("-d");
+            args.push(dataDirectory);
+        }
+
+        if (!stageDirectory.isEmpty()) {
+            args.push("-o");
+            args.push(stageDirectory);
+        }
+
+        appLauncher.launchProgram(enginePath, args, true);
     }
 
     function setEdges(x, y) {
@@ -705,20 +732,42 @@ Window {
                     if (!button.enabled) return;
 
                     startZone.state = "PROCESSING";
-                    // button.enabled = false;
                     outputArea.text = "";
 
                     console.log("========= START ===========");
+                    
+                    if (!appConfig.isDevMode()) {
+                        let mods = [];
+                        
+                        for (var i = 0; i < visualModel.count; ++i) {
+                            var item = visualModel.items.get(i);
+                            console.log(item.model.mod_code + ": " + item.model.checked.toString());
+
+                            if (!item.model.checked) continue;
+
+                            mods.push(item.model.mod_code);
+                        }
+                    
+                        console.log("preloaded");
+                        appLauncher.writeToProgram(mods);
+                    } else {
                     let args = [
                             "-p"
                             , appConfig.getPlatform()
                             , "-pi"
-                            , "-o"
-                            , stageDirectory
-                            , "-d"
-                            , dataDirectory
-                            , "-m"
                         ];
+
+                        if (!dataDirectory.isEmpty()) {
+                            args.push("-d");
+                            args.push(dataDirectory);
+                        }
+
+                        if (!stageDirectory.isEmpty()) {
+                            args.push("-o");
+                            args.push(stageDirectory);
+                        }
+                        
+                        args.push("-m");
 
                     for (var i = 0; i < visualModel.count; ++i) {
                         var item = visualModel.items.get(i);
@@ -729,7 +778,9 @@ Window {
                         args.push(item.model.mod_code);
                     }
                     
-                    appLauncher.launchProgram(dataDirectory + "/nemesis_engine/Nemesis_Engine" + (Qt.platform.os === "windows" ? ".exe" : ""), args);
+                        appLauncher.launchProgram(enginePath, args, false);
+                    }
+
                     console.log("========= END ===========");
                 }
 
@@ -1216,6 +1267,10 @@ Window {
 
                 onFinishedReceived: {
                     startZone.finish();
+
+                    if (!appConfig.isDevMode()) {
+                        preloadEngine();
+                    }
                 }
 
                 onProgressUp: (step, max) => {

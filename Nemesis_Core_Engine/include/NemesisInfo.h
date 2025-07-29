@@ -19,13 +19,14 @@ private:
     std::filesystem::path exe_dir_path;
     std::filesystem::path working_directory;
 
-    bool debug = false;
-    bool progress_indicator_active = false;
+    bool is_async           = true;
+    bool is_preload         = false;
+    bool is_debug           = false;
+    bool is_progress_active = false;
 
     nemesis::PlatformType out_platform = nemesis::PlatformType::WIN32;
     nemesis::HavokVersion out_version = nemesis::HavokVersion::HK_2010_2_0;
 
-    bool is_async = true;
 
     static const std::filesystem::path& CanonizePath(const std::filesystem::path& path);
 
@@ -49,6 +50,7 @@ public:
     static const std::filesystem::path& StagePath(const std::filesystem::path& stage_path);
     static std::filesystem::path PatchOutputPath(const std::filesystem::path& filepath);
     static bool IsAsync();
+    static bool IsPreload();
     static bool IsDebug();
     static bool IsProgressIndicatorActive();
 };

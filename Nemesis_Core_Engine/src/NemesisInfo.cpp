@@ -50,6 +50,7 @@ void NemesisInfo::PrintHelp(const std::filesystem::path& exe_path)
            "(left) "
            "to highest (right)\n"
            "     -s      Enable synchronous processing for debugging purposes (default: asynchronous)\n"
+           "     -pr     Preload core assets. Mod codes can be provided during or after preload\n"
         << std::endl;
 }
 
@@ -113,13 +114,19 @@ int NemesisInfo::Setup(int argc, path_char* argv[], VecStr& mods)
 
         if (nemesis::iequals(arg, LITERAL_PATH("-pi")))
         {
-            instance->progress_indicator_active = true;
+            instance->is_progress_active = true;
             continue;
         }
 
         if (nemesis::iequals(arg, LITERAL_PATH("-db")))
         {
-            instance->debug = true;
+            instance->is_debug = true;
+            continue;
+        }
+
+        if (nemesis::iequals(arg, LITERAL_PATH("-pr")))
+        {
+            instance->is_preload = true;
             continue;
         }
 
@@ -320,12 +327,17 @@ bool NemesisInfo::IsAsync()
     return instance->is_async;
 }
 
+bool NemesisInfo::IsPreload()
+{
+    return instance->is_preload;
+}
+
 bool NemesisInfo::IsDebug()
 {
-    return instance->debug;
+    return instance->is_debug;
 }
 
 bool NemesisInfo::IsProgressIndicatorActive()
 {
-    return instance->progress_indicator_active;
+    return instance->is_progress_active;
 }

@@ -1,5 +1,6 @@
 ﻿#include <chrono>
 #include <iostream>
+#include <sstream>
 
 #include <Python.h>
 
@@ -165,12 +166,62 @@ int main(int argc, char* argv[])
 
     try
     {
-        auto start = std::chrono::high_resolution_clock::now();
-
         VecStr mods;
         int rst = NemesisInfo::Setup(argc, argv, mods);
 
         if (rst < 1) return rst;
+
+        auto start = std::chrono::high_resolution_clock::now();
+        std::future<void> preload_task;
+
+        if (NemesisInfo::IsPreload())
+        {
+            preload_task = std::async(std::launch::deferred, [&mods, &start]() {
+                    std::string mod_code;
+                    std::string mod_code_cmd;
+
+                    std::cout << "Mod Codes: ";
+
+                    auto wait_for = std::chrono::high_resolution_clock::now();
+                    std::getline(std::cin, mod_code_cmd);
+                    auto wait_until = std::chrono::high_resolution_clock::now();
+
+                    for (auto& ch : mod_code_cmd)
+                    {
+                        switch (ch)
+                        {
+                            case '\n':
+                            case '\r':
+                                break;
+                            default:
+                            {
+                                mod_code.push_back(ch);
+                                break;
+                            }
+                        }
+                    }
+
+                    std::istringstream ss(mod_code);
+                    mods.clear();
+
+                    while (std::getline(ss, mod_code, ' '))
+                    {
+                        mods.emplace_back(mod_code);
+                    }
+
+                    if (!mods.empty() && nemesis::is_only_number(mods.back()))
+                    {
+                        std::chrono::milliseconds duration_from_ticks(std::stoll(mods.back()));
+                        start = std::chrono::high_resolution_clock::time_point() + duration_from_ticks;
+                        mods.pop_back();
+                    }
+                    else
+                    {
+                        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(wait_until - wait_for);
+                        start += elapsed;
+                    }
+                });
+        }
 
         std::filesystem::path exe_dir  = NemesisInfo::ExeDirectory();
         std::filesystem::path data_dir = NemesisInfo::DataPath();
@@ -258,10 +309,14 @@ int main(int argc, char* argv[])
             mod_repo  = mod_repo_future.get();
             anim_repo = anim_repo_future.get();
 
+            std::cout << "\n" << std::endl;
+
             repo->Patch(*mod_repo);
             progress_meter.ProgressUp(10);
 
             std::cout << "\n" << std::endl;
+
+            if (preload_task.valid()) preload_task.get();
 
             mods = mod_repo->PatchSelectedMods(mods);
             // Required to make sure the console output is flushed and captured correctly
@@ -296,10 +351,14 @@ int main(int argc, char* argv[])
             anim_repo = new nemesis::AnimationRequestRepository(data_dir, *templt_repo, *aa_repo);
             progress_meter.ProgressUp(10);
 
+            std::cout << "\n" << std::endl;
+
             repo->Patch(*mod_repo);
             progress_meter.ProgressUp(10);
 
             std::cout << "\n" << std::endl;
+
+            if (preload_task.valid()) preload_task.get();
 
             mods = mod_repo->PatchSelectedMods(mods);
             // Required to make sure the console output is flushed and captured correctly
