@@ -55,7 +55,9 @@ set(Hkx_HeaderFiles
 source_group("Header Files\\Core\\Hkx" FILES ${Hkx_HeaderFiles})
 
 set(LineModifier_HeaderFiles
+    "include/Core/LineModifier/AnimationBaseFilenameModifier.h"
     "include/Core/LineModifier/AnimationEventModifier.h"
+    "include/Core/LineModifier/AnimationFilenameModifier.h"
     "include/Core/LineModifier/AnimationFilePathModifier.h"
     "include/Core/LineModifier/AnimationOrderModifier.h"
     "include/Core/LineModifier/AttributeIdModifier.h"
@@ -91,7 +93,9 @@ set(LineModifier_HeaderFiles
 source_group("Header Files\\Core\\LineModifier" FILES ${LineModifier_HeaderFiles})
 
 set(Statement_HeaderFiles
+    "include/Core/Statement/AnimationBaseFilenameStatement.h" 
     "include/Core/Statement/AnimationEventStatement.h"
+    "include/Core/Statement/AnimationFilenameStatement.h" 
     "include/Core/Statement/AnimationFilePathStatement.h"
     "include/Core/Statement/AnimationOrderStatement.h"
     "include/Core/Statement/AttributeIdStatement.h"
@@ -258,7 +262,9 @@ set(Hkx_SourceFiles
 source_group("Source Files\\Core\\Hkx" FILES ${Hkx_SourceFiles})
 
 set(LineModifier_SourceFiles
+    "src/Core/LineModifier/AnimationBaseFilenameModifier.cpp"
     "src/Core/LineModifier/AnimationEventModifier.cpp"
+    "src/Core/LineModifier/AnimationFilenameModifier.cpp"
     "src/Core/LineModifier/AnimationFilePathModifier.cpp"
     "src/Core/LineModifier/AnimationOrderModifier.cpp"
     "src/Core/LineModifier/AttributeIdModifier.cpp"
@@ -292,7 +298,9 @@ set(LineModifier_SourceFiles
 source_group("Source Files\\Core\\LineModifier" FILES ${LineModifier_SourceFiles})
 
 set(Statement_SourceFiles
+    "src/Core/Statement/AnimationBaseFilenameStatement.cpp"
     "src/Core/Statement/AnimationEventStatement.cpp"
+    "src/Core/Statement/AnimationFilenameStatement.cpp"
     "src/Core/Statement/AnimationFilePathStatement.cpp"
     "src/Core/Statement/AnimationOrderStatement.cpp"
     "src/Core/Statement/AttributeIdStatement.cpp"

@@ -1,7 +1,9 @@
 #include <regex>
 
+#include "Core/LineModifier/AnimationBaseFilenameModifier.h"
 #include "Core/LineModifier/AnimationEventModifier.h"
 #include "Core/LineModifier/AnimationFilePathModifier.h"
+#include "Core/LineModifier/AnimationFilenameModifier.h"
 #include "Core/LineModifier/AnimationOrderModifier.h"
 #include "Core/LineModifier/AttributeIdModifier.h"
 #include "Core/LineModifier/CounterModifier.h"
@@ -53,6 +55,10 @@ nemesis::LineModifierFactory::ModifierBuilderCollection::ModifierBuilderCollecti
     LastBuilders["@AnimationEvent"] = std::make_unique<ModifierBuilder<nemesis::AnimationEventModifier>>();
     LastBuilders["@AnimationFilePath"]
         = std::make_unique<ModifierBuilder<nemesis::AnimationFilePathModifier>>();
+    LastBuilders["@AnimationFilename"]
+        = std::make_unique<ModifierBuilder<nemesis::AnimationFilenameModifier>>();
+    LastBuilders["@AnimationBaseFilename"]
+        = std::make_unique<ModifierBuilder<nemesis::AnimationBaseFilenameModifier>>();
 }
 
 Map<size_t, Vec<SPtr<nemesis::LineModifier>>>
