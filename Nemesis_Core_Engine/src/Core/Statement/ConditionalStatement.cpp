@@ -180,8 +180,9 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse2Components(
             }
 
             size_t index = std::stoul(Components.back());
-            auto request = GetBaseRequest(state);
-            return index < request->GetOptions(name).size();
+            auto* request = GetBaseRequest(state);
+            auto& options = request->GetOptions(name);
+            return index < options.size() && options[index] != nullptr;
         };
         return;
     }
@@ -206,8 +207,9 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse2Components(
 
     IsTrueFunction = [this, &name, index](nemesis::CompileState& state)
     {
-        auto request = GetBaseRequest(state);
-        return index < request->GetOptions(name).size();
+        auto* request = GetBaseRequest(state);
+        auto& options = request->GetOptions(name);
+        return index < options.size() && options[index] != nullptr;
     };
 }
 
@@ -295,9 +297,10 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse4Components(
                 return !request->GetMapValueList(key).empty();
             }
 
-            size_t index = std::stoul(key);
-            auto request = (*get_request_func)(state);
-            return index < request->GetOptions(name).size();
+            size_t index  = std::stoul(key);
+            auto* request = (*get_request_func)(state);
+            auto& options = request->GetOptions(name);
+            return index < options.size() && options[index] != nullptr;
         };
         return;
     }
@@ -316,9 +319,10 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse4Components(
 
     IsTrueFunction = [get_request_func, &name, get_key = std::move(get_key)](nemesis::CompileState& state)
     {
-        size_t index = std::stoul((*get_key)(state));
-        auto request = (*get_request_func)(state);
-        return index < request->GetOptions(name).size();
+        size_t index  = std::stoul((*get_key)(state));
+        auto* request = (*get_request_func)(state);
+        auto& options = request->GetOptions(name);
+        return index < options.size() && options[index] != nullptr;
     };
 }
 
