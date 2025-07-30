@@ -203,6 +203,17 @@ Window {
         }
     }
 
+    function saveDisplayData() {
+        let args = [];
+
+        for (var i = 0; i < visualModel.count; ++i) {
+            var item = visualModel.items.get(i);
+            args.push({mod_code: item.model.mod_code, checked: item.model.checked});
+        }
+
+        appConfig.setModListData(args);
+    }
+
     function preloadEngine() {
         let args = [
                 "-p"
@@ -601,6 +612,7 @@ Window {
 
                                     itemData = visualModel.items.get(curIndex);
                                     listModel.setProperty(itemData.model.index, "checked", checked);
+                                    saveDisplayData();
                                     console.log(itemData.model.mod_code + ": " + itemData.model.checked.toString());
                                     focusScope.lastToggledIndex = curIndex;
                                 }
@@ -659,6 +671,8 @@ Window {
                             visualModel.items.move(
                                     drag.source.DelegateModel.itemsIndex,
                                     dragArea.DelegateModel.itemsIndex);
+                                    
+                            saveDisplayData();
                         }
                     }
                 }

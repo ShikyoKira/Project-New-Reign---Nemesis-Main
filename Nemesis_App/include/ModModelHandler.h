@@ -6,12 +6,17 @@
 #include <QFile>
 #include <QTextStream>
 
+#include "AppConfig.h"
+
 class ModModelHandler : public QObject
 {
     Q_OBJECT
 
+private:
+    AppConfig& Config;
+
 public:
-    explicit ModModelHandler(QObject* parent = nullptr);
+    explicit ModModelHandler(AppConfig& config, QObject* parent = nullptr);
 
     Q_INVOKABLE void populateModel(const QString& mods_dir, bool is_devmode);
 

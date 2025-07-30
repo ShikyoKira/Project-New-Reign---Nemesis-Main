@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 
         AppConfig app_config(std::filesystem::path(argv[0]).parent_path() / L"nemesis.ini");
         AppLauncher app_launcher;
-        ModModelHandler mod_handler;
+        ModModelHandler mod_handler(app_config);
 
         QQmlContext* root_context = engine.rootContext();
 

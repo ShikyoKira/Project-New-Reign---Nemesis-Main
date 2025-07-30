@@ -2,6 +2,7 @@
 
 #include <filesystem>
 #include <QObject>
+#include <QSettings>
 
 class AppConfig : public QObject
 {
@@ -12,6 +13,7 @@ private:
 
 public:
     explicit AppConfig(const std::filesystem::path& filepath, QObject* parent = nullptr);
+    ~AppConfig();
 
     Q_INVOKABLE QString getDataDirectory() const;
     Q_INVOKABLE QString getStageDirectory() const;
@@ -22,6 +24,9 @@ public:
     Q_INVOKABLE int getAuthorWidth() const;
     Q_INVOKABLE int getPriorityWidth() const;
     Q_INVOKABLE bool isDevMode() const;
+
+    Q_INVOKABLE const QVariantList& getModListData() const;
+    Q_INVOKABLE void setModListData(const QVariantList& mod_order_list);
 
 signals:
     void outputReceived(const QString &output);
@@ -39,4 +44,7 @@ private:
     int AuthorWidth;
     int PriorityWidth;
     bool DevMode = false;
+    QVariantList ModListData;
+
+    std::unique_ptr<QSettings> IniSettings;
 };

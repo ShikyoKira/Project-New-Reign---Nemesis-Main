@@ -2,7 +2,12 @@
 #include <QTextStream>
 #include <QMessageBox>
 #include <QDebug>
+#include <QDir>
 #include <QSettings>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJSValue>
 #include <sstream>
 #include <unordered_map>
 
@@ -27,77 +32,64 @@ QString AppConfig::formatPlatform(const QString& platform) const
 AppConfig::AppConfig(const std::filesystem::path& filepath, QObject* parent)
     : QObject{parent}
 {
-    std::vector<std::string> storelines;
-    QFile file(filepath);
+    IniSettings   = std::make_unique<QSettings>(QDir(filepath).path(), QSettings::IniFormat);
+    Platform      = formatPlatform(IniSettings->value("Platform", "win32").toString());
+    Width         = IniSettings->value("Width", "900").toInt();
+    Height        = IniSettings->value("Height", "750").toInt();
+    ModNameWidth  = IniSettings->value("ModNameWidth", "550").toInt();
+    AuthorWidth   = IniSettings->value("AuthorWidth", "150").toInt();
+    PriorityWidth = IniSettings->value("PriorityWidth", "50").toInt();
+    DevMode       = IniSettings->value("DevMode", "false").toBool();
 
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    auto dir      = IniSettings->value("DataDirectory");
+    DataDirectory = dir.type() == QVariant::ByteArray ? QString::fromUtf8(dir.toByteArray()) : dir.toString();
+    dir           = IniSettings->value("StageDirectory");
+    StageDirectory
+        = dir.type() == QVariant::ByteArray ? QString::fromUtf8(dir.toByteArray()) : dir.toString();
+
+    QByteArray base64    = IniSettings->value("ListData").toByteArray();
+    QByteArray json_data = QByteArray::fromBase64(base64);
+    QJsonDocument doc    = QJsonDocument::fromJson(json_data);
+
+    QJsonArray mod_order_list = doc.array();
+    ModListData.clear();
+
+    for (const QJsonValue& each : mod_order_list)
     {
-        std::error_code ec(errno, std::system_category());
-#if WIN32
-        auto u8str = filepath.u8string();
-        throw std::runtime_error("Failed to open file: \"" + std::string(u8str.begin(), u8str.end())
-                                 + "\"\nMessage: " + ec.message());
-#else
-        throw std::runtime_error("Failed to open file: \"" + filepath.string()
-                                 + "\"\nMessage: " + ec.message());
-#endif
-    }
-
-    QTextStream file_stream(&file);
-
-    while (!file_stream.atEnd())
-    {
-        storelines.emplace_back(QString(file.readLine()).trimmed().toStdString());
-    }
-
-    file.close();
-
-    std::unordered_map<std::string, std::function<void(const std::string&)>> SetConfigMap = {
-        {"DataDirectory",
-         [this](const std::string& line)
-         {
-             auto u8str    = std::u8string(line.begin(), line.end());
-             DataDirectory = QString::fromStdWString(std::filesystem::path(u8str).wstring());
-         }},
-        {"StageDirectory",
-         [this](const std::string& line)
-         {
-             auto u8str     = std::u8string(line.begin(), line.end());
-             StageDirectory = QString::fromStdWString(std::filesystem::path(u8str).wstring());
-         }},
-        {"Platform",
-         [this](const std::string& line)
-         {
-             Platform = formatPlatform(QString::fromStdString(line).toLower());
-         }},
-        {"Width", [this](const std::string& line) { Width = std::stoi(line); }},
-        {"Height", [this](const std::string& line) { Height = std::stoi(line); }},
-        {"ModNameWidth", [this](const std::string& line) { ModNameWidth = std::stoi(line); }},
-        {"AuthorWidth", [this](const std::string& line) { AuthorWidth = std::stoi(line); }},
-        {"PriorityWidth", [this](const std::string& line) { PriorityWidth = std::stoi(line); }},
-        {"DevMode",
-         [this](const std::string& line)
-         {
-             std::istringstream ss(QString::fromStdString(line).toLower().toStdString());
-             ss >> std::boolalpha >> DevMode;
-         }},
-    };
-
-    for (auto& line : storelines)
-    {
-        for (auto& set_config : SetConfigMap)
-        {
-            if (!line.starts_with(set_config.first + "=")) continue;
-
-            set_config.second(line.substr(line.find("=") + 1));
-            break;
-        }
+        ModListData.append(each.toObject().toVariantMap());
     }
 
     if (!Platform.isEmpty()) return;
 
     QMessageBox::critical(nullptr, tr("Configuration Error"), tr("Platform type cannot be found. Only win32, amd64, ps3, ps4 and xb360 are supported"));
     exit(-1);
+}
+
+AppConfig::~AppConfig()
+{
+    if (!IniSettings) return;
+
+    IniSettings->setValue("DataDirectory", DataDirectory);
+    IniSettings->setValue("StageDirectory", StageDirectory);
+    IniSettings->setValue("Platform", Platform);
+    IniSettings->setValue("Width", QString::number(Width));
+    IniSettings->setValue("Height", QString::number(Height));
+    IniSettings->setValue("ModNameWidth", QString::number(ModNameWidth));
+    IniSettings->setValue("AuthorWidth", QString::number(AuthorWidth));
+    IniSettings->setValue("PriorityWidth", QString::number(PriorityWidth));
+    IniSettings->setValue("DevMode", DevMode ? "true" : "false");
+
+    QJsonArray mod_order_list;
+
+    for (auto& each : ModListData)
+    {
+        mod_order_list.append(each.toJsonObject());
+    }
+
+    QJsonDocument doc(mod_order_list);
+    QByteArray json_data = doc.toJson();
+    QByteArray base64    = json_data.toBase64();
+    IniSettings->setValue("ListData", QString::fromUtf8(base64));
 }
 
 QString AppConfig::getDataDirectory() const
@@ -143,4 +135,14 @@ int AppConfig::getPriorityWidth() const
 bool AppConfig::isDevMode() const
 {
     return DevMode;
+}
+
+Q_INVOKABLE const QVariantList& AppConfig::getModListData() const
+{
+    return ModListData;
+}
+
+Q_INVOKABLE void AppConfig::setModListData(const QVariantList& mod_order_list)
+{
+    ModListData = mod_order_list;
 }
