@@ -6,6 +6,7 @@
 #include "Core/SemanticManager.h"
 
 #include "Utilities/Algorithm.h"
+#include "Utilities/StatementException.h"
 
 #include "Core/Template/TemplateClass.h"
 
@@ -285,23 +286,23 @@ nemesis::Statement::GetTargetRequest(const nemesis::TemplateClass& templt_class,
 
 void nemesis::Statement::ThrowSyntaxError(const std::string& msg) const
 {
-    throw std::runtime_error("Syntax Error: " + msg + " (Expression: "
-                             + Expression + ", Line: " + std::to_string(LineNum)
-                             + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+    throw nemesis::StatementException("Syntax Error: " + msg + " (Expression: " + Expression
+                                      + ", Line: " + std::to_string(LineNum)
+                                      + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
 }
 
 void nemesis::Statement::ThrowInvalidError(const std::string& msg) const
 {
-    throw std::runtime_error("Invalid Value: " + msg + " (Expression: " + Expression
-                             + ", Line: " + std::to_string(LineNum)
-                             + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+    throw nemesis::StatementException("Invalid Value: " + msg + " (Expression: " + Expression
+                                      + ", Line: " + std::to_string(LineNum)
+                                      + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
 }
 
 void nemesis::Statement::ThrowInaccessibleError(const std::string& msg) const
 {
-    throw std::runtime_error("Value Inaccessible: " + msg + " (Expression: " + Expression
-                             + ", Line: " + std::to_string(LineNum)
-                             + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+    throw nemesis::StatementException("Value Inaccessible: " + msg + " (Expression: " + Expression
+                                      + ", Line: " + std::to_string(LineNum)
+                                      + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
 }
 
 void nemesis::Statement::ThrowTemplateUnsupported(const std::string& msg,

@@ -199,6 +199,7 @@ set(Utilities_HeaderFiles
     "include/Utilities/OnScopeEnds.h"
     "include/Utilities/ProgressMeter.h"
     "include/Utilities/SharableWrapper.h"
+    "include/Utilities/StatementException.h"
     "include/Utilities/StringExtension.h"
     "include/Utilities/StringMatchTrie.h"
     "include/Utilities/ThreadPool.h"
@@ -422,7 +423,7 @@ set(AllSourceFiles
     ${ExAnimation_SourceFiles}
     ${Utilities_SourceFiles}
     ${SourceFiles}
-    )
+     )
 
 
 ################################################################################
