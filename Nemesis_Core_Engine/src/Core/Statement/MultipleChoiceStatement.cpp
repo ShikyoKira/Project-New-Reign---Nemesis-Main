@@ -147,12 +147,13 @@ nemesis::MultipleChoiceStatement::MultipleChoiceStatement(const std::string& lin
 
 std::string nemesis::MultipleChoiceStatement::Serialize() const
 {
-    auto& first_choice = Choices.front();
+    auto& first_choice    = Choices.front();
     std::string statement = "<!-- ";
+    auto* first_condition = first_choice.GetCondition();
 
-    if (first_choice.GetCondition() && !first_choice.GetCondition()->GetExpression().empty())
+    if (first_condition && !first_condition->GetExpression().empty())
     {
-        statement += first_choice.GetCondition()->GetExpression() + " ";
+        statement += first_condition->GetExpression() + " ";
     }
 
     statement += first_choice.GetValue()->GetExpression() + " -->";
@@ -160,11 +161,12 @@ std::string nemesis::MultipleChoiceStatement::Serialize() const
     for (size_t i = 1; i < Choices.size(); ++i)
     {
         statement += " <!-- ";
-        auto& choice = Choices[i];
+        auto& choice    = Choices[i];
+        auto* condition = choice.GetCondition();
 
-        if (choice.GetCondition() && !choice.GetCondition()->GetExpression().empty())
+        if (condition && !condition->GetExpression().empty())
         {
-            statement += choice.GetCondition()->GetExpression() + " ";
+            statement += condition->GetExpression() + " ";
         }
 
         statement += choice.GetValue()->GetExpression() + " -->";
@@ -177,8 +179,10 @@ std::string nemesis::MultipleChoiceStatement::GetValue(nemesis::CompileState& st
 {
     for (auto& choice : Choices)
     {
+        auto* condition = choice.GetCondition();
+
         // without condition will be treated as ELSE
-        if (choice.GetCondition() && !choice.GetCondition()->IsTrue(state)) continue;
+        if (condition && !condition->IsTrue(state)) continue;
 
         return choice.GetValue()->GetValue(state);
     }
