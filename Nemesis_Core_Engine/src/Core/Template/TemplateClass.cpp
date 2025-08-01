@@ -97,12 +97,8 @@ void nemesis::TemplateClass::ParseHkxTemplatesLoopDirectory(const std::filesyste
     hkx_file->AddTemplate(templt_sptr);
     nemesis::TemplateObject* templt_obj = templt_sptr.get();
 
-    for (size_t i = start_index + 1; i < template_files.size(); i++)
+    for (++itr; itr != template_files.end(); ++itr)
     {
-        auto itr = template_files.find(i);
-
-        if (itr == template_files.end()) break;
-
         auto templt_uptr = nemesis::TemplateHkx::ParseFromFile(itr->second, &templt_class, thread_pool);
         templt_obj       = (templt_obj->SetChild(std::move(templt_uptr))).get();
     }
