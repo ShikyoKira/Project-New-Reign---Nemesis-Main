@@ -36,12 +36,12 @@ bool nemesis::MaxStatement::TryParse3Components(const nemesis::SemanticManager& 
 
             if (!is_only_number(val_1))
             {
-                ThrowInvalidError("Invalid number value (" + val_1 + ")");
+                ThrowInvalidError("Invalid number value '" + val_1 + "'");
             }
 
             if (!is_only_number(val_2))
             {
-                ThrowInvalidError("Invalid number value (" + val_2 + ")");
+                ThrowInvalidError("Invalid number value '" + val_2 + "'");
             }
 
             return std::stod(val_1) > std::stod(val_2) ? val_1 : val_2;
@@ -56,7 +56,7 @@ bool nemesis::MaxStatement::TryParse3Components(const nemesis::SemanticManager& 
 
             if (!is_only_number(val_1))
             {
-                ThrowInvalidError("Invalid number value (" + val_1 + ")");
+                ThrowInvalidError("Invalid number value '" + val_1 + "'");
             }
 
             return std::stod(val_1) > std::stod(val_2) ? val_1 : val_2;

@@ -115,9 +115,6 @@ void nemesis::SubstringStatement::Parse4Components(const nemesis::SemanticManage
         if (!is_only_number(index_2))
         {
             ThrowSyntaxError("Invalid position value for Substring (" + index_1 + ")");
-            throw std::runtime_error("Syntax Error: Invalid position value (" + index_1
-                                     + ") for Substring (Line: " + std::to_string(LineNum)
-                                     + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
         }
 
         size_t i_index = std::stoul(index_2);

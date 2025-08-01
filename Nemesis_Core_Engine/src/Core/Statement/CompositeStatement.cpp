@@ -22,7 +22,7 @@ nemesis::CompositeStatement::GetAnimationRequest(const std::string& index_str,
 
     if (!std::regex_match(templt_code, std::regex("^" + templt_name + "_[0-9]+$")))
     {
-        ThrowTemplateUnsupported("Template unsupported (" + templt_code + ")", templt_name);
+        ThrowTemplateUnsupported("Template unsupported '" + templt_code + "'", templt_name);
     }
 
     if (is_only_number(index_str))
@@ -232,7 +232,7 @@ SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::CompositeStatement::C
 
     if (!std::regex_match(templt_code, std::regex("^" + templt_name + "_[0-9]+$")))
     {
-        ThrowTemplateUnsupported("Template unsupported (" + templt_code + ")", templt_name);
+        ThrowTemplateUnsupported("Template unsupported '" + templt_code + "'", templt_name);
     }
 
     size_t templt_num         = GetTemplateNumber(templt_class);
@@ -326,7 +326,7 @@ nemesis::CompositeStatement::GetTargetRequest(const nemesis::TemplateClass& temp
 
     if (!std::regex_match(Components.front(), std::regex("^" + templt_name + "_[0-9]+$")))
     {
-        ThrowTemplateUnsupported("Template unsupported (" + Components.front() + ")", templt_name);
+        ThrowTemplateUnsupported("Template unsupported '" + Components.front() + "'", templt_name);
     }
 
     const auto& dynamic_index = DynamicComponents.emplace_back(index_str, LineNum, FilePath, manager);

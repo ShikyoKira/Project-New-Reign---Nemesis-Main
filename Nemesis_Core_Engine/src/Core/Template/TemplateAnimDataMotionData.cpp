@@ -16,8 +16,8 @@ UPtr<nemesis::TemplateAnimDataMotionData> nemesis::TemplateAnimDataMotionData::P
     if (std::find_if(name.begin(), name.end(), [](const char& ch) { return !std::isalpha(ch); })
         != name.end())
     {
-        throw std::runtime_error("Invalid template name (" + name
-                                 + ") (File: " + nemesis::to_utf8_string(filepath) + ")");
+        throw std::runtime_error("Invalid template name '" + name
+                                 + "' (File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
     std::string filename = nemesis::to_utf8_string(filepath.stem());
@@ -35,8 +35,8 @@ nemesis::TemplateAnimDataMotionData::ParseFromFile(const std::filesystem::path& 
     if (std::find_if(name.begin(), name.end(), [](const char& ch) { return !std::isalpha(ch); })
         != name.end())
     {
-        throw std::runtime_error("Invalid template name (" + name
-                                 + ") (File: " + nemesis::to_utf8_string(filepath) + ")");
+        throw std::runtime_error("Invalid template name '" + name
+                                 + "' (File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
     std::string filename = nemesis::to_utf8_string(filepath.stem());

@@ -498,7 +498,7 @@ void nemesis::ForEachStatement::Parse3Components(nemesis::SemanticManager& manag
 
                 if (!model)
                 {
-                    ThrowSyntaxError("Unsupported option name (" + option + ")");
+                    ThrowSyntaxError("Unsupported option name '" + option + "'");
                 }
 
                 return option;
@@ -510,7 +510,7 @@ void nemesis::ForEachStatement::Parse3Components(nemesis::SemanticManager& manag
 
         if (!model)
         {
-            ThrowSyntaxError("Unsupported option name (" + option + ")");
+            ThrowSyntaxError("Unsupported option name '" + option + "'");
         }
 
         get_option = std::make_unique<std::function<std::string(nemesis::CompileState&)>>(

@@ -38,7 +38,7 @@ bool nemesis::MotionDataStatement::TryParse2Components(const nemesis::SemanticMa
 
             if (index_str.length() > 1)
             {
-                ThrowInvalidError("Invalid index value (" + index_str + ")");
+                ThrowInvalidError("Invalid index value '" + index_str + "'");
             }
 
             if (index_str == "")
@@ -225,7 +225,7 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
 
             if (index_str.length() > 1)
             {
-                ThrowInvalidError("Invalid index value (" + index_str + ")");
+                ThrowInvalidError("Invalid index value '" + index_str + "'");
             }
 
             if (index_str == "")

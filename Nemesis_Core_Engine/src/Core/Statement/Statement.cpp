@@ -185,7 +185,7 @@ nemesis::Statement::GetTargetRequest(const nemesis::TemplateClass& templt_class,
 
     if (!std::regex_match(templt_code, std::regex("^" + templt_name + "_[0-9]+$")))
     {
-        ThrowTemplateUnsupported("Template unsupported (" + templt_code + ")", templt_name);
+        ThrowTemplateUnsupported("Template unsupported '" + templt_code + "'", templt_name);
     }
 
     const std::string& index_str = Components[1];

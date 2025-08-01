@@ -22,7 +22,7 @@ UPtr<nemesis::TemplateHkx> nemesis::TemplateHkx::ParseFromFile(const std::filesy
     if (std::find_if(name.begin(), name.end(), [](const char& ch) { return !std::isalpha(ch); })
         != name.end())
     {
-        throw std::runtime_error("Invalid template name (" + name + ")");
+        throw std::runtime_error("Invalid template name '" + name + "'");
     }
 
     std::string filename = nemesis::to_utf8_string(filepath.stem());
@@ -47,7 +47,7 @@ UPtr<nemesis::TemplateHkx> nemesis::TemplateHkx::ParseFromFile(const std::filesy
     if (std::find_if(name.begin(), name.end(), [](const char& ch) { return !std::isalpha(ch); })
         != name.end())
     {
-        throw std::runtime_error("Invalid template name (" + name + ")");
+        throw std::runtime_error("Invalid template name '" + name + "'");
     }
 
     std::string filename = nemesis::to_utf8_string(filepath.stem());

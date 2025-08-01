@@ -64,8 +64,8 @@ VecStr nemesis::ModRepository::PatchSelectedMods(const VecStr& selected_mods) co
         if (valid_mods.find(mod_code) == valid_mods.end())
         {
             throw std::runtime_error(
-                "Invalid mod code (" + mod_code
-                + ") selected. Please check if you have installed the mod patch correctly");
+                "Invalid mod code '" + mod_code
+                + "' selected. Please check if you have installed the mod patch correctly");
         }
 
         Logger::Log("Active Mod " + std::to_string(mods.size() + 1) + ": " + mod_code, true);

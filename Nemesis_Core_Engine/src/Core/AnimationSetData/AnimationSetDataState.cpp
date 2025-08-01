@@ -643,8 +643,8 @@ nemesis::AnimationSetDataState::ParseObjects(nemesis::LineStream& stream,
                     if (name_itr == state_names.end())
                     {
                         throw std::runtime_error(
-                            "nemesis::AnimationSetDataState::ParseObjects parsing error (" + project_name
-                            + "). State name count and state body count do not match");
+                            "nemesis::AnimationSetDataState::ParseObjects parsing error '" + project_name
+                            + "'. State name count and state body count do not match");
                     }
 
                     auto state       = std::make_unique<nemesis::AnimationSetDataState>(*name_itr++);

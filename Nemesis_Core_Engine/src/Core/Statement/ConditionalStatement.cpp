@@ -119,7 +119,7 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse1Component(
 
             if (!templt_class->GetModel(name))
             {
-                throw ConditionSyntaxError("Unsupported option name (" + name + ")");
+                throw ConditionSyntaxError("Unsupported option name '" + name + "'");
             }
 
             auto request = GetBaseRequest(state);
@@ -150,7 +150,7 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse1Component(
 
     if (!templt_class->GetModel(name))
     {
-        throw ConditionSyntaxError("Unsupported option name (" + name + ")");
+        throw ConditionSyntaxError("Unsupported option name '" + name + "'");
     }
 
     IsTrueFunction = [this, &name](nemesis::CompileState& state)
@@ -181,7 +181,7 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse2Components(
 
             if (!templt_class->GetModel(name))
             {
-                throw ConditionSyntaxError("Unsupported option name (" + name + ")");
+                throw ConditionSyntaxError("Unsupported option name '" + name + "'");
             }
 
             size_t index = std::stoul(Components.back());
@@ -205,7 +205,7 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse2Components(
 
     if (!templt_class->GetModel(name))
     {
-        throw ConditionSyntaxError("Unsupported option name (" + name + ")");
+        throw ConditionSyntaxError("Unsupported option name '" + name + "'");
     }
 
     size_t index = std::stoul(Components.back());
@@ -239,7 +239,7 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse3Components(
 
             if (templt_class->GetModel(name)) return request->GetOption(name) != nullptr;
 
-            throw ConditionSyntaxError("Unsupported option name (" + name + ")");
+            throw ConditionSyntaxError("Unsupported option name '" + name + "'");
         };
     }
     else if (name == "@MotionData")
@@ -259,7 +259,7 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse3Components(
     }
     else
     {
-        throw ConditionSyntaxError("Unsupported option name (" + name + ")");
+        throw ConditionSyntaxError("Unsupported option name '" + name + "'");
     }
 
     callback_requests = CallbackTargetRequests(*templt_class, manager, callback);
@@ -320,7 +320,7 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse4Components(
         return;
     }
 
-    if (!templt_class->GetModel(name)) throw ConditionSyntaxError("Unsupported option name (" + name + ")");
+    if (!templt_class->GetModel(name)) throw ConditionSyntaxError("Unsupported option name '" + name + "'");
 
     IsTrueFunction = [get_request_func, &name, get_key = std::move(get_key)](nemesis::CompileState& state)
     {

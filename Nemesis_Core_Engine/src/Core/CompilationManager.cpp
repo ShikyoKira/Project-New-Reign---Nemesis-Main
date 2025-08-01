@@ -52,7 +52,7 @@ nemesis::CompileState& nemesis::CompilationManager::CreateCompileState(const std
 
     if (itr == StateList.end()) return StateList.try_emplace(lower_path, *this).first->second;
 
-    throw std::runtime_error("CompileState for file already exist (" + nemesis::to_utf8_string(filepath) + ")");
+    throw std::runtime_error("CompileState for file already exist '" + nemesis::to_utf8_string(filepath) + "'");
 }
 
 nemesis::CompileState* nemesis::CompilationManager::GetCompileState(const std::filesystem::path& filepath)
