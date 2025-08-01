@@ -28,8 +28,6 @@ DeqNstr nemesis::HkxFile::CompileAllTemplates(nemesis::CompileState& state) cons
 
         if (requests.empty()) continue;
 
-        state.ClearAllConditionCache();
-        state.ClearAllStatementValueCache();
         size_t index = templt_obj.second->GetIndex();
 
         if (index == 0)
@@ -47,8 +45,6 @@ DeqNstr nemesis::HkxFile::CompileAllTemplates(nemesis::CompileState& state) cons
     }
 
     state.SetBaseRequest(nullptr);
-    state.ClearAllConditionCache();
-    state.ClearAllStatementValueCache();
 
     if (template_lines.empty()) return template_lines;
 
@@ -63,8 +59,6 @@ DeqNstr nemesis::HkxFile::CompileAllSubTemplates(nemesis::CompileState& state) c
     if (subrequests.empty()) return lines;
 
     state.SetBaseRequest(nullptr);
-    state.ClearAllConditionCache();
-    state.ClearAllStatementValueCache();
     Vec<UPtr<nemesis::CompileState>> state_list;
     USetStr checker;
 

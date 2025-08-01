@@ -337,9 +337,6 @@ void nemesis::AnimationSetDataProject::CompileTo(DeqNstr& lines, nemesis::Compil
 
             if (requests.empty()) continue;
 
-            state.ClearAllConditionCache();
-            state.ClearAllStatementValueCache();
-
             for (auto& request : requests)
             {
                 state.SetBaseRequest(request);
@@ -357,8 +354,6 @@ void nemesis::AnimationSetDataProject::CompileTo(DeqNstr& lines, nemesis::Compil
         }
 
         state.SetBaseRequest(nullptr);
-        state.ClearAllConditionCache();
-        state.ClearAllStatementValueCache();
     }
 
     if (header_lines.empty()) return;

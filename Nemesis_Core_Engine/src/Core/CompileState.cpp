@@ -98,6 +98,9 @@ void nemesis::CompileState::SetBaseRequest(const nemesis::AnimationRequest* requ
     BaseRequest = request;
     CurrentRequest.clear();
 
+    ClearAllConditionCache();
+    ClearAllStatementValueCache();
+
     if (request == nullptr) return;
 
     auto& parents = request->GetParents();
