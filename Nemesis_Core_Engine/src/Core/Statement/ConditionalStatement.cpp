@@ -832,6 +832,7 @@ nemesis::ConditionalStatement::ConditionalStatementParser::ParseExpression() con
             Consume(TokenType::OR);
             node2 = ParseTerm();
             node  = node->Or(node2);
+            node2 = nullptr;
         }
 
         return node;
@@ -860,6 +861,7 @@ nemesis::ConditionalStatement::ConditionalStatementParser::ParseTerm() const
             Consume(TokenType::AND);
             node2 = ParseFactor();
             node  = node->And(node2);
+            node2 = nullptr;
         }
 
         return node;
