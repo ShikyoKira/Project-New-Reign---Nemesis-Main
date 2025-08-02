@@ -150,11 +150,11 @@ std::future<void> nemesis::HkxFile::CompileToHkx(const std::filesystem::path& hk
     return std::async(
         [hkx_path, contents, platform, version, include_xml, &state, modded_lines, callback]()
         {
+            std::filesystem::path xml_path = hkx_path;
+            xml_path.replace_extension(".xml");
+
             if (include_xml)
             {
-                std::filesystem::path xml_path = hkx_path;
-                xml_path.replace_extension(".xml");
-
                 std::ofstream file(xml_path);
 
                 if (!file.is_open())
@@ -321,12 +321,14 @@ void nemesis::HkxFile::ScheduleCompileFileAs(const std::filesystem::path& filepa
                                              bool include_xml,
                                              std::function<void()> callback) const
 {
-    DeqNstr lines = Compile(state);
+    SPtr<DeqNstr> lines = std::make_shared<DeqNstr>();
+    CompileTo(*lines, state);
+
     std::ostringstream stream;
     UMap<size_t, const nemesis::Line*> modded_lines;
     size_t line_counter = 0;
 
-    for (auto& line : lines)
+    for (auto& line : *lines)
     {
         stream << line + "\n";
         line_counter += std::count(line.begin(), line.end(), '\n') + 1;
@@ -337,8 +339,18 @@ void nemesis::HkxFile::ScheduleCompileFileAs(const std::filesystem::path& filepa
         modded_lines.insert({line_counter, &line});
     }
 
-    auto future
-        = CompileToHkx(filepath, stream.str(), state, platform, version, include_xml, modded_lines, callback);
+    auto future = CompileToHkx(
+        filepath,
+        stream.str(),
+        state,
+        platform,
+        version,
+        include_xml,
+        modded_lines,
+        // lines is required to be included to keep it alive throughout
+        // the whole async process for modded_lines reference when 
+        // there is an error during compilation
+        [lines, callback]() { callback(); });
 
     std::scoped_lock<std::mutex> lock(CompileFutureMutex);
     CompileFuture.emplace_back(std::move(future));
