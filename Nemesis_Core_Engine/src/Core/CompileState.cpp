@@ -95,6 +95,19 @@ const nemesis::CompilationManager& nemesis::CompileState::GetManager() const noe
 
 void nemesis::CompileState::SetBaseRequest(const nemesis::AnimationRequest* request)
 {
+    if (BaseRequest)
+    {
+        auto& base_parents = BaseRequest->GetParents();
+        auto& base_name    = BaseRequest->GetTemplateName();
+
+        DequeCurrentRequest(base_name + "_" + std::to_string(base_parents.size() + 1));
+
+        for (size_t i = 0; i < base_parents.size(); ++i)
+        {
+            DequeCurrentRequest(base_name + "_" + std::to_string(i + 1));
+        }
+    }
+
     BaseRequest = request;
     CurrentRequest.clear();
 
@@ -184,14 +197,24 @@ void nemesis::CompileState::QueueCurrentRequest(const std::string& group,
     {
         std::string cur_group = name + "_1";
         auto& collection      = GetRequests(name);
-        Vec<const nemesis::AnimationRequest*> anim_requests;
+        Vec<const nemesis::AnimationRequest*>* anim_requests;
+        auto itr = RequestListCache.find(name);
 
-        for (auto& each : collection)
+        if (itr == RequestListCache.end())
         {
-            anim_requests.emplace_back(each);
+            anim_requests = &RequestListCache[name];
+
+            for (auto& each : collection)
+            {
+                anim_requests->emplace_back(each);
+            }
+        }
+        else
+        {
+            anim_requests = &itr->second;
         }
 
-        QueueChildRequestList(cur_group, anim_requests);
+        QueueChildRequestList(cur_group, *anim_requests);
     }
     else
     {

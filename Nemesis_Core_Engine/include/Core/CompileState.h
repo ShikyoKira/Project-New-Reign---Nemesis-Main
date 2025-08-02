@@ -25,6 +25,7 @@ namespace nemesis
         const nemesis::AnimationRequest* BaseRequest = nullptr;
         UMap<std::string, Vec<const nemesis::AnimationRequest*>> CurrentRequest;
         UMap<std::string, Vec<Vec<const nemesis::AnimationRequest*>>> ChildRequestList;
+        UMap<std::string, Vec<const nemesis::AnimationRequest*>> RequestListCache;
 
         UMap<const nemesis::AnimationRequest*, UMap<std::string, Vec<const nemesis::TemplateOption*>>>
             CurrentRequestOption;
