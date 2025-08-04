@@ -49,7 +49,7 @@ else()
 endif()
 
 message("Building CPython:    File: ${Python_BUILD_FILE}   Args: ${Python_Args}")
-# execute_process(COMMAND ${Python_BUILD_FILE} ${Python_Args})
+execute_process(COMMAND ${Python_BUILD_FILE} ${Python_Args})
 
 ################################################################################
 # Add target
