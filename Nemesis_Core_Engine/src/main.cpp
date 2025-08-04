@@ -84,7 +84,7 @@ void run_python_scripts(const std::filesystem::path& dir_path)
 
         if (!nemesis::iequals(PATH_TO_STRING(path.extension()), LITERAL_PATH(".py"))) continue;
 
-        auto path_s = path.string();
+        auto path_s = nemesis::to_utf8_string(path);
 
         try
         {
