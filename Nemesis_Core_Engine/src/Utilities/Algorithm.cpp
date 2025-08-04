@@ -257,16 +257,20 @@ namespace nemesis
 
     bool iequals(const std::string& l, const std::string& r)
     {
-        return std::strcmp(nemesis::CharPtrWrapper(to_lower_copy(l.c_str())).GetCharPtr(),
-                           nemesis::CharPtrWrapper(to_lower_copy(r.c_str())).GetCharPtr())
-               == 0;
+        if (l.size() != r.size()) return false;
+
+        return std::equal(
+            l.begin(), l.end(), r.begin(), [](char a, char b) { return std::tolower(a) == std::tolower(b); });
     }
 
     bool iequals(const std::wstring& l, const std::wstring& r)
     {
-        return std::wcscmp(nemesis::CharPtrWrapper(to_lower_copy(l.c_str())).GetCharPtr(),
-                           nemesis::CharPtrWrapper(to_lower_copy(r.c_str())).GetCharPtr())
-               == 0;
+        if (l.size() != r.size()) return false;
+
+        return std::equal(l.begin(),
+                          l.end(),
+                          r.begin(),
+                          [](wchar_t a, wchar_t b) { return std::tolower(a) == std::tolower(b); });
     }
 
     bool starts_with(const char* data, const char* start)
