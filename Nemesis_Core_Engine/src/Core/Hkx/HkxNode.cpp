@@ -177,6 +177,9 @@ bool nemesis::HkxNode::TryInjectEventNames(DeqNstr& lines,
     {
         auto& line = lines[i];
         std::smatch match;
+        size_t pos = line.find("<hkparam name=\"");
+
+        if (pos == NOT_FOUND || line.find("</hkparam>", pos + 1) == NOT_FOUND) continue;
 
         if (!std::regex_match(line.ToString(), match, *rgx)) continue;
 
@@ -211,6 +214,9 @@ bool nemesis::HkxNode::TryInjectVariableNames(DeqNstr& lines,
     {
         auto& line = lines[i];
         std::smatch match;
+        size_t pos = line.find("<hkparam name=\"");
+
+        if (pos == NOT_FOUND || line.find("</hkparam>", pos + 1) == NOT_FOUND) continue;
 
         if (!std::regex_match(line.ToString(), match, var_param_rgx)) continue;
 
