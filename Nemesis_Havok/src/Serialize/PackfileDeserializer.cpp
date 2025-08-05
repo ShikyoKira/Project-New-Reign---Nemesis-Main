@@ -180,7 +180,10 @@ void nemesis::PackfileDeserializer::RunGlobalQueue()
             continue;
         }
 
-        itr->second();
+        for (auto& each : itr->second)
+        {
+            each();
+        }
 
 #ifdef _DEBUG
         for (auto& each : local_log)
@@ -901,23 +904,23 @@ nemesis::hkRefVariant& nemesis::PackfileDeserializer::ReadRefObject(const std::s
 
     if (ref_obj.IsFixed())
     {
-        GlobalQueue.insert({itr->second->Destination + DataAddress,
-                            [&ref_obj, this]()
-                            {
+        GlobalQueue[itr->second->Destination + DataAddress].emplace_back(
+            [&ref_obj, this]()
+            {
 #ifdef _DEBUG
-                                std::cout << "===== " << ref_obj.GetClass(GetContentsVersion())->GetName()
-                                          << " =====" << std::endl;
+                std::cout << "===== " << ref_obj.GetClass(GetContentsVersion())->GetName()
+                          << " =====" << std::endl;
 #endif
 
-                                RunScopedQueue(LocalQueue,
-                                               [&ref_obj, this]()
-                                               {
-                                                   ref_obj.DeserializeFrom(*this);
-                                                   Pad(16);
+                RunScopedQueue(LocalQueue,
+                               [&ref_obj, this]()
+                               {
+                                   ref_obj.DeserializeFrom(*this);
+                                   Pad(16);
 
-                                                   RunLocalQueue();
-                                               });
-                            }});
+                                   RunLocalQueue();
+                               });
+            });
         return ref_obj;
     }
 
@@ -932,45 +935,41 @@ nemesis::hkRefVariant& nemesis::PackfileDeserializer::ReadRefObject(const std::s
     auto cls    = GetClassFromAddress(GetTargetAddress(addr));
     auto dest   = itr->second->Destination;
     auto q_addr = dest + DataAddress;
+    auto q_itr  = GlobalQueue.find(q_addr);
 
-    if (GlobalQueue.find(q_addr) != GlobalQueue.end())
+    if (q_itr != GlobalQueue.end())
     {
-        auto& queue = GlobalQueue[q_addr];
-        queue = [&ref_obj, dest, queue, this]()
-        {
-            queue();
-            ref_obj.ReferenceTo(ObjectMap[dest]);
-        };
+        q_itr->second.emplace_back([&ref_obj, dest, this]() { ref_obj.ReferenceTo(ObjectMap[dest]); });
         return ref_obj;
     }
 
-    GlobalQueue.insert({q_addr,
-                        [&ref_obj, name, cls, dest, this]()
-                        {
+    GlobalQueue[q_addr].emplace_back(
+        [&ref_obj, name, cls, dest, this]()
+        {
 #ifdef _DEBUG
-                            std::cout << "===== " << cls->GetName() << " =====" << std::endl;
+            std::cout << "===== " << cls->GetName() << " =====" << std::endl;
 #endif
 
-                            auto obj_itr = ObjectMap.find(dest);
+            auto obj_itr = ObjectMap.find(dest);
 
-                            if (obj_itr != ObjectMap.end())
-                            {
-                                ref_obj.ReferenceTo(obj_itr->second);
-                                return;
-                            }
+            if (obj_itr != ObjectMap.end())
+            {
+                ref_obj.ReferenceTo(obj_itr->second);
+                return;
+            }
 
-                            RunScopedQueue(LocalQueue,
-                                           [&ref_obj, cls, dest, this]()
-                                           {
-                                               auto obj = PackfilePtr->CreateObject(cls->GetName());
-                                               ObjectMap.insert({dest, obj});
-                                               ref_obj.ReferenceTo(obj);
-                                               ref_obj.DeserializeFrom(*this);
-                                               Pad(16);
+            RunScopedQueue(LocalQueue,
+                           [&ref_obj, cls, dest, this]()
+                           {
+                               auto obj = PackfilePtr->CreateObject(cls->GetName());
+                               ObjectMap.insert({dest, obj});
+                               ref_obj.ReferenceTo(obj);
+                               ref_obj.DeserializeFrom(*this);
+                               Pad(16);
 
-                                               RunLocalQueue();
-                                           });
-                        }});
+                               RunLocalQueue();
+                           });
+        });
     return ref_obj;
 }
 
@@ -1002,45 +1001,41 @@ nemesis::HavokObject** nemesis::PackfileDeserializer::ReadRefObject(const std::s
     auto cls    = GetClassFromAddress(GetTargetAddress(addr));
     auto dest   = itr->second->Destination;
     auto q_addr = dest + DataAddress;
+    auto q_itr  = GlobalQueue.find(q_addr);
 
-    if (GlobalQueue.find(q_addr) != GlobalQueue.end())
+    if (q_itr != GlobalQueue.end())
     {
-        auto& queue = GlobalQueue[q_addr];
-        queue       = [&hkx_obj, dest, queue, this]()
-        {
-            queue();
-            (*hkx_obj) = ObjectMap[dest];
-        };
+        q_itr->second.emplace_back([&hkx_obj, dest, this]() { (*hkx_obj) = ObjectMap[dest]; });
         return hkx_obj;
     }
 
-    GlobalQueue.insert({q_addr,
-                        [&hkx_obj, name, cls, dest, this]()
-                        {
+    GlobalQueue[q_addr].emplace_back(
+        [&hkx_obj, name, cls, dest, this]()
+        {
 #ifdef _DEBUG
-                            std::cout << "===== " << cls->GetName() << " =====" << std::endl;
+            std::cout << "===== " << cls->GetName() << " =====" << std::endl;
 #endif
 
-                            auto obj_itr = ObjectMap.find(dest);
+            auto obj_itr = ObjectMap.find(dest);
 
-                            if (obj_itr != ObjectMap.end())
-                            {
-                                (*hkx_obj) = obj_itr->second;
-                                return;
-                            }
+            if (obj_itr != ObjectMap.end())
+            {
+                (*hkx_obj) = obj_itr->second;
+                return;
+            }
 
-                            RunScopedQueue(LocalQueue,
-                                           [hkx_obj, cls, dest, this]()
-                                           {
-                                               auto obj = PackfilePtr->CreateObject(cls->GetName());
-                                               ObjectMap.insert({dest, obj});
-                                               (*hkx_obj) = obj;
-                                               (*hkx_obj)->DeserializeFrom(*this);
-                                               Pad(16);
+            RunScopedQueue(LocalQueue,
+                           [hkx_obj, cls, dest, this]()
+                           {
+                               auto obj = PackfilePtr->CreateObject(cls->GetName());
+                               ObjectMap.insert({dest, obj});
+                               (*hkx_obj) = obj;
+                               (*hkx_obj)->DeserializeFrom(*this);
+                               Pad(16);
 
-                                               RunLocalQueue();
-                                           });
-                        }});
+                               RunLocalQueue();
+                           });
+        });
     return hkx_obj;
 }
 

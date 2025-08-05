@@ -25,7 +25,7 @@ namespace nemesis
 
         UMap<size_t, const nemesis::hkClass*> ClassMap;
         UMap<size_t, nemesis::HavokObject*> ObjectMap;
-        Map<size_t, std::function<void()>> GlobalQueue;
+        Map<size_t, Vec<std::function<void()>>> GlobalQueue;
         UPtr<Vec<std::function<void()>>> LocalQueue = std::make_unique<Vec<std::function<void()>>>();
 
         nemesis::hkPackfile* PackfilePtr = nullptr;
