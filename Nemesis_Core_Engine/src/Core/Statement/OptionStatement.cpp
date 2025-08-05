@@ -289,8 +289,8 @@ nemesis::OptionStatement::BuildAnyHasOptionFunction(const std::string& option_na
 
     return [this, template_name, &option_name](nemesis::CompileState& state)
     {
-        auto cur_req  = state.GetCurrentRequest(Components.front());
-        auto req_list = cur_req->GetParents().back()->GetRequests();
+        auto& cur_req = state.GetCurrentRequest(Components.front());
+        auto req_list = cur_req.GetParents().back()->GetRequests();
 
         for (auto& req : req_list)
         {
@@ -332,8 +332,8 @@ nemesis::OptionStatement::BuildAllHasOptionFunction(const std::string& option_na
 
     return [this, template_name, &option_name](nemesis::CompileState& state)
     {
-        auto cur_req  = state.GetCurrentRequest(Components.front());
-        auto req_list = cur_req->GetParents().back()->GetRequests();
+        auto& cur_req = state.GetCurrentRequest(Components.front());
+        auto req_list = cur_req.GetParents().back()->GetRequests();
 
         for (auto& req : req_list)
         {
@@ -435,8 +435,8 @@ nemesis::OptionStatement::OptionStatement(const std::string& expression,
             auto get_request_func = GetTargetRequest(*template_class, manager);
             GetOptionFunction     = [get_request_func, &name](nemesis::CompileState& state)
             {
-                auto request = (*get_request_func)(state);
-                return std::make_pair(request->GetOption(name), -1);
+                auto& request = (*get_request_func)(state);
+                return std::make_pair(request.GetOption(name), -1);
             };
             break;
         }
@@ -465,8 +465,8 @@ nemesis::OptionStatement::OptionStatement(const std::string& expression,
 
             GetOptionFunction = [get_request_func, get_option_func](nemesis::CompileState& state)
             {
-                auto* request = (*get_request_func)(state);
-                return (*get_option_func)(request, state);
+                auto& request = (*get_request_func)(state);
+                return (*get_option_func)(&request, state);
             };
             break;
         }

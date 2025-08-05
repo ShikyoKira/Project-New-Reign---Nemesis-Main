@@ -26,8 +26,8 @@ nemesis::RequestIndexStatement::RequestIndexStatement(const std::string& express
 
             GetValueFunction = [get_request_func](nemesis::CompileState& state)
             {
-                auto request = (*get_request_func)(state);
-                return std::to_string(request->GetIndex());
+                auto& request = (*get_request_func)(state);
+                return std::to_string(request.GetIndex());
             };
             break;
         }

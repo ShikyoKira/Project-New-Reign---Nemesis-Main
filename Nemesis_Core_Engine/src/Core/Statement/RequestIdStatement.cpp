@@ -24,8 +24,8 @@ nemesis::RequestIdStatement::RequestIdStatement(const std::string& expression,
 
             GetValueFunction = [get_request_func](nemesis::CompileState& state)
             {
-                auto request = (*get_request_func)(state);
-                return std::to_string(request->GetId());
+                auto& request = (*get_request_func)(state);
+                return std::to_string(request.GetId());
             };
             break;
         }

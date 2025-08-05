@@ -28,13 +28,14 @@ namespace nemesis
         virtual SPtr<std::function<bool(nemesis::CompileState&)>> CallbackTargetRequests(
             const nemesis::TemplateClass& templt_class,
             const nemesis::SemanticManager& manager,
-            const std::function<bool(nemesis::CompileState&, const nemesis::AnimationRequest*)>& callback);
+            const std::function<bool(nemesis::CompileState&, const nemesis::AnimationRequest&)>& callback);
 
-        virtual SPtr<std::function<const nemesis::AnimationRequest*(nemesis::CompileState&)>>
+        virtual SPtr<std::function<const nemesis::AnimationRequest&(nemesis::CompileState&)>>
         GetTargetRequest(const nemesis::TemplateClass& templt_class, const nemesis::SemanticManager& manager);
 
         const nemesis::AnimationRequest* GetBaseRequest(nemesis::CompileState& state) const;
 
+        [[noreturn]] static void ThrowSyntaxError(const std::string& msg, const std::string& expression, size_t line_num, const std::filesystem::path& filepath);
         [[noreturn]] void ThrowSyntaxError(const std::string& msg) const;
         [[noreturn]] void ThrowInvalidError(const std::string& msg) const;
         [[noreturn]] void ThrowInaccessibleError(const std::string& msg) const;

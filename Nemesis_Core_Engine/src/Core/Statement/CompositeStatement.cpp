@@ -11,7 +11,7 @@
 #include "Core/CompileState.h"
 #include "Core/SemanticManager.h"
 
-const nemesis::AnimationRequest*
+const nemesis::AnimationRequest&
 nemesis::CompositeStatement::GetAnimationRequest(const std::string& index_str,
                                                  const std::string& templt_name,
                                                  size_t templt_num,
@@ -33,23 +33,23 @@ nemesis::CompositeStatement::GetAnimationRequest(const std::string& index_str,
             ThrowInaccessibleError("Unable to get target request from queue");
         }
 
-        size_t index = std::stoul(index_str);
-        auto request = state.GetCurrentRequest(templt_code);
-        auto parents = request->GetParents();
+        size_t index  = std::stoul(index_str);
+        auto& request = state.GetCurrentRequest(templt_code);
+        auto parents  = request.GetParents();
 
         if (!parents.empty())
         {
             auto list = parents.back()->GetRequests();
 
-            if (index < list.size()) return list[index];
+            if (index < list.size()) return *list[index];
 
             ThrowInvalidError("Index is larger than list");
         }
 
         {
-            auto& collection = state.GetRequests(request->GetTemplateName());
+            auto& collection = state.GetRequests(request.GetTemplateName());
 
-            if (index < collection.size()) return collection[index];
+            if (index < collection.size()) return *collection[index];
         }
 
         ThrowInvalidError("Index is larger than list");
@@ -81,7 +81,7 @@ nemesis::CompositeStatement::GetAnimationRequest(const std::string& index_str,
                 ThrowInaccessibleError("Unable to get target request from queue");
             }
 
-            return state.GetFirstRequest(templt_code);
+            return *state.GetFirstRequest(templt_code);
         }
         case 'L':
         {
@@ -91,7 +91,7 @@ nemesis::CompositeStatement::GetAnimationRequest(const std::string& index_str,
                 ThrowInaccessibleError("Unable to get target request from queue");
             }
 
-            return state.GetLastRequest(templt_code);
+            return *state.GetLastRequest(templt_code);
         }
         case 'B':
         {
@@ -100,7 +100,7 @@ nemesis::CompositeStatement::GetAnimationRequest(const std::string& index_str,
                 ThrowInaccessibleError("Unable to get target request from queue");
             }
 
-            return state.GetBackRequest(templt_code);
+            return *state.GetBackRequest(templt_code);
         }
         case 'N':
         {
@@ -109,7 +109,7 @@ nemesis::CompositeStatement::GetAnimationRequest(const std::string& index_str,
                 ThrowInaccessibleError("Unable to get target request from queue");
             }
 
-            return state.GetNextRequest(templt_code);
+            return *state.GetNextRequest(templt_code);
         }
         default:
             ThrowSyntaxError("Invalid value (" + index_str + ")");
@@ -218,7 +218,7 @@ bool nemesis::CompositeStatement::IsComplexComponent(const std::string& componen
 SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::CompositeStatement::CallbackTargetRequests(
     const nemesis::TemplateClass& templt_class,
     const nemesis::SemanticManager& manager,
-    const std::function<bool(nemesis::CompileState&, const nemesis::AnimationRequest*)>& callback)
+    const std::function<bool(nemesis::CompileState&, const nemesis::AnimationRequest&)>& callback)
 {
     const std::string& index_str = Components[1];
 
@@ -246,21 +246,21 @@ SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::CompositeStatement::C
 
             if (!nemesis::iequals(index_str, "ANY") && !nemesis::iequals(index_str, "ALL"))
             {
-                auto request = GetAnimationRequest(index_str, templt_name, templt_num, state, *sptr_manager);
+                auto& request = GetAnimationRequest(index_str, templt_name, templt_num, state, *sptr_manager);
                 return callback(state, request);
             }
 
             if (nemesis::iequals(index_str, "ANY"))
             {
-                auto request = state.GetCurrentRequest(templt_code);
-                auto parents = request->GetParents();
+                auto& request = state.GetCurrentRequest(templt_code);
+                auto parents = request.GetParents();
 
                 // Vacuous false: Default to false
                 if (!parents.empty())
                 {
                     for (auto& request : parents.back()->GetRequests())
                     {
-                        if (!callback(state, request)) continue;
+                        if (!callback(state, *request)) continue;
 
                         return true;
                     }
@@ -268,9 +268,9 @@ SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::CompositeStatement::C
                     return false;
                 }
 
-                for (auto& request : state.GetRequests(request->GetTemplateName()))
+                for (auto& request : state.GetRequests(request.GetTemplateName()))
                 {
-                    if (!callback(state, request)) continue;
+                    if (!callback(state, *request)) continue;
 
                     return true;
                 }
@@ -278,8 +278,8 @@ SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::CompositeStatement::C
                 return false;
             }
 
-            auto request = state.GetCurrentRequest(templt_code);
-            auto parents = request->GetParents();
+            auto& request = state.GetCurrentRequest(templt_code);
+            auto parents  = request.GetParents();
 
             // Vacuous false: Default to false
             if (!parents.empty())
@@ -290,7 +290,7 @@ SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::CompositeStatement::C
 
                 for (auto& request : req_list)
                 {
-                    if (callback(state, request)) continue;
+                    if (callback(state, *request)) continue;
 
                     return false;
                 }
@@ -298,13 +298,13 @@ SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::CompositeStatement::C
                 return true;
             }
 
-            auto& collection = state.GetRequests(request->GetTemplateName());
+            auto& collection = state.GetRequests(request.GetTemplateName());
 
             if (collection.empty()) return false;
 
             for (auto& request : collection)
             {
-                if (callback(state, request)) continue;
+                if (callback(state, *request)) continue;
 
                 return false;
             }
@@ -313,7 +313,7 @@ SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::CompositeStatement::C
         });
 }
 
-SPtr<std::function<const nemesis::AnimationRequest*(nemesis::CompileState&)>>
+SPtr<std::function<const nemesis::AnimationRequest&(nemesis::CompileState&)>>
 nemesis::CompositeStatement::GetTargetRequest(const nemesis::TemplateClass& templt_class,
                                               const nemesis::SemanticManager& manager)
 {
@@ -331,8 +331,8 @@ nemesis::CompositeStatement::GetTargetRequest(const nemesis::TemplateClass& temp
 
     const auto& dynamic_index = DynamicComponents.emplace_back(index_str, LineNum, FilePath, manager);
     SPtr<nemesis::SemanticManager> sptr_manager = std::make_shared<nemesis::SemanticManager>(manager);
-    return std::make_shared<std::function<const nemesis::AnimationRequest*(nemesis::CompileState&)>>(
-        [this, &dynamic_index, sptr_manager, templt_name, num](nemesis::CompileState& state)
+    return std::make_shared<std::function<const nemesis::AnimationRequest&(nemesis::CompileState&)>>(
+        [this, &dynamic_index, sptr_manager, templt_name, num](nemesis::CompileState& state) -> const nemesis::AnimationRequest&
         {
             const std::string index_str = dynamic_index.GetValue(state);
             return GetAnimationRequest(index_str, templt_name, num, state, *sptr_manager);

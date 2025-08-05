@@ -1,8 +1,8 @@
 #include <sstream>
 
-#include "Core/Statement/RotationDataStatement.h"
 #include "Core/CompileState.h"
 #include "Core/SemanticManager.h"
+#include "Core/Statement/RotationDataStatement.h"
 
 #include "Utilities/Algorithm.h"
 
@@ -205,8 +205,8 @@ bool nemesis::RotationDataStatement::TryParse4Components(const nemesis::Semantic
             = [this, get_request, get_index = std::move(get_index), uptr_manager = std::move(uptr_manager)](
                   nemesis::CompileState& state)
         {
-            auto request = (*get_request)(state);
-            auto list    = request->GetRotationDataList();
+            auto& request = (*get_request)(state);
+            auto list     = request.GetRotationDataList();
 
             if (list.empty()) return std::string("");
 
@@ -223,7 +223,7 @@ bool nemesis::RotationDataStatement::TryParse4Components(const nemesis::Semantic
 
             if (index_str == "SIZE")
             {
-                auto list = request->GetRotationDataList();
+                auto list = request.GetRotationDataList();
                 return std::to_string(list.size());
             }
 
@@ -239,7 +239,7 @@ bool nemesis::RotationDataStatement::TryParse4Components(const nemesis::Semantic
                     ThrowInaccessibleError("Unable to get target rotation data from queue");
                 }
 
-                return state.GetCurrentRequestRotationData(request);
+                return state.GetCurrentRequestRotationData(&request);
             }
 
             switch (index_str.front())
@@ -259,7 +259,7 @@ bool nemesis::RotationDataStatement::TryParse4Components(const nemesis::Semantic
                         ThrowInaccessibleError("Unable to get target rotation data from queue");
                     }
 
-                    size_t index = state.GetCurrentRequestRotationIndex(request);
+                    size_t index = state.GetCurrentRequestRotationIndex(&request);
 
                     if (index == 0) return list.front().ToString();
 
@@ -272,7 +272,7 @@ bool nemesis::RotationDataStatement::TryParse4Components(const nemesis::Semantic
                         ThrowInaccessibleError("Unable to get target rotation data from queue");
                     }
 
-                    size_t index = state.GetCurrentRequestRotationIndex(request);
+                    size_t index = state.GetCurrentRequestRotationIndex(&request);
 
                     if (index + 1 == list.size()) return list.back().ToString();
 
@@ -290,8 +290,8 @@ bool nemesis::RotationDataStatement::TryParse4Components(const nemesis::Semantic
         size_t index     = std::stoul(index_str);
         GetValueFunction = [get_request, index](nemesis::CompileState& state)
         {
-            auto request = (*get_request)(state);
-            auto list    = request->GetRotationDataList();
+            auto& request = (*get_request)(state);
+            auto list     = request.GetRotationDataList();
 
             if (list.empty()) return std::string("");
 
@@ -304,8 +304,8 @@ bool nemesis::RotationDataStatement::TryParse4Components(const nemesis::Semantic
     {
         GetValueFunction = [get_request](nemesis::CompileState& state)
         {
-            auto request = (*get_request)(state);
-            auto list    = request->GetRotationDataList();
+            auto& request = (*get_request)(state);
+            auto list     = request.GetRotationDataList();
             return std::to_string(list.size());
         };
         return true;
@@ -317,8 +317,8 @@ bool nemesis::RotationDataStatement::TryParse4Components(const nemesis::Semantic
     {
         GetValueFunction = [get_request](nemesis::CompileState& state)
         {
-            auto request = (*get_request)(state);
-            return state.GetCurrentRequestRotationData(request);
+            auto& request = (*get_request)(state);
+            return state.GetCurrentRequestRotationData(&request);
         };
     }
     else
@@ -329,8 +329,8 @@ bool nemesis::RotationDataStatement::TryParse4Components(const nemesis::Semantic
             {
                 GetValueFunction = [get_request](nemesis::CompileState& state)
                 {
-                    auto request = (*get_request)(state);
-                    auto list    = request->GetRotationDataList();
+                    auto& request = (*get_request)(state);
+                    auto list     = request.GetRotationDataList();
 
                     if (list.empty()) return std::string("");
 
@@ -342,8 +342,8 @@ bool nemesis::RotationDataStatement::TryParse4Components(const nemesis::Semantic
             {
                 GetValueFunction = [get_request](nemesis::CompileState& state)
                 {
-                    auto request = (*get_request)(state);
-                    auto list    = request->GetRotationDataList();
+                    auto& request = (*get_request)(state);
+                    auto list     = request.GetRotationDataList();
 
                     if (list.empty()) return std::string("");
 
@@ -355,9 +355,9 @@ bool nemesis::RotationDataStatement::TryParse4Components(const nemesis::Semantic
             {
                 GetValueFunction = [get_request](nemesis::CompileState& state)
                 {
-                    auto request = (*get_request)(state);
-                    auto list    = request->GetRotationDataList();
-                    size_t index = state.GetCurrentRequestRotationIndex(request);
+                    auto& request = (*get_request)(state);
+                    auto list     = request.GetRotationDataList();
+                    size_t index  = state.GetCurrentRequestRotationIndex(&request);
 
                     if (index == 0) return list.front().ToString();
 
@@ -369,9 +369,9 @@ bool nemesis::RotationDataStatement::TryParse4Components(const nemesis::Semantic
             {
                 GetValueFunction = [get_request](nemesis::CompileState& state)
                 {
-                    auto request = (*get_request)(state);
-                    auto list    = request->GetRotationDataList();
-                    size_t index = state.GetCurrentRequestRotationIndex(request);
+                    auto& request = (*get_request)(state);
+                    auto list     = request.GetRotationDataList();
+                    size_t index  = state.GetCurrentRequestRotationIndex(&request);
 
                     if (index + 1 == list.size()) return list.back().ToString();
 

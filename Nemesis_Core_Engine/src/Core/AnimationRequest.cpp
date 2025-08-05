@@ -185,6 +185,8 @@ Vec<const nemesis::AnimationRequest*> nemesis::AnimationRequest::GetRequests() c
 
 void nemesis::AnimationRequest::AddRequest(UPtr<nemesis::AnimationRequest>&& request)
 {
+    if (!request) return;
+
     request->Parents = Parents;
     request->Parents.emplace_back(this);
     Requests.emplace_back(std::move(request));

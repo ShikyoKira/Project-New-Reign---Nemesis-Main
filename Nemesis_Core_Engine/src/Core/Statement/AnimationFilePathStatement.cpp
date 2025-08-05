@@ -26,8 +26,8 @@ nemesis::AnimationFilePathStatement::AnimationFilePathStatement(const std::strin
 
             GetValueFunction = [get_request_func](nemesis::CompileState& state)
             {
-                auto request = (*get_request_func)(state);
-                return nemesis::to_utf8_string(request->GetAnimationFilePath());
+                auto& request = (*get_request_func)(state);
+                return nemesis::to_utf8_string(request.GetAnimationFilePath());
             };
             break;
         }

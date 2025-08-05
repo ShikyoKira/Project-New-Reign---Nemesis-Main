@@ -223,39 +223,39 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse3Components(
 {
     const std::string& name = Components.back();
     SPtr<std::function<bool(nemesis::CompileState&)>> callback_requests;
-    std::function<bool(nemesis::CompileState&, const nemesis::AnimationRequest*)> callback;
+    std::function<bool(nemesis::CompileState&, const nemesis::AnimationRequest&)> callback;
 
     if (IsComplexComponent(name))
     {
         const auto& dynamic_name = DynamicComponents.emplace_back(name, LineNum, FilePath, manager);
         callback                 = [templt_class, dynamic_name](nemesis::CompileState& state,
-                                                const nemesis::AnimationRequest* request)
+                                                const nemesis::AnimationRequest& request)
         {
             const std::string name = dynamic_name.GetValue(state);
 
-            if (name == "@MotionData") return !request->GetMotionDataList().empty();
+            if (name == "@MotionData") return !request.GetMotionDataList().empty();
 
-            if (name == "@RotationData") return !request->GetRotationDataList().empty();
+            if (name == "@RotationData") return !request.GetRotationDataList().empty();
 
-            if (templt_class->GetModel(name)) return request->GetOption(name) != nullptr;
+            if (templt_class->GetModel(name)) return request.GetOption(name) != nullptr;
 
             throw ConditionSyntaxError("Unsupported option name '" + name + "'");
         };
     }
     else if (name == "@MotionData")
     {
-        callback = [](nemesis::CompileState& state, const nemesis::AnimationRequest* request)
-        { return !request->GetMotionDataList().empty(); };
+        callback = [](nemesis::CompileState& state, const nemesis::AnimationRequest& request)
+        { return !request.GetMotionDataList().empty(); };
     }
     else if (name == "@RotationData")
     {
-        callback = [](nemesis::CompileState& state, const nemesis::AnimationRequest* request)
-        { return !request->GetRotationDataList().empty(); };
+        callback = [](nemesis::CompileState& state, const nemesis::AnimationRequest& request)
+        { return !request.GetRotationDataList().empty(); };
     }
     else if (templt_class->GetModel(name))
     {
-        callback = [&name](nemesis::CompileState& state, const nemesis::AnimationRequest* request)
-        { return request->GetOption(name) != nullptr; };
+        callback = [&name](nemesis::CompileState& state, const nemesis::AnimationRequest& request)
+        { return request.GetOption(name) != nullptr; };
     }
     else
     {
@@ -295,16 +295,12 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse4Components(
         {
             const std::string name = dynamic_name.GetValue(state);
             const std::string& key = (*get_key)(state);
+            auto& request          = (*get_request_func)(state);
 
-            if (name == "@Map")
-            {
-                auto request = (*get_request_func)(state);
-                return !request->GetMapValueList(key).empty();
-            }
+            if (name == "@Map") return !request.GetMapValueList(key).empty();
 
             size_t index  = std::stoul(key);
-            auto* request = (*get_request_func)(state);
-            auto& options = request->GetOptions(name);
+            auto& options = request.GetOptions(name);
             return index < options.size() && options[index] != nullptr;
         };
         return;
@@ -314,8 +310,8 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse4Components(
     {
         IsTrueFunction = [get_request_func, get_key = std::move(get_key)](nemesis::CompileState& state)
         {
-            auto request = (*get_request_func)(state);
-            return !request->GetMapValueList((*get_key)(state)).empty();
+            auto& request = (*get_request_func)(state);
+            return !request.GetMapValueList((*get_key)(state)).empty();
         };
         return;
     }
@@ -325,8 +321,8 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse4Components(
     IsTrueFunction = [get_request_func, &name, get_key = std::move(get_key)](nemesis::CompileState& state)
     {
         size_t index  = std::stoul((*get_key)(state));
-        auto* request = (*get_request_func)(state);
-        auto& options = request->GetOptions(name);
+        auto& request = (*get_request_func)(state);
+        auto& options = request.GetOptions(name);
         return index < options.size() && options[index] != nullptr;
     };
 }
@@ -419,7 +415,7 @@ nemesis::ConditionalStatement::ConditionalAnimationRequest::NotEqualsTo(
     return new ConditionalAnimationRequestComparer(this, request, true);
 }
 
-const nemesis::AnimationRequest*
+const nemesis::AnimationRequest&
 nemesis::ConditionalStatement::ConditionalAnimationRequest::GetRequest(nemesis::CompileState& state) const
 {
     return GetRequestFunction(state);
@@ -584,7 +580,7 @@ bool nemesis::ConditionalStatement::ConditionalAnimationRequestComparer::IsTrue(
 
     if (rst_ptr) return *rst_ptr;
 
-    bool rst = (Variable1->GetRequest(state) == Variable2->GetRequest(state)) != Negative;
+    bool rst = (&Variable1->GetRequest(state) == &Variable2->GetRequest(state)) != Negative;
 
     state.CacheConditionResult(expr, rst);
     return rst;

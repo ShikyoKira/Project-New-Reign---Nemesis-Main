@@ -93,9 +93,9 @@ namespace nemesis
         const nemesis::AnimationRequest* GetNextRequest(const std::string& group) const;
         const nemesis::AnimationRequest* GetBackRequest(const std::string& group) const;
 
-        void QueueCurrentRequest(const std::string& group, const nemesis::AnimationRequest* request);
+        void QueueCurrentRequest(const std::string& group, const nemesis::AnimationRequest& request);
         void DequeCurrentRequest(const std::string& group);
-        const nemesis::AnimationRequest* GetCurrentRequest(const std::string& group) const;
+        const nemesis::AnimationRequest& GetCurrentRequest(const std::string& group) const;
 
         void QueueChildRequestList(const std::string& group, const Vec<const nemesis::AnimationRequest*>& requests);
         void DequeChildRequestList(const std::string& group) noexcept;

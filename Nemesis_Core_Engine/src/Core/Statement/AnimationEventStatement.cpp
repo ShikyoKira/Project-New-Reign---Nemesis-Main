@@ -29,8 +29,8 @@ nemesis::AnimationEventStatement::AnimationEventStatement(const std::string& exp
 
             GetValueFunction = [get_request_func](nemesis::CompileState& state)
             {
-                auto request = (*get_request_func)(state);
-                return request->GetAnimationEvent();
+                auto& request = (*get_request_func)(state);
+                return request.GetAnimationEvent();
             };
             break;
         }

@@ -226,9 +226,9 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
                             get_index    = std::move(get_index),
                             uptr_manager = std::move(uptr_manager)](nemesis::CompileState& state)
         {
-            auto key     = (*get_key)(state);
-            auto request = (*get_request)(state);
-            auto list    = request->GetMapValueList(key);
+            auto key      = (*get_key)(state);
+            auto& request = (*get_request)(state);
+            auto list     = request.GetMapValueList(key);
 
             if (list.empty()) return std::string("");
 
@@ -255,7 +255,7 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
                     ThrowInaccessibleError("Unable to get target map value from queue");
                 }
 
-                return state.GetCurrentRequestMapValue((*get_request)(state), key);
+                return state.GetCurrentRequestMapValue(&(*get_request)(state), key);
             }
 
             switch (index_str.front())
@@ -275,7 +275,7 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
                         ThrowInaccessibleError("Unable to get target map value from queue");
                     }
 
-                    auto index = state.GetCurrentRequestMapIndex(request, key);
+                    auto index = state.GetCurrentRequestMapIndex(&request, key);
 
                     if (index == 0) return *list.front();
 
@@ -288,7 +288,7 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
                         ThrowInaccessibleError("Unable to get target map value from queue");
                     }
 
-                    auto index = state.GetCurrentRequestMapIndex(request, key);
+                    auto index = state.GetCurrentRequestMapIndex(&request, key);
 
                     if (index + 1 == list.size()) return *list.back();
 
@@ -307,8 +307,8 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
         GetValueFunction
             = [this, get_key = std::move(get_key), get_request, index](nemesis::CompileState& state)
         {
-            auto request = (*get_request)(state);
-            auto list    = request->GetMapValueList((*get_key)(state));
+            auto& request = (*get_request)(state);
+            auto list     = request.GetMapValueList((*get_key)(state));
 
             if (list.empty()) return std::string("");
 
@@ -324,7 +324,7 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
     if (index_str == "")
     {
         GetValueFunction = [get_key = std::move(get_key), get_request](nemesis::CompileState& state)
-        { return state.GetCurrentRequestMapValue((*get_request)(state), (*get_key)(state)); };
+        { return state.GetCurrentRequestMapValue(&(*get_request)(state), (*get_key)(state)); };
     }
     else
     {
@@ -334,8 +334,8 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
             {
                 GetValueFunction = [get_key = std::move(get_key), get_request](nemesis::CompileState& state)
                 {
-                    auto request = (*get_request)(state);
-                    auto list    = request->GetMapValueList((*get_key)(state));
+                    auto& request = (*get_request)(state);
+                    auto list     = request.GetMapValueList((*get_key)(state));
 
                     if (list.empty()) return std::string("");
 
@@ -347,8 +347,8 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
             {
                 GetValueFunction = [get_key = std::move(get_key), get_request](nemesis::CompileState& state)
                 {
-                    auto request = (*get_request)(state);
-                    auto list    = request->GetMapValueList((*get_key)(state));
+                    auto& request = (*get_request)(state);
+                    auto list     = request.GetMapValueList((*get_key)(state));
 
                     if (list.empty()) return std::string("");
 
@@ -360,10 +360,10 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
             {
                 GetValueFunction = [get_key = std::move(get_key), get_request](nemesis::CompileState& state)
                 {
-                    auto key     = (*get_key)(state);
-                    auto request = (*get_request)(state);
-                    auto list    = request->GetMapValueList(key);
-                    size_t index = state.GetCurrentRequestMapIndex(request, key);
+                    auto key      = (*get_key)(state);
+                    auto& request = (*get_request)(state);
+                    auto list     = request.GetMapValueList(key);
+                    size_t index  = state.GetCurrentRequestMapIndex(&request, key);
 
                     if (index == 0) return *list.front();
 
@@ -375,10 +375,10 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
             {
                 GetValueFunction = [get_key = std::move(get_key), get_request](nemesis::CompileState& state)
                 {
-                    auto key     = (*get_key)(state);
-                    auto request = (*get_request)(state);
-                    auto list    = request->GetMapValueList(key);
-                    size_t index = state.GetCurrentRequestMapIndex(request, key);
+                    auto key      = (*get_key)(state);
+                    auto& request = (*get_request)(state);
+                    auto list     = request.GetMapValueList(key);
+                    size_t index  = state.GetCurrentRequestMapIndex(&request, key);
 
                     if (index + 1 == list.size()) return *list.back();
 

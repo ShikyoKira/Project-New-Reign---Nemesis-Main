@@ -1,8 +1,8 @@
 #include <sstream>
 
-#include "Core/Statement/MotionDataStatement.h"
 #include "Core/CompileState.h"
 #include "Core/SemanticManager.h"
+#include "Core/Statement/MotionDataStatement.h"
 
 #include "Utilities/Algorithm.h"
 
@@ -205,8 +205,8 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
             = [this, get_request, get_index = std::move(get_index), uptr_manager = std::move(uptr_manager)](
                   nemesis::CompileState& state)
         {
-            auto request = (*get_request)(state);
-            auto list    = request->GetMotionDataList();
+            auto& request = (*get_request)(state);
+            auto list     = request.GetMotionDataList();
 
             if (list.empty()) return std::string("");
 
@@ -235,7 +235,7 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
                     ThrowInaccessibleError("Unable to get target motion data from queue");
                 }
 
-                return state.GetCurrentRequestMotionData(request);
+                return state.GetCurrentRequestMotionData(&request);
             }
 
             switch (index_str.front())
@@ -255,7 +255,7 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
                         ThrowInaccessibleError("Unable to get target motion data from queue");
                     }
 
-                    size_t index = state.GetCurrentRequestMotionIndex(request);
+                    size_t index = state.GetCurrentRequestMotionIndex(&request);
 
                     if (index == 0) return list.front().ToString();
 
@@ -268,7 +268,7 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
                         ThrowInaccessibleError("Unable to get target motion data from queue");
                     }
 
-                    size_t index = state.GetCurrentRequestMotionIndex(request);
+                    size_t index = state.GetCurrentRequestMotionIndex(&request);
 
                     if (index + 1 == list.size()) return list.back().ToString();
 
@@ -286,8 +286,8 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
         size_t index     = std::stoul(index_str);
         GetValueFunction = [get_request, index](nemesis::CompileState& state)
         {
-            auto request = (*get_request)(state);
-            auto list    = request->GetMotionDataList();
+            auto& request = (*get_request)(state);
+            auto list     = request.GetMotionDataList();
 
             if (list.empty()) return std::string("");
 
@@ -300,8 +300,8 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
     {
         GetValueFunction = [get_request](nemesis::CompileState& state)
         {
-            auto request = (*get_request)(state);
-            auto list    = request->GetMotionDataList();
+            auto& request = (*get_request)(state);
+            auto list     = request.GetMotionDataList();
             return std::to_string(list.size());
         };
         return true;
@@ -313,8 +313,8 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
     {
         GetValueFunction = [get_request](nemesis::CompileState& state)
         {
-            auto request = (*get_request)(state);
-            return state.GetCurrentRequestMotionData(request);
+            auto& request = (*get_request)(state);
+            return state.GetCurrentRequestMotionData(&request);
         };
     }
     else
@@ -325,8 +325,8 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
             {
                 GetValueFunction = [get_request](nemesis::CompileState& state)
                 {
-                    auto request = (*get_request)(state);
-                    auto list    = request->GetMotionDataList();
+                    auto& request = (*get_request)(state);
+                    auto list     = request.GetMotionDataList();
 
                     if (list.empty()) return std::string("");
 
@@ -338,8 +338,8 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
             {
                 GetValueFunction = [get_request](nemesis::CompileState& state)
                 {
-                    auto request = (*get_request)(state);
-                    auto list    = request->GetMotionDataList();
+                    auto& request = (*get_request)(state);
+                    auto list     = request.GetMotionDataList();
 
                     if (list.empty()) return std::string("");
 
@@ -351,9 +351,9 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
             {
                 GetValueFunction = [get_request](nemesis::CompileState& state)
                 {
-                    auto request = (*get_request)(state);
-                    auto list    = request->GetMotionDataList();
-                    size_t index = state.GetCurrentRequestMotionIndex(request);
+                    auto& request = (*get_request)(state);
+                    auto list     = request.GetMotionDataList();
+                    size_t index  = state.GetCurrentRequestMotionIndex(&request);
 
                     if (index == 0) return list.front().ToString();
 
@@ -365,9 +365,9 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
             {
                 GetValueFunction = [get_request](nemesis::CompileState& state)
                 {
-                    auto request = (*get_request)(state);
-                    auto list    = request->GetMotionDataList();
-                    size_t index = state.GetCurrentRequestMotionIndex(request);
+                    auto& request = (*get_request)(state);
+                    auto list     = request.GetMotionDataList();
+                    size_t index  = state.GetCurrentRequestMotionIndex(&request);
 
                     if (index + 1 == list.size()) return list.back().ToString();
 
@@ -429,7 +429,7 @@ bool nemesis::MotionDataStatement::TryParseExtraComponents(const nemesis::Semant
 
     if (!is_only_number(index_str)) return false;
 
-    size_t index     = std::stoul(index_str);
+    size_t index = std::stoul(index_str);
     GetValueFunction
         = [this, inner_get_func = std::move(GetValueFunction), index](nemesis::CompileState& state)
     {

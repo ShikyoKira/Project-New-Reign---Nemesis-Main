@@ -24,8 +24,8 @@ nemesis::ListNameStatement::ListNameStatement(const std::string& expression,
 
             GetValueFunction = [get_request_func](nemesis::CompileState& state)
             {
-                auto request = (*get_request_func)(state);
-                return request->GetListName();
+                auto& request = (*get_request_func)(state);
+                return request.GetListName();
             };
             break;
         }

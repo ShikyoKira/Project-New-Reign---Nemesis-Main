@@ -9,7 +9,7 @@ namespace nemesis
 	struct CompositeStatement : public nemesis::Statement
     {
     private:
-        const nemesis::AnimationRequest* GetAnimationRequest(const std::string& index_str,
+        const nemesis::AnimationRequest& GetAnimationRequest(const std::string& index_str,
                                                              const std::string& templt_name,
                                                              size_t templt_num,
                                                              nemesis::CompileState& state,
@@ -40,10 +40,10 @@ namespace nemesis
         SPtr<std::function<bool(nemesis::CompileState&)>> CallbackTargetRequests(
             const nemesis::TemplateClass& templt_class,
             const nemesis::SemanticManager& manager,
-            const std::function<bool(nemesis::CompileState&, const nemesis::AnimationRequest*)>& callback)
+            const std::function<bool(nemesis::CompileState&, const nemesis::AnimationRequest&)>& callback)
             override;
 
-        SPtr<std::function<const nemesis::AnimationRequest*(nemesis::CompileState&)>>
+        SPtr<std::function<const nemesis::AnimationRequest&(nemesis::CompileState&)>>
         GetTargetRequest(const nemesis::TemplateClass& templt_class,
                          const nemesis::SemanticManager& manager) override;
 

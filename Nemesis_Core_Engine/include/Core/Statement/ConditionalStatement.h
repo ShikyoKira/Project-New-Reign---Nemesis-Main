@@ -94,7 +94,7 @@ namespace nemesis
         struct ConditionalAnimationRequest : public nemesis::Statement, public nemesis::NonCopyableStruct
         {
         private:
-            std::function<const nemesis::AnimationRequest*(nemesis::CompileState&)> GetRequestFunction;
+            std::function<const nemesis::AnimationRequest&(nemesis::CompileState&)> GetRequestFunction;
 
         public:
             ConditionalAnimationRequest(const std::string& expression,
@@ -109,7 +109,7 @@ namespace nemesis
             nemesis::ConditionalStatement::ConditionalAnimationRequestComparer*
             NotEqualsTo(ConditionalAnimationRequest* request) noexcept;
 
-            const nemesis::AnimationRequest* GetRequest(nemesis::CompileState& state) const;
+            const nemesis::AnimationRequest& GetRequest(nemesis::CompileState& state) const;
 
             static bool IsAnimationRequest(const std::string& term,
                                            const nemesis::TemplateObject& template_object,

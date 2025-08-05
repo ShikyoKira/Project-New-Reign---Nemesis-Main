@@ -27,8 +27,8 @@ nemesis::AnimationBaseFilenameStatement::AnimationBaseFilenameStatement(
 
             GetValueFunction = [get_request_func](nemesis::CompileState& state)
             {
-                auto request = (*get_request_func)(state);
-                return nemesis::to_utf8_string(request->GetAnimationFilePath().stem());
+                auto& request = (*get_request_func)(state);
+                return nemesis::to_utf8_string(request.GetAnimationFilePath().stem());
             };
             break;
         }

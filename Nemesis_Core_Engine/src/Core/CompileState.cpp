@@ -119,11 +119,11 @@ void nemesis::CompileState::SetBaseRequest(const nemesis::AnimationRequest* requ
     auto& parents = request->GetParents();
     auto& name    = request->GetTemplateName();
 
-    QueueCurrentRequest(name + "_" + std::to_string(parents.size() + 1), request);
+    QueueCurrentRequest(name + "_" + std::to_string(parents.size() + 1), *request);
 
     for (size_t i = 0; i < parents.size(); ++i)
     {
-        QueueCurrentRequest(name + "_" + std::to_string(i + 1), parents[i]);
+        QueueCurrentRequest(name + "_" + std::to_string(i + 1), *parents[i]);
     }
 }
 
@@ -144,9 +144,9 @@ const nemesis::AnimationRequest* nemesis::CompileState::GetLastRequest(const std
 
 const nemesis::AnimationRequest* nemesis::CompileState::GetNextRequest(const std::string& group) const
 {
-    auto request = GetCurrentRequest(group);
-    auto parents = request->GetParents();
-    size_t index = request->GetIndex() + 1;
+    auto& request = GetCurrentRequest(group);
+    auto parents  = request.GetParents();
+    size_t index  = request.GetIndex() + 1;
 
     if (!parents.empty())
     {
@@ -157,7 +157,7 @@ const nemesis::AnimationRequest* nemesis::CompileState::GetNextRequest(const std
         return requests[index];
     }
 
-    auto& name     = request->GetTemplateName();
+    auto& name     = request.GetTemplateName();
     auto& requests = GetRequests(name);
 
     if (index >= requests.size()) return nullptr;
@@ -167,12 +167,12 @@ const nemesis::AnimationRequest* nemesis::CompileState::GetNextRequest(const std
 
 const nemesis::AnimationRequest* nemesis::CompileState::GetBackRequest(const std::string& group) const
 {
-    auto request = GetCurrentRequest(group);
-    size_t index = request->GetIndex() - 1;
+    auto& request = GetCurrentRequest(group);
+    size_t index  = request.GetIndex() - 1;
 
     if (index < 0) return nullptr;
 
-    auto parents = request->GetParents();
+    auto parents = request.GetParents();
 
     if (!parents.empty())
     {
@@ -180,18 +180,18 @@ const nemesis::AnimationRequest* nemesis::CompileState::GetBackRequest(const std
         return requests[index];
     }
 
-    auto& name     = request->GetTemplateName();
+    auto& name     = request.GetTemplateName();
     auto& requests = GetRequests(name);
     return requests[index];
 }
 
 void nemesis::CompileState::QueueCurrentRequest(const std::string& group,
-                                                const nemesis::AnimationRequest* request)
+                                                const nemesis::AnimationRequest& request)
 {
-    CurrentRequest[group].emplace_back(request);
-    auto requests = request->GetRequests();
-    auto parents  = request->GetParents();
-    auto& name    = request->GetTemplateName();
+    CurrentRequest[group].emplace_back(&request);
+    auto requests = request.GetRequests();
+    auto parents  = request.GetParents();
+    auto& name    = request.GetTemplateName();
 
     if (parents.empty())
     {
@@ -254,11 +254,11 @@ void nemesis::CompileState::DequeCurrentRequest(const std::string& group)
     CurrentRequest[group].pop_back();
 }
 
-const nemesis::AnimationRequest* nemesis::CompileState::GetCurrentRequest(const std::string& group) const
+const nemesis::AnimationRequest& nemesis::CompileState::GetCurrentRequest(const std::string& group) const
 {
     auto itr = CurrentRequest.find(group);
 
-    if (itr != CurrentRequest.end()) return itr->second.back();
+    if (itr != CurrentRequest.end()) return *itr->second.back();
 
     throw std::runtime_error("Request group '" + group + "' does not exist in the current context");
 }

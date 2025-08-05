@@ -59,7 +59,7 @@ nemesis::Statement::Statement(const nemesis::Statement& statement)
 SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::Statement::CallbackTargetRequests(
     const nemesis::TemplateClass& templt_class,
     const nemesis::SemanticManager& manager,
-    const std::function<bool(nemesis::CompileState&, const nemesis::AnimationRequest*)>& callback)
+    const std::function<bool(nemesis::CompileState&, const nemesis::AnimationRequest&)>& callback)
 {
     size_t num        = GetTemplateNumber(templt_class);
     auto& templt_name = templt_class.GetName();
@@ -87,7 +87,7 @@ SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::Statement::CallbackTa
                     }
                     else
                     {
-                        request = state.GetCurrentRequest(templt_code);
+                        request = &state.GetCurrentRequest(templt_code);
                     }
 
                     auto parents = request->GetParents();
@@ -97,7 +97,7 @@ SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::Statement::CallbackTa
                     {
                         for (auto& request : parents.back()->GetRequests())
                         {
-                            if (!callback(state, request)) continue;
+                            if (!callback(state, *request)) continue;
 
                             return true;
                         }
@@ -107,7 +107,7 @@ SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::Statement::CallbackTa
 
                     for (auto& request : state.GetRequests(request->GetTemplateName()))
                     {
-                        if (!callback(state, request)) continue;
+                        if (!callback(state, *request)) continue;
 
                         return true;
                     }
@@ -133,7 +133,7 @@ SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::Statement::CallbackTa
                 }
                 else
                 {
-                    request = state.GetCurrentRequest(templt_code);
+                    request = &state.GetCurrentRequest(templt_code);
                 }
 
                 auto parents = request->GetParents();
@@ -147,7 +147,7 @@ SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::Statement::CallbackTa
 
                     for (auto& request : req_list)
                     {
-                        if (callback(state, request)) continue;
+                        if (callback(state, *request)) continue;
 
                         return false;
                     }
@@ -161,7 +161,7 @@ SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::Statement::CallbackTa
 
                 for (auto& request : collection)
                 {
-                    if (callback(state, request)) continue;
+                    if (callback(state, *request)) continue;
 
                     return false;
                 }
@@ -176,7 +176,7 @@ SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::Statement::CallbackTa
         { return callback(state, (*get_request)(state)); });
 }
 
-SPtr<std::function<const nemesis::AnimationRequest*(nemesis::CompileState&)>>
+SPtr<std::function<const nemesis::AnimationRequest&(nemesis::CompileState&)>>
 nemesis::Statement::GetTargetRequest(const nemesis::TemplateClass& templt_class,
                                      const nemesis::SemanticManager& manager)
 {
@@ -190,34 +190,35 @@ nemesis::Statement::GetTargetRequest(const nemesis::TemplateClass& templt_class,
     }
 
     const std::string& index_str = Components[1];
-    SPtr<std::function<const nemesis::AnimationRequest*(nemesis::CompileState&)>> rst;
+    SPtr<std::function<const nemesis::AnimationRequest&(nemesis::CompileState&)>> rst;
 
     if (index_str == "")
     {
-        rst = std::make_shared<std::function<const nemesis::AnimationRequest*(nemesis::CompileState&)>>(
-            [&templt_code](nemesis::CompileState& state) { return state.GetCurrentRequest(templt_code); });
+        rst = std::make_shared<std::function<const nemesis::AnimationRequest&(nemesis::CompileState&)>>(
+            [&templt_code](nemesis::CompileState& state) -> const nemesis::AnimationRequest&
+            { return state.GetCurrentRequest(templt_code); });
     }
     else if (is_only_number(index_str))
     {
         size_t index = std::stoul(index_str);
-        rst = std::make_shared<std::function<const nemesis::AnimationRequest*(nemesis::CompileState&)>>(
-            [this, &templt_code, index](nemesis::CompileState& state)
+        rst = std::make_shared<std::function<const nemesis::AnimationRequest&(nemesis::CompileState&)>>(
+            [this, &templt_code, index](nemesis::CompileState& state) -> const nemesis::AnimationRequest&
             {
-                auto request = state.GetCurrentRequest(templt_code);
-                auto parents = request->GetParents();
+                auto& request = state.GetCurrentRequest(templt_code);
+                auto parents  = request.GetParents();
 
                 if (!parents.empty())
                 {
                     auto list = parents.back()->GetRequests();
 
-                    if (index < list.size()) return list[index];
+                    if (index < list.size()) return *list[index];
 
                     ThrowInvalidError("Index is larger than list");
                 }
 
-                auto& collection = state.GetRequests(request->GetTemplateName());
+                auto& collection = state.GetRequests(request.GetTemplateName());
 
-                if (index < collection.size()) return collection[index];
+                if (index < collection.size()) return *collection[index];
 
                 ThrowInvalidError("Index is larger than list");
             });
@@ -233,17 +234,17 @@ nemesis::Statement::GetTargetRequest(const nemesis::TemplateClass& templt_class,
             case 'F':
             {
                 rst = std::make_shared<
-                    std::function<const nemesis::AnimationRequest*(nemesis::CompileState&)>>(
-                    [&templt_code](nemesis::CompileState& state)
-                    { return state.GetFirstRequest(templt_code); });
+                    std::function<const nemesis::AnimationRequest&(nemesis::CompileState&)>>(
+                    [&templt_code](nemesis::CompileState& state) -> const nemesis::AnimationRequest&
+                    { return *state.GetFirstRequest(templt_code); });
                 break;
             }
             case 'L':
             {
                 rst = std::make_shared<
-                    std::function<const nemesis::AnimationRequest*(nemesis::CompileState&)>>(
-                    [&templt_code](nemesis::CompileState& state)
-                    { return state.GetLastRequest(templt_code); });
+                    std::function<const nemesis::AnimationRequest&(nemesis::CompileState&)>>(
+                    [&templt_code](nemesis::CompileState& state) -> const nemesis::AnimationRequest&
+                    { return *state.GetLastRequest(templt_code); });
                 break;
             }
             case 'B':
@@ -254,9 +255,9 @@ nemesis::Statement::GetTargetRequest(const nemesis::TemplateClass& templt_class,
                 }
 
                 return std::make_shared<
-                    std::function<const nemesis::AnimationRequest*(nemesis::CompileState&)>>(
-                    [&templt_code](nemesis::CompileState& state)
-                    { return state.GetBackRequest(templt_code); });
+                    std::function<const nemesis::AnimationRequest&(nemesis::CompileState&)>>(
+                    [&templt_code](nemesis::CompileState& state) -> const nemesis::AnimationRequest&
+                    { return *state.GetBackRequest(templt_code); });
             }
             case 'N':
             {
@@ -266,9 +267,9 @@ nemesis::Statement::GetTargetRequest(const nemesis::TemplateClass& templt_class,
                 }
 
                 return std::make_shared<
-                    std::function<const nemesis::AnimationRequest*(nemesis::CompileState&)>>(
-                    [&templt_code](nemesis::CompileState& state)
-                    { return state.GetNextRequest(templt_code); });
+                    std::function<const nemesis::AnimationRequest&(nemesis::CompileState&)>>(
+                    [&templt_code](nemesis::CompileState& state) -> const nemesis::AnimationRequest&
+                    { return *state.GetNextRequest(templt_code); });
             }
             default:
                 ThrowSyntaxError("Invalid value (" + index_str + ")");
@@ -284,11 +285,19 @@ nemesis::Statement::GetTargetRequest(const nemesis::TemplateClass& templt_class,
     ThrowInaccessibleError("Unable to get target request from queue");
 }
 
+void nemesis::Statement::ThrowSyntaxError(const std::string& msg,
+                                          const std::string& expression,
+                                          size_t line_num,
+                                          const std::filesystem::path& filepath)
+{
+    throw nemesis::StatementException("Syntax Error: " + msg + " (Expression: " + expression
+                                      + ", Line: " + std::to_string(line_num)
+                                      + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+}
+
 void nemesis::Statement::ThrowSyntaxError(const std::string& msg) const
 {
-    throw nemesis::StatementException("Syntax Error: " + msg + " (Expression: " + Expression
-                                      + ", Line: " + std::to_string(LineNum)
-                                      + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+    ThrowSyntaxError(msg, Expression, LineNum, FilePath);
 }
 
 void nemesis::Statement::ThrowInvalidError(const std::string& msg) const
@@ -448,17 +457,6 @@ VecStr nemesis::Statement::SplitComponents(const std::string& value,
     bool in_bracket   = false;
     int bracket_count = 0;
 
-    static std::function<void(const std::string&, const std::string&, size_t, const std::filesystem::path&)>
-        syntax_error = [](const std::string& msg,
-                          const std::string& val,
-                          size_t linenum,
-                          const std::filesystem::path& filepath)
-    {
-        throw std::runtime_error("Syntax Error: " + msg + " (Expression: " + val
-                                 + ", Line: " + std::to_string(linenum)
-                                 + ", File: " + nemesis::to_utf8_string(filepath) + ")");
-    };
-
     for (const char& c : value)
     {
         if (c == '[')
@@ -479,7 +477,7 @@ VecStr nemesis::Statement::SplitComponents(const std::string& value,
         }
         else if (c == ']')
         {
-            if (!in_bracket) syntax_error("Unexpected ']'", value, linenum, filepath);
+            if (!in_bracket) ThrowSyntaxError("Unexpected ']'", value, linenum, filepath);
 
             if (--bracket_count > 0)
             {
@@ -496,7 +494,7 @@ VecStr nemesis::Statement::SplitComponents(const std::string& value,
         }
         else
         {
-            syntax_error("Unexpected character '" + std::string(1, c) + "'", value, linenum, filepath);
+            ThrowSyntaxError("Unexpected character '" + std::string(1, c) + "'", value, linenum, filepath);
         }
     }
 
@@ -505,9 +503,9 @@ VecStr nemesis::Statement::SplitComponents(const std::string& value,
         components.emplace_back(std::move(cur_com));
     }
 
-    if (in_bracket) syntax_error("Unclosed '['", value, linenum, filepath);
+    if (in_bracket) ThrowSyntaxError("Unclosed '['", value, linenum, filepath);
 
-    if (bracket_count > 0) syntax_error("Unmatched '['", value, linenum, filepath);
+    if (bracket_count > 0) ThrowSyntaxError("Unmatched '['", value, linenum, filepath);
 
     return components;
 }
