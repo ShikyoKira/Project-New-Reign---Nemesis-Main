@@ -35,6 +35,10 @@ nemesis::IfObject::IfObject(const nemesis::IfObject& if_obj)
     {
         ElseIfCollection.emplace_back(elseif_obj->Clone());
     }
+
+    if (!if_obj.ElseValue) return;
+
+    ElseValue = if_obj.ElseValue->CloneNObject();
 }
 
 nemesis::IfObject::IfObject(const std::string& expression,
