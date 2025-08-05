@@ -417,15 +417,21 @@ std::future<void> nemesis::TemplateClass::SetupAsync(nemesis::NObjectRepository&
 
                     if (nemesis::iequals(filename, LITERAL_PATH("animationdatasinglefile")))
                     {
-                        AddTemplateToAnimDataSingleFile(
-                            inner_path, *this, *repo.GetAnimDataSingleFile(), thread_pool);
+                        auto* file = repo.GetAnimDataSingleFile();
+
+                        if (!file) continue;
+
+                        AddTemplateToAnimDataSingleFile(inner_path, *this, *file, thread_pool);
                         continue;
                     }
 
                     if (nemesis::iequals(filename, LITERAL_PATH("animationdatasinglefile")))
                     {
-                        AddTemplateToAnimSetDataSingleFile(
-                            inner_path, *this, *repo.GetAnimSetDataSingleFile());
+                        auto* file = repo.GetAnimSetDataSingleFile();
+
+                        if (!file) continue;
+
+                        AddTemplateToAnimSetDataSingleFile(inner_path, *this, *file);
                         continue;
                     }
 
