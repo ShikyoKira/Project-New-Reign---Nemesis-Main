@@ -4,7 +4,6 @@
 #include "Core/Template/TemplateHkx.h"
 
 #include "Core/LineStream.h"
-#include "Core/NObjectParser.h"
 
 #include "Utilities/Algorithm.h"
 #include "Utilities/StringExtension.h"

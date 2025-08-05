@@ -14,7 +14,6 @@
 #include "Core/CompileState.h"
 #include "Core/ModClass.h"
 #include "Core/ModLine.h"
-#include "Core/NObjectParser.h"
 
 #include "AlternateAnimation/AlterAnim.h"
 
@@ -469,7 +468,7 @@ UPtr<nemesis::NObject> nemesis::HkxNode::ParseHkxNode(nemesis::LineStream& strea
 
                 if (ntoken.Type == nemesis::LineStream::TokenType::MOD_OPEN)
                 {
-                    auto objects = nemesis::NObjectParser::ParseHkxModObjects(stream, manager);
+                    auto objects = nemesis::NObject::ParseHkxModObjects(stream, manager);
 
                     for (auto& object : objects)
                     {
@@ -507,8 +506,8 @@ UPtr<nemesis::NObject> nemesis::HkxNode::ParseHkxNode(nemesis::LineStream& strea
 
                         Vec<UPtr<nemesis::NObject>> objects
                             = ntoken.Type != nemesis::LineStream::TokenType::MOD_OPEN
-                                  ? nemesis::NObjectParser::ParseHkxObjects(stream, manager)
-                                  : nemesis::NObjectParser::ParseHkxModObjects(stream, manager);
+                                  ? nemesis::NObject::ParseHkxObjects(stream, manager)
+                                  : nemesis::NObject::ParseHkxModObjects(stream, manager);
 
                         for (auto& object : objects)
                         {
@@ -522,8 +521,8 @@ UPtr<nemesis::NObject> nemesis::HkxNode::ParseHkxNode(nemesis::LineStream& strea
                 {
                     Vec<UPtr<nemesis::NObject>> objects
                         = ntoken.Type != nemesis::LineStream::TokenType::MOD_OPEN
-                              ? nemesis::NObjectParser::ParseHkxObjects(stream, manager)
-                              : nemesis::NObjectParser::ParseHkxModObjects(stream, manager);
+                              ? nemesis::NObject::ParseHkxObjects(stream, manager)
+                              : nemesis::NObject::ParseHkxModObjects(stream, manager);
 
                     for (auto& object : objects)
                     {
@@ -578,8 +577,8 @@ void nemesis::HkxNode::Deserialize(nemesis::HkxNode& hkx_node,
     {
         Vec<UPtr<nemesis::NObject>> objects
             = token.Type != nemesis::LineStream::TokenType::MOD_OPEN
-                  ? nemesis::NObjectParser::ParseHkxObjects(stream, manager)
-                  : nemesis::NObjectParser::ParseHkxModObjects(stream, manager);
+                  ? nemesis::NObject::ParseHkxObjects(stream, manager)
+                  : nemesis::NObject::ParseHkxModObjects(stream, manager);
 
         for (auto& object : objects)
         {

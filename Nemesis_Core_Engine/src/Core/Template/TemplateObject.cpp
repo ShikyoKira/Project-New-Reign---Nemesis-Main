@@ -1,7 +1,6 @@
 #include <regex>
 
 #include "Core/CompileState.h"
-#include "Core/NObjectParser.h"
 #include "Core/SemanticManager.h"
 
 #include "Core/Template.h"

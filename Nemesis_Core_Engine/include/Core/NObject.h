@@ -19,6 +19,11 @@ namespace nemesis
     public:
         virtual ~NObject() noexcept {}
 
+        static UPtr<nemesis::NObject> ParseLine(nemesis::LineStream& stream,
+                                                nemesis::SemanticManager& manager);
+        static UPtr<nemesis::NObject> ParseLine(nemesis::LineStream& stream,
+                                                nemesis::SemanticManager& manager,
+                                                std::function<void(const nemesis::Line&)> add_nline_event);
         static Vec<UPtr<nemesis::NObject>> ParseModObjects(nemesis::LineStream& stream,
                                                            nemesis::SemanticManager& manager);
         static Vec<UPtr<nemesis::NObject>>
@@ -46,6 +51,11 @@ namespace nemesis
         ParseAsCollection(nemesis::LineStream& stream,
                           nemesis::SemanticManager& manager,
                           std::function<void(const nemesis::Line&)> add_nline_event);
+
+        static Vec<UPtr<nemesis::NObject>> ParseHkxObjects(nemesis::LineStream& stream,
+                                                           nemesis::SemanticManager& manager);
+        static Vec<UPtr<nemesis::NObject>> ParseHkxModObjects(nemesis::LineStream& stream,
+                                                              nemesis::SemanticManager& manager);
 
         virtual void CompileTo(DeqNstr&, nemesis::CompileState&) const = 0;
         virtual void SerializeTo(DeqNstr&) const                       = 0;

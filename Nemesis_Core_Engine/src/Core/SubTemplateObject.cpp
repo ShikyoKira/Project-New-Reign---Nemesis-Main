@@ -1,6 +1,6 @@
 #include "Core/SubTemplateObject.h"
 #include "Core/CompileState.h"
-#include "Core/NObjectParser.h"
+#include "Core/LineStream.h"
 #include "Core/SemanticManager.h"
 
 #include "Utilities/Algorithm.h"
@@ -59,11 +59,11 @@ nemesis::SubTemplateObject::ParseFromFile(const std::filesystem::path& filepath)
 
         if (token.Type != nemesis::LineStream::TokenType::MOD_OPEN)
         {
-            col_ref.AddObject(nemesis::NObjectParser::ParseLine(stream, manager));
+            col_ref.AddObject(nemesis::NObject::ParseLine(stream, manager));
             continue;
         }
 
-        auto objects = nemesis::NObjectParser::ParseModObjects(stream, manager);
+        auto objects = nemesis::NObject::ParseModObjects(stream, manager);
 
         for (auto& object : objects)
         {
@@ -101,11 +101,11 @@ nemesis::SubTemplateObject::ParseFromFile(const std::filesystem::path& filepath,
 
                 if (token.Type != nemesis::LineStream::TokenType::MOD_OPEN)
                 {
-                    col_ptr->AddObject(nemesis::NObjectParser::ParseLine(stream, manager));
+                    col_ptr->AddObject(nemesis::NObject::ParseLine(stream, manager));
                     continue;
                 }
 
-                auto objects = nemesis::NObjectParser::ParseModObjects(stream, manager);
+                auto objects = nemesis::NObject::ParseModObjects(stream, manager);
 
                 for (auto& object : objects)
                 {

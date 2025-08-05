@@ -1,7 +1,5 @@
 #include "Core/Template/TemplateAnimDataClipData.h"
 
-#include "Core/NObjectParser.h"
-
 #include "Utilities/Algorithm.h"
 
 nemesis::TemplateAnimDataClipData::TemplateAnimDataClipData(

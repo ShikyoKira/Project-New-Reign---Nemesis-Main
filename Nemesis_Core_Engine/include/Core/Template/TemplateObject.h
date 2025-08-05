@@ -1,6 +1,9 @@
 #pragma once
 
-#include "Core/NObjectParser.h"
+#include "Core/CollectionObject.h"
+#include "Core/LineStream.h"
+#include "Core/NObject.h"
+#include "Core/SemanticManager.h"
 
 #include "Core/Template/TemplateClass.h"
 
@@ -50,7 +53,7 @@ namespace nemesis
 
             for (nemesis::LineStream stream(lines.begin(), lines.end()); !stream.IsEoF(); ++stream)
             {
-                data_ref.AddObject(nemesis::NObjectParser::ParseLine(stream, manager));
+                data_ref.AddObject(nemesis::NObject::ParseLine(stream, manager));
             }
 
             return templt;
@@ -89,7 +92,7 @@ namespace nemesis
 
                     for (nemesis::LineStream stream(lines.begin(), lines.end()); !stream.IsEoF(); ++stream)
                     {
-                        data_ref.AddObject(nemesis::NObjectParser::ParseLine(stream, manager));
+                        data_ref.AddObject(nemesis::NObject::ParseLine(stream, manager));
                     }
                 });
 
