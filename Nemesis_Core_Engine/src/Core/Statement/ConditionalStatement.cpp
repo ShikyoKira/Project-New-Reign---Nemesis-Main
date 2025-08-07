@@ -3,6 +3,9 @@
 
 #include "Core/Statement/ConditionalStatement.h"
 
+#include "Core/LineModifier/LineModifier.h"
+#include "Core/LineModifier/LineModifierFactory.h"
+
 #include "Utilities/Algorithm.h"
 #include "Utilities/StringExtension.h"
 
@@ -73,7 +76,13 @@ nemesis::ConditionalStatement::ConditionalString::ConditionalString(const std::s
         return;
     }
 
-    DynamicComponents.emplace_back(expression, linenum, filepath, manager);
+    for (auto& ch : expression)
+    {
+        Tokens.emplace_back(1, ch);
+    }
+
+    Modifier = nemesis::LineModifierFactory::BuildModifier(
+        1, expression.length(), expression, expression, linenum, filepath, manager);
 }
 
 nemesis::ConditionalStatement::ConditionalStringComparer*
@@ -90,7 +99,25 @@ nemesis::ConditionalStatement::ConditionalString::NotEqualsTo(ConditionalString*
 
 std::string nemesis::ConditionalStatement::ConditionalString::GetValue(nemesis::CompileState& state) const
 {
-    return DynamicComponents.empty() ? ConstantValue : DynamicComponents.back().GetValue(state);
+    try
+    {
+        if (!Modifier) return ConstantValue;
+
+        VecStr tokens(Tokens);
+        std::string merged;
+        Modifier->Apply(tokens, state);
+
+        for (auto& token : tokens)
+        {
+            merged.append(token);
+        }
+
+        return merged;
+    }
+    catch (const std::exception&)
+    {
+        return "";
+    }
 }
 
 void nemesis::ConditionalStatement::ConditionalBoolean::Parse1Component(
@@ -481,8 +508,8 @@ nemesis::ConditionalStatement::ConditionalOption::NotEqualsTo(ConditionalOption*
 
 bool nemesis::ConditionalStatement::ConditionalOption::IsOption(const std::string& expression,
                                                                 const nemesis::TemplateClass& templt_class,
-    size_t linenum,
-    const std::filesystem::path& filepath)
+                                                                size_t linenum,
+                                                                const std::filesystem::path& filepath)
 {
     auto components   = nemesis::Statement::SplitComponents(expression, linenum, filepath);
 

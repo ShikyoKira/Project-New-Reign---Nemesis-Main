@@ -46,6 +46,8 @@ namespace nemesis
         {
         private:
             std::string ConstantValue;
+            VecStr Tokens;
+            SPtr<nemesis::LineModifier> Modifier;
 
         public:
             ConditionalString(const std::string& expression,
