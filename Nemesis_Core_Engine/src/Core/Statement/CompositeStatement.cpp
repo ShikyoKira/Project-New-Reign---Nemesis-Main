@@ -242,6 +242,8 @@ SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::CompositeStatement::C
         [this, &dynamic_index, sptr_manager, &templt_code, &templt_name, templt_num, callback](
             nemesis::CompileState& state)
         {
+            try
+            {
             const std::string index_str = dynamic_index.GetValue(state);
 
             if (!nemesis::iequals(index_str, "ANY") && !nemesis::iequals(index_str, "ALL"))
@@ -310,6 +312,11 @@ SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::CompositeStatement::C
             }
 
             return true;
+            }
+            catch (const std::exception& ex)
+            {
+                ThrowSyntaxError(ex.what());
+            }
         });
 }
 
