@@ -624,7 +624,8 @@ nemesis::TemplateClass::CreateRequest(const std::string& list_name,
 
     if (!(ss >> component)) return nullptr;
 
-    request->SetAnimationFilePath(component);
+    // window's path separator is used for consistency
+    request->SetAnimationFilePath(nemesis::to_utf8_string(filepath.parent_path().stem()) + "\\" + component);
 
     while (ss >> component)
     {
