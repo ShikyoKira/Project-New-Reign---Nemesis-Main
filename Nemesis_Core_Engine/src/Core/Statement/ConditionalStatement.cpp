@@ -423,18 +423,17 @@ nemesis::ConditionalStatement::ConditionalAnimationRequest::GetRequest(nemesis::
 
 bool nemesis::ConditionalStatement::ConditionalAnimationRequest::IsAnimationRequest(
     const std::string& term,
-    const nemesis::TemplateObject& template_object,
+    const nemesis::TemplateClass& templt_class,
     size_t linenum,
     const std::filesystem::path& filepath)
 {
     auto components   = nemesis::Statement::SplitComponents(term, linenum, filepath);
-    auto templt_class = template_object.GetTemplateClass();
 
     switch (components.size())
     {
         case 2:
         {
-            auto& class_name = templt_class->GetName();
+            auto& class_name = templt_class.GetName();
             auto& first      = components[0];
 
             if (class_name.length() + 2 > first.length()) return false;
@@ -480,14 +479,12 @@ nemesis::ConditionalStatement::ConditionalOption::NotEqualsTo(ConditionalOption*
     return new ConditionOptionComparer(this, option, true);
 }
 
-bool nemesis::ConditionalStatement::ConditionalOption::IsOption(
-    const std::string& expression,
-    const nemesis::TemplateObject& template_object,
+bool nemesis::ConditionalStatement::ConditionalOption::IsOption(const std::string& expression,
+                                                                const nemesis::TemplateClass& templt_class,
     size_t linenum,
     const std::filesystem::path& filepath)
 {
     auto components   = nemesis::Statement::SplitComponents(expression, linenum, filepath);
-    auto templt_class = template_object.GetTemplateClass();
 
     switch (components.size())
     {
@@ -495,21 +492,21 @@ bool nemesis::ConditionalStatement::ConditionalOption::IsOption(
         case 2:
         {
             const std::string& name = components.front();
-            auto model              = templt_class->GetModel(name);
+            auto model              = templt_class.GetModel(name);
             return model;
         }
         case 3:
         case 4:
         {
             if (!std::regex_match(expression,
-                                  std::regex("^" + templt_class->GetName()
+                                  std::regex("^" + templt_class.GetName()
                                              + "_([1-9]+)\\[.*?\\](?:\\[.+?\\]|)(?:\\[.+?\\]|)?$")))
             {
                 return false;
             }
 
             const std::string& name = components[2];
-            auto model              = templt_class->GetModel(name);
+            auto model              = templt_class.GetModel(name);
             return model;
         }
         default:
@@ -914,10 +911,10 @@ nemesis::ConditionalStatement::ConditionalStatementParser::ParseFactor() const
                 if (negative) throw ConditionSyntaxError("Invalid character near \"" + token.Value + "\"");
 
                 Consume(TokenType::EQL);
-                auto& templt_obj = *SemanticManager.GetCurrentTemplate();
+                auto* templt_class = SemanticManager.GetCurrentTemplateClass();
 
                 if (nemesis::ConditionalStatement::ConditionalAnimationRequest::IsAnimationRequest(
-                        token.Value, templt_obj, LineNum, *FilePathPtr))
+                        token.Value, *templt_class, LineNum, *FilePathPtr))
                 {
                     req = new nemesis::ConditionalStatement::ConditionalAnimationRequest(
                         token.Value, LineNum, *FilePathPtr, SemanticManager);
@@ -927,7 +924,7 @@ nemesis::ConditionalStatement::ConditionalStatementParser::ParseFactor() const
                     return req->EqualsTo(req2);
                 }
                 else if (nemesis::ConditionalStatement::ConditionalOption::IsOption(
-                             token.Value, templt_obj, LineNum, *FilePathPtr))
+                             token.Value, *templt_class, LineNum, *FilePathPtr))
                 {
                     opt = new nemesis::ConditionalStatement::ConditionalOption(
                         token.Value, LineNum, *FilePathPtr, SemanticManager);
@@ -949,10 +946,10 @@ nemesis::ConditionalStatement::ConditionalStatementParser::ParseFactor() const
                 if (negative) throw ConditionSyntaxError("Invalid character near \"" + token.Value + "\"");
 
                 Consume(TokenType::NEQL);
-                auto& templt_obj = *SemanticManager.GetCurrentTemplate();
+                auto* templt_class = SemanticManager.GetCurrentTemplateClass();
 
                 if (nemesis::ConditionalStatement::ConditionalAnimationRequest::IsAnimationRequest(
-                        token.Value, *SemanticManager.GetCurrentTemplate(), LineNum, *FilePathPtr))
+                        token.Value, *templt_class, LineNum, *FilePathPtr))
                 {
                     req = new nemesis::ConditionalStatement::ConditionalAnimationRequest(
                         token.Value, LineNum, *FilePathPtr, SemanticManager);
@@ -962,7 +959,7 @@ nemesis::ConditionalStatement::ConditionalStatementParser::ParseFactor() const
                     return req->NotEqualsTo(req2);
                 }
                 else if (nemesis::ConditionalStatement::ConditionalOption::IsOption(
-                             token.Value, templt_obj, LineNum, *FilePathPtr))
+                             token.Value, *templt_class, LineNum, *FilePathPtr))
                 {
                     opt = new nemesis::ConditionalStatement::ConditionalOption(
                         token.Value, LineNum, *FilePathPtr, SemanticManager);

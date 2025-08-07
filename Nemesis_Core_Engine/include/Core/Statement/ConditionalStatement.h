@@ -112,7 +112,7 @@ namespace nemesis
             const nemesis::AnimationRequest& GetRequest(nemesis::CompileState& state) const;
 
             static bool IsAnimationRequest(const std::string& term,
-                                           const nemesis::TemplateObject& template_object,
+                                           const nemesis::TemplateClass& templt_class,
                                            size_t linenum,
                                            const std::filesystem::path& filepath);
         };
@@ -131,7 +131,7 @@ namespace nemesis
             NotEqualsTo(ConditionalOption* option) noexcept;
 
             static bool IsOption(const std::string& term,
-                                 const nemesis::TemplateObject& template_object,
+                                 const nemesis::TemplateClass& templt_class,
                                  size_t linenum,
                                  const std::filesystem::path& filepath);
         };
