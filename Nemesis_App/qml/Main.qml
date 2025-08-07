@@ -805,7 +805,7 @@ Window {
 
                 Timer {
                     id: delayFinisher1
-                    interval: 800
+                    interval: 200
                     running: false
                     repeat: false
                     onTriggered: {
@@ -815,7 +815,7 @@ Window {
 
                 Timer {
                     id: delayFinisher2
-                    interval: 1300
+                    interval: 1000
                     running: false
                     repeat: false
                     onTriggered: {
@@ -1240,6 +1240,16 @@ Window {
                             property: "width"
                             duration: 1000
                             easing.type: Easing.InOutQuint
+                            
+                            onFinished: {
+                                if (progressBarFill.width == progressBar.width) {
+                                    startZone.finish();
+
+                                    if (!appConfig.isDevMode()) {
+                                        preloadEngine();
+                                    }
+                                }
+                            }
                         }
                     }
 
@@ -1335,16 +1345,13 @@ Window {
                 }
 
                 onFinishedReceived: {
-                    startZone.finish();
-
-                    if (!appConfig.isDevMode()) {
-                        preloadEngine();
-                    }
                 }
 
                 onProgressUp: (step, max) => {
+                    progressBarAnimation.stop();
                     progressBarFill.completed = step / max == 1;
                     progressBarAnimation.to = progressBar.width * step / max;
+                    progressBarAnimation.duration = Math.min((progressBarAnimation.to - progressBarFill.width) * 5, 1000);
                     progressBarAnimation.start();
                 }
             }
