@@ -602,7 +602,7 @@ std::string nemesis::ConditionalStatement::ConditionalStringComparer::GetExpress
 {
     if (Expression.empty())
     {
-        Expression = First->GetExpression() + (Negative ? " != " : " == ") + First->GetExpression();
+        Expression = First->GetExpression() + (Negative ? " != " : " == ") + Second->GetExpression();
     }
 
     return Expression;
