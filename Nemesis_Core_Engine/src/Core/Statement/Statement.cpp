@@ -75,27 +75,14 @@ SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::Statement::CallbackTa
     if (nemesis::iequals(index_str, "ANY"))
     {
         return std::make_shared<std::function<bool(nemesis::CompileState&)>>(
-            [this, templt_code, callback](nemesis::CompileState& state)
+            [this, num, templt_name, templt_code, callback](nemesis::CompileState& state)
             {
                 try
                 {
-                    const nemesis::AnimationRequest* request;
-
-                    if (Components.front() == nemesis::to_utf8_string(FilePath.stem()))
+                    // Vacuously false: Default to false
+                    if (num == 1)
                     {
-                        request = state.GetBaseRequest();
-                    }
-                    else
-                    {
-                        request = &state.GetCurrentRequest(templt_code);
-                    }
-
-                    auto parents = request->GetParents();
-
-                    // Vacuous false: Default to false
-                    if (!parents.empty())
-                    {
-                        for (auto& request : parents.back()->GetRequests())
+                        for (auto& request : state.GetRequests(templt_name))
                         {
                             if (!callback(state, *request)) continue;
 
@@ -105,7 +92,19 @@ SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::Statement::CallbackTa
                         return false;
                     }
 
-                    for (auto& request : state.GetRequests(request->GetTemplateName()))
+                    auto* request = state.GetBaseRequest();
+                    const nemesis::AnimationRequest* parent;
+
+                    if (request->GetLevel() + 1 == num)
+                    {
+                        parent = request;
+                    }
+                    else
+                    {
+                        parent = &state.GetCurrentRequest(templt_code);
+                    }
+
+                    for (auto& request : parent->GetRequests())
                     {
                         if (!callback(state, *request)) continue;
 
@@ -123,27 +122,38 @@ SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::Statement::CallbackTa
     else if (nemesis::iequals(index_str, "ALL"))
     {
         return std::make_shared<std::function<bool(nemesis::CompileState&)>>(
-            [this, templt_code, callback](nemesis::CompileState& state)
+            [this, num, templt_name, templt_code, callback](nemesis::CompileState& state)
             {
-                const nemesis::AnimationRequest* request;
-
-                if (Components.front() == nemesis::to_utf8_string(FilePath.stem()))
+                try
                 {
-                    request = state.GetBaseRequest();
-                }
-                else
-                {
-                    request = &state.GetCurrentRequest(templt_code);
-                }
+                    // Vacuously true: Default to true
+                    if (num == 1)
+                    {
+                        auto& collection = state.GetRequests(templt_name);
 
-                auto parents = request->GetParents();
+                        for (auto& request : collection)
+                        {
+                            if (callback(state, *request)) continue;
 
-                // Vacuous false: Default to false
-                if (!parents.empty())
-                {
-                    auto req_list = parents.back()->GetRequests();
+                            return false;
+                        }
 
-                    if (req_list.empty()) return false;
+                        return true;
+                    }
+
+                    auto* request = state.GetBaseRequest();
+                    const nemesis::AnimationRequest* parent;
+
+                    if (request->GetLevel() + 1 == num)
+                    {
+                        parent = request;
+                    }
+                    else
+                    {
+                        parent = &state.GetCurrentRequest(templt_code);
+                    }
+
+                    auto req_list = parent->GetRequests();
 
                     for (auto& request : req_list)
                     {
@@ -154,19 +164,10 @@ SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::Statement::CallbackTa
 
                     return true;
                 }
-
-                auto& collection = state.GetRequests(request->GetTemplateName());
-
-                if (collection.empty()) return false;
-
-                for (auto& request : collection)
+                catch (const std::exception& ex)
                 {
-                    if (callback(state, *request)) continue;
-
-                    return false;
+                    ThrowSyntaxError(ex.what());
                 }
-
-                return true;
             });
     }
 
