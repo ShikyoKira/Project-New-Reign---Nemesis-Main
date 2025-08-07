@@ -5,6 +5,7 @@
 #include "Core/Statement/MotionDataStatement.h"
 
 #include "Utilities/Algorithm.h"
+#include "Utilities/StringExtension.h"
 
 bool nemesis::MotionDataStatement::TryParse2Components(const nemesis::SemanticManager& manager)
 {
@@ -17,11 +18,11 @@ bool nemesis::MotionDataStatement::TryParse2Components(const nemesis::SemanticMa
             [&dynamic_index](nemesis::CompileState& state) { return dynamic_index.GetValue(state); });
         auto uptr_manager = std::make_unique<nemesis::SemanticManager>(manager);
         GetValueFunction  = [this, get_index = std::move(get_index), uptr_manager = std::move(uptr_manager)](
-                               nemesis::CompileState& state)
+                               nemesis::CompileState& state) -> std::string
         {
             auto list = GetBaseRequest(state)->GetMotionDataList();
 
-            if (list.empty()) return std::string("");
+            if (list.empty()) return "";
 
             std::string index_str = (*get_index)(state);
 
@@ -35,6 +36,8 @@ bool nemesis::MotionDataStatement::TryParse2Components(const nemesis::SemanticMa
             }
 
             if (index_str == "SIZE") return std::to_string(list.size());
+
+            if (index_str == "ALL") return StringJoin(list, ' ');
 
             if (index_str.length() > 1)
             {
@@ -118,6 +121,16 @@ bool nemesis::MotionDataStatement::TryParse2Components(const nemesis::SemanticMa
         return true;
     }
 
+    if (index_str == "ALL")
+    {
+        GetValueFunction = [this](nemesis::CompileState& state)
+        {
+            auto list = GetBaseRequest(state)->GetMotionDataList();
+            return StringJoin(list, ' ');
+        };
+        return true;
+    }
+
     if (index_str.length() > 1) return false;
 
     if (index_str == "")
@@ -130,11 +143,11 @@ bool nemesis::MotionDataStatement::TryParse2Components(const nemesis::SemanticMa
         {
             case 'F':
             {
-                GetValueFunction = [this](nemesis::CompileState& state)
+                GetValueFunction = [this](nemesis::CompileState& state) -> std::string
                 {
                     auto list = GetBaseRequest(state)->GetMotionDataList();
 
-                    if (list.empty()) return std::string("");
+                    if (list.empty()) return "";
 
                     return list.front().ToString();
                 };
@@ -142,11 +155,11 @@ bool nemesis::MotionDataStatement::TryParse2Components(const nemesis::SemanticMa
             }
             case 'L':
             {
-                GetValueFunction = [this](nemesis::CompileState& state)
+                GetValueFunction = [this](nemesis::CompileState& state) -> std::string
                 {
                     auto list = GetBaseRequest(state)->GetMotionDataList();
 
-                    if (list.empty()) return std::string("");
+                    if (list.empty()) return "";
 
                     return list.back().ToString();
                 };
@@ -203,12 +216,12 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
         auto uptr_manager = std::make_unique<nemesis::SemanticManager>(manager);
         GetValueFunction
             = [this, get_request, get_index = std::move(get_index), uptr_manager = std::move(uptr_manager)](
-                  nemesis::CompileState& state)
+                  nemesis::CompileState& state) -> std::string
         {
             auto& request = (*get_request)(state);
             auto list     = request.GetMotionDataList();
 
-            if (list.empty()) return std::string("");
+            if (list.empty()) return "";
 
             std::string index_str = (*get_index)(state);
 
@@ -222,6 +235,8 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
             }
 
             if (index_str == "SIZE") return std::to_string(list.size());
+
+            if (index_str == "ALL") return StringJoin(list, ' ');
 
             if (index_str.length() > 1)
             {
@@ -307,6 +322,17 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
         return true;
     }
 
+    if (index_str == "ALL")
+    {
+        GetValueFunction = [get_request](nemesis::CompileState& state)
+        {
+            auto& request = (*get_request)(state);
+            auto list     = request.GetMotionDataList();
+            return StringJoin(list, ' ');
+        };
+        return true;
+    }
+
     if (index_str.length() > 1) return false;
 
     if (index_str == "")
@@ -323,12 +349,12 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
         {
             case 'F':
             {
-                GetValueFunction = [get_request](nemesis::CompileState& state)
+                GetValueFunction = [get_request](nemesis::CompileState& state) -> std::string
                 {
                     auto& request = (*get_request)(state);
                     auto list     = request.GetMotionDataList();
 
-                    if (list.empty()) return std::string("");
+                    if (list.empty()) return "";
 
                     return list.front().ToString();
                 };
@@ -336,12 +362,12 @@ bool nemesis::MotionDataStatement::TryParse4Components(const nemesis::SemanticMa
             }
             case 'L':
             {
-                GetValueFunction = [get_request](nemesis::CompileState& state)
+                GetValueFunction = [get_request](nemesis::CompileState& state) -> std::string
                 {
                     auto& request = (*get_request)(state);
                     auto list     = request.GetMotionDataList();
 
-                    if (list.empty()) return std::string("");
+                    if (list.empty()) return "";
 
                     return list.back().ToString();
                 };

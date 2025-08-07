@@ -12,11 +12,17 @@ void StringReplace_NC(std::string& _ch, const std::string& oldvalue, const std::
 
 void StringSplit(const std::string& line, VecStr& container);
 void StringSplit(const std::string& line, VecStr& container, char delimiter);
-void StringSplit(const std::string& line, VecStr& container, const std::string& delimiters);
+void StringSplit(const std::string& line, VecStr& container, const std::string& delimiter);
 
 VecStr StringSplit(const std::string& line);
 VecStr StringSplit(const std::string& line, char delimiter);
-VecStr StringSplit(const std::string& line, const std::string& delimiters);
+VecStr StringSplit(const std::string& line, const std::string& delimiter);
+
+std::string StringJoin(const VecStr& list, char delimiter);
+std::string StringJoin(const VecStr& list, const std::string& delimiter);
+
+std::string StringJoin(const VecNstr& list, char delimiter);
+std::string StringJoin(const VecNstr& list, const std::string& delimiter);
 
 // case sensitive. Use StringStartWith_NC for case insensitive function
 bool StringStartWith(const std::string_view& line, const std::string_view& start) noexcept;
@@ -41,11 +47,17 @@ void StringReplace_NC(std::wstring& _ch, const std::wstring& oldvalue, const std
 
 void StringSplit(const std::wstring& line, VecWstr& container);
 void StringSplit(const std::wstring& line, VecWstr& container, wchar_t delimiter);
-void StringSplit(const std::wstring& line, VecWstr& container, const std::wstring& delimiters);
+void StringSplit(const std::wstring& line, VecWstr& container, const std::wstring& delimiter);
 
 VecWstr StringSplit(const std::wstring& line);
 VecWstr StringSplit(const std::wstring& line, wchar_t delimiter);
-VecWstr StringSplit(const std::wstring& line, const std::wstring& delimiters);
+VecWstr StringSplit(const std::wstring& line, const std::wstring& delimiter);
+
+std::wstring StringJoin(const VecWstr& list, wchar_t delimiter);
+std::wstring StringJoin(const VecWstr& list, const std::wstring& delimiter);
+
+std::wstring StringJoin(const VecNwstr& list, wchar_t delimiter);
+std::wstring StringJoin(const VecNwstr& list, const std::wstring& delimiter);
 
 // case sensitive. Use StringStartWith_NC for case insensitive function
 bool StringStartWith(const std::wstring_view& line, const std::wstring_view& start) noexcept;

@@ -1,3 +1,5 @@
+#include <sstream>
+
 #include "Utilities/StringExtension.h"
 #include "Utilities/Algorithm.h"
 
@@ -83,14 +85,14 @@ void StringSplit(const std::string& line, VecStr& container, char delimiter)
     container.pop_back();
 }
 
-void StringSplit(const std::string& line, VecStr& container, const std::string& delimiters)
+void StringSplit(const std::string& line, VecStr& container, const std::string& delimiter)
 {
     container.clear();
     container.emplace_back();
 
     for (auto& each : line)
     {
-        if (delimiters.find(each) != NOT_FOUND)
+        if (delimiter.find(each) != NOT_FOUND)
         {
             container.emplace_back();
             continue;
@@ -119,6 +121,66 @@ VecStr StringSplit(const std::string& line, const std::string& delimiters)
     VecStr container;
     StringSplit(line, container, delimiters);
     return container;
+}
+
+std::string StringJoin(const VecStr& list, char delimiter)
+{
+    if (list.empty()) return "";
+
+    std::ostringstream os;
+    os << list.front();
+
+    for (size_t i = 1; i < list.size(); ++i)
+    {
+        os << delimiter << list[i];
+    }
+
+    return os.str();
+}
+
+std::string StringJoin(const VecStr& list, const std::string& delimiter)
+{
+    if (list.empty()) return "";
+
+    std::ostringstream os;
+    os << list.front();
+
+    for (size_t i = 1; i < list.size(); ++i)
+    {
+        os << delimiter << list[i];
+    }
+
+    return os.str();
+}
+
+std::string StringJoin(const VecNstr& list, char delimiter)
+{
+    if (list.empty()) return "";
+
+    std::ostringstream os;
+    os << list.front().ToString();
+
+    for (size_t i = 1; i < list.size(); ++i)
+    {
+        os << delimiter << list[i].ToString();
+    }
+
+    return os.str();
+}
+
+std::string StringJoin(const VecNstr& list, const std::string& delimiter)
+{
+    if (list.empty()) return "";
+
+    std::ostringstream os;
+    os << list.front().ToString();
+
+    for (size_t i = 1; i < list.size(); ++i)
+    {
+        os << delimiter << list[i].ToString();
+    }
+
+    return os.str();
 }
 
 bool StringStartWith(const std::string_view& line, const std::string_view& start) noexcept
@@ -207,14 +269,14 @@ void StringSplit(const std::wstring& line, VecWstr& container, wchar_t delimiter
     }
 }
 
-void StringSplit(const std::wstring& line, VecWstr& container, const std::wstring& delimiters)
+void StringSplit(const std::wstring& line, VecWstr& container, const std::wstring& delimiter)
 {
     container.clear();
     container.emplace_back(L"");
 
     for (auto& each : line)
     {
-        if (delimiters.find(each) != NOT_FOUND)
+        if (delimiter.find(each) != NOT_FOUND)
         {
             container.emplace_back(L"");
             continue;
@@ -238,11 +300,71 @@ VecWstr StringSplit(const std::wstring& line, wchar_t delimiter)
     return container;
 }
 
-VecWstr StringSplit(const std::wstring& line, const std::wstring& delimiters)
+VecWstr StringSplit(const std::wstring& line, const std::wstring& delimiter)
 {
     VecWstr container;
-    StringSplit(line, container, delimiters);
+    StringSplit(line, container, delimiter);
     return container;
+}
+
+std::wstring StringJoin(const VecWstr& list, wchar_t delimiter)
+{
+    if (list.empty()) return L"";
+
+    std::wostringstream os;
+    os << list.front();
+
+    for (size_t i = 1; i < list.size(); ++i)
+    {
+        os << delimiter << list[i];
+    }
+
+    return os.str();
+}
+
+std::wstring StringJoin(const VecWstr& list, const std::wstring& delimiter)
+{
+    if (list.empty()) return L"";
+
+    std::wostringstream os;
+    os << list.front();
+
+    for (size_t i = 1; i < list.size(); ++i)
+    {
+        os << delimiter << list[i];
+    }
+
+    return os.str();
+}
+
+std::wstring StringJoin(const VecNwstr& list, wchar_t delimiter)
+{
+    if (list.empty()) return L"";
+
+    std::wostringstream os;
+    os << list.front().ToWstring();
+
+    for (size_t i = 1; i < list.size(); ++i)
+    {
+        os << delimiter << list[i].ToWstring();
+    }
+
+    return os.str();
+}
+
+std::wstring StringJoin(const VecNwstr& list, const std::wstring& delimiter)
+{
+    if (list.empty()) return L"";
+
+    std::wostringstream os;
+    os << list.front().ToWstring();
+
+    for (size_t i = 1; i < list.size(); ++i)
+    {
+        os << delimiter << list[i].ToWstring();
+    }
+
+    return os.str();
 }
 
 bool StringStartWith(const std::wstring_view& line, const std::wstring_view& start) noexcept

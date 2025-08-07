@@ -1,3 +1,5 @@
+#include <sstream>
+
 #include "Core/Statement/MapStatement.h"
 
 #include "Core/CompileState.h"
@@ -30,15 +32,16 @@ bool nemesis::MapStatement::TryParse3Components(const nemesis::SemanticManager& 
         auto get_index            = std::make_unique<std::function<std::string(nemesis::CompileState&)>>(
             [&dynamic_index](nemesis::CompileState& state) { return dynamic_index.GetValue(state); });
         auto uptr_manager = std::make_unique<nemesis::SemanticManager>(manager);
-        GetValueFunction  = [this,
-                            get_key      = std::move(get_key),
-                            get_index    = std::move(get_index),
-                            uptr_manager = std::move(uptr_manager)](nemesis::CompileState& state)
+        GetValueFunction
+            = [this,
+               get_key      = std::move(get_key),
+               get_index    = std::move(get_index),
+               uptr_manager = std::move(uptr_manager)](nemesis::CompileState& state) -> std::string
         {
             auto key  = (*get_key)(state);
             auto list = GetBaseRequest(state)->GetMapValueList(key);
 
-            if (list.empty()) return std::string("");
+            if (list.empty()) return "";
 
             std::string index_str = (*get_index)(state);
 
@@ -49,6 +52,21 @@ bool nemesis::MapStatement::TryParse3Components(const nemesis::SemanticManager& 
                 if (index < list.size()) return *list[index];
 
                 ThrowInvalidError("Index is larger than list");
+            }
+
+            if (index_str == "ALL")
+            {
+                if (list.empty()) return "";
+
+                std::ostringstream os;
+                os << *list.front();
+
+                for (size_t i = 1; i < list.size(); ++i)
+                {
+                    os << ' ' << *list[i];
+                }
+
+                return os.str();
             }
 
             if (index_str.length() > 1)
@@ -112,15 +130,37 @@ bool nemesis::MapStatement::TryParse3Components(const nemesis::SemanticManager& 
     if (is_only_number(index_str))
     {
         size_t index     = std::stoul(index_str);
-        GetValueFunction = [this, get_key = std::move(get_key), index](nemesis::CompileState& state)
+        GetValueFunction
+            = [this, get_key = std::move(get_key), index](nemesis::CompileState& state) -> std::string
         {
             auto list = GetBaseRequest(state)->GetMapValueList((*get_key)(state));
 
-            if (list.empty()) return std::string("");
+            if (list.empty()) return "";
 
             if (index < list.size()) return *list[index];
 
             ThrowInvalidError("Index is larger than list");
+        };
+        return true;
+    }
+
+    if (index_str == "ALL")
+    {
+        GetValueFunction = [this, get_key = std::move(get_key)](nemesis::CompileState& state) -> std::string
+        {
+            auto list = GetBaseRequest(state)->GetMapValueList((*get_key)(state));
+
+            if (list.empty()) return "";
+
+            std::ostringstream os;
+            os << *list.front();
+
+            for (size_t i = 1; i < list.size(); ++i)
+            {
+                os << ' ' << *list[i];
+            }
+
+            return os.str();
         };
         return true;
     }
@@ -138,11 +178,12 @@ bool nemesis::MapStatement::TryParse3Components(const nemesis::SemanticManager& 
         {
             case 'F':
             {
-                GetValueFunction = [this, get_key = std::move(get_key)](nemesis::CompileState& state)
+                GetValueFunction
+                    = [this, get_key = std::move(get_key)](nemesis::CompileState& state) -> std::string
                 {
                     auto list = GetBaseRequest(state)->GetMapValueList((*get_key)(state));
 
-                    if (list.empty()) return std::string("");
+                    if (list.empty()) return "";
 
                     return *list.front();
                 };
@@ -220,17 +261,18 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
             [&dynamic_index](nemesis::CompileState& state) { return dynamic_index.GetValue(state); });
         UPtr<nemesis::SemanticManager> uptr_manager = std::make_unique<nemesis::SemanticManager>(manager);
 
-        GetValueFunction = [this,
-                            get_request,
-                            get_key      = std::move(get_key),
-                            get_index    = std::move(get_index),
-                            uptr_manager = std::move(uptr_manager)](nemesis::CompileState& state)
+        GetValueFunction
+            = [this,
+               get_request,
+               get_key      = std::move(get_key),
+               get_index    = std::move(get_index),
+               uptr_manager = std::move(uptr_manager)](nemesis::CompileState& state) -> std::string
         {
             auto key      = (*get_key)(state);
             auto& request = (*get_request)(state);
             auto list     = request.GetMapValueList(key);
 
-            if (list.empty()) return std::string("");
+            if (list.empty()) return "";
 
             std::string index_str = (*get_index)(state);
 
@@ -241,6 +283,21 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
                 if (index < list.size()) return *list[index];
 
                 ThrowInvalidError("Index is larger than list");
+            }
+
+            if (index_str == "ALL")
+            {
+                if (list.empty()) return "";
+
+                std::ostringstream os;
+                os << *list.front();
+
+                for (size_t i = 1; i < list.size(); ++i)
+                {
+                    os << ' ' << *list[i];
+                }
+
+                return os.str();
             }
 
             if (index_str.length() > 1)
@@ -315,6 +372,28 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
             if (index < list.size()) return *list[index];
 
             ThrowInvalidError("Index is larger than list");
+        };
+        return true;
+    }
+
+    if (index_str == "ALL")
+    {
+        GetValueFunction = [get_key = std::move(get_key), get_request](nemesis::CompileState& state)
+        {
+            auto& request = (*get_request)(state);
+            auto list     = request.GetMapValueList((*get_key)(state));
+
+            if (list.empty()) return std::string("");
+
+            std::ostringstream os;
+            os << *list.front();
+
+            for (size_t i = 1; i < list.size(); ++i)
+            {
+                os << ' ' << *list[i];
+            }
+
+            return os.str();
         };
         return true;
     }

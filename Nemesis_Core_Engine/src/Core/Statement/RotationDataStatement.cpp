@@ -5,6 +5,7 @@
 #include "Core/Statement/RotationDataStatement.h"
 
 #include "Utilities/Algorithm.h"
+#include "Utilities/StringExtension.h"
 
 bool nemesis::RotationDataStatement::TryParse2Components(const nemesis::SemanticManager& manager)
 {
@@ -35,6 +36,8 @@ bool nemesis::RotationDataStatement::TryParse2Components(const nemesis::Semantic
             }
 
             if (index_str == "SIZE") return std::to_string(list.size());
+
+            if (index_str == "ALL") return StringJoin(list, ' ');
 
             if (index_str.length() > 1)
             {
@@ -118,6 +121,16 @@ bool nemesis::RotationDataStatement::TryParse2Components(const nemesis::Semantic
         return true;
     }
 
+    if (index_str == "ALL")
+    {
+        GetValueFunction = [this](nemesis::CompileState& state)
+        {
+            auto list = GetBaseRequest(state)->GetRotationDataList();
+            return StringJoin(list, ' ');
+        };
+        return true;
+    }
+
     if (index_str.length() > 1) return false;
 
     if (index_str == "")
@@ -130,11 +143,11 @@ bool nemesis::RotationDataStatement::TryParse2Components(const nemesis::Semantic
         {
             case 'F':
             {
-                GetValueFunction = [this](nemesis::CompileState& state)
+                GetValueFunction = [this](nemesis::CompileState& state) -> std::string
                 {
                     auto list = GetBaseRequest(state)->GetRotationDataList();
 
-                    if (list.empty()) return std::string("");
+                    if (list.empty()) return "";
 
                     return list.front().ToString();
                 };
@@ -142,11 +155,11 @@ bool nemesis::RotationDataStatement::TryParse2Components(const nemesis::Semantic
             }
             case 'L':
             {
-                GetValueFunction = [this](nemesis::CompileState& state)
+                GetValueFunction = [this](nemesis::CompileState& state) -> std::string
                 {
                     auto list = GetBaseRequest(state)->GetRotationDataList();
 
-                    if (list.empty()) return std::string("");
+                    if (list.empty()) return "";
 
                     return list.back().ToString();
                 };
@@ -221,11 +234,9 @@ bool nemesis::RotationDataStatement::TryParse4Components(const nemesis::Semantic
                 ThrowInvalidError("Index is larger than list");
             }
 
-            if (index_str == "SIZE")
-            {
-                auto list = request.GetRotationDataList();
-                return std::to_string(list.size());
-            }
+            if (index_str == "SIZE") return std::to_string(list.size());
+
+            if (index_str == "ALL") return StringJoin(list, ' ');
 
             if (index_str.length() > 1)
             {
@@ -311,6 +322,17 @@ bool nemesis::RotationDataStatement::TryParse4Components(const nemesis::Semantic
         return true;
     }
 
+    if (index_str == "ALL")
+    {
+        GetValueFunction = [get_request](nemesis::CompileState& state)
+        {
+            auto& request = (*get_request)(state);
+            auto list     = request.GetRotationDataList();
+            return StringJoin(list, ' ');
+        };
+        return true;
+    }
+
     if (index_str.length() > 1) return false;
 
     if (index_str == "")
@@ -327,12 +349,12 @@ bool nemesis::RotationDataStatement::TryParse4Components(const nemesis::Semantic
         {
             case 'F':
             {
-                GetValueFunction = [get_request](nemesis::CompileState& state)
+                GetValueFunction = [get_request](nemesis::CompileState& state) -> std::string
                 {
                     auto& request = (*get_request)(state);
                     auto list     = request.GetRotationDataList();
 
-                    if (list.empty()) return std::string("");
+                    if (list.empty()) return "";
 
                     return list.front().ToString();
                 };
@@ -340,7 +362,7 @@ bool nemesis::RotationDataStatement::TryParse4Components(const nemesis::Semantic
             }
             case 'L':
             {
-                GetValueFunction = [get_request](nemesis::CompileState& state)
+                GetValueFunction = [get_request](nemesis::CompileState& state) -> std::string
                 {
                     auto& request = (*get_request)(state);
                     auto list     = request.GetRotationDataList();
