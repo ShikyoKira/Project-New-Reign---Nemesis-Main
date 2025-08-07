@@ -27,8 +27,8 @@ AppLauncher::~AppLauncher()
 
 void AppLauncher::launchProgram(const QString& program_path, const QStringList& args, bool is_preload)
 {
-    this->is_preload = is_preload;
     is_read_ready = !is_preload;
+    has_error     = false;
     output_buffer.clear();
 
     std::string args_str;
@@ -100,13 +100,14 @@ void AppLauncher::readFormattedOutput(const QString& output)
 
         if (match.hasMatch())
         {
-            // We found a progress indicator!
-
-            // Extract and process the progress number
-            int step = match.captured(1).toInt();
-            int max  = match.captured(2).toInt();
-            qDebug() << step << " / " << max;
-            emit progressUp(step, max);
+            if (!has_error)
+            {
+                // Extract and process the progress number
+                int step = match.captured(1).toInt();
+                int max  = match.captured(2).toInt();
+                qDebug() << step << " / " << max;
+                emit progressUp(step, max);
+            }
 
             // Advance position past the matched progress indicator
             pos = match.capturedEnd();
@@ -136,7 +137,16 @@ void AppLauncher::readFormattedOutput(const QString& output)
             else
             {
                 qDebug() << regularLine;
-                emit outputReceived(regularLine);
+
+                if (regularLine.startsWith("[ERROR]"))
+                {
+                    has_error = true;
+                    emit errorReceived(regularLine);
+                }
+                else
+                {
+                    emit outputReceived(regularLine);
+                }
             }
 
             pos = newlineIndex + 1;

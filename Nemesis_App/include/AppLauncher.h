@@ -36,6 +36,6 @@ private:
     QByteArray input_buffer;
     std::chrono::high_resolution_clock::time_point start_time;
     std::mutex read_mutex;
-    bool is_preload;
     bool is_read_ready;
+    bool has_error;
 };

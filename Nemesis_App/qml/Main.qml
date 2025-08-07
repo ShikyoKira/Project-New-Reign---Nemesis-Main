@@ -821,7 +821,6 @@ Window {
                     onTriggered: {
                         progressLoader.stop();
                         startZone.state = "DONE";
-                        progressBarFill.width = Qt.binding(() => 0);
                     }
                 }
 
@@ -917,7 +916,7 @@ Window {
                         PropertyChanges {
                             target: progressBarFill
                             opacity: 1
-                            width: 100
+                            width: 0
                             completed: false
                             completeText: ""
                         }
@@ -1235,11 +1234,12 @@ Window {
                             vertexShader: "qrc:/shaders/ProgressBarFill.vert.qsb"
                         }
 
-                        Behavior on width {
-                            NumberAnimation {
-                                duration: 1000
-                                easing.type: Easing.InOutQuint
-                            }
+                        PropertyAnimation {
+                            id: progressBarAnimation
+                            target: progressBarFill
+                            property: "width"
+                            duration: 1000
+                            easing.type: Easing.InOutQuint
                         }
                     }
 
@@ -1330,6 +1330,7 @@ Window {
                 }
 
                 onErrorReceived: (error) => {
+                    progressBarAnimation.stop();
                     outputArea.text += error;
                 }
 
@@ -1343,7 +1344,8 @@ Window {
 
                 onProgressUp: (step, max) => {
                     progressBarFill.completed = step / max == 1;
-                    progressBarFill.width = Qt.binding(() => progressBar.width * step / max);
+                    progressBarAnimation.to = progressBar.width * step / max;
+                    progressBarAnimation.start();
                 }
             }
         }
