@@ -244,23 +244,43 @@ SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::CompositeStatement::C
         {
             try
             {
-            const std::string index_str = dynamic_index.GetValue(state);
+                const std::string index_str = dynamic_index.GetValue(state);
 
-            if (!nemesis::iequals(index_str, "ANY") && !nemesis::iequals(index_str, "ALL"))
-            {
-                auto& request = GetAnimationRequest(index_str, templt_name, templt_num, state, *sptr_manager);
-                return callback(state, request);
-            }
-
-            if (nemesis::iequals(index_str, "ANY"))
-            {
-                auto& request = state.GetCurrentRequest(templt_code);
-                auto parents = request.GetParents();
-
-                // Vacuous false: Default to false
-                if (!parents.empty())
+                if (!nemesis::iequals(index_str, "ANY") && !nemesis::iequals(index_str, "ALL"))
                 {
-                    for (auto& request : parents.back()->GetRequests())
+                    auto& request
+                        = GetAnimationRequest(index_str, templt_name, templt_num, state, *sptr_manager);
+                    return callback(state, request);
+                }
+
+                // Vacuously false: Default to false
+                if (nemesis::iequals(index_str, "ANY"))
+                {
+                    if (templt_num == 1)
+                    {
+                        for (auto& request : state.GetRequests(templt_name))
+                        {
+                            if (!callback(state, *request)) continue;
+
+                            return true;
+                        }
+
+                        return false;
+                    }
+
+                    auto* request = state.GetBaseRequest();
+                    const nemesis::AnimationRequest* parent;
+
+                    if (request->GetLevel() + 1 == templt_num)
+                    {
+                        parent = request;
+                    }
+                    else
+                    {
+                        parent = &state.GetCurrentRequest(templt_code);
+                    }
+
+                    for (auto& request : parent->GetRequests())
                     {
                         if (!callback(state, *request)) continue;
 
@@ -270,23 +290,34 @@ SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::CompositeStatement::C
                     return false;
                 }
 
-                for (auto& request : state.GetRequests(request.GetTemplateName()))
+                // Vacuously true: Default to true
+                if (templt_num == 1)
                 {
-                    if (!callback(state, *request)) continue;
+                    auto& collection = state.GetRequests(templt_name);
+
+                    for (auto& request : collection)
+                    {
+                        if (callback(state, *request)) continue;
+
+                        return false;
+                    }
 
                     return true;
                 }
 
-                return false;
-            }
+                auto* request = state.GetBaseRequest();
+                const nemesis::AnimationRequest* parent;
 
-            auto& request = state.GetCurrentRequest(templt_code);
-            auto parents  = request.GetParents();
+                if (request->GetLevel() + 1 == templt_num)
+                {
+                    parent = request;
+                }
+                else
+                {
+                    parent = &state.GetCurrentRequest(templt_code);
+                }
 
-            // Vacuous false: Default to false
-            if (!parents.empty())
-            {
-                auto req_list = parents.back()->GetRequests();
+                auto req_list = parent->GetRequests();
 
                 if (req_list.empty()) return false;
 
@@ -298,20 +329,6 @@ SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::CompositeStatement::C
                 }
 
                 return true;
-            }
-
-            auto& collection = state.GetRequests(request.GetTemplateName());
-
-            if (collection.empty()) return false;
-
-            for (auto& request : collection)
-            {
-                if (callback(state, *request)) continue;
-
-                return false;
-            }
-
-            return true;
             }
             catch (const std::exception& ex)
             {
