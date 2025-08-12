@@ -50,6 +50,8 @@ namespace nemesis
 
         const nemesis::SubTemplateRequest* CurrentSubTemplateRequest = nullptr;
 
+        USet<std::string> OnlyOnceSet;
+
         UMap<std::string, std::string> EventMap;
         UMap<std::string, std::string> EventNameMap;
         UMap<std::string, std::string> VariableMap;
@@ -175,6 +177,8 @@ namespace nemesis
 
         void SetCurrentSubTemplateRequest(const nemesis::SubTemplateRequest& request) noexcept;
         const nemesis::SubTemplateRequest* GetCurrentSubTemplateRequest() const noexcept;
+
+        bool OnlyOnce(const std::string& value) noexcept;
 
         bool TryGetEventID(const std::string& name, std::string& out) const;
         const std::string& GetEventID(const std::string& name) const;

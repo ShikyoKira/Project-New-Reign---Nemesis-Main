@@ -134,13 +134,13 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse1Component(
 
             if (name == "@MotionData")
             {
-                auto request = GetBaseRequest(state);
+                auto* request = GetBaseRequest(state);
                 return !request->GetMotionDataList().empty();
             }
 
             if (name == "@RotationData")
             {
-                auto request = GetBaseRequest(state);
+                auto* request = GetBaseRequest(state);
                 return !request->GetRotationDataList().empty();
             }
 
@@ -149,7 +149,7 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse1Component(
                 throw ConditionSyntaxError("Unsupported option name '" + name + "'");
             }
 
-            auto request = GetBaseRequest(state);
+            auto* request = GetBaseRequest(state);
             return request->GetOption(name) != nullptr;
         };
         return;
@@ -159,7 +159,7 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse1Component(
     {
         IsTrueFunction = [this](nemesis::CompileState& state)
         {
-            auto request = GetBaseRequest(state);
+            auto* request = GetBaseRequest(state);
             return !request->GetMotionDataList().empty();
         };
         return;
@@ -169,7 +169,7 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse1Component(
     {
         IsTrueFunction = [this](nemesis::CompileState& state)
         {
-            auto request = GetBaseRequest(state);
+            auto* request = GetBaseRequest(state);
             return !request->GetRotationDataList().empty();
         };
         return;
@@ -182,7 +182,7 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse1Component(
 
     IsTrueFunction = [this, &name](nemesis::CompileState& state)
     {
-        auto request = GetBaseRequest(state);
+        auto* request = GetBaseRequest(state);
         return request->GetOption(name) != nullptr;
     };
 }
@@ -191,18 +191,46 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse2Components(
     const nemesis::TemplateClass* templt_class, const nemesis::SemanticManager& manager)
 {
     const std::string& name = Components.front();
+    const std::string& key  = Components.back();
 
     if (IsComplexComponent(name))
     {
         const auto& dynamic_name = DynamicComponents.emplace_back(name, LineNum, FilePath, manager);
-        IsTrueFunction           = [this, templt_class, &dynamic_name](nemesis::CompileState& state)
+
+        if (IsComplexComponent(key))
+        {
+            const auto& dynamic_key = DynamicComponents.emplace_back(key, LineNum, FilePath, manager);
+            IsTrueFunction = [this, templt_class, &dynamic_name, &dynamic_key](nemesis::CompileState& state)
+            {
+                const std::string name = dynamic_name.GetValue(state);
+                const std::string key  = dynamic_key.GetValue(state);
+
+                if (name == "@Map")
+                {
+                    auto* request = GetBaseRequest(state);
+                    return !request->GetMapValueList(key).empty();
+                }
+
+                if (!templt_class->GetModel(name))
+                {
+                    throw ConditionSyntaxError("Unsupported option name '" + name + "'");
+                }
+
+                size_t index  = std::stoul(key);
+                auto* request = GetBaseRequest(state);
+                auto& options = request->GetOptions(name);
+                return index < options.size() && options[index] != nullptr;
+            };
+            return;
+        }
+
+        IsTrueFunction = [this, templt_class, &dynamic_name, &key](nemesis::CompileState& state)
         {
             const std::string name = dynamic_name.GetValue(state);
 
             if (name == "@Map")
             {
-                const std::string& key = Components.back();
-                auto request           = GetBaseRequest(state);
+                auto* request = GetBaseRequest(state);
                 return !request->GetMapValueList(key).empty();
             }
 
@@ -211,7 +239,7 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse2Components(
                 throw ConditionSyntaxError("Unsupported option name '" + name + "'");
             }
 
-            size_t index = std::stoul(Components.back());
+            size_t index  = std::stoul(key);
             auto* request = GetBaseRequest(state);
             auto& options = request->GetOptions(name);
             return index < options.size() && options[index] != nullptr;
@@ -221,12 +249,40 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse2Components(
 
     if (name == "@Map")
     {
-        const std::string& key = Components.back();
-        IsTrueFunction         = [this, &key](nemesis::CompileState& state)
+        if (IsComplexComponent(key))
         {
-            auto request = GetBaseRequest(state);
+            const auto& dynamic_key = DynamicComponents.emplace_back(key, LineNum, FilePath, manager);
+            IsTrueFunction          = [this, &dynamic_key](nemesis::CompileState& state)
+            {
+                const std::string key = dynamic_key.GetValue(state);
+                auto* request         = GetBaseRequest(state);
+                return !request->GetMapValueList(key).empty();
+            };
+            return;
+        }
+
+        IsTrueFunction = [this, &key](nemesis::CompileState& state)
+        {
+            auto* request = GetBaseRequest(state);
             return !request->GetMapValueList(key).empty();
         };
+        return;
+    }
+
+    if (name == "@OnlyOnce")
+    {
+        if (IsComplexComponent(key))
+        {
+            const auto& dynamic_key = DynamicComponents.emplace_back(key, LineNum, FilePath, manager);
+            IsTrueFunction          = [&dynamic_key](nemesis::CompileState& state)
+            {
+                const std::string key = dynamic_key.GetValue(state);
+                return state.OnlyOnce(key);
+            };
+            return;
+        }
+
+        IsTrueFunction = [&key](nemesis::CompileState& state) { return state.OnlyOnce(key); };
         return;
     }
 
@@ -235,7 +291,21 @@ void nemesis::ConditionalStatement::ConditionalBoolean::Parse2Components(
         throw ConditionSyntaxError("Unsupported option name '" + name + "'");
     }
 
-    size_t index = std::stoul(Components.back());
+    if (IsComplexComponent(key))
+    {
+        const auto& dynamic_key = DynamicComponents.emplace_back(key, LineNum, FilePath, manager);
+        IsTrueFunction          = [this, &name, &dynamic_key](nemesis::CompileState& state)
+        {
+            const std::string key = dynamic_key.GetValue(state);
+            size_t index  = std::stoul(key);
+            auto* request = GetBaseRequest(state);
+            auto& options = request->GetOptions(name);
+            return index < options.size() && options[index] != nullptr;
+        };
+        return;
+    }
+
+    size_t index = std::stoul(key);
 
     IsTrueFunction = [this, &name, index](nemesis::CompileState& state)
     {
@@ -454,7 +524,7 @@ bool nemesis::ConditionalStatement::ConditionalAnimationRequest::IsAnimationRequ
     size_t linenum,
     const std::filesystem::path& filepath)
 {
-    auto components   = nemesis::Statement::SplitComponents(term, linenum, filepath);
+    auto components = nemesis::Statement::SplitComponents(term, linenum, filepath);
 
     switch (components.size())
     {
@@ -511,7 +581,7 @@ bool nemesis::ConditionalStatement::ConditionalOption::IsOption(const std::strin
                                                                 size_t linenum,
                                                                 const std::filesystem::path& filepath)
 {
-    auto components   = nemesis::Statement::SplitComponents(expression, linenum, filepath);
+    auto components = nemesis::Statement::SplitComponents(expression, linenum, filepath);
 
     switch (components.size())
     {

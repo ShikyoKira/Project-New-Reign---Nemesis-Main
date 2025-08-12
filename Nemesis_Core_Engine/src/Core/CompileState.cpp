@@ -657,6 +657,14 @@ const nemesis::SubTemplateRequest* nemesis::CompileState::GetCurrentSubTemplateR
     return CurrentSubTemplateRequest;
 }
 
+bool nemesis::CompileState::OnlyOnce(const std::string& value) noexcept
+{
+    if (OnlyOnceSet.find(value) != OnlyOnceSet.end()) return false;
+
+    OnlyOnceSet.insert(value);
+    return true;
+}
+
 bool nemesis::CompileState::TryGetEventID(const std::string& name, std::string& out) const
 {
     auto itr = EventMap.find(name);
