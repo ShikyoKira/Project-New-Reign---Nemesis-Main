@@ -1342,6 +1342,7 @@ Window {
                 onErrorReceived: (error) => {
                     progressBarAnimation.stop();
                     outputArea.text += error;
+                    startZone.finish();
                 }
 
                 onFinishedReceived: {
