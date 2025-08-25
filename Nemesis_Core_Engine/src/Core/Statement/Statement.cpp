@@ -1,4 +1,5 @@
 #include <regex>
+#include <sstream>
 
 #include "Core/Statement/Statement.h"
 
@@ -18,7 +19,7 @@ nemesis::Statement::Statement(const std::string& expression,
     {
         throw nemesis::StatementException("Syntax Error: empty expression detected (Line: "
                                           + std::to_string(linenum)
-                                 + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+                                          + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
     Expression = expression;
@@ -36,7 +37,7 @@ nemesis::Statement::Statement(const nemesis::Line& expression, bool no_component
     {
         throw nemesis::StatementException(
             "Syntax Error: empty expression detected (Line: " + std::to_string(expression.GetLineNumber())
-                                 + ", File: " + nemesis::to_utf8_string(expression.GetFilePath()) + ")");
+            + ", File: " + nemesis::to_utf8_string(expression.GetFilePath()) + ")");
     }
 
     Expression = expression;
@@ -177,7 +178,7 @@ SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::Statement::CallbackTa
         { return callback(state, (*get_request)(state)); });
 }
 
-SPtr<std::function<const nemesis::AnimationRequest&(nemesis::CompileState&)>>
+SPtr<nemesis::Statement::RequestEvaluator>
 nemesis::Statement::GetTargetRequest(const nemesis::TemplateClass& templt_class,
                                      const nemesis::SemanticManager& manager)
 {
@@ -191,18 +192,18 @@ nemesis::Statement::GetTargetRequest(const nemesis::TemplateClass& templt_class,
     }
 
     const std::string& index_str = Components[1];
-    SPtr<std::function<const nemesis::AnimationRequest&(nemesis::CompileState&)>> rst;
+    SPtr<nemesis::Statement::RequestEvaluator> rst;
 
     if (index_str == "")
     {
-        rst = std::make_shared<std::function<const nemesis::AnimationRequest&(nemesis::CompileState&)>>(
+        rst = std::make_shared<nemesis::Statement::RequestEvaluator>(
             [&templt_code](nemesis::CompileState& state) -> const nemesis::AnimationRequest&
             { return state.GetCurrentRequest(templt_code); });
     }
     else if (is_only_number(index_str))
     {
         size_t index = std::stoul(index_str);
-        rst = std::make_shared<std::function<const nemesis::AnimationRequest&(nemesis::CompileState&)>>(
+        rst          = std::make_shared<nemesis::Statement::RequestEvaluator>(
             [this, &templt_code, index](nemesis::CompileState& state) -> const nemesis::AnimationRequest&
             {
                 auto& request = state.GetCurrentRequest(templt_code);
@@ -234,16 +235,14 @@ nemesis::Statement::GetTargetRequest(const nemesis::TemplateClass& templt_class,
         {
             case 'F':
             {
-                rst = std::make_shared<
-                    std::function<const nemesis::AnimationRequest&(nemesis::CompileState&)>>(
+                rst = std::make_shared<nemesis::Statement::RequestEvaluator>(
                     [&templt_code](nemesis::CompileState& state) -> const nemesis::AnimationRequest&
                     { return *state.GetFirstRequest(templt_code); });
                 break;
             }
             case 'L':
             {
-                rst = std::make_shared<
-                    std::function<const nemesis::AnimationRequest&(nemesis::CompileState&)>>(
+                rst = std::make_shared<nemesis::Statement::RequestEvaluator>(
                     [&templt_code](nemesis::CompileState& state) -> const nemesis::AnimationRequest&
                     { return *state.GetLastRequest(templt_code); });
                 break;
@@ -255,8 +254,7 @@ nemesis::Statement::GetTargetRequest(const nemesis::TemplateClass& templt_class,
                     ThrowInaccessibleError("Unable to get target request from queue");
                 }
 
-                return std::make_shared<
-                    std::function<const nemesis::AnimationRequest&(nemesis::CompileState&)>>(
+                return std::make_shared<nemesis::Statement::RequestEvaluator>(
                     [&templt_code](nemesis::CompileState& state) -> const nemesis::AnimationRequest&
                     { return *state.GetBackRequest(templt_code); });
             }
@@ -267,10 +265,184 @@ nemesis::Statement::GetTargetRequest(const nemesis::TemplateClass& templt_class,
                     ThrowInaccessibleError("Unable to get target request from queue");
                 }
 
-                return std::make_shared<
-                    std::function<const nemesis::AnimationRequest&(nemesis::CompileState&)>>(
+                return std::make_shared<nemesis::Statement::RequestEvaluator>(
                     [&templt_code](nemesis::CompileState& state) -> const nemesis::AnimationRequest&
                     { return *state.GetNextRequest(templt_code); });
+            }
+            default:
+                ThrowSyntaxError("Invalid value (" + index_str + ")");
+        }
+    }
+
+    if (manager.HasRequestInQueue(templt_code)
+        || manager.HasRequestInQueue(templt_name + "_" + std::to_string(num - 1)))
+    {
+        return rst;
+    }
+
+    ThrowInaccessibleError("Unable to get target request from queue");
+}
+
+SPtr<nemesis::Statement::AggregatePropertyAccessor>
+nemesis::Statement::GetTargetAggregatePropertyAccessor(const nemesis::TemplateClass& templt_class,
+                                                       const nemesis::SemanticManager& manager)
+{
+    size_t num                     = GetTemplateNumber(templt_class);
+    auto& templt_name              = templt_class.GetName();
+    const std::string& templt_code = Components.front();
+
+    if (!std::regex_match(templt_code, std::regex("^" + templt_name + "_[0-9]+$")))
+    {
+        ThrowTemplateUnsupported("Template unsupported '" + templt_code + "'", templt_name);
+    }
+
+    const std::string& index_str = Components[1];
+    SPtr<std::function<std::string(
+        std::function<std::string(const nemesis::AnimationRequest&, nemesis::CompileState&)>,
+        nemesis::CompileState&)>>
+        rst;
+
+    if (index_str == "")
+    {
+        rst = std::make_shared<nemesis::Statement::AggregatePropertyAccessor>(
+            [&templt_code](nemesis::Statement::PropertyAccessor get_value,
+                           nemesis::CompileState& state) -> std::string
+            { return get_value(state.GetCurrentRequest(templt_code), state); });
+    }
+    else if (is_only_number(index_str))
+    {
+        size_t index = std::stoul(index_str);
+        rst          = std::make_shared<nemesis::Statement::AggregatePropertyAccessor>(
+            [this, &templt_code, index](nemesis::Statement::PropertyAccessor get_value,
+                                        nemesis::CompileState& state) -> std::string
+            {
+                auto& request = state.GetCurrentRequest(templt_code);
+                auto parents  = request.GetParents();
+
+                if (!parents.empty())
+                {
+                    auto list = parents.back()->GetRequests();
+
+                    if (index < list.size()) return get_value(*list[index], state);
+
+                    ThrowInvalidError("Index is larger than list");
+                }
+
+                auto& collection = state.GetRequests(request.GetTemplateName());
+
+                if (index < collection.size()) return get_value(*collection[index], state);
+
+                ThrowInvalidError("Index is larger than list");
+            });
+    }
+    else if (index_str == "ALL")
+    {
+        rst = std::make_shared<nemesis::Statement::AggregatePropertyAccessor>(
+            [&templt_code](nemesis::Statement::PropertyAccessor get_value,
+                                 nemesis::CompileState& state) -> std::string
+            {
+                auto& request = state.GetCurrentRequest(templt_code);
+                auto parents  = request.GetParents();
+                std::ostringstream oss;
+                size_t i = 0;
+
+                if (!parents.empty())
+                {
+                    auto list = parents.back()->GetRequests();
+
+                    for (; i < list.size(); ++i)
+                    {
+                        std::string str = get_value(*list[i], state);
+
+                        if (str.empty()) continue;
+
+                        oss << str;
+                        break;
+                    }
+
+                    for (++i; i < list.size(); ++i)
+                    {
+                        std::string str = get_value(*list[i], state);
+
+                        if (str.empty()) continue;
+
+                        oss << ' ' << str;
+                    }
+
+                    return oss.str();
+                }
+
+                auto& collection = state.GetRequests(request.GetTemplateName());
+
+                for (; i < collection.size(); ++i)
+                {
+                    std::string str = get_value(*collection[i], state);
+
+                    if (str.empty()) continue;
+
+                    oss << str;
+                    break;
+                }
+
+                for (++i; i < collection.size(); ++i)
+                {
+                    std::string str = get_value(*collection[i], state);
+
+                    if (str.empty()) continue;
+
+                    oss << ' ' << str;
+                }
+
+                return oss.str();
+            });
+    }
+    else if (index_str.size() != 1)
+    {
+        ThrowInvalidError("Invalid index value (" + index_str + ")");
+    }
+    else
+    {
+        switch (index_str.front())
+        {
+            case 'F':
+            {
+                rst = std::make_shared<nemesis::Statement::AggregatePropertyAccessor>(
+                    [&templt_code](nemesis::Statement::PropertyAccessor get_value,
+                                   nemesis::CompileState& state) -> std::string
+                    { return get_value(*state.GetFirstRequest(templt_code), state); });
+                break;
+            }
+            case 'L':
+            {
+                rst = std::make_shared<nemesis::Statement::AggregatePropertyAccessor>(
+                    [&templt_code](nemesis::Statement::PropertyAccessor get_value,
+                                   nemesis::CompileState& state) -> std::string
+                    { return get_value(*state.GetLastRequest(templt_code), state); });
+                break;
+            }
+            case 'B':
+            {
+                if (!manager.HasRequestInQueue(templt_code))
+                {
+                    ThrowInaccessibleError("Unable to get target request from queue");
+                }
+
+                return std::make_shared<nemesis::Statement::AggregatePropertyAccessor>(
+                    [&templt_code](nemesis::Statement::PropertyAccessor get_value,
+                                   nemesis::CompileState& state) -> std::string
+                    { return get_value(*state.GetBackRequest(templt_code), state); });
+            }
+            case 'N':
+            {
+                if (!manager.HasRequestInQueue(templt_code))
+                {
+                    ThrowInaccessibleError("Unable to get target request from queue");
+                }
+
+                return std::make_shared<nemesis::Statement::AggregatePropertyAccessor>(
+                    [&templt_code](nemesis::Statement::PropertyAccessor get_value,
+                                   nemesis::CompileState& state) -> std::string
+                    { return get_value(*state.GetNextRequest(templt_code), state); });
             }
             default:
                 ThrowSyntaxError("Invalid value (" + index_str + ")");
@@ -319,8 +491,8 @@ void nemesis::Statement::ThrowTemplateUnsupported(const std::string& msg,
                                                   const std::string& templt_name) const
 {
     throw nemesis::StatementException("Invalid Template: " + msg + " (Template: " + templt_name
-                             + ", Line: " + std::to_string(LineNum)
-                             + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+                                      + ", Line: " + std::to_string(LineNum)
+                                      + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
 }
 
 const nemesis::AnimationRequest* nemesis::Statement::GetBaseRequest(nemesis::CompileState& state) const

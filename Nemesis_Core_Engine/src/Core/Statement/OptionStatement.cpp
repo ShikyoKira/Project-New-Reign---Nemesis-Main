@@ -7,14 +7,14 @@
 
 #include "Utilities/Algorithm.h"
 
-SPtr<std::function<Pair<const nemesis::TemplateOption*, int>(const nemesis::AnimationRequest*,
-                                                             nemesis::CompileState&)>>
-nemesis::OptionStatement::BuildGetOptionFunction(const std::string& option_syntax,
-                                                 const std::string& option_name,
-                                                 const std::string& index,
-                                                 size_t linenum,
-                                                 const std::filesystem::path& filepath,
-                                                 const nemesis::SemanticManager& manager)
+SPtr<std::function<nemesis::OptionStatement::OptionPairList(const nemesis::AnimationRequest*,
+                                                            nemesis::CompileState&)>>
+nemesis::OptionStatement::BuildGetOptionsFunction(const std::string& option_syntax,
+                                                  const std::string& option_name,
+                                                  const std::string& index,
+                                                  size_t linenum,
+                                                  const std::filesystem::path& filepath,
+                                                  const nemesis::SemanticManager& manager)
 {
     if (index.empty())
     {
@@ -23,50 +23,58 @@ nemesis::OptionStatement::BuildGetOptionFunction(const std::string& option_synta
             ThrowSyntaxError("Option not in queue");
         }
 
-        return std::make_shared<std::function<Pair<const nemesis::TemplateOption*, int>(
+        return std::make_shared<std::function<nemesis::OptionStatement::OptionPairList(
             const nemesis::AnimationRequest*, nemesis::CompileState&)>>(
-            [&option_name](const nemesis::AnimationRequest* request, nemesis::CompileState& state)
-            { return std::make_pair(state.GetCurrentRequestOption(request, option_name), -1); });
+            [&option_name](const nemesis::AnimationRequest* request,
+                           nemesis::CompileState& state) -> nemesis::OptionStatement::OptionPairList
+            {
+                return nemesis::OptionStatement::OptionPairList{
+                    std::make_pair(state.GetCurrentRequestOption(request, option_name), -1)};
+            });
     }
 
     if (!IsComplexComponent(index))
     {
         if (nemesis::iequals(index, "SIZE"))
         {
-            return std::make_shared<std::function<Pair<const nemesis::TemplateOption*, int>(
+            return std::make_shared<std::function<nemesis::OptionStatement::OptionPairList(
                 const nemesis::AnimationRequest*, nemesis::CompileState&)>>(
-                [&option_name](const nemesis::AnimationRequest* request, nemesis::CompileState& state)
+                [&option_name](const nemesis::AnimationRequest* request,
+                               nemesis::CompileState& state) -> nemesis::OptionStatement::OptionPairList
                 {
                     auto options = request->GetOptions(option_name);
-                    return std::make_pair<const nemesis::TemplateOption*, int>(nullptr, options.size());
+                    return nemesis::OptionStatement::OptionPairList{
+                        std::make_pair<const nemesis::TemplateOption*, int>(nullptr, options.size())};
                 });
         }
 
         if (index == "F")
         {
-            return std::make_shared<std::function<Pair<const nemesis::TemplateOption*, int>(
+            return std::make_shared<std::function<nemesis::OptionStatement::OptionPairList(
                 const nemesis::AnimationRequest*, nemesis::CompileState&)>>(
-                [this, &option_name](const nemesis::AnimationRequest* request, nemesis::CompileState& state)
+                [this, &option_name](const nemesis::AnimationRequest* request,
+                                     nemesis::CompileState& state) -> nemesis::OptionStatement::OptionPairList
                 {
                     auto options = request->GetOptions(option_name);
 
                     if (options.empty()) ThrowSyntaxError("Option is required \"" + option_name + "\"");
 
-                    return std::make_pair(options.front(), -1);
+                    return nemesis::OptionStatement::OptionPairList{std::make_pair(options.front(), -1)};
                 });
         }
 
         if (index == "L")
         {
-            return std::make_shared<std::function<Pair<const nemesis::TemplateOption*, int>(
+            return std::make_shared<std::function<nemesis::OptionStatement::OptionPairList(
                 const nemesis::AnimationRequest*, nemesis::CompileState&)>>(
-                [this, &option_name](const nemesis::AnimationRequest* request, nemesis::CompileState& state)
+                [this, &option_name](const nemesis::AnimationRequest* request,
+                                     nemesis::CompileState& state) -> nemesis::OptionStatement::OptionPairList
                 {
                     auto options = request->GetOptions(option_name);
 
                     if (options.empty()) ThrowSyntaxError("Option is required \"" + option_name + "\"");
 
-                    return std::make_pair(options.back(), -1);
+                    return nemesis::OptionStatement::OptionPairList{std::make_pair(options.back(), -1)};
                 });
         }
 
@@ -74,14 +82,18 @@ nemesis::OptionStatement::BuildGetOptionFunction(const std::string& option_synta
         {
             size_t i = std::stoul(index);
 
-            return std::make_shared<std::function<Pair<const nemesis::TemplateOption*, int>(
+            return std::make_shared<std::function<nemesis::OptionStatement::OptionPairList(
                 const nemesis::AnimationRequest*, nemesis::CompileState&)>>(
-                [this, i, &option_name](const nemesis::AnimationRequest* request,
-                                        nemesis::CompileState& state)
+                [this, i, &option_name](
+                    const nemesis::AnimationRequest* request,
+                    nemesis::CompileState& state) -> nemesis::OptionStatement::OptionPairList
                 {
                     auto options = request->GetOptions(option_name);
 
-                    if (options.size() > i) return std::make_pair(options[i], -1);
+                    if (options.size() > i)
+                    {
+                        return nemesis::OptionStatement::OptionPairList{std::make_pair(options[i], -1)};
+                    }
 
                     ThrowSyntaxError("Option must be more than " + std::to_string(i) + " in array");
                 });
@@ -91,44 +103,50 @@ nemesis::OptionStatement::BuildGetOptionFunction(const std::string& option_synta
     }
 
     auto& component = DynamicComponents.emplace_back(index, linenum, filepath, manager);
-    return std::make_shared<std::function<Pair<const nemesis::TemplateOption*, int>(
+    return std::make_shared<std::function<nemesis::OptionStatement::OptionPairList(
         const nemesis::AnimationRequest*, nemesis::CompileState&)>>(
-        [this, &component, &option_name, filepath](const nemesis::AnimationRequest* request,
-                                                   nemesis::CompileState& state)
+        [this, &component, &option_name, filepath](
+            const nemesis::AnimationRequest* request,
+            nemesis::CompileState& state) -> nemesis::OptionStatement::OptionPairList
         {
             std::string s_index(component.GetValue(state));
 
             if (s_index.empty())
             {
-                return std::make_pair(state.GetCurrentRequestOption(request, option_name), -1);
+                return nemesis::OptionStatement::OptionPairList{
+                    std::make_pair(state.GetCurrentRequestOption(request, option_name), -1)};
             }
 
             auto options = request->GetOptions(option_name);
 
             if (nemesis::iequals(s_index, "SIZE"))
             {
-                return std::make_pair<const nemesis::TemplateOption*, int>(nullptr, options.size());
+                return nemesis::OptionStatement::OptionPairList{
+                    std::make_pair<const nemesis::TemplateOption*, int>(nullptr, options.size())};
             }
 
             if (s_index == "F")
             {
                 if (options.empty()) ThrowSyntaxError("Option is required \"" + option_name + "\"");
 
-                return std::make_pair(options.front(), -1);
+                return nemesis::OptionStatement::OptionPairList{std::make_pair(options.front(), -1)};
             }
 
             if (s_index == "L")
             {
                 if (options.empty()) ThrowSyntaxError("Option is required \"" + option_name + "\"");
 
-                return std::make_pair(options.back(), -1);
+                return nemesis::OptionStatement::OptionPairList{std::make_pair(options.back(), -1)};
             }
 
             if (is_only_number(s_index))
             {
                 size_t index = std::stoi(s_index);
 
-                if (options.size() > index) return std::make_pair(options[index], -1);
+                if (options.size() > index)
+                {
+                    return nemesis::OptionStatement::OptionPairList{std::make_pair(options[index], -1)};
+                }
 
                 ThrowSyntaxError("Option must be more than " + std::to_string(index) + " in array");
             }
@@ -137,12 +155,12 @@ nemesis::OptionStatement::BuildGetOptionFunction(const std::string& option_synta
         });
 }
 
-SPtr<std::function<Pair<const nemesis::TemplateOption*, int>(nemesis::CompileState&)>>
-nemesis::OptionStatement::BuildGetBaseOptionFunction(const std::string& option_name,
-                                                     const std::string& index_str,
-                                                     size_t linenum,
-                                                     const std::filesystem::path& filepath,
-                                                     const nemesis::SemanticManager& manager)
+SPtr<std::function<nemesis::OptionStatement::OptionPairList(nemesis::CompileState&)>>
+nemesis::OptionStatement::BuildGetBaseOptionsFunction(const std::string& option_name,
+                                                      const std::string& index_str,
+                                                      size_t linenum,
+                                                      const std::filesystem::path& filepath,
+                                                      const nemesis::SemanticManager& manager)
 {
     if (index_str.empty())
     {
@@ -152,9 +170,12 @@ nemesis::OptionStatement::BuildGetBaseOptionFunction(const std::string& option_n
         }
 
         return std::make_shared<
-            std::function<Pair<const nemesis::TemplateOption*, int>(nemesis::CompileState&)>>(
-            [&option_name](nemesis::CompileState& state)
-            { return std::make_pair(state.GetCurrentOption(option_name), -1); });
+            std::function<nemesis::OptionStatement::OptionPairList(nemesis::CompileState&)>>(
+            [&option_name](nemesis::CompileState& state) -> nemesis::OptionStatement::OptionPairList
+            {
+                return nemesis::OptionStatement::OptionPairList{
+                    std::make_pair(state.GetCurrentOption(option_name), -1)};
+            });
     }
 
     if (!IsComplexComponent(index_str))
@@ -162,39 +183,40 @@ nemesis::OptionStatement::BuildGetBaseOptionFunction(const std::string& option_n
         if (nemesis::iequals(index_str, "SIZE"))
         {
             return std::make_shared<
-                std::function<Pair<const nemesis::TemplateOption*, int>(nemesis::CompileState&)>>(
-                [this, &option_name](nemesis::CompileState& state)
+                std::function<nemesis::OptionStatement::OptionPairList(nemesis::CompileState&)>>(
+                [this, &option_name](nemesis::CompileState& state) -> nemesis::OptionStatement::OptionPairList
                 {
                     auto options = GetBaseRequest(state)->GetOptions(option_name);
-                    return std::make_pair<const nemesis::TemplateOption*, int>(nullptr, options.size());
+                    return nemesis::OptionStatement::OptionPairList{
+                        std::make_pair<const nemesis::TemplateOption*, int>(nullptr, options.size())};
                 });
         }
 
         if (index_str == "F")
         {
             return std::make_shared<
-                std::function<Pair<const nemesis::TemplateOption*, int>(nemesis::CompileState&)>>(
-                [this, &option_name](nemesis::CompileState& state)
+                std::function<nemesis::OptionStatement::OptionPairList(nemesis::CompileState&)>>(
+                [this, &option_name](nemesis::CompileState& state) -> nemesis::OptionStatement::OptionPairList
                 {
                     auto options = GetBaseRequest(state)->GetOptions(option_name);
 
                     if (options.empty()) ThrowSyntaxError("Option is required \"" + option_name + "\"");
 
-                    return std::make_pair(options.front(), -1);
+                    return nemesis::OptionStatement::OptionPairList{std::make_pair(options.front(), -1)};
                 });
         }
 
         if (index_str == "L")
         {
             return std::make_shared<
-                std::function<Pair<const nemesis::TemplateOption*, int>(nemesis::CompileState&)>>(
-                [this, &option_name](nemesis::CompileState& state)
+                std::function<nemesis::OptionStatement::OptionPairList(nemesis::CompileState&)>>(
+                [this, &option_name](nemesis::CompileState& state) -> nemesis::OptionStatement::OptionPairList
                 {
                     auto options = GetBaseRequest(state)->GetOptions(option_name);
 
                     if (options.empty()) ThrowSyntaxError("Option is required \"" + option_name + "\"");
 
-                    return std::make_pair(options.back(), -1);
+                    return nemesis::OptionStatement::OptionPairList{std::make_pair(options.back(), -1)};
                 });
         }
 
@@ -202,12 +224,16 @@ nemesis::OptionStatement::BuildGetBaseOptionFunction(const std::string& option_n
         {
             size_t index = std::stoul(index_str);
             return std::make_shared<
-                std::function<Pair<const nemesis::TemplateOption*, int>(nemesis::CompileState&)>>(
-                [this, index, &option_name](nemesis::CompileState& state)
+                std::function<nemesis::OptionStatement::OptionPairList(nemesis::CompileState&)>>(
+                [this, index, &option_name](
+                    nemesis::CompileState& state) -> nemesis::OptionStatement::OptionPairList
                 {
                     auto options = GetBaseRequest(state)->GetOptions(option_name);
 
-                    if (options.size() > index) return std::make_pair(options[index], -1);
+                    if (options.size() > index)
+                    {
+                        return nemesis::OptionStatement::OptionPairList{std::make_pair(options[index], -1)};
+                    }
 
                     ThrowSyntaxError("Option must be more than " + std::to_string(index) + " in array");
                 });
@@ -217,39 +243,48 @@ nemesis::OptionStatement::BuildGetBaseOptionFunction(const std::string& option_n
     }
 
     auto& component = DynamicComponents.emplace_back(index_str, linenum, filepath, manager);
-    return std::make_shared<std::function<Pair<const nemesis::TemplateOption*, int>(nemesis::CompileState&)>>(
-        [this, &component, &option_name, filepath](nemesis::CompileState& state)
+    return std::make_shared<std::function<nemesis::OptionStatement::OptionPairList(nemesis::CompileState&)>>(
+        [this, &component, &option_name, filepath](
+            nemesis::CompileState& state) -> nemesis::OptionStatement::OptionPairList
         {
             std::string s_index(component.GetValue(state));
 
-            if (s_index.empty()) return std::make_pair(state.GetCurrentOption(option_name), -1);
+            if (s_index.empty())
+            {
+                return nemesis::OptionStatement::OptionPairList{
+                    std::make_pair(state.GetCurrentOption(option_name), -1)};
+            }
 
             auto options = GetBaseRequest(state)->GetOptions(option_name);
 
             if (nemesis::iequals(s_index, "SIZE"))
             {
-                return std::make_pair<const nemesis::TemplateOption*, int>(nullptr, options.size());
+                return nemesis::OptionStatement::OptionPairList{
+                    std::make_pair<const nemesis::TemplateOption*, int>(nullptr, options.size())};
             }
 
             if (s_index == "F")
             {
                 if (options.empty()) ThrowSyntaxError("Option is required \"" + option_name + "\"");
 
-                return std::make_pair(options.front(), -1);
+                return nemesis::OptionStatement::OptionPairList{std::make_pair(options.front(), -1)};
             }
 
             if (s_index == "L")
             {
                 if (options.empty()) ThrowSyntaxError("Option is required \"" + option_name + "\"");
 
-                return std::make_pair(options.back(), -1);
+                return nemesis::OptionStatement::OptionPairList{std::make_pair(options.back(), -1)};
             }
 
             if (is_only_number(s_index))
             {
                 size_t index = std::stoi(s_index);
 
-                if (options.size() > index) return std::make_pair(options[index], -1);
+                if (options.size() > index)
+                {
+                    return nemesis::OptionStatement::OptionPairList{std::make_pair(options[index], -1)};
+                }
 
                 ThrowSyntaxError("Option must be more than " + std::to_string(index) + " in array");
             }
@@ -354,7 +389,7 @@ nemesis::OptionStatement::OptionStatement(const std::string& expression,
 
     switch (Components.size())
     {
-        case 1:
+        case 1: // T
         {
             const std::string& name = Components.front();
             const auto* model       = template_class->GetModel(name);
@@ -369,11 +404,15 @@ nemesis::OptionStatement::OptionStatement(const std::string& expression,
                 ThrowSyntaxError("Option is not array");
             }
 
-            GetOptionFunction = [this, &name](nemesis::CompileState& state)
-            { return std::make_pair(GetBaseRequest(state)->GetOption(name), -1); };
+            GetOptionsFunction
+                = [this, &name](nemesis::CompileState& state) -> nemesis::OptionStatement::OptionPairList
+            {
+                return nemesis::OptionStatement::OptionPairList{
+                    std::make_pair(GetBaseRequest(state)->GetOption(name), -1)};
+            };
             break;
         }
-        case 2:
+        case 2: // T[]
         {
             const std::string& name = Components.front();
             const auto* model       = template_class->GetModel(name);
@@ -389,12 +428,13 @@ nemesis::OptionStatement::OptionStatement(const std::string& expression,
             }
 
             const std::string& index = Components[1];
-            auto get_option_func     = BuildGetBaseOptionFunction(name, index, linenum, filepath, manager);
-            GetOptionFunction
-                = [get_option_func](nemesis::CompileState& state) { return (*get_option_func)(state); };
+            auto get_options_func    = BuildGetBaseOptionsFunction(name, index, linenum, filepath, manager);
+            GetOptionsFunction
+                = [get_options_func](nemesis::CompileState& state) -> nemesis::OptionStatement::OptionPairList
+            { return (*get_options_func)(state); };
             break;
         }
-        case 3:
+        case 3: // s_2[][T]
         {
             const std::string& name = Components[2];
             const auto* model       = template_class->GetModel(name);
@@ -413,34 +453,38 @@ nemesis::OptionStatement::OptionStatement(const std::string& expression,
 
             if (nemesis::iequals(req_index, "ALL"))
             {
-                HasOptionFunction = BuildAllHasOptionFunction(name, manager);
-                GetOptionFunction = [this](nemesis::CompileState& state)
+                HasOptionFunction  = BuildAllHasOptionFunction(name, manager);
+                GetOptionsFunction
+                    = [this](nemesis::CompileState& state) -> nemesis::OptionStatement::OptionPairList
                 {
                     ThrowSyntaxError("ALL syntax cannot be used to retrieve specific option");
-                    return std::make_pair<const nemesis::TemplateOption*, int>(nullptr, -1);
+                    return nemesis::OptionStatement::OptionPairList{
+                        std::make_pair<const nemesis::TemplateOption*, int>(nullptr, -1)};
                 };
                 return;
             }
             else if (nemesis::iequals(req_index, "ANY"))
             {
-                HasOptionFunction = BuildAnyHasOptionFunction(name, manager);
-                GetOptionFunction = [this](nemesis::CompileState& state)
+                HasOptionFunction  = BuildAnyHasOptionFunction(name, manager);
+                GetOptionsFunction
+                    = [this](nemesis::CompileState& state) -> nemesis::OptionStatement::OptionPairList
                 {
                     ThrowSyntaxError("ANY syntax cannot be used to retrieve specific option");
-                    return std::make_pair<const nemesis::TemplateOption*, int>(nullptr, -1);
+                    return nemesis::OptionStatement::OptionPairList();
                 };
                 return;
             }
 
             auto get_request_func = GetTargetRequest(*template_class, manager);
-            GetOptionFunction     = [get_request_func, &name](nemesis::CompileState& state)
+            GetOptionsFunction    = [get_request_func, &name](
+                                     nemesis::CompileState& state) -> nemesis::OptionStatement::OptionPairList
             {
                 auto& request = (*get_request_func)(state);
-                return std::make_pair(request.GetOption(name), -1);
+                return nemesis::OptionStatement::OptionPairList{std::make_pair(request.GetOption(name), -1)};
             };
             break;
         }
-        case 4:
+        case 4: // s_2[][T][event]
         {
             const std::string& name = Components[2];
             const auto* model       = template_class->GetModel(name);
@@ -457,16 +501,26 @@ nemesis::OptionStatement::OptionStatement(const std::string& expression,
 
             const std::string& index        = Components.back();
             const std::string option_syntax = Components.front() + "[" + Components[1] + "][" + name + "]";
-            auto get_request_func           = GetTargetRequest(*template_class, manager);
-            auto get_option_func
-                = BuildGetOptionFunction(option_syntax, name, index, linenum, filepath, manager);
+            auto get_property_accessor      = GetTargetAggregatePropertyAccessor(*template_class, manager);
+            auto get_options_func
+                = BuildGetOptionsFunction(option_syntax, name, index, linenum, filepath, manager);
 
-            if (!get_option_func) return;
+            if (!get_options_func) return;
 
-            GetOptionFunction = [get_request_func, get_option_func](nemesis::CompileState& state)
+            GetOptionsFunction = [get_property_accessor, get_options_func](
+                                     nemesis::CompileState& state) -> nemesis::OptionStatement::OptionPairList
             {
-                auto& request = (*get_request_func)(state);
-                return (*get_option_func)(&request, state);
+                nemesis::OptionStatement::OptionPairList aggr_pair_list;
+                (*get_property_accessor)(
+                    [&aggr_pair_list, get_options_func](const nemesis::AnimationRequest& request,
+                                              nemesis::CompileState& state) -> std::string
+                    {
+                        auto pair_list = (*get_options_func)(&request, state);
+                        aggr_pair_list.insert(aggr_pair_list.end(), pair_list.begin(), pair_list.end());
+                        return "";
+                    },
+                    state);
+                return aggr_pair_list;
             };
             break;
         }
@@ -483,23 +537,29 @@ std::string nemesis::OptionStatement::Serialize() const
 Pair<const nemesis::TemplateOption*, int>
 nemesis::OptionStatement::GetValue(nemesis::CompileState& state) const
 {
-    return GetOptionFunction(state);
+    return GetOptionsFunction(state).front();
+}
+
+Vec<Pair<const nemesis::TemplateOption*, int>>
+nemesis::OptionStatement::GetValues(nemesis::CompileState& state) const
+{
+    return GetOptionsFunction(state);
 }
 
 int nemesis::OptionStatement::GetSize(nemesis::CompileState& state) const
 {
-    return GetOptionFunction(state).second;
+    return GetOptionsFunction(state).front().second;
 }
 
 const nemesis::TemplateOption* nemesis::OptionStatement::GetOption(nemesis::CompileState& state) const
 {
-    return GetOptionFunction(state).first;
+    return GetOptionsFunction(state).front().first;
 }
 
 std::string nemesis::OptionStatement::GetVariableValue(nemesis::CompileState& state,
                                                        const std::string& variable_name) const
 {
-    auto* option = GetOptionFunction(state).first;
+    auto* option = GetOptionsFunction(state).front().first;
 
     if (!option) ThrowInaccessibleError("Failed to access required option");
 

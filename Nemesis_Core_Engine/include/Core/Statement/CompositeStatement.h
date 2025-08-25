@@ -14,6 +14,12 @@ namespace nemesis
                                                              size_t templt_num,
                                                              nemesis::CompileState& state,
                                                              nemesis::SemanticManager& manager) const;
+        std::string GetAggregatePropertyAccessor(const std::string& index_str,
+                                                 const std::string& templt_name,
+                                                 size_t templt_num,
+                                                 nemesis::Statement::PropertyAccessor get_value,
+                                                 nemesis::CompileState& state,
+                                                 nemesis::SemanticManager& manager) const;
 
     protected:
         struct DynamicComponent
@@ -43,9 +49,12 @@ namespace nemesis
             const std::function<bool(nemesis::CompileState&, const nemesis::AnimationRequest&)>& callback)
             override;
 
-        SPtr<std::function<const nemesis::AnimationRequest&(nemesis::CompileState&)>>
+        SPtr<nemesis::Statement::RequestEvaluator>
         GetTargetRequest(const nemesis::TemplateClass& templt_class,
                          const nemesis::SemanticManager& manager) override;
+        SPtr<nemesis::Statement::AggregatePropertyAccessor>
+        GetTargetAggregatePropertyAccessor(const nemesis::TemplateClass& templt_class,
+                                           const nemesis::SemanticManager& manager) override;
 
     public:
         CompositeStatement(const std::string& expression,

@@ -238,7 +238,7 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
     const std::string& key       = Components[3];
     const std::string& index_str = Components.back();
     auto template_class          = manager.GetCurrentTemplateClass();
-    auto get_request             = GetTargetRequest(*template_class, manager);
+    auto get_property_accessor   = GetTargetAggregatePropertyAccessor(*template_class, manager);
 
     UPtr<std::function<std::string(nemesis::CompileState&)>> get_key;
 
@@ -263,97 +263,105 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
 
         GetValueFunction
             = [this,
-               get_request,
+               get_property_accessor,
                get_key      = std::move(get_key),
                get_index    = std::move(get_index),
                uptr_manager = std::move(uptr_manager)](nemesis::CompileState& state) -> std::string
         {
-            auto key      = (*get_key)(state);
-            auto& request = (*get_request)(state);
-            auto list     = request.GetMapValueList(key);
-
-            if (list.empty()) return "";
-
-            std::string index_str = (*get_index)(state);
-
-            if (is_only_number(index_str))
-            {
-                size_t index = std::stoul(index_str);
-
-                if (index < list.size()) return *list[index];
-
-                ThrowInvalidError("Index is larger than list");
-            }
-
-            if (index_str == "ALL")
-            {
-                if (list.empty()) return "";
-
-                std::ostringstream os;
-                os << *list.front();
-
-                for (size_t i = 1; i < list.size(); ++i)
+            return (*get_property_accessor)(
+                [this,
+                 get_key     = get_key.get(),
+                 get_index   = get_index.get(),
+                 ptr_manager = uptr_manager.get()](const nemesis::AnimationRequest& request,
+                                                   nemesis::CompileState& state) -> std::string
                 {
-                    os << ' ' << *list[i];
-                }
+                    auto key  = (*get_key)(state);
+                    auto list = request.GetMapValueList(key);
 
-                return os.str();
-            }
+                    if (list.empty()) return "";
 
-            if (index_str.length() > 1)
-            {
-                ThrowInvalidError("Invalid index value (" + index_str + ")");
-            }
+                    std::string index_str = (*get_index)(state);
 
-            if (index_str == "")
-            {
-                if (!uptr_manager->HasRequestMapInQueue(Components.front(), key))
-                {
-                    ThrowInaccessibleError("Unable to get target map value from queue");
-                }
-
-                return state.GetCurrentRequestMapValue(&(*get_request)(state), key);
-            }
-
-            switch (index_str.front())
-            {
-                case 'F':
-                {
-                    return *list.front();
-                }
-                case 'L':
-                {
-                    return *list.back();
-                }
-                case 'B':
-                {
-                    if (!uptr_manager->HasRequestMapInQueue(Components.front(), key))
+                    if (is_only_number(index_str))
                     {
-                        ThrowInaccessibleError("Unable to get target map value from queue");
+                        size_t index = std::stoul(index_str);
+
+                        if (index < list.size()) return *list[index];
+
+                        ThrowInvalidError("Index is larger than list");
                     }
 
-                    auto index = state.GetCurrentRequestMapIndex(&request, key);
-
-                    if (index == 0) return *list.front();
-
-                    return *list[index - 1];
-                }
-                case 'N':
-                {
-                    if (!uptr_manager->HasRequestMapInQueue(Components.front(), key))
+                    if (index_str == "ALL")
                     {
-                        ThrowInaccessibleError("Unable to get target map value from queue");
+                        if (list.empty()) return "";
+
+                        std::ostringstream os;
+                        os << *list.front();
+
+                        for (size_t i = 1; i < list.size(); ++i)
+                        {
+                            os << ' ' << *list[i];
+                        }
+
+                        return os.str();
                     }
 
-                    auto index = state.GetCurrentRequestMapIndex(&request, key);
+                    if (index_str.length() > 1)
+                    {
+                        ThrowInvalidError("Invalid index value (" + index_str + ")");
+                    }
 
-                    if (index + 1 == list.size()) return *list.back();
+                    if (index_str == "")
+                    {
+                        if (!ptr_manager->HasRequestMapInQueue(Components.front(), key))
+                        {
+                            ThrowInaccessibleError("Unable to get target map value from queue");
+                        }
 
-                    return *list[index + 1];
-                }
-                default:
-                    ThrowSyntaxError("Unsupported Map components");
-            }
+                        return state.GetCurrentRequestMapValue(&request, key);
+                    }
+
+                    switch (index_str.front())
+                    {
+                        case 'F':
+                        {
+                            return *list.front();
+                        }
+                        case 'L':
+                        {
+                            return *list.back();
+                        }
+                        case 'B':
+                        {
+                            if (!ptr_manager->HasRequestMapInQueue(Components.front(), key))
+                            {
+                                ThrowInaccessibleError("Unable to get target map value from queue");
+                            }
+
+                            auto index = state.GetCurrentRequestMapIndex(&request, key);
+
+                            if (index == 0) return *list.front();
+
+                            return *list[index - 1];
+                        }
+                        case 'N':
+                        {
+                            if (!ptr_manager->HasRequestMapInQueue(Components.front(), key))
+                            {
+                                ThrowInaccessibleError("Unable to get target map value from queue");
+                            }
+
+                            auto index = state.GetCurrentRequestMapIndex(&request, key);
+
+                            if (index + 1 == list.size()) return *list.back();
+
+                            return *list[index + 1];
+                        }
+                        default:
+                            ThrowSyntaxError("Unsupported Map components");
+                    }
+                },
+                state);
         };
         return true;
     }
@@ -362,38 +370,48 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
     {
         size_t index = std::stoul(index_str);
         GetValueFunction
-            = [this, get_key = std::move(get_key), get_request, index](nemesis::CompileState& state)
+            = [this, get_key = std::move(get_key), get_property_accessor, index](nemesis::CompileState& state)
         {
-            auto& request = (*get_request)(state);
-            auto list     = request.GetMapValueList((*get_key)(state));
+            return (*get_property_accessor)(
+                [this, get_key = get_key.get(), index](const nemesis::AnimationRequest& request,
+                                                       nemesis::CompileState& state) -> std::string
+                {
+                    auto list = request.GetMapValueList((*get_key)(state));
 
-            if (list.empty()) return std::string("");
+                    if (list.empty()) return std::string("");
 
-            if (index < list.size()) return *list[index];
+                    if (index < list.size()) return *list[index];
 
-            ThrowInvalidError("Index is larger than list");
+                    ThrowInvalidError("Index is larger than list");
+                },
+                state);
         };
         return true;
     }
 
     if (index_str == "ALL")
     {
-        GetValueFunction = [get_key = std::move(get_key), get_request](nemesis::CompileState& state)
+        GetValueFunction = [get_key = std::move(get_key), get_property_accessor](nemesis::CompileState& state)
         {
-            auto& request = (*get_request)(state);
-            auto list     = request.GetMapValueList((*get_key)(state));
+            return (*get_property_accessor)(
+                [get_key = get_key.get()](const nemesis::AnimationRequest& request,
+                                                       nemesis::CompileState& state) -> std::string
+                {
+                    auto list = request.GetMapValueList((*get_key)(state));
 
-            if (list.empty()) return std::string("");
+                    if (list.empty()) return std::string("");
 
-            std::ostringstream os;
-            os << *list.front();
+                    std::ostringstream os;
+                    os << *list.front();
 
-            for (size_t i = 1; i < list.size(); ++i)
-            {
-                os << ' ' << *list[i];
-            }
+                    for (size_t i = 1; i < list.size(); ++i)
+                    {
+                        os << ' ' << *list[i];
+                    }
 
-            return os.str();
+                    return os.str();
+                },
+                state);
         };
         return true;
     }
@@ -402,8 +420,14 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
 
     if (index_str == "")
     {
-        GetValueFunction = [get_key = std::move(get_key), get_request](nemesis::CompileState& state)
-        { return state.GetCurrentRequestMapValue(&(*get_request)(state), (*get_key)(state)); };
+        GetValueFunction = [get_key = std::move(get_key), get_property_accessor](nemesis::CompileState& state)
+        {
+            return (*get_property_accessor)(
+                [get_key = get_key.get()](const nemesis::AnimationRequest& request,
+                                          nemesis::CompileState& state) -> std::string
+                { return state.GetCurrentRequestMapValue(&request, (*get_key)(state)); },
+                state);
+        };
     }
     else
     {
@@ -411,57 +435,81 @@ bool nemesis::MapStatement::TryParse5Components(const nemesis::SemanticManager& 
         {
             case 'F':
             {
-                GetValueFunction = [get_key = std::move(get_key), get_request](nemesis::CompileState& state)
+                GetValueFunction
+                    = [get_key = std::move(get_key), get_property_accessor](nemesis::CompileState& state)
                 {
-                    auto& request = (*get_request)(state);
-                    auto list     = request.GetMapValueList((*get_key)(state));
+                    return (*get_property_accessor)(
+                        [get_key = get_key.get()](const nemesis::AnimationRequest& request,
+                                                               nemesis::CompileState& state) -> std::string
+                        {
+                            auto list = request.GetMapValueList((*get_key)(state));
 
-                    if (list.empty()) return std::string("");
+                            if (list.empty()) return std::string("");
 
-                    return *list.front();
+                            return *list.front();
+                        },
+                        state);
                 };
                 return true;
             }
             case 'L':
             {
-                GetValueFunction = [get_key = std::move(get_key), get_request](nemesis::CompileState& state)
+                GetValueFunction
+                    = [get_key = std::move(get_key), get_property_accessor](nemesis::CompileState& state)
                 {
-                    auto& request = (*get_request)(state);
-                    auto list     = request.GetMapValueList((*get_key)(state));
+                    return (*get_property_accessor)(
+                        [get_key = get_key.get()](const nemesis::AnimationRequest& request,
+                                                  nemesis::CompileState& state) -> std::string
+                        {
+                            auto list = request.GetMapValueList((*get_key)(state));
 
-                    if (list.empty()) return std::string("");
+                            if (list.empty()) return std::string("");
 
-                    return *list.back();
+                            return *list.back();
+                        },
+                        state);
                 };
                 return true;
             }
             case 'B':
             {
-                GetValueFunction = [get_key = std::move(get_key), get_request](nemesis::CompileState& state)
+                GetValueFunction
+                    = [get_key = std::move(get_key), get_property_accessor](nemesis::CompileState& state)
                 {
-                    auto key      = (*get_key)(state);
-                    auto& request = (*get_request)(state);
-                    auto list     = request.GetMapValueList(key);
-                    size_t index  = state.GetCurrentRequestMapIndex(&request, key);
+                    return (*get_property_accessor)(
+                        [get_key = get_key.get()](const nemesis::AnimationRequest& request,
+                                                  nemesis::CompileState& state) -> std::string
+                        {
+                            auto key     = (*get_key)(state);
+                            auto list    = request.GetMapValueList(key);
+                            size_t index = state.GetCurrentRequestMapIndex(&request, key);
 
-                    if (index == 0) return *list.front();
+                            if (index == 0) return *list.front();
 
-                    return *list[index - 1];
+                            return *list[index - 1];
+                        },
+                        state);
                 };
                 break;
             }
             case 'N':
             {
-                GetValueFunction = [get_key = std::move(get_key), get_request](nemesis::CompileState& state)
+                GetValueFunction
+                    = [get_key = std::move(get_key), get_property_accessor](nemesis::CompileState& state)
                 {
-                    auto key      = (*get_key)(state);
-                    auto& request = (*get_request)(state);
-                    auto list     = request.GetMapValueList(key);
-                    size_t index  = state.GetCurrentRequestMapIndex(&request, key);
+                    return (*get_property_accessor)(
+                        [get_key = get_key.get()](const nemesis::AnimationRequest& request,
+                                                  nemesis::CompileState& state) -> std::string
+                        {
+                            auto key     = (*get_key)(state);
+                            auto list    = request.GetMapValueList(key);
+                            size_t index = state.GetCurrentRequestMapIndex(&request, key);
 
-                    if (index + 1 == list.size()) return *list.back();
+                            if (index + 1 == list.size()) return *list.back();
 
-                    return *list[index + 1];
+                            return *list[index + 1];
+                        },
+                        state);
                 };
                 break;
             }

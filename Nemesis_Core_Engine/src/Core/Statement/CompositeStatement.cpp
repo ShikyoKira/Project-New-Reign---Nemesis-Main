@@ -1,4 +1,5 @@
 #include <regex>
+#include <sstream>
 
 #include "Core/Statement/CompositeStatement.h"
 
@@ -116,6 +117,169 @@ nemesis::CompositeStatement::GetAnimationRequest(const std::string& index_str,
     }
 }
 
+std::string
+nemesis::CompositeStatement::GetAggregatePropertyAccessor(const std::string& index_str,
+                                                          const std::string& templt_name,
+                                                          size_t templt_num,
+                                                          nemesis::Statement::PropertyAccessor get_value,
+                                                          nemesis::CompileState& state,
+                                                          nemesis::SemanticManager& manager) const
+{
+    const std::string& templt_code = Components.front();
+
+    if (!std::regex_match(templt_code, std::regex("^" + templt_name + "_[0-9]+$")))
+    {
+        ThrowTemplateUnsupported("Template unsupported '" + templt_code + "'", templt_name);
+    }
+
+    if (is_only_number(index_str))
+    {
+        if (!manager.HasRequestInQueue(templt_code)
+            && !manager.HasRequestInQueue(templt_name + "_" + std::to_string(templt_num - 1)))
+        {
+            ThrowInaccessibleError("Unable to get target request from queue");
+        }
+
+        size_t index  = std::stoul(index_str);
+        auto& request = state.GetCurrentRequest(templt_code);
+        auto parents  = request.GetParents();
+
+        if (!parents.empty())
+        {
+            auto list = parents.back()->GetRequests();
+
+            if (index < list.size()) return get_value(*list[index], state);
+
+            ThrowInvalidError("Index is larger than list");
+        }
+
+        {
+            auto& collection = state.GetRequests(request.GetTemplateName());
+
+            if (index < collection.size()) return get_value(*collection[index], state);
+        }
+
+        ThrowInvalidError("Index is larger than list");
+    }
+
+    if (index_str == "ALL")
+    {
+        auto& request = state.GetCurrentRequest(templt_code);
+        auto parents  = request.GetParents();
+        std::ostringstream oss;
+        size_t i = 0;
+
+        if (!parents.empty())
+        {
+            auto list = parents.back()->GetRequests();
+
+            for (; i < list.size(); ++i)
+            {
+                std::string str = get_value(*list[i], state);
+
+                if (str.empty()) continue;
+
+                oss << str;
+                break;
+            }
+
+            for (++i; i < list.size(); ++i)
+            {
+                std::string str = get_value(*list[i], state);
+
+                if (str.empty()) continue;
+
+                oss << ' ' << str;
+            }
+
+            return oss.str();
+        }
+
+        auto& collection = state.GetRequests(request.GetTemplateName());
+
+        for (; i < collection.size(); ++i)
+        {
+            std::string str = get_value(*collection[i], state);
+
+            if (str.empty()) continue;
+
+            oss << str;
+            break;
+        }
+
+        for (++i; i < collection.size(); ++i)
+        {
+            std::string str = get_value(*collection[i], state);
+
+            if (str.empty()) continue;
+
+            oss << ' ' << str;
+        }
+
+        return oss.str();
+    }
+
+    if (index_str.size() > 1)
+    {
+        ThrowInvalidError("Invalid index value (" + index_str + ")");
+    }
+
+    if (index_str == "")
+    {
+        if (!manager.HasRequestInQueue(templt_code)
+            && !manager.HasRequestInQueue(templt_name + "_" + std::to_string(templt_num - 1)))
+        {
+            ThrowInaccessibleError("Unable to get target request from queue");
+        }
+
+        return get_value(state.GetCurrentRequest(templt_code), state);
+    }
+
+    switch (index_str.front())
+    {
+        case 'F':
+        {
+            if (!manager.HasRequestInQueue(templt_code)
+                && !manager.HasRequestInQueue(templt_name + "_" + std::to_string(templt_num - 1)))
+            {
+                ThrowInaccessibleError("Unable to get target request from queue");
+            }
+
+            return get_value(*state.GetFirstRequest(templt_code), state);
+        }
+        case 'L':
+        {
+            if (!manager.HasRequestInQueue(templt_code)
+                && !manager.HasRequestInQueue(templt_name + "_" + std::to_string(templt_num - 1)))
+            {
+                ThrowInaccessibleError("Unable to get target request from queue");
+            }
+
+            return get_value(*state.GetLastRequest(templt_code), state);
+        }
+        case 'B':
+        {
+            if (!manager.HasRequestInQueue(templt_code))
+            {
+                ThrowInaccessibleError("Unable to get target request from queue");
+            }
+
+            return get_value(*state.GetBackRequest(templt_code), state);
+        }
+        case 'N':
+        {
+            if (!manager.HasRequestInQueue(templt_code))
+            {
+                ThrowInaccessibleError("Unable to get target request from queue");
+            }
+
+            return get_value(*state.GetNextRequest(templt_code), state);
+        }
+        default:
+            ThrowSyntaxError("Invalid value (" + index_str + ")");
+    }
+}
+
 nemesis::CompositeStatement::DynamicComponent::DynamicComponent(const std::string& component,
                                                                 size_t linenum,
                                                                 const std::filesystem::path& filepath,
@@ -144,8 +308,8 @@ nemesis::CompositeStatement::DynamicComponent::DynamicComponent(const std::strin
                 if (--layer < 0)
                 {
                     throw nemesis::StatementException("Syntax Error: Unopened '}' (Component: " + component
-                                             + ", Line: " + std::to_string(linenum)
-                                             + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+                                                      + ", Line: " + std::to_string(linenum)
+                                                      + ", File: " + nemesis::to_utf8_string(filepath) + ")");
                 }
 
                 if (layer > 0) break;
@@ -337,7 +501,7 @@ SPtr<std::function<bool(nemesis::CompileState&)>> nemesis::CompositeStatement::C
         });
 }
 
-SPtr<std::function<const nemesis::AnimationRequest&(nemesis::CompileState&)>>
+SPtr<nemesis::Statement::RequestEvaluator>
 nemesis::CompositeStatement::GetTargetRequest(const nemesis::TemplateClass& templt_class,
                                               const nemesis::SemanticManager& manager)
 {
@@ -355,11 +519,42 @@ nemesis::CompositeStatement::GetTargetRequest(const nemesis::TemplateClass& temp
 
     const auto& dynamic_index = DynamicComponents.emplace_back(index_str, LineNum, FilePath, manager);
     SPtr<nemesis::SemanticManager> sptr_manager = std::make_shared<nemesis::SemanticManager>(manager);
-    return std::make_shared<std::function<const nemesis::AnimationRequest&(nemesis::CompileState&)>>(
-        [this, &dynamic_index, sptr_manager, templt_name, num](nemesis::CompileState& state) -> const nemesis::AnimationRequest&
+    return std::make_shared<nemesis::Statement::RequestEvaluator>(
+        [this, &dynamic_index, sptr_manager, templt_name, num](
+            nemesis::CompileState& state) -> const nemesis::AnimationRequest&
         {
             const std::string index_str = dynamic_index.GetValue(state);
             return GetAnimationRequest(index_str, templt_name, num, state, *sptr_manager);
+        });
+}
+
+SPtr<nemesis::Statement::AggregatePropertyAccessor>
+nemesis::CompositeStatement::GetTargetAggregatePropertyAccessor(const nemesis::TemplateClass& templt_class,
+                                                                const nemesis::SemanticManager& manager)
+{
+    const std::string& index_str = Components[1];
+
+    if (!IsComplexComponent(index_str))
+    {
+        return nemesis::Statement::GetTargetAggregatePropertyAccessor(templt_class, manager);
+    }
+
+    size_t num        = GetTemplateNumber(templt_class);
+    auto& templt_name = templt_class.GetName();
+
+    if (!std::regex_match(Components.front(), std::regex("^" + templt_name + "_[0-9]+$")))
+    {
+        ThrowTemplateUnsupported("Template unsupported '" + Components.front() + "'", templt_name);
+    }
+
+    const auto& dynamic_index = DynamicComponents.emplace_back(index_str, LineNum, FilePath, manager);
+    SPtr<nemesis::SemanticManager> sptr_manager = std::make_shared<nemesis::SemanticManager>(manager);
+    return std::make_shared<nemesis::Statement::AggregatePropertyAccessor>(
+        [this, &dynamic_index, sptr_manager, templt_name, num](nemesis::Statement::PropertyAccessor get_value,
+                                                               nemesis::CompileState& state) -> std::string
+        {
+            const std::string index_str = dynamic_index.GetValue(state);
+            return GetAggregatePropertyAccessor(index_str, templt_name, num, get_value, state, *sptr_manager);
         });
 }
 

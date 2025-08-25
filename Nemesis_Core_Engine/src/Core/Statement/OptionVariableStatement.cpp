@@ -1,3 +1,5 @@
+#include <sstream>
+
 #include "Core/Statement/OptionVariableStatement.h"
 
 #include "Core/CompileState.h"
@@ -80,18 +82,47 @@ nemesis::OptionVariableStatement::OptionVariableStatement(const std::string& exp
 
     auto model     = template_class->GetModel(*name_ptr);
     get_option_var = GetVariableFunction(*var_name_ptr, linenum, filepath, manager, model);
+    SPtr<std::function<std::string(const Pair<const nemesis::TemplateOption*, int>&, nemesis::CompileState&)>>
+        get_value = std::make_shared<
+            std::function<std::string(const Pair<const nemesis::TemplateOption*, int>&, nemesis::CompileState&)>>(
+            [this, get_option_var](const Pair<const nemesis::TemplateOption*, int>& pair,
+                                   nemesis::CompileState& state)
+            {
+                if (pair.second != -1) return std::to_string(pair.second);
 
-    GetValueFunction = [this, get_option_var](nemesis::CompileState& state)
+                auto* option = pair.first;
+
+                if (!option) ThrowInaccessibleError("Failed to access required option");
+
+                return option->GetVariableValue((*get_option_var)(state));
+            });
+
+    GetValueFunction = [this, get_value](nemesis::CompileState& state)
     {
-        auto pair = OptionStatement.GetValue(state);
+        auto pair_list = OptionStatement.GetValues(state);
+        std::ostringstream oss;
+        size_t i = 0;
 
-        if (pair.second != -1) return std::to_string(pair.second);
+        for (; i < pair_list.size(); ++i)
+        {
+            std::string str = (*get_value)(pair_list[i], state);
 
-        auto* option = pair.first;
+            if (str.empty()) continue;
 
-        if (!option) ThrowInaccessibleError("Failed to access required option");
+            oss << str;
+            break;
+        }
 
-        return option->GetVariableValue((*get_option_var)(state));
+        for (++i; i < pair_list.size(); ++i)
+        {
+            std::string str = (*get_value)(pair_list[i], state);
+
+            if (str.empty()) continue;
+
+            oss << ' ' << str;
+        }
+
+        return oss.str();
     };
 }
 
