@@ -236,14 +236,10 @@ void nemesis::TemplateClass::AddTemplateToAnimDataSingleFile(const std::filesyst
                 project->AddClipDataTemplate(templt_sptr);
                 nemesis::TemplateObject* templt_obj = templt_sptr.get();
 
-                for (size_t i = start_index + 1; i < clip_template_files.size(); i++)
+                for (++itr; itr != clip_template_files.end(); ++itr)
                 {
-                    auto itr = clip_template_files.find(i);
-
-                    if (itr == clip_template_files.end()) break;
-
                     auto templt_uptr = nemesis::TemplateAnimDataClipData::ParseFromFile(
-                        itr->second, &templt_class, i, thread_pool);
+                        itr->second, &templt_class, itr->first, thread_pool);
                     templt_obj = (templt_obj->SetChild(std::move(templt_uptr))).get();
                 }
             }
@@ -265,14 +261,10 @@ void nemesis::TemplateClass::AddTemplateToAnimDataSingleFile(const std::filesyst
         project->AddMotionDataTemplate(templt_sptr);
         nemesis::TemplateObject* templt_obj = templt_sptr.get();
 
-        for (size_t i = start_index + 1; i < motion_template_files.size(); i++)
+        for (++itr; itr != motion_template_files.end(); ++itr)
         {
-            auto itr = motion_template_files.find(i);
-
-            if (itr == motion_template_files.end()) break;
-
             auto templt_uptr = nemesis::TemplateAnimDataMotionData::ParseFromFile(
-                itr->second, &templt_class, i, thread_pool);
+                itr->second, &templt_class, itr->first, thread_pool);
             templt_obj = (templt_obj->SetChild(std::move(templt_uptr))).get();
         }
     }
@@ -581,25 +573,25 @@ nemesis::TemplateClass::CreateRequest(const std::string& list_name,
 
             for (auto& match : matches)
             {
-                    nemesis::TemplateOptionModel* option_model = *match;
-                    auto option = option_model->TryCreateOption(component, linenum, filepath);
+                nemesis::TemplateOptionModel* option_model = *match;
+                auto option = option_model->TryCreateOption(component, linenum, filepath);
 
-                    if (!option) continue;
+                if (!option) continue;
 
-                    if (matched_options.find(option_model->GetName()) != matched_options.end())
-                    {
+                if (matched_options.find(option_model->GetName()) != matched_options.end())
+                {
                     throw nemesis::Exception("Repeated non-array option found (Option: "
                                              + option_model->GetName() + ", Request info : " + request_info
                                              + ", Line: " + std::to_string(linenum)
-                            + ", File: " + nemesis::to_utf8_string(filepath) + ")");
-                    }
+                                             + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+                }
 
-                    if (!option_model->IsArray())
-                    {
-                        matched_options.insert(option_model->GetName());
-                    }
+                if (!option_model->IsArray())
+                {
+                    matched_options.insert(option_model->GetName());
+                }
 
-                    request->AddOption(std::move(option));
+                request->AddOption(std::move(option));
                 break;
             }
         }
