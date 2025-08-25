@@ -577,7 +577,7 @@ UPtr<nemesis::HkxBehavior> nemesis::HkxBehavior::Clone() const
 
 size_t nemesis::HkxBehavior::GetSize() const
 {
-    return DataNodes->Size() + NodeMap.size() + RegularNodes->Size();
+    return DataNodes->Size() + NewNodes.size() + RegularNodes->Size();
 }
 
 UPtr<nemesis::HkxBehavior> nemesis::HkxBehavior::ParseFromFile(const std::filesystem::path& filepath)
