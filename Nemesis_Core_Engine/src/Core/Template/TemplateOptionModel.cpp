@@ -1,7 +1,10 @@
+#include <sstream>
+
 #include "Core/Template/TemplateOptionModel.h"
 #include "Core/Template/TemplateClass.h"
 
 #include "Utilities/Algorithm.h"
+#include "Utilities/Exception.h"
 #include "Utilities/StringExtension.h"
 
 void nemesis::TemplateOptionModel::AddVariablesToOption(nemesis::TemplateOption& opt,
@@ -17,7 +20,7 @@ void nemesis::TemplateOptionModel::AddVariablesToOption(nemesis::TemplateOption&
 
         if (!std::getline(iss, opt_expr, '/'))
         {
-            throw std::runtime_error("Missing variable for option (Option: " + Name
+            throw nemesis::Exception("Missing variable for option (Option: " + Name
                                      + ", Variable: " + variable + ", Line: " + std::to_string(linenum)
                                      + ", File: " + nemesis::to_utf8_string(filepath) + ")");
         }
@@ -27,7 +30,7 @@ void nemesis::TemplateOptionModel::AddVariablesToOption(nemesis::TemplateOption&
 
     if (iss.eof()) return;
 
-    throw std::runtime_error("Unexpected trailing data after expected input (Option: " + Name
+    throw nemesis::Exception("Unexpected trailing data after expected input (Option: " + Name
                              + ", Line: " + std::to_string(linenum)
                              + ", File: " + nemesis::to_utf8_string(filepath) + ")");
 }
@@ -87,7 +90,7 @@ UPtr<nemesis::TemplateOption> nemesis::TemplateOptionModel::TryCreateOption(
     {
         if (Variables.empty()) return std::make_unique<nemesis::TemplateOption>(expression, Name, *this);
 
-        throw std::runtime_error("Missing variable for option (Option: " + Name
+        throw nemesis::Exception("Missing variable for option (Option: " + Name
                                  + ", Variable: " + Variables.front() + ", Line: " + std::to_string(linenum)
                                  + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }

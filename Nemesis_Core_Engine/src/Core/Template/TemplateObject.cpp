@@ -124,7 +124,8 @@ nemesis::TemplateObject::ParseFromFile(const std::filesystem::path& filepath,
     if (std::find_if(name.begin(), name.end(), [](const char& ch) { return !std::isalpha(ch); })
         != name.end())
     {
-        throw std::runtime_error("Invalid template name '" + name + "'");
+        throw nemesis::NObjectException("Invalid template name '" + name
+                                        + "' (File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
     std::string filename = nemesis::to_utf8_string(filepath.stem());
@@ -133,9 +134,9 @@ nemesis::TemplateObject::ParseFromFile(const std::filesystem::path& filepath,
 
     if (!std::regex_match(filename, match, name_rgx))
     {
-        throw std::runtime_error("Invalid filename "
-                                 "(Template: "
-                                 + name + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+        throw nemesis::NObjectException("Invalid filename "
+                                        "(Template: "
+                                        + name + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
     return NewCustomTemplateObject<TemplateObject>(templt_class, std::stoul(match[2]), filepath);
@@ -151,7 +152,8 @@ nemesis::TemplateObject::ParseFromFile(const std::filesystem::path& filepath,
     if (std::find_if(name.begin(), name.end(), [](const char& ch) { return !std::isalpha(ch); })
         != name.end())
     {
-        throw std::runtime_error("Invalid template name '" + name + "'");
+        throw nemesis::NObjectException("Invalid template name '" + name
+                                        + "' (File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
     std::string filename = nemesis::to_utf8_string(filepath.stem());
@@ -160,9 +162,9 @@ nemesis::TemplateObject::ParseFromFile(const std::filesystem::path& filepath,
 
     if (!std::regex_match(filename, match, name_rgx))
     {
-        throw std::runtime_error("Invalid filename "
-                                 "(Template: "
-                                 + name + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+        throw nemesis::NObjectException("Invalid filename "
+                                        "(Template: "
+                                        + name + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
     return NewCustomTemplateObject<TemplateObject>(templt_class, std::stoul(match[2]), filepath, thread_pool);

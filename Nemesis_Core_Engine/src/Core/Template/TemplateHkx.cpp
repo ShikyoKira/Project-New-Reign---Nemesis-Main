@@ -21,7 +21,8 @@ UPtr<nemesis::TemplateHkx> nemesis::TemplateHkx::ParseFromFile(const std::filesy
     if (std::find_if(name.begin(), name.end(), [](const char& ch) { return !std::isalpha(ch); })
         != name.end())
     {
-        throw std::runtime_error("Invalid template name '" + name + "'");
+        throw nemesis::NObjectException("Invalid template name '" + name
+                                        + "' (File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
     std::string filename = nemesis::to_utf8_string(filepath.stem());
@@ -30,8 +31,8 @@ UPtr<nemesis::TemplateHkx> nemesis::TemplateHkx::ParseFromFile(const std::filesy
 
     if (!std::regex_match(filename, match, name_rgx))
     {
-        throw std::runtime_error("Invalid filename (Template: " + name
-                                 + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+        throw nemesis::NObjectException("Invalid filename (Template: " + name
+                                        + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
     return NewCustomTemplateObject<nemesis::TemplateHkx>(template_class, std::stoul(match[2]), filepath);
@@ -46,7 +47,8 @@ UPtr<nemesis::TemplateHkx> nemesis::TemplateHkx::ParseFromFile(const std::filesy
     if (std::find_if(name.begin(), name.end(), [](const char& ch) { return !std::isalpha(ch); })
         != name.end())
     {
-        throw std::runtime_error("Invalid template name '" + name + "'");
+        throw nemesis::NObjectException("Invalid template name '" + name
+                                        + "' (File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
     std::string filename = nemesis::to_utf8_string(filepath.stem());
@@ -55,8 +57,8 @@ UPtr<nemesis::TemplateHkx> nemesis::TemplateHkx::ParseFromFile(const std::filesy
 
     if (!std::regex_match(filename, match, name_rgx))
     {
-        throw std::runtime_error("Invalid filename (Template: " + name
-                                 + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+        throw nemesis::NObjectException("Invalid filename (Template: " + name
+                                        + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
     return NewCustomTemplateObject<nemesis::TemplateHkx>(

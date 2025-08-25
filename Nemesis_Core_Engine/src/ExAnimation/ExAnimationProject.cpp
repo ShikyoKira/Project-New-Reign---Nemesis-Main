@@ -5,6 +5,7 @@
 #include "nlohmann/json.hpp"
 
 #include "Utilities/Algorithm.h"
+#include "Utilities/Exception.h"
 
 #include "Logger.h"
 #include "NemesisInfo.h"
@@ -62,7 +63,7 @@ void nemesis::ExAnimationProject::LoadExAnim()
 
     if (!sf::exists(anim_dir) || !sf::is_directory(anim_dir))
     {
-        throw std::runtime_error("Invalid Animation directory for ExAnimation repository");
+        throw nemesis::Exception("Invalid Animation directory for ExAnimation repository");
     }
 
     const sf::path pcea_dir      = anim_dir / LITERAL_PATH("Nemesis_ExAnimation");

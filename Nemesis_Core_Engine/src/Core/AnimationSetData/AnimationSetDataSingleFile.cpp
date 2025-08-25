@@ -28,9 +28,10 @@ VecNstr nemesis::AnimationSetDataSingleFile::ParseHeaders(nemesis::LineStream& s
 
     if (token.Type != nemesis::LineStream::NONE || !is_only_number(value.ToString()))
     {
-        throw std::runtime_error("nemesis::AnimationSetDataSingleFile::ParseHeaders format error (Line: "
-                                 + std::to_string(value.GetLineNumber())
-                                 + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
+        throw nemesis::NObjectException(
+            "nemesis::AnimationSetDataSingleFile::ParseHeaders format error (Line: "
+            + std::to_string(value.GetLineNumber())
+            + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
     }
 
     for (++stream; !stream.IsEoF() && !is_only_number(stream.GetToken().Value.ToString()); ++stream)
@@ -40,9 +41,9 @@ VecNstr nemesis::AnimationSetDataSingleFile::ParseHeaders(nemesis::LineStream& s
         if (token.Type != nemesis::LineStream::NONE)
         {
             auto& token_value = stream.GetToken().Value;
-            throw std::runtime_error("Syntax Error: Unsupport syntax (Line: "
-                                     + std::to_string(token_value.GetLineNumber())
-                                     + ", File: " + nemesis::to_utf8_string(token_value.GetFilePath()) + ")");
+            throw nemesis::NObjectException(
+                "Syntax Error: Unsupport syntax (Line: " + std::to_string(token_value.GetLineNumber())
+                + ", File: " + nemesis::to_utf8_string(token_value.GetFilePath()) + ")");
         }
 
         headers.emplace_back(token.Value);
@@ -66,8 +67,8 @@ std::future<void> nemesis::AnimationSetDataSingleFile::CompileFileCore(const std
             if (!file.is_open())
             {
                 std::error_code ec(errno, std::system_category());
-                throw std::runtime_error("Failed to open file: \"" + to_utf8_string(filepath)
-                                         + "\"\nMessage: " + ec.message());
+                throw nemesis::NObjectException("Failed to open file: \"" + to_utf8_string(filepath)
+                                                + "\"\nMessage: " + ec.message());
             }
 
             std::string full_text;
@@ -142,7 +143,7 @@ void nemesis::AnimationSetDataSingleFile::CompileTo(DeqNstr& lines, nemesis::Com
 
 void nemesis::AnimationSetDataSingleFile::SerializeTo(DeqNstr& lines) const
 {
-    throw std::runtime_error("nemesis::AnimationSetDataSingleFile::SerializeTo is not supported");
+    throw nemesis::NObjectException("nemesis::AnimationSetDataSingleFile::SerializeTo is not supported");
 }
 
 UPtr<nemesis::NObject> nemesis::AnimationSetDataSingleFile::CloneNObject() const

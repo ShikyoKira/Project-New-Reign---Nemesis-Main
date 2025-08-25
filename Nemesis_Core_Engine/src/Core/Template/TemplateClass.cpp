@@ -114,7 +114,7 @@ void nemesis::TemplateClass::AddTemplateToHkxFile(const std::filesystem::path& t
 
     if (!node)
     {
-        throw std::runtime_error("Node id does not exist in behavior (Behavior: "
+        throw nemesis::Exception("Node id does not exist in behavior (Behavior: "
                                  + nemesis::to_utf8_string(templt_path) + ", Node Id: " + filename + ")");
     }
 
@@ -465,7 +465,7 @@ void nemesis::TemplateClass::AddTemplate(const SPtr<nemesis::TemplateObject>& te
 {
     if (template_object->GetTemplateClass() != this)
     {
-        throw std::runtime_error("Template object and template class do not match");
+        throw nemesis::Exception("Template object and template class do not match");
     }
 
     Templates.emplace_back(template_object);
@@ -579,12 +579,8 @@ nemesis::TemplateClass::CreateRequest(const std::string& list_name,
 
             if (matches.empty()) continue;
 
-            Vec<std::runtime_error> exceptions_caught;
-
             for (auto& match : matches)
             {
-                try
-                {
                     nemesis::TemplateOptionModel* option_model = *match;
                     auto option = option_model->TryCreateOption(component, linenum, filepath);
 
@@ -592,9 +588,9 @@ nemesis::TemplateClass::CreateRequest(const std::string& list_name,
 
                     if (matched_options.find(option_model->GetName()) != matched_options.end())
                     {
-                        throw std::runtime_error(
-                            "Repeated non-array option found (Option: " + option_model->GetName()
-                            + ", Request info : " + request_info + ", Line: " + std::to_string(linenum)
+                    throw nemesis::Exception("Repeated non-array option found (Option: "
+                                             + option_model->GetName() + ", Request info : " + request_info
+                                             + ", Line: " + std::to_string(linenum)
                             + ", File: " + nemesis::to_utf8_string(filepath) + ")");
                     }
 
@@ -604,17 +600,8 @@ nemesis::TemplateClass::CreateRequest(const std::string& list_name,
                     }
 
                     request->AddOption(std::move(option));
-                    goto OptionCreated;
-                }
-                catch (const std::runtime_error& ex)
-                {
-                    exceptions_caught.push_back(ex);
-                }
+                break;
             }
-
-            if (!exceptions_caught.empty()) throw exceptions_caught.front();
-
-        OptionCreated:
         }
 
         if (!(ss >> component)) return nullptr;
@@ -639,7 +626,7 @@ nemesis::TemplateClass::CreateRequest(const std::string& list_name,
 
         if (pos == 0)
         {
-            throw std::runtime_error("Invalid Map key request (Request info: " + request_info
+            throw nemesis::Exception("Invalid Map key request (Request info: " + request_info
                                      + ", Line: " + std::to_string(linenum)
                                      + ", File: " + nemesis::to_utf8_string(filepath) + ")");
         }

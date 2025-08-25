@@ -187,7 +187,7 @@ UPtr<nemesis::NObject> nemesis::HkxCharacter::CloneNObject() const
 
 UPtr<nemesis::HkxCharacter> nemesis::HkxCharacter::Clone() const
 {
-    throw std::runtime_error("nemesis::HkxCharacter cannot be cloned");
+    throw nemesis::NObjectException("nemesis::HkxCharacter cannot be cloned");
 }
 
 UPtr<nemesis::HkxCharacter> nemesis::HkxCharacter::ParseFromFile(const std::filesystem::path& filepath)

@@ -60,34 +60,50 @@ void nemesis::AnimationDataClipData::CompileTo(DeqNstr& lines, nemesis::CompileS
 
     if (templines.size() < 6)
     {
-        throw std::runtime_error("Invalid AnimationDataClipData. No data found (Code: " + Code + ")");
+        auto& value = templines.back();
+        throw nemesis::NObjectException("Invalid AnimationDataClipData. No data found (Code: " + Code + ", Line: " + std::to_string(value.GetLineNumber())
+                                        + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
     }
 
     if (!IsCode(templines[1]))
     {
-        throw std::runtime_error("Invalid AnimationDataClipData. Code format (Code: " + Code + ")");
+        auto& value = templines[1];
+        throw nemesis::NObjectException("Invalid AnimationDataClipData. Code format (Code: " + Code
+                                        + ", Line: " + std::to_string(value.GetLineNumber())
+                                        + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
     }
 
     if (!IsPlaybackSpeeed(templines[2]))
     {
-        throw std::runtime_error("Invalid AnimationDataClipData. PlaybackSpeed format (Code: " + Code + ")");
+        auto& value = templines[2];
+        throw nemesis::NObjectException("Invalid AnimationDataClipData. PlaybackSpeed format (Code: " + Code
+                                        + ", Line: " + std::to_string(value.GetLineNumber())
+                                        + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
     }
 
     if (!IsCropStartAmountLocalTime(templines[3]))
     {
-        throw std::runtime_error(
-            "Invalid AnimationDataClipData. CropStartAmountLocalTime format (Code: " + Code + ")");
+        auto& value = templines[3];
+        throw nemesis::NObjectException(
+            "Invalid AnimationDataClipData. CropStartAmountLocalTime format (Code: " + Code
+            + ", Line: " + std::to_string(value.GetLineNumber())
+            + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
     }
 
     if (!IsCropEndAmountLocalTime(templines[4]))
     {
-        throw std::runtime_error("Invalid AnimationDataClipData. CropEndAmountLocalTime format (Code: " + Code
-                                 + ")");
+        auto& value = templines[4];
+        throw nemesis::NObjectException(
+            "Invalid AnimationDataClipData. CropEndAmountLocalTime format (Code: " + Code + ", Line: " + std::to_string(value.GetLineNumber())
+                                        + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
     }
 
     if (!IsEventCounter(templines[5]))
     {
-        throw std::runtime_error("Invalid AnimationDataClipData. EventCounter format (Code: " + Code + ")");
+        auto& value = templines[5];
+        throw nemesis::NObjectException("Invalid AnimationDataClipData. EventCounter format (Code: " + Code
+                                        + ", Line: " + std::to_string(value.GetLineNumber())
+                                        + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
     }
 
     for (size_t i = 0; i < 5; ++i)
@@ -143,14 +159,14 @@ void nemesis::AnimationDataClipData::MatchAndUpdate(const nemesis::AnimationData
 {
     if (Name != clip_data.Name)
     {
-        throw std::runtime_error("Not matching AnimationDataClipData (Base: " + Name
-                                 + " , Modified: " + clip_data.Name + ")");
+        throw nemesis::NObjectException("Not matching AnimationDataClipData (Base: " + Name
+                                        + " , Modified: " + clip_data.Name + ")");
     }
 
     if (Code != clip_data.Code)
     {
-        throw std::runtime_error("Not matching AnimationDataClipData (Base: " + Code
-                                 + " , Modified: " + clip_data.Code + ")");
+        throw nemesis::NObjectException("Not matching AnimationDataClipData (Base: " + Code
+                                        + " , Modified: " + clip_data.Code + ")");
     }
 
     std::scoped_lock<std::mutex> lock(DataMutex);
@@ -162,14 +178,14 @@ void nemesis::AnimationDataClipData::MatchAndUpdate(const std::string& mod_code,
 {
     if (Name != clip_data.Name)
     {
-        throw std::runtime_error("Not matching AnimationDataClipData (Base: " + Name
-                                 + " , Modified: " + clip_data.Name + ")");
+        throw nemesis::NObjectException("Not matching AnimationDataClipData (Base: " + Name
+                                        + " , Modified: " + clip_data.Name + ")");
     }
 
     if (Code != clip_data.Code)
     {
-        throw std::runtime_error("Not matching AnimationDataClipData (Base: " + Code
-                                 + " , Modified: " + clip_data.Code + ")");
+        throw nemesis::NObjectException("Not matching AnimationDataClipData (Base: " + Code
+                                        + " , Modified: " + clip_data.Code + ")");
     }
 
     std::scoped_lock<std::mutex> lock(DataMutex);
@@ -204,8 +220,8 @@ void nemesis::AnimationDataClipData::SerializeToFile(const std::filesystem::path
     if (!file.is_open())
     {
         std::error_code ec(errno, std::system_category());
-        throw std::runtime_error("Failed to open file: \"" + to_utf8_string(filepath)
-                                 + "\"\nMessage: " + ec.message());
+        throw nemesis::NObjectException("Failed to open file: \"" + to_utf8_string(filepath)
+                                        + "\"\nMessage: " + ec.message());
     }
 
     for (auto& line : lines)
@@ -261,9 +277,9 @@ void nemesis::AnimationDataClipData::Deserialize(nemesis::CollectionObject& coll
             default:
             {
                 auto& value = token.Value;
-                throw std::runtime_error("Syntax Error: Unsupport syntax (Line: "
-                                         + std::to_string(value.GetLineNumber())
-                                         + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
+                throw nemesis::NObjectException(
+                    "Syntax Error: Unsupport syntax (Line: " + std::to_string(value.GetLineNumber())
+                    + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
             }
         }
     }
@@ -302,8 +318,8 @@ nemesis::AnimationDataClipData::DeserializeFromFile(const std::filesystem::path&
 
     if (lines.empty())
     {
-        throw std::runtime_error("Failed to deserialize AnimationDataClipData from file (File: "
-                                 + nemesis::to_utf8_string(filepath) + ")");
+        throw nemesis::NObjectException("Failed to deserialize AnimationDataClipData from file (File: "
+                                        + nemesis::to_utf8_string(filepath) + ")");
     }
 
     nemesis::LineStream stream(lines.begin(), lines.end());
@@ -332,8 +348,9 @@ nemesis::AnimationDataClipData::DeserializeFromFile(const std::filesystem::path&
 
             if (lines.empty())
             {
-                throw std::runtime_error("Failed to deserialize AnimationDataClipData from file (File: "
-                                         + nemesis::to_utf8_string(filepath) + ")");
+                throw nemesis::NObjectException(
+                    "Failed to deserialize AnimationDataClipData from file (File: "
+                    + nemesis::to_utf8_string(filepath) + ")");
             }
 
             nemesis::LineStream stream(lines.begin(), lines.end());
@@ -365,8 +382,9 @@ nemesis::AnimationDataClipData::DeserializeFromFile(const std::filesystem::path&
 
             if (lines.empty())
             {
-                throw std::runtime_error("Failed to deserialize AnimationDataClipData from file (File: "
-                                         + nemesis::to_utf8_string(filepath) + ")");
+                throw nemesis::NObjectException(
+                    "Failed to deserialize AnimationDataClipData from file (File: "
+                    + nemesis::to_utf8_string(filepath) + ")");
             }
 
             nemesis::LineStream stream(lines.begin(), lines.end());
@@ -392,18 +410,18 @@ nemesis::AnimationDataClipData::ParseObjects(nemesis::LineStream& stream,
 
     if (token_ptr->Type != nemesis::LineStream::NONE)
     {
-        throw std::runtime_error("Syntax Error: Unsupport syntax (Line: "
-                                 + std::to_string(active_val.GetLineNumber())
-                                 + ", File: " + nemesis::to_utf8_string(active_val.GetFilePath()) + ")");
+        throw nemesis::NObjectException(
+            "Syntax Error: Unsupport syntax (Line: " + std::to_string(active_val.GetLineNumber())
+            + ", File: " + nemesis::to_utf8_string(active_val.GetFilePath()) + ")");
     }
 
     if (active_val == "0") return clip_list;
 
     if (active_val != "1")
     {
-        throw std::runtime_error("Invalid AnimationDataClipData::ParseObject (Line: "
-                                 + std::to_string(active_val.GetLineNumber())
-                                 + ", File: " + nemesis::to_utf8_string(active_val.GetFilePath()) + ")");
+        throw nemesis::NObjectException(
+            "Invalid AnimationDataClipData::ParseObject (Line: " + std::to_string(active_val.GetLineNumber())
+            + ", File: " + nemesis::to_utf8_string(active_val.GetFilePath()) + ")");
     }
 
     nemesis::CollectionObject* collection_ptr = nullptr;
@@ -418,9 +436,9 @@ nemesis::AnimationDataClipData::ParseObjects(nemesis::LineStream& stream,
 
         if (token_ptr->Type != nemesis::LineStream::NONE)
         {
-            throw std::runtime_error("Syntax Error: Unsupport syntax (Line: "
-                                     + std::to_string(token_val.GetLineNumber())
-                                     + ", File: " + nemesis::to_utf8_string(token_val.GetFilePath()) + ")");
+            throw nemesis::NObjectException(
+                "Syntax Error: Unsupport syntax (Line: " + std::to_string(token_val.GetLineNumber())
+                + ", File: " + nemesis::to_utf8_string(token_val.GetFilePath()) + ")");
         }
 
         if (token_ptr->Value.empty())
@@ -436,9 +454,9 @@ nemesis::AnimationDataClipData::ParseObjects(nemesis::LineStream& stream,
 
             if (stream.IsEoF())
             {
-                throw std::runtime_error("Invalid AnimationDataClipData::ParseObject. Missing "
-                                         "Code and Event Counter (Clip: "
-                                         + name.ToString() + ")");
+                throw nemesis::NObjectException("Invalid AnimationDataClipData::ParseObject. Missing "
+                                                "Code and Event Counter (Clip: "
+                                                + name.ToString() + ")");
             }
 
             token_ptr  = &stream.GetToken();
@@ -446,7 +464,7 @@ nemesis::AnimationDataClipData::ParseObjects(nemesis::LineStream& stream,
 
             if (stream.IsEoF())
             {
-                throw std::runtime_error(
+                throw nemesis::NObjectException(
                     "Invalid AnimationDataClipData::ParseObject. Missing Event Counter (Clip: "
                     + name.ToString() + ")");
             }

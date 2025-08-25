@@ -261,7 +261,7 @@ void nemesis::NumelementModifier::Apply(VecStr& blocks, nemesis::CompileState& s
     *error_handler_add = state.InsertEOFHandler(
         [this]()
         {
-            throw std::runtime_error("Syntax Error: Unclose counter (Line: " + std::to_string(LineNum)
-                                     + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
+            throw nemesis::ModifierException("Syntax Error: Unclose counter (Line: " + std::to_string(LineNum)
+                                             + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
         });
 }

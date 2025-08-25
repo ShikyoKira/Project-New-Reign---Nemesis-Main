@@ -143,7 +143,7 @@ nemesis::CompositeStatement::DynamicComponent::DynamicComponent(const std::strin
             {
                 if (--layer < 0)
                 {
-                    throw std::runtime_error("Syntax Error: Unopened '}' (Component: " + component
+                    throw nemesis::StatementException("Syntax Error: Unopened '}' (Component: " + component
                                              + ", Line: " + std::to_string(linenum)
                                              + ", File: " + nemesis::to_utf8_string(filepath) + ")");
                 }

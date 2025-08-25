@@ -244,7 +244,7 @@ void nemesis::ForEachStatement::Parse1Component(nemesis::SemanticManager& manage
 
         if (num - 1 > fnum)
         {
-            throw std::runtime_error(
+            throw nemesis::StatementException(
                 "Value Inaccessible: Template can only access to current request, parent "
                 "requests and immediate child request. It "
                 "cannot access to anything beyond the child requests (Expression: "

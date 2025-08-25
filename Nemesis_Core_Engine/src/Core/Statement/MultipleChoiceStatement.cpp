@@ -139,7 +139,10 @@ nemesis::MultipleChoiceStatement::MultipleChoiceStatement(const std::string& lin
             Components.emplace_back(itr->str(0));
         }
     }
-    catch (const std::runtime_error& ex)
+    catch (const nemesis::Exception&)
+    {
+    }
+    catch (const std::exception& ex)
     {
         ThrowSyntaxError(ex.what());
     }

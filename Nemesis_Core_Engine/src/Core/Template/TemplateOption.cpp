@@ -46,7 +46,7 @@ const std::string& nemesis::TemplateOption::GetVariableValue(const std::string& 
 
     if (itr != Variables.end()) return itr->second;
 
-    throw std::runtime_error("Option variable cannot be found (Variable: " + name + ")");
+    throw std::runtime_error("Option variable \"" + name + "\" cannot be found");
 }
 
 void nemesis::TemplateOption::AddVariable(const std::string& name, const std::string& value)

@@ -18,9 +18,9 @@ nemesis::CurrentCountModifier::CurrentCountModifier(size_t begin,
 
     if (components.size() != 2)
     {
-        throw std::runtime_error("Syntax Error: CurrentCount only accepts 1 argument (Expression: "
-                                 + expression + ", Line: " + std::to_string(linenum)
-                                 + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+        throw nemesis::ModifierException("Syntax Error: CurrentCount only accepts 1 argument (Expression: "
+                                         + expression + ", Line: " + std::to_string(linenum)
+                                         + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
     Name = components.back();

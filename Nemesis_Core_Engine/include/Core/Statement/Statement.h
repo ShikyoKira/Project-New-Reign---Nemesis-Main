@@ -3,6 +3,8 @@
 #include <filesystem>
 #include <functional>
 
+#include "Utilities/Exception.h"
+
 #include "Nemesis_Core_Engine/include/Utilities/Line.h"
 #include "Nemesis_Core_Engine/include/Utilities/Types.h"
 
@@ -21,6 +23,11 @@ namespace nemesis
         std::filesystem::path FilePath;
         VecStr Components;
 
+        using PropertyAccessor = std::function<std::string(const nemesis::AnimationRequest&, nemesis::CompileState&)>;
+        using AggregatePropertyAccessor
+            = std::function<std::string(PropertyAccessor, nemesis::CompileState&)>;
+        using RequestEvaluator = std::function<const nemesis::AnimationRequest&(nemesis::CompileState&)>;
+
         Statement(const std::string& expression, size_t linenum, const std::filesystem::path filepath, bool no_component = false);
         Statement(const nemesis::Line& expression, bool no_component = false);
         Statement(const nemesis::Statement& statement);
@@ -30,8 +37,11 @@ namespace nemesis
             const nemesis::SemanticManager& manager,
             const std::function<bool(nemesis::CompileState&, const nemesis::AnimationRequest&)>& callback);
 
-        virtual SPtr<std::function<const nemesis::AnimationRequest&(nemesis::CompileState&)>>
+        virtual SPtr<nemesis::Statement::RequestEvaluator>
         GetTargetRequest(const nemesis::TemplateClass& templt_class, const nemesis::SemanticManager& manager);
+        virtual SPtr<nemesis::Statement::AggregatePropertyAccessor>
+        GetTargetAggregatePropertyAccessor(const nemesis::TemplateClass& templt_class,
+                                           const nemesis::SemanticManager& manager);
 
         const nemesis::AnimationRequest* GetBaseRequest(nemesis::CompileState& state) const;
 
@@ -53,5 +63,13 @@ namespace nemesis
         VecStr SplitComponents(const std::string& value);
         static VecStr
         SplitComponents(const std::string& value, size_t linenum, const std::filesystem::path& filepath);
+    };
+
+    struct StatementException : nemesis::Exception
+    {
+        StatementException(const std::string& msg)
+            : nemesis::Exception(msg)
+        {
+        }
     };
 }

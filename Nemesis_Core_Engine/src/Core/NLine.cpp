@@ -95,10 +95,14 @@ void nemesis::NLine::CompileTo(DeqNstr& lines, nemesis::CompileState& state) con
         auto& line_ref = lines.emplace_back(merged, Value->GetLineNumber(), Value->GetFilePath());
         state.RaiseAddLineEvent(line_ref, *this);
     }
+    catch (const nemesis::Exception&)
+    {
+    }
     catch (const std::exception& ex)
     {
-        throw std::runtime_error(std::string(ex.what()) + " (Line: " + std::to_string(Value->GetLineNumber())
-                                 + ", File: " + nemesis::to_utf8_string(Value->GetFilePath()) + ")");
+        throw nemesis::NObjectException(std::string(ex.what())
+                                        + " (Line: " + std::to_string(Value->GetLineNumber())
+                                        + ", File: " + nemesis::to_utf8_string(Value->GetFilePath()) + ")");
     }
 }
 
@@ -134,9 +138,10 @@ void nemesis::NLine::MatchAndUpdate(const nemesis::NLine& nline)
 {
     if (!nline.Value || *Value != *nline.Value)
     {
-        throw std::runtime_error("Template update line to line to does not match (Line: "
-                                 + (!nline.Value ? "???" : std::to_string(nline.Value->GetLineNumber()))
-                                 + ", File: " + nemesis::to_utf8_string(nline.Value->GetFilePath()) + ")");
+        throw nemesis::NObjectException(
+            "Template update line to line to does not match (Line: "
+            + (!nline.Value ? "???" : std::to_string(nline.Value->GetLineNumber()))
+            + ", File: " + nemesis::to_utf8_string(nline.Value->GetFilePath()) + ")");
     }
 
     if (nline.ModLines.empty()) return;
@@ -151,9 +156,10 @@ void nemesis::NLine::MatchAndUpdate(const std::string& mod_code, const nemesis::
 {
     if (!nline.Value || *Value != *nline.Value)
     {
-        throw std::runtime_error("Mod update line to line to does not match (Mod: " + mod_code
-                                 + ", Line: " + (!nline.Value ? "???" : std::to_string(nline.Value->GetLineNumber()))
-                                 + ", File: " + nemesis::to_utf8_string(nline.Value->GetFilePath()) + ")");
+        throw nemesis::NObjectException(
+            "Mod update line to line to does not match (Mod: " + mod_code
+            + ", Line: " + (!nline.Value ? "???" : std::to_string(nline.Value->GetLineNumber()))
+            + ", File: " + nemesis::to_utf8_string(nline.Value->GetFilePath()) + ")");
     }
 
     if (nline.ModLines.empty()) return;

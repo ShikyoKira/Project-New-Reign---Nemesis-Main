@@ -52,18 +52,19 @@ void nemesis::AnimationRequestRepository::AddRequestsFromFile(const std::filesys
 
             if (!std::regex_match(line.ToString(), match, aaset_rgx))
             {
-                throw std::runtime_error("Invalid Command: Incorrect AAset syntax (Line: "
-                                         + std::to_string(line.GetLineNumber())
-                                         + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+                throw nemesis::NObjectException("Invalid Command: Incorrect AAset syntax (Line: "
+                                                + std::to_string(line.GetLineNumber())
+                                                + ", File: " + nemesis::to_utf8_string(filepath) + ")");
             }
 
             auto group = alter_anim_repo.GetAlterAnimGroupByName(match[1]);
 
             if (!group)
             {
-                throw std::runtime_error("Invalid Command: AAset group (" + match[1].str()
-                                         + ") cannot be found (Line: " + std::to_string(line.GetLineNumber())
-                                         + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+                throw nemesis::NObjectException("Invalid Command: AAset group (" + match[1].str()
+                                                + ") cannot be found (Line: "
+                                                + std::to_string(line.GetLineNumber())
+                                                + ", File: " + nemesis::to_utf8_string(filepath) + ")");
             }
 
             group->AddPrefix(dir_path, aa_prefix, std::stol(match[2]));
@@ -90,9 +91,10 @@ void nemesis::AnimationRequestRepository::AddRequestsFromFile(const std::filesys
 
             if (length > layer_size)
             {
-                throw std::runtime_error("Invalid Command: Parent level (" + std::to_string(length)
-                                         + ") cannot be found (Line: " + std::to_string(line.GetLineNumber())
-                                         + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+                throw nemesis::NObjectException("Invalid Command: Parent level (" + std::to_string(length)
+                                                + ") cannot be found (Line: "
+                                                + std::to_string(line.GetLineNumber())
+                                                + ", File: " + nemesis::to_utf8_string(filepath) + ")");
             }
 
             while (length + 1 < request_layers.size())

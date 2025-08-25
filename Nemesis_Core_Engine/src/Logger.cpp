@@ -9,6 +9,7 @@
 #include "NemesisInfo.h"
 
 #include "Utilities/Algorithm.h"
+#include "Utilities/Exception.h"
 
 std::mutex Logger::LoggerMutex;
 std::filesystem::path Logger::LoggerPath = std::filesystem::current_path() / "log.txt";
@@ -39,7 +40,7 @@ void Logger::Log(const std::string& msg, bool console_out)
         return;
     }
 
-    throw std::runtime_error("Failed to open log file (File: " + nemesis::to_utf8_string(LoggerPath) + ")");
+    throw nemesis::Exception("Failed to open log file (File: " + nemesis::to_utf8_string(LoggerPath) + ")");
 }
 
 void Logger::Log(const std::wstring& msg, bool console_out)
@@ -63,7 +64,7 @@ void Logger::Log(const std::wstring& msg, bool console_out)
         return;
     }
 
-    throw std::runtime_error("Failed to open log file (File: " + nemesis::to_utf8_string(LoggerPath) + ")");
+    throw nemesis::Exception("Failed to open log file (File: " + nemesis::to_utf8_string(LoggerPath) + ")");
 }
 
 void Logger::ClearLog()

@@ -86,8 +86,9 @@ nemesis::LineModifierFactory::BuildModifiers(const std::string& line,
         {
             if (++i == line.length())
             {
-                throw std::runtime_error("Syntax Error: Unexpected '$' (Line: " + std::to_string(linenum)
-                                         + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+                throw nemesis::ModifierException("Syntax Error: Unexpected '$' (Line: "
+                                                 + std::to_string(linenum)
+                                                 + ", File: " + nemesis::to_utf8_string(filepath) + ")");
             }
 
             ch2 = line[i];

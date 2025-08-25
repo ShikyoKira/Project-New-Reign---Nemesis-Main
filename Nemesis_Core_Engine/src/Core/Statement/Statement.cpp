@@ -6,7 +6,6 @@
 #include "Core/SemanticManager.h"
 
 #include "Utilities/Algorithm.h"
-#include "Utilities/StatementException.h"
 
 #include "Core/Template/TemplateClass.h"
 
@@ -17,7 +16,8 @@ nemesis::Statement::Statement(const std::string& expression,
 {
     if (expression.empty())
     {
-        throw std::runtime_error("Syntax Error: empty expression detected (Line: " + std::to_string(linenum)
+        throw nemesis::StatementException("Syntax Error: empty expression detected (Line: "
+                                          + std::to_string(linenum)
                                  + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
@@ -34,8 +34,8 @@ nemesis::Statement::Statement(const nemesis::Line& expression, bool no_component
 {
     if (expression.empty())
     {
-        throw std::runtime_error("Syntax Error: empty expression detected (Line: "
-                                 + std::to_string(expression.GetLineNumber())
+        throw nemesis::StatementException(
+            "Syntax Error: empty expression detected (Line: " + std::to_string(expression.GetLineNumber())
                                  + ", File: " + nemesis::to_utf8_string(expression.GetFilePath()) + ")");
     }
 
@@ -318,7 +318,7 @@ void nemesis::Statement::ThrowInaccessibleError(const std::string& msg) const
 void nemesis::Statement::ThrowTemplateUnsupported(const std::string& msg,
                                                   const std::string& templt_name) const
 {
-    throw std::runtime_error("Invalid Template: " + msg + " (Template: " + templt_name
+    throw nemesis::StatementException("Invalid Template: " + msg + " (Template: " + templt_name
                              + ", Line: " + std::to_string(LineNum)
                              + ", File: " + nemesis::to_utf8_string(FilePath) + ")");
 }

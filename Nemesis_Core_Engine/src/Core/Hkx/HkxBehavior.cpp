@@ -572,7 +572,7 @@ UPtr<nemesis::NObject> nemesis::HkxBehavior::CloneNObject() const
 
 UPtr<nemesis::HkxBehavior> nemesis::HkxBehavior::Clone() const
 {
-    throw std::runtime_error("nemesis::HkxBehavior cannot be cloned");
+    throw nemesis::NObjectException("nemesis::HkxBehavior cannot be cloned");
 }
 
 size_t nemesis::HkxBehavior::GetSize() const

@@ -2,6 +2,7 @@
 
 #include "Utilities/Algorithm.h"
 #include "Utilities/Compute.h"
+#include "Utilities/Exception.h"
 
 #include "exprtk.hpp"
 
@@ -24,7 +25,7 @@ namespace nemesis
 
         if (!parser.compile(expression_string, expression))
         {
-            throw std::runtime_error("Invalid equation (Equation: " + equation + ", Format: " + format
+            throw nemesis::Exception("Invalid equation (Equation: " + equation + ", Format: " + format
                                      + +", Line: " + std::to_string(linenum)
                                      + +", File: " + nemesis::to_utf8_string(filepath) + ")");
         }

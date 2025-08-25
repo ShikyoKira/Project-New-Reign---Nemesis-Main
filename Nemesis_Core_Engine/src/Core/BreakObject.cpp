@@ -8,9 +8,9 @@
 nemesis::BreakObject::BreakException::BreakException(const std::string& expression,
                                                      size_t linenum,
                                                      const std::filesystem::path& filepath)
-    : std::runtime_error(std::string("Uncaptured ForEach Break (Expression: " + expression
-                                     + ", Line: " + std::to_string(linenum)
-                                     + ", File: " + nemesis::to_utf8_string(filepath) + ")"))
+    : nemesis::NObjectException("Uncaptured ForEach Break (Expression: " + expression
+                                + ", Line: " + std::to_string(linenum)
+                                + ", File: " + nemesis::to_utf8_string(filepath) + ")")
     , Expression(expression)
 {
 }
@@ -35,7 +35,7 @@ nemesis::BreakObject::BreakObject(const std::string& expression,
 {
     if (manager.HasForEachInQueue(expression)) return;
 
-    throw std::runtime_error(
+    throw nemesis::NObjectException(
         "Syntax Error: Break must be within stated scope of FOREACH and CLOSE (Expression: " + expression
         + ", Line: " + std::to_string(linenum) + ", File: " + nemesis::to_utf8_string(filepath) + ")");
 }

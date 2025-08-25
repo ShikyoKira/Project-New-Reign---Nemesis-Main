@@ -21,7 +21,7 @@ namespace nemesis
         struct ConditionOptionComparer;
         struct ConditionalCollection;
 
-        struct ConditionSyntaxError : public std::runtime_error
+        struct ConditionSyntaxError : nemesis::StatementException
         {
             ConditionSyntaxError(const std::string& msg);
         };

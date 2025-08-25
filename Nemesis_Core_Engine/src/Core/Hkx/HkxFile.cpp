@@ -80,7 +80,7 @@ DeqNstr nemesis::HkxFile::CompileAllSubTemplates(nemesis::CompileState& state) c
 
         if (!st_obj)
         {
-            throw std::runtime_error("SubTemplate cannot be found (\"" + template_name + "\")");
+            throw nemesis::NObjectException("SubTemplate cannot be found (\"" + template_name + "\")");
         }
 
         checker.insert(request->GetArgument(0));
@@ -119,7 +119,7 @@ DeqNstr nemesis::HkxFile::CompileAllSubTemplates(nemesis::CompileState& state) c
 
             if (!st_obj)
             {
-                throw std::runtime_error("SubTemplate cannot be found (\"" + template_name + "\")");
+                throw nemesis::NObjectException("SubTemplate cannot be found (\"" + template_name + "\")");
             }
 
             checker.insert(id);
@@ -160,8 +160,8 @@ std::future<void> nemesis::HkxFile::CompileToHkx(const std::filesystem::path& hk
                 if (!file.is_open())
                 {
                     std::error_code ec(errno, std::system_category());
-                    throw std::runtime_error("Failed to open file: \"" + to_utf8_string(xml_path)
-                                             + "\"\nMessage: " + ec.message());
+                    throw nemesis::NObjectException("Failed to open file: \"" + to_utf8_string(xml_path)
+                                                    + "\"\nMessage: " + ec.message());
                 }
 
                 file << contents;
@@ -198,7 +198,7 @@ std::future<void> nemesis::HkxFile::CompileToHkx(const std::filesystem::path& hk
                     }
                 }
 
-                throw std::runtime_error(
+                throw nemesis::NObjectException(
                     msg + "\nFailed to output hkx file (File: " + nemesis::to_utf8_string(hkx_path) + ")");
             }
 
@@ -215,8 +215,8 @@ std::future<void> nemesis::HkxFile::CompileToHkx(const std::filesystem::path& hk
                 return;
             }
 
-            throw std::runtime_error("Failed to output hkx file (File: " + nemesis::to_utf8_string(hkx_path)
-                                     + ")");
+            throw nemesis::NObjectException(
+                "Failed to output hkx file (File: " + nemesis::to_utf8_string(hkx_path) + ")");
         });
 }
 
@@ -248,8 +248,8 @@ void nemesis::HkxFile::CompileFileAsXml(const std::filesystem::path& filepath,
     if (!file.is_open())
     {
         std::error_code ec(errno, std::system_category());
-        throw std::runtime_error("Failed to open file: \"" + to_utf8_string(filepath)
-                                 + "\"\nMessage: " + ec.message());
+        throw nemesis::NObjectException("Failed to open file: \"" + to_utf8_string(filepath)
+                                        + "\"\nMessage: " + ec.message());
     }
 
     file << stream.str();
@@ -339,18 +339,17 @@ void nemesis::HkxFile::ScheduleCompileFileAs(const std::filesystem::path& filepa
         modded_lines.insert({line_counter, &line});
     }
 
-    auto future = CompileToHkx(
-        filepath,
-        stream.str(),
-        state,
-        platform,
-        version,
-        include_xml,
-        modded_lines,
-        // lines is required to be included to keep it alive throughout
-        // the whole async process for modded_lines reference when 
-        // there is an error during compilation
-        [lines, callback]() { callback(); });
+    auto future = CompileToHkx(filepath,
+                               stream.str(),
+                               state,
+                               platform,
+                               version,
+                               include_xml,
+                               modded_lines,
+                               // lines is required to be included to keep it alive throughout
+                               // the whole async process for modded_lines reference when
+                               // there is an error during compilation
+                               [lines, callback]() { callback(); });
 
     std::scoped_lock<std::mutex> lock(CompileFutureMutex);
     CompileFuture.emplace_back(std::move(future));

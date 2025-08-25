@@ -70,7 +70,7 @@ void nemesis::ModLine::AddModLine(const std::string& modcode,
                                   const std::filesystem::path& filepath,
                                   nemesis::SemanticManager& manager)
 {
-    throw std::runtime_error("Nested mod line is not supported");
+    throw nemesis::NObjectException("Nested mod line is not supported");
 }
 
 void nemesis::ModLine::AddModLine(const std::string& modcode,
@@ -79,7 +79,7 @@ void nemesis::ModLine::AddModLine(const std::string& modcode,
                                   nemesis::SemanticManager& manager,
                                   const nemesis::Line& line)
 {
-    throw std::runtime_error("Nested mod line is not supported");
+    throw nemesis::NObjectException("Nested mod line is not supported");
 }
 
 bool nemesis::ModLine::IsSelected(nemesis::CompileState& state) const

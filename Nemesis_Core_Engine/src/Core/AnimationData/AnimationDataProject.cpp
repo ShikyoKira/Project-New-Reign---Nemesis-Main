@@ -40,9 +40,9 @@ UPtr<nemesis::AnimationDataProject> nemesis::AnimationDataProject::ParseProject(
 
     if (stoken.Type != nemesis::LineStream::NONE || !is_only_number(ssize.ToString()))
     {
-        throw std::runtime_error("Invalid nemesis::AnimationDataProject::ParseProject size (Line: "
-                                 + std::to_string(ssize.GetLineNumber())
-                                 + ", File: " + nemesis::to_utf8_string(ssize.GetFilePath()) + ")");
+        throw nemesis::NObjectException("Invalid nemesis::AnimationDataProject::ParseProject size (Line: "
+                                        + std::to_string(ssize.GetLineNumber())
+                                        + ", File: " + nemesis::to_utf8_string(ssize.GetFilePath()) + ")");
     }
 
     size_t fsize;
@@ -51,9 +51,9 @@ UPtr<nemesis::AnimationDataProject> nemesis::AnimationDataProject::ParseProject(
 
     if (!end_token)
     {
-        throw std::runtime_error("Invalid nemesis::AnimationDataProject::ParseProject size (Line: "
-                                 + std::to_string(ssize.GetLineNumber())
-                                 + ", File: " + nemesis::to_utf8_string(ssize.GetFilePath()) + ")");
+        throw nemesis::NObjectException("Invalid nemesis::AnimationDataProject::ParseProject size (Line: "
+                                        + std::to_string(ssize.GetLineNumber())
+                                        + ", File: " + nemesis::to_utf8_string(ssize.GetFilePath()) + ")");
     }
 
     ParseStage type = nemesis::AnimationDataProject::IsActiveStage;
@@ -66,9 +66,9 @@ UPtr<nemesis::AnimationDataProject> nemesis::AnimationDataProject::ParseProject(
 
         if (token.Type != nemesis::LineStream::NONE)
         {
-            throw std::runtime_error("Syntax Error: Unexpected syntax (Line: "
-                                     + std::to_string(value.GetLineNumber())
-                                     + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
+            throw nemesis::NObjectException(
+                "Syntax Error: Unexpected syntax (Line: " + std::to_string(value.GetLineNumber())
+                + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
         }
 
         if (end_token == &token)
@@ -92,7 +92,7 @@ UPtr<nemesis::AnimationDataProject> nemesis::AnimationDataProject::ParseProject(
 
                 if (!is_only_number(value.ToString()))
                 {
-                    throw std::runtime_error(
+                    throw nemesis::NObjectException(
                         "Invalid nemesis::AnimationDataProject::ParseProject format (Line: "
                         + std::to_string(value.GetLineNumber())
                         + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
@@ -137,7 +137,7 @@ UPtr<nemesis::AnimationDataProject> nemesis::AnimationDataProject::ParseProject(
 
                 if (!is_only_number(value.ToString()))
                 {
-                    throw std::runtime_error(
+                    throw nemesis::NObjectException(
                         "Invalid nemesis::AnimationDataProject::ParseObjects format (Line: "
                         + std::to_string(value.GetLineNumber())
                         + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
@@ -259,7 +259,7 @@ void nemesis::AnimationDataProject::CompileTo(DeqNstr& lines, nemesis::CompileSt
 
 void nemesis::AnimationDataProject::SerializeTo(DeqNstr& lines) const
 {
-    throw std::runtime_error("nemesis::AnimationDataProject::SerializeTo is not supported");
+    throw nemesis::NObjectException("nemesis::AnimationDataProject::SerializeTo is not supported");
 }
 
 UPtr<nemesis::NObject> nemesis::AnimationDataProject::CloneNObject() const
@@ -383,8 +383,8 @@ void nemesis::AnimationDataProject::SerializeToDirectory(const std::filesystem::
     if (!file.is_open())
     {
         std::error_code ec(errno, std::system_category());
-        throw std::runtime_error("Failed to open file: \"" + to_utf8_string(filepath)
-                                 + "\"\nMessage: " + ec.message());
+        throw nemesis::NObjectException("Failed to open file: \"" + to_utf8_string(filepath)
+                                        + "\"\nMessage: " + ec.message());
     }
 
     for (auto& line : lines)
@@ -540,9 +540,9 @@ nemesis::AnimationDataProject::DeserializeHeaderFromFile(const std::filesystem::
             default:
             {
                 auto& value = token.Value;
-                throw std::runtime_error("Syntax Error: Unsupport syntax (Line: "
-                                         + std::to_string(value.GetLineNumber())
-                                         + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
+                throw nemesis::NObjectException(
+                    "Syntax Error: Unsupport syntax (Line: " + std::to_string(value.GetLineNumber())
+                    + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
             }
         }
     }
@@ -605,9 +605,9 @@ nemesis::AnimationDataProject::DeserializeHeaderFromFile(const std::filesystem::
                     default:
                     {
                         auto& value = token.Value;
-                        throw std::runtime_error("Syntax Error: Unsupport syntax (Line: "
-                                                 + std::to_string(value.GetLineNumber())
-                                                 + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
+                        throw nemesis::NObjectException(
+                            "Syntax Error: Unsupport syntax (Line: " + std::to_string(value.GetLineNumber())
+                            + ", File: " + nemesis::to_utf8_string(value.GetFilePath()) + ")");
                     }
                 }
             }
@@ -626,7 +626,7 @@ Vec<UPtr<nemesis::AnimationDataProject>> nemesis::AnimationDataProject::ParseObj
     {
         if (name_itr == project_names.end())
         {
-            throw std::runtime_error(
+            throw nemesis::NObjectException(
                 "nemesis::AnimationDataProject::ParseObjects parsing error. Project name count "
                 "and project body count do not match");
         }

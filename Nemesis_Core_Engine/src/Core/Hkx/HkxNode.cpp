@@ -190,9 +190,9 @@ bool nemesis::HkxNode::TryInjectEventNames(DeqNstr& lines,
 
         if (!state.TryGetEventName(id, name))
         {
-            throw std::runtime_error("Invalid Value: Event name not found (Id: " + id
-                                     + ", Line: " + std::to_string(line.GetLineNumber())
-                                     + ", File: " + nemesis::to_utf8_string(line.GetFilePath()) + ") ");
+            throw nemesis::NObjectException("Invalid Value: Event name not found (Id: " + id
+                                            + ", Line: " + std::to_string(line.GetLineNumber()) + ", File: "
+                                            + nemesis::to_utf8_string(line.GetFilePath()) + ") ");
         }
 
         line += "\t\t\t<!-- " + name + "-->";
@@ -227,9 +227,9 @@ bool nemesis::HkxNode::TryInjectVariableNames(DeqNstr& lines,
 
         if (!state.TryGetVariableName(id, name))
         {
-            throw std::runtime_error("Invalid Value: Variable name not found (Id: " + id
-                                     + ", Line: " + std::to_string(line.GetLineNumber())
-                                     + ", File: " + nemesis::to_utf8_string(line.GetFilePath()) + ") ");
+            throw nemesis::NObjectException("Invalid Value: Variable name not found (Id: " + id
+                                            + ", Line: " + std::to_string(line.GetLineNumber()) + ", File: "
+                                            + nemesis::to_utf8_string(line.GetFilePath()) + ") ");
         }
 
         line += "\t\t\t<!-- " + name + "-->";
@@ -452,9 +452,9 @@ UPtr<nemesis::NObject> nemesis::HkxNode::ParseHkxNode(nemesis::LineStream& strea
 
             if (!std::regex_match((*stream).ToString(), match, NodeIdRgx))
             {
-                throw std::runtime_error("Behavior Format Error: Node Id not found (Line: "
-                                         + std::to_string(token_value.GetLineNumber()) + ", File: "
-                                         + nemesis::to_utf8_string(token_value.GetFilePath()) + ")");
+                throw nemesis::NObjectException("Behavior Format Error: Node Id not found (Line: "
+                                                + std::to_string(token_value.GetLineNumber()) + ", File: "
+                                                + nemesis::to_utf8_string(token_value.GetFilePath()) + ")");
             }
 
             hkx_node->NodeId    = match[1];
@@ -531,9 +531,9 @@ UPtr<nemesis::NObject> nemesis::HkxNode::ParseHkxNode(nemesis::LineStream& strea
                 }
             }
 
-            throw std::runtime_error("Syntax Error: Unclosed If Statement (Line: "
-                                     + std::to_string(token_value.GetLineNumber())
-                                     + ", File: " + nemesis::to_utf8_string(token_value.GetFilePath()) + ")");
+            throw nemesis::NObjectException(
+                "Syntax Error: Unclosed If Statement (Line: " + std::to_string(token_value.GetLineNumber())
+                + ", File: " + nemesis::to_utf8_string(token_value.GetFilePath()) + ")");
         }
         case nemesis::LineStream::TokenType::NONE:
         {
@@ -542,9 +542,9 @@ UPtr<nemesis::NObject> nemesis::HkxNode::ParseHkxNode(nemesis::LineStream& strea
         }
         default:
         {
-            throw std::runtime_error("Syntax Error: Unsupported syntax (Line: "
-                                     + std::to_string(token_value.GetLineNumber())
-                                     + ", File: " + nemesis::to_utf8_string(token_value.GetFilePath()) + ")");
+            throw nemesis::NObjectException(
+                "Syntax Error: Unsupported syntax (Line: " + std::to_string(token_value.GetLineNumber())
+                + ", File: " + nemesis::to_utf8_string(token_value.GetFilePath()) + ")");
         }
     }
 }
@@ -560,9 +560,9 @@ void nemesis::HkxNode::Deserialize(nemesis::HkxNode& hkx_node,
 
     if (!std::regex_match(token_value.ToString(), match, NodeIdRgx))
     {
-        throw std::runtime_error("Behavior Format Error: Node Id not found (Line: "
-                                 + std::to_string(token_value.GetLineNumber())
-                                 + ", File: " + nemesis::to_utf8_string(token_value.GetFilePath()) + ")");
+        throw nemesis::NObjectException(
+            "Behavior Format Error: Node Id not found (Line: " + std::to_string(token_value.GetLineNumber())
+            + ", File: " + nemesis::to_utf8_string(token_value.GetFilePath()) + ")");
     }
 
     auto collection = std::make_unique<nemesis::CollectionObject>();

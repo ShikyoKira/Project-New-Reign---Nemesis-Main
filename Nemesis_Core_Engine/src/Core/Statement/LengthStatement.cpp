@@ -10,9 +10,9 @@ nemesis::LengthStatement::LengthStatement(const std::string& expression,
 {
     if (Components.size() != 2)
     {
-        throw std::runtime_error("Syntax Error: Length only accepts 1 argument (Syntax: " + expression
-                                 + ", Line: " + std::to_string(linenum)
-                                 + ", File: " + nemesis::to_utf8_string(filepath) + ")");
+        throw nemesis::StatementException("Syntax Error: Length only accepts 1 argument (Syntax: "
+                                          + expression + ", Line: " + std::to_string(linenum)
+                                          + ", File: " + nemesis::to_utf8_string(filepath) + ")");
     }
 
     auto& value = Components.back();

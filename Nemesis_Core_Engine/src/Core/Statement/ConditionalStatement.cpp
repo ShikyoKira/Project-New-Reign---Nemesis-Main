@@ -15,7 +15,7 @@
 #include "Core/Template.h"
 
 nemesis::ConditionalStatement::ConditionSyntaxError::ConditionSyntaxError(const std::string& msg)
-    : std::runtime_error(msg)
+    : nemesis::StatementException(msg)
 {
 }
 

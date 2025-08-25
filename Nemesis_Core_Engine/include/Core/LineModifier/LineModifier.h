@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Utilities/Exception.h"
 #include "Utilities/Line.h"
 
 #include "Core/LineModifier/LineModifierFactory.h"
@@ -23,5 +24,13 @@ namespace nemesis
         virtual ~LineModifier() noexcept {}
 
         virtual void Apply(VecStr& blocks, nemesis::CompileState& state) const = 0;
+    };
+
+    struct ModifierException : nemesis::Exception
+    {
+        ModifierException(const std::string& msg)
+            : nemesis::Exception(msg)
+        {
+        }
     };
 }

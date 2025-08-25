@@ -32,10 +32,10 @@ void nemesis::CollectionObject::ObjectMatcher::MatchAndUpdate(const Vec<UPtr<nem
 {
     if (OriginalSize > objects.size())
     {
-        throw std::runtime_error("Failed to update node. Missing data or node ID mismatched");
+        throw nemesis::NObjectException("Failed to update node. Missing data or node ID mismatched");
     }
 
-    BaseIndex = 0;
+    BaseIndex              = 0;
     size_t new_index_begin = 0;
 
     for (size_t i = 0; i < objects.size(); ++i)
@@ -70,7 +70,7 @@ void nemesis::CollectionObject::ObjectMatcher::MatchAndUpdate(const Vec<UPtr<nem
         auto& object   = objects[i];
         auto* line_ptr = dynamic_cast<const nemesis::NLine*>(object.get());
 
-        if (line_ptr) throw std::runtime_error("Template update line to line does not match");
+        if (line_ptr) throw nemesis::NObjectException("Template update line to line does not match");
 
         Objects.emplace_back(object->CloneNObject());
     }
@@ -81,10 +81,10 @@ void nemesis::CollectionObject::ObjectMatcher::MatchAndUpdate(const std::string&
 {
     if (OriginalSize > objects.size())
     {
-        throw std::runtime_error("Failed to update node. Missing data or node ID mismatched");
+        throw nemesis::NObjectException("Failed to update node. Missing data or node ID mismatched");
     }
 
-    BaseIndex = 0;
+    BaseIndex              = 0;
     size_t new_index_begin = 0;
 
     for (size_t i = 0; i < objects.size(); ++i)
@@ -119,7 +119,7 @@ void nemesis::CollectionObject::ObjectMatcher::MatchAndUpdate(const std::string&
         auto& object   = objects[i];
         auto* line_ptr = dynamic_cast<const nemesis::NLine*>(object.get());
 
-        if (line_ptr) throw std::runtime_error("Template update line to line does not match");
+        if (line_ptr) throw nemesis::NObjectException("Template update line to line does not match");
 
         Objects.emplace_back(object->CloneNObject());
     }

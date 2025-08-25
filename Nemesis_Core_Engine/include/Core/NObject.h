@@ -2,6 +2,7 @@
 
 #include <functional>
 
+#include "Utilities/Exception.h"
 #include "Utilities/Line.h"
 
 namespace nemesis
@@ -64,5 +65,13 @@ namespace nemesis
         virtual DeqNstr Serialize() const;
 
         virtual UPtr<nemesis::NObject> CloneNObject() const = 0;
+    };
+
+    struct NObjectException : nemesis::Exception
+    {
+        NObjectException(const std::string& msg)
+            : nemesis::Exception(msg)
+        {
+        }
     };
 }

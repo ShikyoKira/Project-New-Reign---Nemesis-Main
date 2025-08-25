@@ -3,6 +3,7 @@
 #include "ExAnimation/ExAnimationPack.h"
 
 #include "Utilities/Algorithm.h"
+#include "Utilities/Exception.h"
 
 #include "Logger.h"
 
@@ -18,7 +19,7 @@ nemesis::ExAnimationPack::ExAnimationPack(const std::filesystem::path& pack_dir,
 
     if (!std::regex_match(folder_name, match, folder_rgx))
     {
-        throw std::runtime_error("Invalid ExAnimation folder name (ExAnimation folder: "
+        throw nemesis::Exception("Invalid ExAnimation folder name (ExAnimation folder: "
                                  + nemesis::to_utf8_string(pack_dir) + ")");
     }
 
