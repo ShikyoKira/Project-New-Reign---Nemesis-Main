@@ -251,22 +251,30 @@ void nemesis::PackfileSerializer::Save(const std::filesystem::path& filepath)
                                  + "\"\nMessage: " + ec.message());
     }
 
-    file_stream << MainStream.str();
-
-    for (auto& section : StreamSections)
-    {
-        file_stream << section.HeaderStream.str();
-    }
-
-    for (auto& section : StreamSections)
-    {
-        file_stream << section.DataStream.str();
-        file_stream << section.LocalStream.str();
-        file_stream << section.GlobalStream.str();
-        file_stream << section.VirtualStream.str();
-    }
-
+    file_stream << RawData();
     file_stream.close();
+}
+
+std::string nemesis::PackfileSerializer::RawData() const
+{
+    std::ostringstream oss;
+
+    oss << MainStream.str();
+
+    for (auto& section : StreamSections)
+    {
+        oss << section.HeaderStream.str();
+    }
+
+    for (auto& section : StreamSections)
+    {
+        oss << section.DataStream.str();
+        oss << section.LocalStream.str();
+        oss << section.GlobalStream.str();
+        oss << section.VirtualStream.str();
+    }
+
+    return oss.str();
 }
 
 int nemesis::PackfileSerializer::GetCurrentPosition() const

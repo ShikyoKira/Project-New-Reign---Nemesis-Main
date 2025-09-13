@@ -200,6 +200,7 @@ namespace nemesis
         void Serialize(const nemesis::hkRootLevelContainer& root) override;
 
         void Save(const std::filesystem::path& filepath) override;
+        std::string RawData() const override;
 
         int GetCurrentPosition() const override;
         void Pad(unsigned int size) override;

@@ -249,6 +249,11 @@ void nemesis::XmlSerializer::Save(const std::filesystem::path& filepath)
     file_stream.close();
 }
 
+std::string nemesis::XmlSerializer::RawData() const
+{
+    return XmlStream.str();
+}
+
 void nemesis::XmlSerializer::WriteValue(const std::string& name, bool val)
 {
     WriteHkxParam(name, val ? "true" : "false");

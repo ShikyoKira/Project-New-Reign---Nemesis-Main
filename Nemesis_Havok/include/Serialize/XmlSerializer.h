@@ -208,6 +208,7 @@ namespace nemesis
         void Serialize(const nemesis::hkRootLevelContainer& root) override;
 
         void Save(const std::filesystem::path& filepath) override;
+        std::string RawData() const override;
 
         void WriteValue(const std::string& name, bool val) override;
         void WriteValue(const std::string& name, char val) override;

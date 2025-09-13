@@ -81,6 +81,7 @@ namespace nemesis
         virtual void Serialize(const nemesis::hkRootLevelContainer& root) = 0;
 
         virtual void Save(const std::filesystem::path& filepath) = 0;
+        virtual std::string RawData() const                      = 0;
 
         unsigned char GetPointerSize() const noexcept;
         unsigned char GetEndian() const noexcept;
