@@ -293,9 +293,6 @@ void nemesis::HkxFile::CompileFileAsHkx(const std::filesystem::path& filepath,
     std::string hash = GetHash(state) + static_cast<char>(version);
     auto* entry      = nemesis::CacheManager::GetEntry(hash);
 
-    Logger::Log(LITERAL_PATH("Target File Hash: ") + PATH_TO_STRING(filepath.filename())
-                + PATH_TO_STRING(" [" + hash + "]"));
-
     if (entry)
     {
         CopyFromCache(*entry, filepath).get();
