@@ -3,14 +3,14 @@
 #include "Utilities/StringExtension.h"
 #include "Utilities/Algorithm.h"
 
-size_t GetNewPosition_NC(const std::string& _ch, const std::string& oldvalue)
+size_t GetNewPosition_NC(const std::string& _ch, const std::string& oldvalue, size_t offset = 0ULL)
 {
-    return nemesis::to_lower_copy(_ch).find(nemesis::to_lower_copy(oldvalue));
+    return nemesis::to_lower_copy(_ch).find(nemesis::to_lower_copy(oldvalue), offset);
 }
 
-size_t GetNewPosition_NC(const std::wstring& _ch, const std::wstring& oldvalue)
+size_t GetNewPosition_NC(const std::wstring& _ch, const std::wstring& oldvalue, size_t offset = 0ULL)
 {
-    return nemesis::to_lower_copy(_ch).find(nemesis::to_lower_copy(oldvalue));
+    return nemesis::to_lower_copy(_ch).find(nemesis::to_lower_copy(oldvalue), offset);
 }
 
 std::string StringTrim(const std::string& str, const std::string& whitespace)
@@ -25,23 +25,27 @@ std::string StringTrim(const std::string& str, const std::string& whitespace)
 
 void StringReplace(std::string& _ch, const std::string& oldvalue, const std::string& newvalue)
 {
+    if (oldvalue.empty()) return;
+
     size_t position = _ch.find(oldvalue);
 
     while (position != NOT_FOUND)
     {
-        _ch.replace(position, position + oldvalue.length(), newvalue);
-        position = _ch.find(oldvalue);
+        _ch.replace(position, oldvalue.length(), newvalue);
+        position = _ch.find(oldvalue, position + newvalue.length());
     }
 }
 
 void StringReplace_NC(std::string& _ch, const std::string& oldvalue, const std::string& newvalue)
 {
+    if (oldvalue.empty()) return;
+
     size_t position = GetNewPosition_NC(_ch, oldvalue);
 
     while (position != NOT_FOUND)
     {
-        _ch.replace(position, position + oldvalue.length(), newvalue);
-        position = GetNewPosition_NC(_ch, oldvalue);
+        _ch.replace(position, oldvalue.length(), newvalue);
+        position = GetNewPosition_NC(_ch, oldvalue, position + newvalue.length());
     }
 }
 
@@ -219,23 +223,27 @@ std::wstring StringTrim(const std::wstring& str, const std::wstring& whitespace)
 
 void StringReplace(std::wstring& _ch, const std::wstring& oldvalue, const std::wstring& newvalue)
 {
+    if (oldvalue.empty()) return;
+
     size_t position = _ch.find(oldvalue);
 
     while (position != NOT_FOUND)
     {
-        _ch.replace(position, position + oldvalue.length(), newvalue);
-        position = _ch.find(oldvalue);
+        _ch.replace(position, oldvalue.length(), newvalue);
+        position = _ch.find(oldvalue, position + newvalue.length());
     }
 }
 
 void StringReplace_NC(std::wstring& _ch, const std::wstring& oldvalue, const std::wstring& newvalue)
 {
+    if (oldvalue.empty()) return;
+
     size_t position = GetNewPosition_NC(_ch, oldvalue);
 
     while (position != NOT_FOUND)
     {
-        _ch.replace(position, position + oldvalue.length(), newvalue);
-        position = GetNewPosition_NC(_ch, oldvalue);
+        _ch.replace(position, oldvalue.length(), newvalue);
+        position = GetNewPosition_NC(_ch, oldvalue, position + newvalue.length());
     }
 }
 
