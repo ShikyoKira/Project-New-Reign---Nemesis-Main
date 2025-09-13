@@ -8,6 +8,7 @@
 #include "Utilities/ConditionSyntax.h"
 #include "Utilities/File.h"
 #include "Utilities/OnScopeEnds.h"
+#include "Utilities/Sha256.h"
 #include "Utilities/StringExtension.h"
 #include "Utilities/ThreadPool.h"
 
@@ -387,12 +388,29 @@ void nemesis::HkxNode::MatchAndUpdate(const nemesis::HkxNode& hkxnode)
 {
     std::scoped_lock<std::mutex> lock(UpdaterMutex);
     Data->MatchAndUpdate(*hkxnode.Data);
+    HashCache.clear();
 }
 
 void nemesis::HkxNode::MatchAndUpdate(const std::string& mod_code, const nemesis::HkxNode& hkxnode)
 {
     std::scoped_lock<std::mutex> lock(UpdaterMutex);
     Data->MatchAndUpdate(mod_code, *hkxnode.Data);
+    HashCache.clear();
+}
+
+std::string nemesis::HkxNode::GetHash() const
+{
+    if (!HashCache.empty()) return HashCache;
+
+    auto lines = Serialize();
+    std::ostringstream oss("HkxNode:" + NodeId);
+
+    for (auto& line : lines)
+    {
+        oss << line.ToString() << "\n";
+    }
+
+    return HashCache = nemesis::SHA256::hex(oss.str());
 }
 
 bool nemesis::HkxNode::IsDataClass(nemesis::LineStream& stream)

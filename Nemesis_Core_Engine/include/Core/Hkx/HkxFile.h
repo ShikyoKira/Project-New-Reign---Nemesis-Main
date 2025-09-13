@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core/CacheManager.h"
 #include "Core/LineStream.h"
 #include "Core/SubTemplateObject.h"
 
@@ -22,7 +23,7 @@ namespace nemesis
 
         nemesis::HkxNode* RootNode;
 
-        Map<std::string, UPtr<nemesis::NObject>> NewNodes;
+        Map<std::string, UPtr<nemesis::ModObject>> NewNodes;
         UPtr<nemesis::CollectionObject> RegularNodes;
 
         UMap<std::string, SPtr<nemesis::TemplateObject>> TemplateMap;
@@ -44,7 +45,8 @@ namespace nemesis
         DeqNstr CompileAllTemplates(nemesis::CompileState& state) const;
         DeqNstr CompileAllSubTemplates(nemesis::CompileState& state) const;
 
-        std::future<void> CompileToHkx(const std::filesystem::path& hkx_path,
+        std::future<void> CompileToHkx(const std::string& hash,
+                                       const std::filesystem::path& hkx_path,
                                        const std::string& contents,
                                        nemesis::CompileState& state,
                                        nemesis::PlatformType platform,
@@ -52,6 +54,9 @@ namespace nemesis
                                        bool include_xml,
                                        const UMap<size_t, const nemesis::Line*>& modded_lines,
                                        std::function<void()> callback) const;
+
+        std::future<void> CopyFromCache(const nemesis::CacheEntry& entry,
+                                        const std::filesystem::path& output_path) const;
 
     public:
         std::filesystem::path CompileFile(nemesis::CompileState& state,
@@ -83,6 +88,7 @@ namespace nemesis
 
         void AddTemplate(const SPtr<nemesis::TemplateObject>& templt_obj);
 
+        void AddModNode(const std::string& modcode);
         nemesis::HkxNode* AddModNode(const std::string& modcode, UPtr<nemesis::HkxNode>&& node);
 
         nemesis::HkxNode* GetNodeById(const std::string& node_id);
@@ -96,6 +102,7 @@ namespace nemesis
         bool IsSameAsCached(nemesis::CompileState& state) const;
 
         virtual size_t GetSize() const;
+        virtual std::string GetHash(nemesis::CompileState& state) const;
 
     protected:
         static bool TryGetValueInHkcString(const std::string& line, std::string& value);

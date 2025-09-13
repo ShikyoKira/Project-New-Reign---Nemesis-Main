@@ -1,9 +1,13 @@
 #pragma once
 
+#include <sstream>
+
 #include "Nemesis_Core_Engine/include/Utilities/Types.h"
 #include "Nemesis_Core_Engine/include/Utilities/NonCopyable.h"
 
 #include "Core/AnimationRequest.h"
+
+#include "Utilities/Sha256.h"
 
 namespace nemesis
 {
@@ -14,6 +18,18 @@ namespace nemesis
         Vec<const nemesis::AnimationRequest*> RequestList;
 
     public:
+        std::string get_hash() const
+        {
+            std::ostringstream oss;
+
+            for (auto& request : RequestList)
+            {
+                oss << request->GetHash();
+            }
+
+            return nemesis::SHA256::hex(oss.str());
+        }
+
         template <class... _Valty>
         decltype(auto) emplace_back(_Valty&&... _Val)
         {

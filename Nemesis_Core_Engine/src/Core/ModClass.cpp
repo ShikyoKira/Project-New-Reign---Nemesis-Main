@@ -53,7 +53,7 @@ void nemesis::ModClass::ParseModHkxFromDirectory(const std::filesystem::path& di
             continue;
         }
 
-        auto node = nemesis::HkxNode::DeserializeHkxNodeFromFile(entry.path());
+        auto node = nemesis::HkxNode::DeserializeHkxNodeFromFile(entry.path(), threadpool);
         NodeList.emplace_back(std::make_unique<nemesis::ModPatch<nemesis::HkxNode>>(*this, std::move(node)));
     }
 }

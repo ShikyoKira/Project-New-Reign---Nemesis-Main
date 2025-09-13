@@ -1,4 +1,5 @@
 #include <fstream>
+#include <sstream>
 
 #include "Core/AnimationData/AnimationDataMotionData.h"
 
@@ -12,11 +13,27 @@
 
 #include "Utilities/Algorithm.h"
 #include "Utilities/File.h"
+#include "Utilities/Sha256.h"
 #include "Utilities/ThreadPool.h"
 
 nemesis::AnimationDataMotionData::AnimationDataMotionData(const std::string& code) noexcept
     : Code(code)
 {
+}
+
+std::string nemesis::AnimationDataMotionData::GetHash() const
+{
+    if (!HashCache.empty()) return HashCache;
+
+    auto lines = Serialize();
+    std::ostringstream oss("AnimationDataMotionData");
+
+    for (auto& line : lines)
+    {
+        oss << line.ToString() << "\n";
+    }
+
+    return HashCache = nemesis::SHA256::hex(oss.str());
 }
 
 void nemesis::AnimationDataMotionData::CompileTo(DeqNstr& lines, nemesis::CompileState& state) const
@@ -170,6 +187,7 @@ void nemesis::AnimationDataMotionData::MatchAndUpdate(const nemesis::AnimationDa
 {
     std::scoped_lock<std::mutex> lock(DataMutex);
     MotionData->MatchAndUpdate(*motion_data.MotionData);
+    HashCache.clear();
 }
 
 void nemesis::AnimationDataMotionData::MatchAndUpdate(const std::string& mod_code,
@@ -177,6 +195,7 @@ void nemesis::AnimationDataMotionData::MatchAndUpdate(const std::string& mod_cod
 {
     std::scoped_lock<std::mutex> lock(DataMutex);
     MotionData->MatchAndUpdate(mod_code, *motion_data.MotionData);
+    HashCache.clear();
 }
 
 const std::string& nemesis::AnimationDataMotionData::GetCode() const noexcept

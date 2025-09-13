@@ -1,4 +1,5 @@
 #include <fstream>
+#include <sstream>
 
 #include "Core/AnimationSetData/AnimationSetDataState.h"
 
@@ -13,11 +14,27 @@
 
 #include "Utilities/Algorithm.h"
 #include "Utilities/File.h"
+#include "Utilities/Sha256.h"
 #include "Utilities/ThreadPool.h"
 
 nemesis::AnimationSetDataState::AnimationSetDataState(const std::string& name) noexcept
     : Name(name)
 {
+}
+
+std::string nemesis::AnimationSetDataState::GetHash() const
+{
+    if (!HashCache.empty()) return HashCache;
+
+    auto lines = Serialize();
+    std::ostringstream oss("AnimationSetDataState");
+
+    for (auto& line : lines)
+    {
+        oss << line.ToString() << "\n";
+    }
+
+    return HashCache = nemesis::SHA256::hex(oss.str());
 }
 
 void nemesis::AnimationSetDataState::CompileTo(DeqNstr& lines, nemesis::CompileState& state) const
@@ -355,6 +372,7 @@ void nemesis::AnimationSetDataState::MatchAndUpdate(const nemesis::AnimationSetD
 {
     std::scoped_lock<std::mutex> lock(DataMutex);
     StateData->MatchAndUpdate(*state.StateData);
+    HashCache.clear();
 }
 
 void nemesis::AnimationSetDataState::MatchAndUpdate(const std::string& mod_code,
@@ -362,6 +380,7 @@ void nemesis::AnimationSetDataState::MatchAndUpdate(const std::string& mod_code,
 {
     std::scoped_lock<std::mutex> lock(DataMutex);
     StateData->MatchAndUpdate(mod_code, *state.StateData);
+    HashCache.clear();
 }
 
 const std::string& nemesis::AnimationSetDataState::GetName() const noexcept

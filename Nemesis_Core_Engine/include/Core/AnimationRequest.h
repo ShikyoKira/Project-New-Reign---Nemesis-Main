@@ -35,11 +35,16 @@ namespace nemesis
 
         Vec<nemesis::AnimationRequest*> Parents;
 
+        std::string Hash;
+
         static std::atomic_uint32_t IdCounter;
 
     public:
         AnimationRequest(const std::string& list_name, const nemesis::TemplateClass& templt_class) noexcept;
         ~AnimationRequest() noexcept;
+
+        void SetHash(const std::string& hash);
+        const std::string& GetHash() const;
 
         void SetIndex(size_t index) noexcept;
 

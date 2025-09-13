@@ -2,6 +2,7 @@
 
 #include <mutex>
 
+#include "Core/HashableObject.h"
 #include "Core/NLine.h"
 #include "Core/LineStream.h"
 
@@ -14,7 +15,7 @@ namespace nemesis
     struct ForEachObject;
     struct CollectionObject;
 
-    struct AnimationDataMotionData : public nemesis::NObject
+    struct AnimationDataMotionData : public nemesis::NObject, public nemesis::HashableObject
     {
     private:
         enum CompileStage
@@ -35,6 +36,8 @@ namespace nemesis
 
     public:
         AnimationDataMotionData(const std::string& code) noexcept;
+
+        std::string GetHash() const override;
 
         void CompileTo(DeqNstr& lines, nemesis::CompileState& state) const override;
         void SerializeTo(DeqNstr& lines) const override;

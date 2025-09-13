@@ -80,7 +80,7 @@ void nemesis::TemplateClass::ParseHkxTemplatesLoopDirectory(const std::filesyste
             continue;
         }
 
-        AddTemplateToHkxFile(path, templt_class, *hkx_file, thread_pool);
+        AddTemplateToHkxFile(path, templt_class, *hkx_file);
     }
 
     if (template_files.empty()) return;
@@ -106,8 +106,7 @@ void nemesis::TemplateClass::ParseHkxTemplatesLoopDirectory(const std::filesyste
 
 void nemesis::TemplateClass::AddTemplateToHkxFile(const std::filesystem::path& templt_path,
                                                   nemesis::TemplateClass& templt_class,
-                                                  nemesis::HkxFile& hkx_file,
-                                                  nemesis::ThreadPool& thread_pool)
+                                                  nemesis::HkxFile& hkx_file)
 {
     auto filename = nemesis::to_utf8_string(templt_path.stem());
     auto* node    = hkx_file.GetNodeById(filename);
@@ -118,12 +117,8 @@ void nemesis::TemplateClass::AddTemplateToHkxFile(const std::filesystem::path& t
                                  + nemesis::to_utf8_string(templt_path) + ", Node Id: " + filename + ")");
     }
 
-    thread_pool.enqueue(
-        [templt_path, &templt_class, node]()
-        {
-            auto m_node = nemesis::HkxNode::DeserializeHkxNodeFromFile(templt_path, &templt_class);
-            node->MatchAndUpdate(*m_node);
-        });
+    auto m_node = nemesis::HkxNode::DeserializeHkxNodeFromFile(templt_path, &templt_class);
+    node->MatchAndUpdate(*m_node);
 }
 
 void nemesis::TemplateClass::AddTemplateToAnimDataSingleFile(const std::filesystem::path& dir,
@@ -557,6 +552,8 @@ nemesis::TemplateClass::CreateRequest(const std::string& list_name,
     request = std::make_unique<nemesis::AnimationRequest>(list_name, *this);
 
     if (!(ss >> component)) return nullptr;
+
+    request->SetHash(nemesis::SHA256::hex(component));
 
     if (component[0] == '-')
     {

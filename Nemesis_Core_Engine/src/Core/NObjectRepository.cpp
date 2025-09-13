@@ -3,6 +3,7 @@
 #include <iostream>
 #include <regex>
 
+#include "Core/CacheManager.h"
 #include "Core/CompilationManager.h"
 #include "Core/FNISaaPexFile.h"
 #include "Core/ModRepository.h"
@@ -83,6 +84,7 @@ void nemesis::NObjectRepository::PatchNodeList(
                     if (o_node)
                     {
                         o_node->MatchAndUpdate(mod_code, m_node);
+                        behavior->AddModNode(mod_code);
                         return;
                     }
 
@@ -104,6 +106,7 @@ void nemesis::NObjectRepository::PatchNodeList(
                 if (o_node)
                 {
                     o_node->MatchAndUpdate(mod_code, m_node);
+                    character->AddModNode(mod_code);
                     return;
                 }
 
@@ -137,10 +140,15 @@ void nemesis::NObjectRepository::PatchHeaderList(
             auto uproject = std::make_unique<nemesis::AnimationDataProject>(proj_name);
             project       = uproject.get();
             AnimDataSingleFile->AddProject(std::move(uproject));
+            AnimDataSingleFile->AddModNode(mod_code);
         }
 
-        thread_pool.enqueue([m_header, project, &mod_code]()
-                            { project->MatchAndUpdateHeader(mod_code, m_header->GetContent()); });
+        thread_pool.enqueue(
+            [this, m_header, project, &mod_code]()
+            {
+                project->MatchAndUpdateHeader(mod_code, m_header->GetContent());
+                AnimDataSingleFile->AddModNode(mod_code);
+            });
     }
 }
 
@@ -170,6 +178,7 @@ void nemesis::NObjectRepository::PatchClipData(
             auto uproject = std::make_unique<nemesis::AnimationDataProject>(proj_name);
             project       = uproject.get();
             AnimDataSingleFile->AddProject(std::move(uproject));
+            AnimDataSingleFile->AddModNode(mod_code);
         }
 
         auto& m_data    = m_clip_data->GetContent();
@@ -177,14 +186,22 @@ void nemesis::NObjectRepository::PatchClipData(
 
         if (clip_data)
         {
-            thread_pool.enqueue([clip_data, &mod_code, &m_data]
-                                { clip_data->MatchAndUpdate(mod_code, m_data); });
+            thread_pool.enqueue(
+                [this, clip_data, &mod_code, &m_data]
+                {
+                    clip_data->MatchAndUpdate(mod_code, m_data);
+                    AnimDataSingleFile->AddModNode(mod_code);
+                });
             return;
         }
 
         auto* clip_data_ptr = &project->AddClipData(nullptr);
-        thread_pool.enqueue([filepath, &mod_class, &m_data, clip_data_ptr]
-                            { *clip_data_ptr = m_data.Clone(mod_class, filepath); });
+        thread_pool.enqueue(
+            [this, filepath, &mod_class, &mod_code, &m_data, clip_data_ptr]
+            {
+                *clip_data_ptr = m_data.Clone(mod_class, filepath);
+                AnimDataSingleFile->AddModNode(mod_code);
+            });
     }
 }
 
@@ -213,6 +230,7 @@ void nemesis::NObjectRepository::PatchMotionData(
             auto uproject = std::make_unique<nemesis::AnimationDataProject>(proj_name);
             project       = uproject.get();
             AnimDataSingleFile->AddProject(std::move(uproject));
+            AnimDataSingleFile->AddModNode(mod_code);
         }
 
         auto& m_data      = m_motion_data->GetContent();
@@ -220,14 +238,22 @@ void nemesis::NObjectRepository::PatchMotionData(
 
         if (motion_data)
         {
-            thread_pool.enqueue([motion_data, &mod_code, &m_data]
-                                { motion_data->MatchAndUpdate(mod_code, m_data); });
+            thread_pool.enqueue(
+                [this, motion_data, &mod_code, &m_data]
+                {
+                    motion_data->MatchAndUpdate(mod_code, m_data);
+                    AnimDataSingleFile->AddModNode(mod_code);
+                });
             return;
         }
 
         auto* motion_data_ptr = &project->AddMotionData(nullptr);
-        thread_pool.enqueue([filepath, &mod_class, &m_data, motion_data_ptr]
-                            { *motion_data_ptr = m_data.Clone(mod_class, filepath); });
+        thread_pool.enqueue(
+            [this, filepath, &mod_class, &mod_code, &m_data, motion_data_ptr]
+            {
+                *motion_data_ptr = m_data.Clone(mod_class, filepath);
+                AnimDataSingleFile->AddModNode(mod_code);
+            });
     }
 }
 
@@ -250,6 +276,7 @@ void nemesis::NObjectRepository::PatchStateData(
             auto uproject = std::make_unique<nemesis::AnimationSetDataProject>(proj_name);
             project       = uproject.get();
             AnimSetDataSingleFile->AddProject(std::move(uproject));
+            AnimSetDataSingleFile->AddModNode(mod_code);
         }
 
         auto& m_data     = m_state_data->GetContent();
@@ -257,15 +284,23 @@ void nemesis::NObjectRepository::PatchStateData(
 
         if (state_data)
         {
-            thread_pool.enqueue([state_data, &mod_code, &m_data]
-                                { state_data->MatchAndUpdate(mod_code, m_data); });
+            thread_pool.enqueue(
+                [this, state_data, &mod_code, &m_data]
+                {
+                    state_data->MatchAndUpdate(mod_code, m_data);
+                    AnimSetDataSingleFile->AddModNode(mod_code);
+                });
             return;
         }
 
         auto* state_data_ptr
             = &project->AddState(std::make_unique<nemesis::AnimationSetDataState>(m_data.GetName()));
-        thread_pool.enqueue([filepath, &mod_class, &m_data, state_data_ptr]
-                            { *state_data_ptr = m_data.Clone(mod_class, filepath); });
+        thread_pool.enqueue(
+            [this, filepath, &mod_class, &mod_code, &m_data, state_data_ptr]
+            {
+                *state_data_ptr = m_data.Clone(mod_class, filepath);
+                AnimSetDataSingleFile->AddModNode(mod_code);
+            });
     }
 }
 

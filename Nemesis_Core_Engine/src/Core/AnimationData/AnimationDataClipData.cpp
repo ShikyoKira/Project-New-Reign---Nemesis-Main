@@ -1,4 +1,5 @@
 #include <fstream>
+#include <sstream>
 
 #include "Core/AnimationData/AnimationDataClipData.h"
 
@@ -13,6 +14,7 @@
 
 #include "Utilities/Algorithm.h"
 #include "Utilities/File.h"
+#include "Utilities/Sha256.h"
 #include "Utilities/ThreadPool.h"
 
 bool nemesis::AnimationDataClipData::IsCode(const std::string& value)
@@ -45,6 +47,21 @@ nemesis::AnimationDataClipData::AnimationDataClipData(const std::string& name,
     : Name(name)
     , Code(code)
 {
+}
+
+std::string nemesis::AnimationDataClipData::GetHash() const
+{
+    if (!HashCache.empty()) return HashCache;
+
+    auto lines = Serialize();
+    std::ostringstream oss("AnimationDataClipData");
+
+    for (auto& line : lines)
+    {
+        oss << line.ToString() << "\n";
+    }
+
+    return HashCache = nemesis::SHA256::hex(oss.str());
 }
 
 void nemesis::AnimationDataClipData::CompileTo(DeqNstr& lines, nemesis::CompileState& state) const
@@ -171,6 +188,7 @@ void nemesis::AnimationDataClipData::MatchAndUpdate(const nemesis::AnimationData
 
     std::scoped_lock<std::mutex> lock(DataMutex);
     ClipData->MatchAndUpdate(*clip_data.ClipData);
+    HashCache.clear();
 }
 
 void nemesis::AnimationDataClipData::MatchAndUpdate(const std::string& mod_code,
@@ -190,6 +208,7 @@ void nemesis::AnimationDataClipData::MatchAndUpdate(const std::string& mod_code,
 
     std::scoped_lock<std::mutex> lock(DataMutex);
     ClipData->MatchAndUpdate(mod_code, *clip_data.ClipData);
+    HashCache.clear();
 }
 
 const std::string& nemesis::AnimationDataClipData::GetName() const noexcept

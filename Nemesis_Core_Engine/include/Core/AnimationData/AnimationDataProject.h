@@ -56,6 +56,8 @@ namespace nemesis
     public:
         AnimationDataProject(const std::string& name) noexcept;
 
+        std::string GetHash(nemesis::CompileState& state) const;
+
         void CompileTo(DeqNstr& lines, nemesis::CompileState& state) const override;
         void SerializeTo(DeqNstr& lines) const override;
 

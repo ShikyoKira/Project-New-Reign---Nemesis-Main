@@ -3,6 +3,7 @@
 #include "Core/CoreObject.h"
 
 #include "Utilities/Algorithm.h"
+#include "Utilities/Sha256.h"
 
 bool nemesis::AnimationSetDataProject::IsProjectEnd(nemesis::LineStream& stream, bool& start)
 {
@@ -294,6 +295,39 @@ nemesis::AnimationSetDataProject::ParseIfObjects(nemesis::LineStream& stream,
 nemesis::AnimationSetDataProject::AnimationSetDataProject(const std::string& name) noexcept
     : Name(name)
 {
+}
+
+std::string nemesis::AnimationSetDataProject::GetHash(nemesis::CompileState& state) const
+{
+    std::ostringstream oss("AnimationSetDataProject");
+    SetStr hash_set;
+
+    for (auto& header : Headers)
+    {
+        hash_set.insert(StateMap.at(header.ToString())->GetHash());
+    }
+
+    for (auto& header : NewHeaders)
+    {
+        hash_set.insert(StateMap.at(header)->GetHash());
+    }
+
+    for (auto& templt_obj : StateTemplateList)
+    {
+        auto& requests = state.GetRequests(templt_obj->GetClassName());
+
+        if (requests.empty()) continue;
+
+        hash_set.insert(requests.get_hash());
+        hash_set.insert(templt_obj->GetHash());
+    }
+
+    for (auto& hash : hash_set)
+    {
+        oss << hash;
+    }
+
+    return nemesis::SHA256::hex(oss.str());
 }
 
 void nemesis::AnimationSetDataProject::CompileTo(DeqNstr& lines, nemesis::CompileState& state) const

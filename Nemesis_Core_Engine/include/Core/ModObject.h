@@ -1,12 +1,13 @@
 #pragma once
 
+#include "Core/HashableObject.h"
 #include "Core/NObject.h"
 
 #include "Core/Statement/ModCodeStatement.h"
 
 namespace nemesis
 {
-    struct ModObject : public nemesis::NObject
+    struct ModObject : public nemesis::NObject, public nemesis::HashableObject
     {
     private:
         nemesis::ModCodeStatement Statement;
@@ -35,5 +36,7 @@ namespace nemesis
 
         bool IsSelected(nemesis::CompileState& state) const;
         std::string_view GetModCode() const noexcept;
+
+        std::string GetHash() const override;
     };
 }

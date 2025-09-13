@@ -8,6 +8,21 @@
 
 #include "Logger.h"
 
+std::string nemesis::SubTemplateObject::GetHash() const
+{
+    if (!HashCache.empty()) return HashCache;
+
+    auto lines = Serialize();
+    std::ostringstream oss("SubTemplateObject:" + Name);
+
+    for (auto& line : lines)
+    {
+        oss << line.ToString() << "\n";
+    }
+
+    return HashCache = nemesis::SHA256::hex(oss.str());
+}
+
 void nemesis::SubTemplateObject::CompileTo(DeqNstr& lines, nemesis::CompileState& state) const
 {
     Data->CompileTo(lines, state);

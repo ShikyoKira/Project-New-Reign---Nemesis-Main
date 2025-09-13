@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/CollectionObject.h"
+#include "Core/HashableObject.h"
 #include "Core/LineStream.h"
 #include "Core/NObject.h"
 #include "Core/SemanticManager.h"
@@ -12,7 +13,7 @@
 
 namespace nemesis
 {
-    struct TemplateObject : public nemesis::NObject
+    struct TemplateObject : public nemesis::NObject, public nemesis::HashableObject
     {
     protected:
         size_t Index;
@@ -101,6 +102,8 @@ namespace nemesis
 
     public:
         TemplateObject(const nemesis::TemplateClass* template_class) noexcept;
+
+        std::string GetHash() const override;
 
         void CompileTo(DeqNstr& lines, nemesis::CompileState& state) const override;
         void SerializeTo(DeqNstr& lines) const override;

@@ -157,6 +157,59 @@ nemesis::AnimationDataProject::AnimationDataProject(const std::string& name) noe
 {
 }
 
+std::string nemesis::AnimationDataProject::GetHash(nemesis::CompileState& state) const
+{
+    std::ostringstream oss("AnimationDataProject");
+
+    auto lines = HkxFiles->Serialize();
+    std::ostringstream lines_oss;
+
+    for (auto& line : lines)
+    {
+        lines_oss << line.ToString() << "\n";
+    }
+
+    SetStr hash_set;
+    hash_set.insert(nemesis::SHA256::hex(lines_oss.str()));
+
+    for (auto& clip_data : ClipDataList)
+    {
+        hash_set.insert(clip_data->GetHash());
+    }
+
+    for (auto& motion_data : MotionDataList)
+    {
+        hash_set.insert(motion_data->GetHash());
+    }
+
+    for (auto& clip_data : ClipDataTemplateList)
+    {
+        auto& requests = state.GetRequests(clip_data->GetClassName());
+
+        if (requests.empty()) continue;
+
+        hash_set.insert(requests.get_hash());
+        hash_set.insert(clip_data->GetHash());
+    }
+
+    for (auto& motion_data : MotionDataTemplateList)
+    {
+        auto& requests = state.GetRequests(motion_data->GetClassName());
+
+        if (requests.empty()) continue;
+
+        hash_set.insert(requests.get_hash());
+        hash_set.insert(motion_data->GetHash());
+    }
+
+    for (auto& hash : hash_set)
+    {
+        oss << hash;
+    }
+
+    return nemesis::SHA256::hex(oss.str());
+}
+
 void nemesis::AnimationDataProject::CompileTo(DeqNstr& lines, nemesis::CompileState& state) const
 {
     DeqNstr hkxfile_lines;

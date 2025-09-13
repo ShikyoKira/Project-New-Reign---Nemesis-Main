@@ -41,6 +41,8 @@ namespace nemesis
     public:
         AnimationSetDataProject(const std::string& name) noexcept;
 
+        std::string GetHash(nemesis::CompileState& state) const;
+
         void CompileTo(DeqNstr& lines, nemesis::CompileState& state) const override;
         void SerializeTo(DeqNstr& lines) const override;
 
@@ -55,8 +57,6 @@ namespace nemesis
 
         nemesis::AnimationSetDataState* GetState(const std::string& name);
         const nemesis::AnimationSetDataState* GetState(const std::string& name) const;
-
-
 
         void SerializeToDirectory(const std::filesystem::path& folder_path) const;
         static UPtr<nemesis::AnimationSetDataProject> DeserializeFromDirectory(const std::filesystem::path& directory_path);

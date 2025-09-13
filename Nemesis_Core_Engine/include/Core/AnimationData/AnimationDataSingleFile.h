@@ -18,6 +18,9 @@ namespace nemesis
 
         Vec<SPtr<nemesis::TemplateObject>> ProjectTemplateList;
 
+        USetStr ModInUsedList;
+        mutable std::mutex ModInUsedListMutex;
+
         std::filesystem::path FilePath;
         std::filesystem::path TargetPath;
         std::filesystem::path RelativePath;
@@ -35,6 +38,8 @@ namespace nemesis
                                           std::function<void()> callback) const;
 
     public:
+        std::string GetHash(nemesis::CompileState& state) const;
+
         void CompileTo(DeqNstr& lines, nemesis::CompileState& state) const override;
         void SerializeTo(DeqNstr& lines) const override;
 
@@ -59,6 +64,8 @@ namespace nemesis
         nemesis::AnimationDataProject* GetProject(const std::string& project_name, size_t order_position);
         UPtr<nemesis::AnimationDataProject>& AddProject(UPtr<nemesis::AnimationDataProject>&& project);
         SPtr<nemesis::TemplateObject>& AddProjectTemplate(const SPtr<nemesis::TemplateObject>& templt_obj);
+
+        void AddModNode(const std::string& modcode);
 
         void SerializeToDirectory(const std::filesystem::path& directory_path) const;
         static UPtr<nemesis::AnimationDataSingleFile>

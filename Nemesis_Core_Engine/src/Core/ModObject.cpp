@@ -1,3 +1,5 @@
+#include <sstream>
+
 #include "Core/ModObject.h"
 #include "Core/CompileState.h"
 
@@ -79,4 +81,18 @@ bool nemesis::ModObject::IsSelected(nemesis::CompileState& state) const
 std::string_view nemesis::ModObject::GetModCode() const noexcept
 {
     return Statement.GetExpression();
+}
+
+std::string nemesis::ModObject::GetHash() const
+{
+    if (!HashCache.empty()) return HashCache;
+
+    std::ostringstream oss;
+
+    for (auto& line : Serialize())
+    {
+        oss << line.ToString() << "\n";
+    }
+
+    return HashCache = oss.str();
 }

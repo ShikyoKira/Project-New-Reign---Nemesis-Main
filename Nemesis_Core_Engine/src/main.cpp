@@ -172,6 +172,8 @@ int main(int argc, char* argv[])
         if (rst < 1) return rst;
 
         auto start = std::chrono::high_resolution_clock::now();
+        auto cache_future = std::async(
+            []() { nemesis::CacheManager::LoadFile(NemesisInfo::ExeDirectory() / "nemesis.cache"); });
         std::future<void> preload_task;
 
         if (NemesisInfo::IsPreload())
@@ -375,6 +377,7 @@ int main(int argc, char* argv[])
         std::mutex step_mtx;
         nemesis::CompilationManager* manager
             = new nemesis::CompilationManager(mods, *aa_repo, *anim_repo, *templt_repo, *ex_anim_repo);
+        cache_future.get();
         repo->Compile(*manager,
                       [&progress_meter, &cur_step, &step_mtx](int step, int max)
                       {
@@ -395,6 +398,8 @@ int main(int argc, char* argv[])
         std::cout << "\n" << std::endl;
         // Required to make sure the console output is flushed and captured correctly
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
+
+        nemesis::CacheManager::SaveFile(NemesisInfo::ExeDirectory() / "nemesis.cache");
 
         check_sum   = manager->GetFullCheckSum();
         auto rehash = get_memorable_hash(std::to_string(check_sum));

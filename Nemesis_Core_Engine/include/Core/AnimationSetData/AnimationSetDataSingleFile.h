@@ -22,6 +22,9 @@ namespace nemesis
         std::filesystem::path TargetPath;
         std::filesystem::path RelativePath;
 
+        USetStr ModInUsedList;
+        mutable std::mutex ModInUsedListMutex;
+
         mutable std::mutex ProjectMutex;
         mutable std::mutex ProjectTemplateMutex;
 
@@ -35,6 +38,8 @@ namespace nemesis
                                           std::function<void()> callback) const;
 
     public:
+        std::string GetHash(nemesis::CompileState& state) const;
+
         void CompileTo(DeqNstr& lines, nemesis::CompileState& state) const override;
         void SerializeTo(DeqNstr& lines) const override;
 
@@ -54,6 +59,8 @@ namespace nemesis
 
         std::filesystem::path GetFilePath() const;
         std::filesystem::path GetTargetPath() const;
+
+        void AddModNode(const std::string& modcode);
 
         UPtr<nemesis::AnimationSetDataProject>& AddProject(UPtr<nemesis::AnimationSetDataProject>&& project);
         SPtr<nemesis::TemplateObject>& AddProjectTemplate(const SPtr<nemesis::TemplateObject>& templt_obj);

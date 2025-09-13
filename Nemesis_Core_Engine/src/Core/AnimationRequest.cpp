@@ -17,6 +17,16 @@ nemesis::AnimationRequest::~AnimationRequest() noexcept
     --IdCounter;
 }
 
+void nemesis::AnimationRequest::SetHash(const std::string& hash)
+{
+    Hash = hash;
+}
+
+const std::string& nemesis::AnimationRequest::GetHash() const
+{
+    return Hash;
+}
+
 void nemesis::AnimationRequest::SetIndex(size_t index) noexcept
 {
     Index = static_cast<long>(index);

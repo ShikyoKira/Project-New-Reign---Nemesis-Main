@@ -5,6 +5,7 @@
 
 #include "Core/LineStream.h"
 #include "Core/CollectionObject.h"
+#include "Core/HashableObject.h"
 
 namespace nemesis
 {
@@ -16,7 +17,7 @@ namespace nemesis
     struct ForEachObject;
     struct SemanticManager;
 
-	struct HkxNode : public nemesis::NObject
+	struct HkxNode : public nemesis::NObject, public nemesis::HashableObject
     {
     private:
         std::filesystem::path FilePath;
@@ -49,6 +50,8 @@ namespace nemesis
 
         void MatchAndUpdate(const nemesis::HkxNode& hkxnode);
         void MatchAndUpdate(const std::string& mod_code, const nemesis::HkxNode& hkxnode);
+
+        std::string GetHash() const override;
 
         static bool IsDataClass(nemesis::LineStream& stream);
 

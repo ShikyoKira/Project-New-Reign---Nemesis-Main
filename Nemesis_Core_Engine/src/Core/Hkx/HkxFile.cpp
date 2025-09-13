@@ -8,6 +8,7 @@
 #include "Utilities/Crc32.h"
 #include "Utilities/LimitedConcurrency.h"
 #include "Utilities/OnScopeEnds.h"
+#include "Utilities/Sha256.h"
 
 #include "Logger.h"
 #include "NemesisInfo.h"
@@ -135,7 +136,8 @@ DeqNstr nemesis::HkxFile::CompileAllSubTemplates(nemesis::CompileState& state) c
     return lines;
 }
 
-std::future<void> nemesis::HkxFile::CompileToHkx(const std::filesystem::path& hkx_path,
+std::future<void> nemesis::HkxFile::CompileToHkx(const std::string& hash,
+                                                 const std::filesystem::path& hkx_path,
                                                  const std::string& contents,
                                                  nemesis::CompileState& state,
                                                  nemesis::PlatformType platform,
@@ -148,7 +150,7 @@ std::future<void> nemesis::HkxFile::CompileToHkx(const std::filesystem::path& hk
     std::filesystem::remove(hkx_path);
 
     return std::async(
-        [hkx_path, contents, platform, version, include_xml, &state, modded_lines, callback]()
+        [hash, hkx_path, contents, platform, version, include_xml, &state, modded_lines, callback]()
         {
             std::filesystem::path xml_path = hkx_path;
             xml_path.replace_extension(".xml");
@@ -177,6 +179,9 @@ std::future<void> nemesis::HkxFile::CompileToHkx(const std::filesystem::path& hk
                 nemesis::PackfileSerializer ser(platform, version);
                 ser.Serialize(packfile);
                 ser.Save(hkx_path);
+
+                std::string data = ser.RawData();
+                nemesis::CacheManager::AddEntry(hash, data);
             }
             catch (const std::exception& ex)
             {
@@ -217,6 +222,25 @@ std::future<void> nemesis::HkxFile::CompileToHkx(const std::filesystem::path& hk
 
             throw nemesis::NObjectException(
                 "Failed to output hkx file (File: " + nemesis::to_utf8_string(hkx_path) + ")");
+        });
+}
+
+std::future<void> nemesis::HkxFile::CopyFromCache(const nemesis::CacheEntry& entry,
+                                                  const std::filesystem::path& output_path) const
+{
+    return std::async(
+        [&entry, output_path]()
+        {
+            std::ofstream out(output_path, std::ios::binary);
+
+            if (!out)
+            {
+                std::error_code ec(errno, std::system_category());
+                throw nemesis::NObjectException("Failed to open file: \"" + to_utf8_string(output_path)
+                                                + "\"\nMessage: " + ec.message());
+            }
+
+            out.write(entry.Data.data(), entry.Data.size());
         });
 }
 
@@ -266,23 +290,37 @@ void nemesis::HkxFile::CompileFileAsHkx(const std::filesystem::path& filepath,
 {
     Logger::Log(LITERAL_PATH("Compiling Target File: ") + PATH_TO_STRING(filepath));
 
-    DeqNstr lines = Compile(state);
-    std::ostringstream stream;
-    UMap<size_t, const nemesis::Line*> modded_lines;
-    size_t line_counter = 0;
+    std::string hash = GetHash(state) + static_cast<char>(version);
+    auto* entry      = nemesis::CacheManager::GetEntry(hash);
 
-    for (auto& line : lines)
+    Logger::Log(LITERAL_PATH("Target File Hash: ") + PATH_TO_STRING(filepath.filename())
+                + PATH_TO_STRING(" [" + hash + "]"));
+
+    if (entry)
     {
-        stream << line + "\n";
-        line_counter += std::count(line.begin(), line.end(), '\n') + 1;
-        auto* file_ptr = line.GetFilePathPtr();
-
-        if (!file_ptr) continue;
-
-        modded_lines.insert({line_counter, &line});
+        CopyFromCache(*entry, filepath).get();
     }
+    else
+    {
+        DeqNstr lines = Compile(state);
+        std::ostringstream stream;
+        UMap<size_t, const nemesis::Line*> modded_lines;
+        size_t line_counter = 0;
 
-    CompileToHkx(filepath, stream.str(), state, platform, version, include_xml, modded_lines, []() {}).get();
+        for (auto& line : lines)
+        {
+            stream << line + "\n";
+            line_counter += std::count(line.begin(), line.end(), '\n') + 1;
+            auto* file_ptr = line.GetFilePathPtr();
+
+            if (!file_ptr) continue;
+
+            modded_lines.insert({line_counter, &line});
+        }
+
+        CompileToHkx(hash, filepath, stream.str(), state, platform, version, include_xml, modded_lines, []() {})
+            .get();
+    }
 
     Logger::Log(LITERAL_PATH("Compiled Target File: ") + PATH_TO_STRING(filepath));
 }
@@ -314,6 +352,8 @@ void nemesis::HkxFile::ScheduleCompileFileAs(const std::filesystem::path& filepa
     ScheduleCompileFileAs(filepath, state, platform, version, include_xml, [] {});
 }
 
+#include "Utilities/StringExtension.h"
+
 void nemesis::HkxFile::ScheduleCompileFileAs(const std::filesystem::path& filepath,
                                              nemesis::CompileState& state,
                                              nemesis::PlatformType platform,
@@ -321,35 +361,47 @@ void nemesis::HkxFile::ScheduleCompileFileAs(const std::filesystem::path& filepa
                                              bool include_xml,
                                              std::function<void()> callback) const
 {
-    SPtr<DeqNstr> lines = std::make_shared<DeqNstr>();
-    CompileTo(*lines, state);
+    std::string hash = GetHash(state) + static_cast<char>(version);
+    auto* entry      = nemesis::CacheManager::GetEntry(hash);
+    std::future<void> future;
 
-    std::ostringstream stream;
-    UMap<size_t, const nemesis::Line*> modded_lines;
-    size_t line_counter = 0;
-
-    for (auto& line : *lines)
+    if (entry)
     {
-        stream << line + "\n";
-        line_counter += std::count(line.begin(), line.end(), '\n') + 1;
-        auto* file_ptr = line.GetFilePathPtr();
-
-        if (!file_ptr) continue;
-
-        modded_lines.insert({line_counter, &line});
+        future = CopyFromCache(*entry, filepath);
     }
+    else
+    {
+        SPtr<DeqNstr> lines = std::make_shared<DeqNstr>();
+        CompileTo(*lines, state);
 
-    auto future = CompileToHkx(filepath,
-                               stream.str(),
-                               state,
-                               platform,
-                               version,
-                               include_xml,
-                               modded_lines,
-                               // lines is required to be included to keep it alive throughout
-                               // the whole async process for modded_lines reference when
-                               // there is an error during compilation
-                               [lines, callback]() { callback(); });
+        std::ostringstream stream;
+        UMap<size_t, const nemesis::Line*> modded_lines;
+        size_t line_counter = 0;
+
+        for (auto& line : *lines)
+        {
+            stream << line + "\n";
+            line_counter += std::count(line.begin(), line.end(), '\n') + 1;
+            auto* file_ptr = line.GetFilePathPtr();
+
+            if (!file_ptr) continue;
+
+            modded_lines.insert({line_counter, &line});
+        }
+
+        future = CompileToHkx(hash,
+                              filepath,
+                              stream.str(),
+                              state,
+                              platform,
+                              version,
+                              include_xml,
+                              modded_lines,
+                              // lines is required to be included to keep it alive throughout
+                              // the whole async process for modded_lines reference when
+                              // there is an error during compilation
+                              [hash, lines, callback]() { callback(); });
+    }
 
     std::scoped_lock<std::mutex> lock(CompileFutureMutex);
     CompileFuture.emplace_back(std::move(future));
@@ -371,6 +423,12 @@ void nemesis::HkxFile::AddTemplate(const SPtr<nemesis::TemplateObject>& templt_o
 {
     std::scoped_lock<std::mutex> lock(TemplateMutex);
     TemplateMap[templt_obj->GetClassName()] = templt_obj;
+}
+
+void nemesis::HkxFile::AddModNode(const std::string& modcode)
+{
+    std::scoped_lock<std::mutex> lock(ModInUsedListMutex);
+    ModInUsedList.insert(modcode);
 }
 
 nemesis::HkxNode* nemesis::HkxFile::AddModNode(const std::string& modcode, UPtr<nemesis::HkxNode>&& node)
@@ -457,6 +515,52 @@ bool nemesis::HkxFile::IsSameAsCached(nemesis::CompileState& state) const
 size_t nemesis::HkxFile::GetSize() const
 {
     return NodeMap.size() + RegularNodes->Size();
+}
+
+std::string nemesis::HkxFile::GetHash(nemesis::CompileState& state) const
+{
+    std::ostringstream oss("HkxFile:" + nemesis::to_utf8_string(FilePath));
+    USetStr mod_set;
+
+    for (auto& mod : state.GetSelectedMods())
+    {
+        mod_set.insert(mod);
+
+        if (ModInUsedList.find(mod) == ModInUsedList.end()) continue;
+
+        oss << mod << "\n";
+    }
+
+    SetStr hash_set;
+
+    for (auto& node : NodeMap)
+    {
+        hash_set.insert(node.first + ":" + node.second->GetHash());
+    }
+
+    for (auto& node : NewNodes)
+    {
+        if (mod_set.find(node.second->GetStatement().GetExpression()) == mod_set.end()) continue;
+
+        hash_set.insert(node.first + ":" + node.second->GetHash());
+    }
+
+    for (auto& templt_obj : TemplateMap)
+    {
+        hash_set.insert(templt_obj.first + ":" + templt_obj.second->GetHash());
+    }
+
+    for (auto& sub_templt_obj : state.GetManager().GetTemplateRepository().GetSubTemplateList())
+    {
+        hash_set.insert(sub_templt_obj->GetHash());
+    }
+
+    for (auto& hash : hash_set)
+    {
+        oss << hash;
+    }
+
+    return nemesis::SHA256::hex(oss.str());
 }
 
 bool nemesis::HkxFile::TryGetValueInHkcString(const std::string& line, std::string& value)

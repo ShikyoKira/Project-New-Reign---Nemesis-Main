@@ -89,6 +89,39 @@ std::future<void> nemesis::AnimationSetDataSingleFile::CompileFileCore(const std
         });
 }
 
+std::string nemesis::AnimationSetDataSingleFile::GetHash(nemesis::CompileState& state) const
+{
+    std::ostringstream oss("AnimationSetDataSingleFile");
+    USetStr mod_set;
+    SetStr hash_set;
+
+    for (auto& mod : state.GetSelectedMods())
+    {
+        mod_set.insert(mod);
+
+        if (ModInUsedList.find(mod) == ModInUsedList.end()) continue;
+
+        oss << mod << "\n";
+    }
+
+    for (auto& project : ProjectList)
+    {
+        hash_set.insert(project->GetHash(state));
+    }
+
+    for (auto& project : ProjectTemplateList)
+    {
+        hash_set.insert(project->GetHash());
+    }
+
+    for (auto& hash : hash_set)
+    {
+        oss << hash;
+    }
+
+    return nemesis::SHA256::hex(oss.str());
+}
+
 void nemesis::AnimationSetDataSingleFile::CompileTo(DeqNstr& lines, nemesis::CompileState& state) const
 {
     DeqNstr header_lines;
@@ -249,6 +282,12 @@ std::filesystem::path nemesis::AnimationSetDataSingleFile::GetFilePath() const
 std::filesystem::path nemesis::AnimationSetDataSingleFile::GetTargetPath() const
 {
     return TargetPath;
+}
+
+void nemesis::AnimationSetDataSingleFile::AddModNode(const std::string& modcode)
+{
+    std::scoped_lock<std::mutex> lock(ModInUsedListMutex);
+    ModInUsedList.insert(modcode);
 }
 
 UPtr<nemesis::AnimationSetDataProject>&

@@ -149,6 +149,8 @@ set(Core_HeaderFiles
     "include/Core/AnimationRequestCollection.h"
     "include/Core/AnimationRequestRepository.h"
     "include/Core/BreakObject.h"
+    "include/Core/CacheEntry.h"
+    "include/Core/CacheManager.h" 
     "include/Core/CollectionObject.h"
     "include/Core/CompilationManager.h"
     "include/Core/CompileState.h"
@@ -156,6 +158,7 @@ set(Core_HeaderFiles
     "include/Core/EmptyObject.h"
     "include/Core/FNISaaPexFile.h"
     "include/Core/ForEachObject.h"
+    "include/Core/HashableObject.h"
     "include/Core/IfObject.h"
     "include/Core/LineStream.h"
     "include/Core/ModClass.h"
@@ -199,6 +202,7 @@ set(Utilities_HeaderFiles
     "include/Utilities/OnScopeEnds.h"
     "include/Utilities/ProgressMeter.h"
     "include/Utilities/SharableWrapper.h"
+    "include/Utilities/Sha256.h"
     "include/Utilities/StringExtension.h"
     "include/Utilities/StringMatchTrie.h"
     "include/Utilities/ThreadPool.h"
@@ -355,6 +359,7 @@ set(Core_SourceFiles
     "src/Core/AnimationRequest.cpp"
     "src/Core/AnimationRequestRepository.cpp"
     "src/Core/BreakObject.cpp"
+    "src/Core/CacheManager.cpp"
     "src/Core/CollectionObject.cpp"
     "src/Core/CompilationManager.cpp"
     "src/Core/CompileState.cpp"
@@ -421,7 +426,7 @@ set(AllSourceFiles
     ${ExAnimation_SourceFiles}
     ${Utilities_SourceFiles}
     ${SourceFiles}
-     )
+    )
 
 
 ################################################################################

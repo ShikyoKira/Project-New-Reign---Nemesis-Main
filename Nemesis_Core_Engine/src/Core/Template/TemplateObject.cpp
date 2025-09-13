@@ -1,4 +1,5 @@
 #include <regex>
+#include <sstream>
 
 #include "Core/CompileState.h"
 #include "Core/SemanticManager.h"
@@ -6,10 +7,26 @@
 #include "Core/Template.h"
 
 #include "Utilities/Algorithm.h"
+#include "Utilities/Sha256.h"
 
 nemesis::TemplateObject::TemplateObject(const nemesis::TemplateClass* template_class) noexcept
     : TemplateClass(template_class)
 {
+}
+
+std::string nemesis::TemplateObject::GetHash() const
+{
+    if (!HashCache.empty()) return HashCache;
+
+    auto lines = Serialize();
+    std::ostringstream oss("TemplateObject:" + TemplateClass->GetName());
+
+    for (auto& line : lines)
+    {
+        oss << line.ToString() << "\n";
+    }
+
+    return HashCache = nemesis::SHA256::hex(oss.str());
 }
 
 void nemesis::TemplateObject::CompileTo(DeqNstr& lines, nemesis::CompileState& state) const
