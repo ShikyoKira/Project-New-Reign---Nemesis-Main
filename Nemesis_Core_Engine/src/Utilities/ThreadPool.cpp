@@ -17,6 +17,13 @@ nemesis::ThreadPool::ThreadPool(size_t threads)
     }
 }
 
+void nemesis::ThreadPool::wait_for_all()
+{
+    std::unique_lock<std::mutex> lock(queue_mutex);
+    condition.wait(lock, [&] { return tasks.empty(); });
+    throw_if_error();
+}
+
 void nemesis::ThreadPool::join_all()
 {
     sync = true;
@@ -61,18 +68,28 @@ void nemesis::ThreadPool::NewWorker()
         for (;;)
         {
             ThreadPoolTask task;
+            bool is_empty;
 
             {
                 std::unique_lock<std::mutex> lock(queue_mutex);
                 condition.wait(lock, [&] { return StopProcessFlag || error || abort || sync || !tasks.empty(); });
 
-                if (StopProcessFlag || error || abort || tasks.empty()) return;
+                if (StopProcessFlag || error || abort) return;
+
+                if (sync && tasks.empty()) return;
+
+                if (tasks.empty()) continue;
 
                 task = std::move(tasks.top());
                 tasks.pop();
+                is_empty = tasks.empty();
             }
 
             task.task();
+
+            if (!is_empty) continue;
+
+            condition.notify_all();
         }
     });
 }

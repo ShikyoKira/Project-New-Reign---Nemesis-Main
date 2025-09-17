@@ -52,6 +52,7 @@ namespace nemesis
         template <class F, class... Args>
         decltype(auto) priority_enqueue(long priority, F&& f, Args&&... args);
 
+        void wait_for_all();
         void join_all();
         void stop();
         bool has_error() const noexcept;
