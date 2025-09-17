@@ -162,7 +162,8 @@ std::future<void> nemesis::HkxFile::CompileToHkx(const std::string& hash,
                 if (!file.is_open())
                 {
                     std::error_code ec(errno, std::system_category());
-                    throw nemesis::NObjectException("Failed to open file: \"" + to_utf8_string(xml_path)
+                    throw nemesis::NObjectException("Failed to open file: \""
+                                                    + nemesis::to_utf8_string(xml_path)
                                                     + "\"\nMessage: " + ec.message());
                 }
 
@@ -236,7 +237,8 @@ std::future<void> nemesis::HkxFile::CopyFromCache(const nemesis::CacheEntry& ent
             if (!out)
             {
                 std::error_code ec(errno, std::system_category());
-                throw nemesis::NObjectException("Failed to open file: \"" + to_utf8_string(output_path)
+                throw nemesis::NObjectException("Failed to open file: \""
+                                                + nemesis::to_utf8_string(output_path)
                                                 + "\"\nMessage: " + ec.message());
             }
 
@@ -272,7 +274,7 @@ void nemesis::HkxFile::CompileFileAsXml(const std::filesystem::path& filepath,
     if (!file.is_open())
     {
         std::error_code ec(errno, std::system_category());
-        throw nemesis::NObjectException("Failed to open file: \"" + to_utf8_string(filepath)
+        throw nemesis::NObjectException("Failed to open file: \"" + nemesis::to_utf8_string(filepath)
                                         + "\"\nMessage: " + ec.message());
     }
 

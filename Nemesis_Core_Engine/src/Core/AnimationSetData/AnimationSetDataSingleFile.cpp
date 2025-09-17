@@ -67,7 +67,7 @@ std::future<void> nemesis::AnimationSetDataSingleFile::CompileFileCore(const std
             if (!file.is_open())
             {
                 std::error_code ec(errno, std::system_category());
-                throw nemesis::NObjectException("Failed to open file: \"" + to_utf8_string(filepath)
+                throw nemesis::NObjectException("Failed to open file: \"" + nemesis::to_utf8_string(filepath)
                                                 + "\"\nMessage: " + ec.message());
             }
 
