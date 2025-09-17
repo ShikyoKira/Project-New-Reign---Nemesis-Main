@@ -159,7 +159,8 @@ nemesis::AnimationDataProject::AnimationDataProject(const std::string& name) noe
 
 std::string nemesis::AnimationDataProject::GetHash(nemesis::CompileState& state) const
 {
-    std::ostringstream oss("AnimationDataProject");
+    std::ostringstream oss;
+    oss << "AnimationDataProject:" << Name << "\n";
 
     auto lines = HkxFiles->Serialize();
     std::ostringstream lines_oss;
@@ -204,7 +205,7 @@ std::string nemesis::AnimationDataProject::GetHash(nemesis::CompileState& state)
 
     for (auto& hash : hash_set)
     {
-        oss << hash;
+        oss << hash << "\n";
     }
 
     return nemesis::SHA256::hex(oss.str());

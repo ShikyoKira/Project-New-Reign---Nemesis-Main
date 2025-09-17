@@ -27,7 +27,8 @@ std::string nemesis::AnimationSetDataState::GetHash() const
     if (!HashCache.empty()) return HashCache;
 
     auto lines = Serialize();
-    std::ostringstream oss("AnimationSetDataState");
+    std::ostringstream oss;
+    oss << "AnimationSetDataState:" << Name << "\n";
 
     for (auto& line : lines)
     {

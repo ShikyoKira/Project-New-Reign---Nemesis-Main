@@ -65,23 +65,23 @@ std::future<void> nemesis::AnimationDataSingleFile::CompileFileCore(const std::f
             if (!file.is_open())
             {
                 std::error_code ec(errno, std::system_category());
-                throw nemesis::NObjectException("Failed to open file: \"" + to_utf8_string(filepath)
+                throw nemesis::NObjectException("Failed to open file: \"" + nemesis::to_utf8_string(filepath)
                                                 + "\"\nMessage: " + ec.message());
             }
 
-            std::string full_text;
+            std::ostringstream oss;
 
             for (auto& line : lines)
             {
-                std::string sline = line + "\n";
-                file << sline;
-                full_text.append(sline);
+                oss << line + "\n";
             }
 
+            std::string content = oss.str();
+            file << content;
             file.close();
 
             static nemesis::CRC32 crc32;
-            size_t checksum = crc32.FullCRC(full_text);
+            size_t checksum = crc32.FullCRC(content);
             state.AddCheckSum(TargetPath, std::to_string(checksum));
             callback();
         });

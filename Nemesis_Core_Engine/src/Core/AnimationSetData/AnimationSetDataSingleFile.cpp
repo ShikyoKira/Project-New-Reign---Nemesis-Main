@@ -71,19 +71,19 @@ std::future<void> nemesis::AnimationSetDataSingleFile::CompileFileCore(const std
                                                 + "\"\nMessage: " + ec.message());
             }
 
-            std::string full_text;
+            std::ostringstream oss;
 
             for (auto& line : lines)
             {
-                std::string sline = line + "\n";
-                file << sline;
-                full_text.append(sline);
+                oss << line + "\n";
             }
 
+            std::string content = oss.str();
+            file << content;
             file.close();
 
             static nemesis::CRC32 crc32;
-            size_t checksum = crc32.FullCRC(full_text);
+            size_t checksum = crc32.FullCRC(content);
             state.AddCheckSum(TargetPath, std::to_string(checksum));
             callback();
         });
@@ -91,9 +91,10 @@ std::future<void> nemesis::AnimationSetDataSingleFile::CompileFileCore(const std
 
 std::string nemesis::AnimationSetDataSingleFile::GetHash(nemesis::CompileState& state) const
 {
-    std::ostringstream oss("AnimationSetDataSingleFile");
     USetStr mod_set;
     SetStr hash_set;
+    std::ostringstream oss;
+    oss << "AnimationSetDataSingleFile" << "\n";
 
     for (auto& mod : state.GetSelectedMods())
     {
@@ -116,7 +117,7 @@ std::string nemesis::AnimationSetDataSingleFile::GetHash(nemesis::CompileState& 
 
     for (auto& hash : hash_set)
     {
-        oss << hash;
+        oss << hash << "\n";
     }
 
     return nemesis::SHA256::hex(oss.str());

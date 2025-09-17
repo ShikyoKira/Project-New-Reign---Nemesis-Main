@@ -403,7 +403,8 @@ std::string nemesis::HkxNode::GetHash() const
     if (!HashCache.empty()) return HashCache;
 
     auto lines = Serialize();
-    std::ostringstream oss("HkxNode:" + NodeId);
+    std::ostringstream oss;
+    oss << "HkxNode:" + NodeId << "\n";
 
     for (auto& line : lines)
     {

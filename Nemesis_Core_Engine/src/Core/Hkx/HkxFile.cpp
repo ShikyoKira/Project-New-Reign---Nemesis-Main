@@ -171,18 +171,16 @@ std::future<void> nemesis::HkxFile::CompileToHkx(const std::string& hash,
                 file.close();
             }
 
+            nemesis::PackfileSerializer ser(platform, version);
+
             try
             {
                 nemesis::XmlDeserializer des;
                 des.LoadXml(contents);
                 auto packfile = des.Deserialize();
 
-                nemesis::PackfileSerializer ser(platform, version);
                 ser.Serialize(packfile);
                 ser.Save(hkx_path);
-
-                std::string data = ser.RawData();
-                nemesis::CacheManager::AddEntry(hash, data);
             }
             catch (const std::exception& ex)
             {
@@ -208,12 +206,15 @@ std::future<void> nemesis::HkxFile::CompileToHkx(const std::string& hash,
                     msg + "\nFailed to output hkx file (File: " + nemesis::to_utf8_string(hkx_path) + ")");
             }
 
+            std::string data = ser.RawData();
+            nemesis::CacheManager::AddEntry(hash, data);
+
             if (std::filesystem::exists(hkx_path))
             {
                 if (!nemesis::iequals(PATH_TO_STRING(hkx_path.filename()), LITERAL_PATH("build_info.hkx")))
                 {
                     static nemesis::CRC32 crc32;
-                    size_t checksum = crc32.FullCRC(contents);
+                    size_t checksum = crc32.FullCRC(data);
                     state.AddCheckSum(hkx_path, std::to_string(checksum));
                 }
 
@@ -298,6 +299,13 @@ void nemesis::HkxFile::CompileFileAsHkx(const std::filesystem::path& filepath,
     if (entry)
     {
         CopyFromCache(*entry, filepath).get();
+
+        if (!nemesis::iequals(PATH_TO_STRING(filepath.filename()), LITERAL_PATH("build_info.hkx")))
+        {
+            static nemesis::CRC32 crc32;
+            size_t checksum = crc32.FullCRC(entry->Data);
+            state.AddCheckSum(filepath, std::to_string(checksum));
+        }
     }
     else
     {
@@ -351,8 +359,6 @@ void nemesis::HkxFile::ScheduleCompileFileAs(const std::filesystem::path& filepa
     ScheduleCompileFileAs(filepath, state, platform, version, include_xml, [] {});
 }
 
-#include "Utilities/StringExtension.h"
-
 void nemesis::HkxFile::ScheduleCompileFileAs(const std::filesystem::path& filepath,
                                              nemesis::CompileState& state,
                                              nemesis::PlatformType platform,
@@ -367,6 +373,13 @@ void nemesis::HkxFile::ScheduleCompileFileAs(const std::filesystem::path& filepa
     if (entry)
     {
         future = CopyFromCache(*entry, filepath);
+
+        if (!nemesis::iequals(PATH_TO_STRING(filepath.filename()), LITERAL_PATH("build_info.hkx")))
+        {
+            static nemesis::CRC32 crc32;
+            size_t checksum = crc32.FullCRC(entry->Data);
+            state.AddCheckSum(filepath, std::to_string(checksum));
+        }
     }
     else
     {
@@ -518,8 +531,9 @@ size_t nemesis::HkxFile::GetSize() const
 
 std::string nemesis::HkxFile::GetHash(nemesis::CompileState& state) const
 {
-    std::ostringstream oss("HkxFile:" + nemesis::to_utf8_string(FilePath));
     USetStr mod_set;
+    std::ostringstream oss;
+    oss << "HkxFile:" + nemesis::to_utf8_string(FilePath) << "\n";
 
     for (auto& mod : state.GetSelectedMods())
     {
@@ -556,7 +570,7 @@ std::string nemesis::HkxFile::GetHash(nemesis::CompileState& state) const
 
     for (auto& hash : hash_set)
     {
-        oss << hash;
+        oss << hash << "\n";
     }
 
     return nemesis::SHA256::hex(oss.str());

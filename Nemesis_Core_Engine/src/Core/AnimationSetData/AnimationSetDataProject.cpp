@@ -299,8 +299,9 @@ nemesis::AnimationSetDataProject::AnimationSetDataProject(const std::string& nam
 
 std::string nemesis::AnimationSetDataProject::GetHash(nemesis::CompileState& state) const
 {
-    std::ostringstream oss("AnimationSetDataProject");
     SetStr hash_set;
+    std::ostringstream oss;
+    oss << "AnimationSetDataProject:" << Name << "\n";
 
     for (auto& header : Headers)
     {
@@ -324,7 +325,7 @@ std::string nemesis::AnimationSetDataProject::GetHash(nemesis::CompileState& sta
 
     for (auto& hash : hash_set)
     {
-        oss << hash;
+        oss << hash << "\n";
     }
 
     return nemesis::SHA256::hex(oss.str());

@@ -54,7 +54,8 @@ std::string nemesis::AnimationDataClipData::GetHash() const
     if (!HashCache.empty()) return HashCache;
 
     auto lines = Serialize();
-    std::ostringstream oss("AnimationDataClipData");
+    std::ostringstream oss;
+    oss << "AnimationDataClipData:" << Name << "/" << Code << "\n";
 
     for (auto& line : lines)
     {

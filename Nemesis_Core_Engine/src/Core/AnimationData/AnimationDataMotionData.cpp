@@ -26,7 +26,8 @@ std::string nemesis::AnimationDataMotionData::GetHash() const
     if (!HashCache.empty()) return HashCache;
 
     auto lines = Serialize();
-    std::ostringstream oss("AnimationDataMotionData");
+    std::ostringstream oss;
+    oss << "AnimationDataMotionData:" << Code << "\n";
 
     for (auto& line : lines)
     {

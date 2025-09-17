@@ -227,7 +227,6 @@ int main(int argc, char* argv[])
 
         std::filesystem::path exe_dir  = NemesisInfo::ExeDirectory();
         std::filesystem::path data_dir = NemesisInfo::DataPath();
-        size_t check_sum;
 
         setup_python_config(exe_dir / LITERAL_PATH("scripts"));
 
@@ -396,13 +395,11 @@ int main(int argc, char* argv[])
         run_python_scripts(exe_dir / LITERAL_PATH("scripts") / LITERAL_PATH("end"));
 
         std::cout << "\n" << std::endl;
-        // Required to make sure the console output is flushed and captured correctly
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
         nemesis::CacheManager::SaveFile(NemesisInfo::ExeDirectory() / "nemesis.cache");
 
-        check_sum   = manager->GetFullCheckSum();
-        auto rehash = get_memorable_hash(std::to_string(check_sum));
+        auto check_sum = manager->GetFullCheckSum();
+        auto rehash    = get_memorable_hash(std::to_string(check_sum));
 
         progress_meter.Complete();
         log_compilation_result(start, rehash);

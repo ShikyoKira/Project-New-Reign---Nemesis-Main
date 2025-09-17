@@ -88,6 +88,7 @@ void nemesis::NObjectRepository::PatchNodeList(
                         return;
                     }
 
+                    // Pre-creation of node is not required because nodes are sorted in hkxfile
                     behavior->AddModNode(mod_code, m_node.Clone());
                 });
             continue;
@@ -110,6 +111,7 @@ void nemesis::NObjectRepository::PatchNodeList(
                     return;
                 }
 
+                // Pre-creation of node is not required because nodes are sorted in hkxfile
                 character->AddModNode(node->GetModClass().GetCode(), m_node.Clone());
             });
     }
@@ -195,6 +197,8 @@ void nemesis::NObjectRepository::PatchClipData(
             return;
         }
 
+        // Pre-create the object to lock in its memory slot to ensure the order
+        // So that the output is deterministic
         auto* clip_data_ptr = &project->AddClipData(nullptr);
         thread_pool.enqueue(
             [this, filepath, &mod_class, &mod_code, &m_data, clip_data_ptr]
@@ -247,6 +251,8 @@ void nemesis::NObjectRepository::PatchMotionData(
             return;
         }
 
+        // Pre-create the object to lock in its memory slot to ensure the order
+        // So that the output is deterministic
         auto* motion_data_ptr = &project->AddMotionData(nullptr);
         thread_pool.enqueue(
             [this, filepath, &mod_class, &mod_code, &m_data, motion_data_ptr]
@@ -409,6 +415,10 @@ void nemesis::NObjectRepository::Patch(const nemesis::ModRepository& mod_repo)
         PatchHeaderList(mod_class->GetAnimDataHeaderList(), thread_pool);
         PatchClipData(mod_class->GetClipDataList(), thread_pool);
         PatchMotionData(mod_class->GetMotionDataList(), thread_pool);
+
+        // 2 different mod class cannot share the same multithreading environment to ensure its order
+        // So that the output is deterministic
+        thread_pool.wait_for_all();
     }
 
     thread_pool.join_all();

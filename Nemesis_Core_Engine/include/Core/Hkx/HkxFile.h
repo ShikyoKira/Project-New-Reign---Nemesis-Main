@@ -26,7 +26,7 @@ namespace nemesis
         Map<std::string, UPtr<nemesis::ModObject>> NewNodes;
         UPtr<nemesis::CollectionObject> RegularNodes;
 
-        UMap<std::string, SPtr<nemesis::TemplateObject>> TemplateMap;
+        Map<std::string, SPtr<nemesis::TemplateObject>> TemplateMap;
 
         USetStr ModInUsedList;
         mutable std::mutex ModInUsedListMutex;
