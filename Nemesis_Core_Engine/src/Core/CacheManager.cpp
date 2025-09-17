@@ -25,6 +25,7 @@ const nemesis::CacheEntry* nemesis::CacheManager::GetEntry(const std::string& ch
 
     if (itr == Manager.Entries.end()) return nullptr;
 
+    itr->second.CreateTime = std::chrono::system_clock::now();
     return &itr->second;
 }
 
@@ -39,6 +40,9 @@ void nemesis::CacheManager::SaveFile(const std::filesystem::path& filepath)
     {
         auto ns = std::chrono::duration_cast<std::chrono::nanoseconds>(entry.second.CreateTime.time_since_epoch())
                       .count();
+
+        if (entry.second.CreateTime + std::chrono::hours(24) < std::chrono::system_clock::now()) continue;
+
         uint64_t length = static_cast<uint64_t>(entry.second.Data.size());
         ofs.write(reinterpret_cast<const char*>(&ns), sizeof(ns));
         ofs.write(entry.first.data(), 65);
@@ -80,25 +84,8 @@ void nemesis::CacheManager::LoadFile(const std::filesystem::path& filepath)
 
         auto create_time = std::chrono::system_clock::from_time_t(ns / 1000000000);
 
-        if (create_time + std::chrono::hours(24 * 7) < std::chrono::system_clock::now()) continue;
-
         nemesis::CacheEntry& entry = Manager.Entries[checksum];
         entry.CreateTime           = create_time;
         entry.Data                 = std::move(data);
-
-        //if (checksum.starts_with("ba9b0a7c2de05d064bf87a8b227df63fa47cf801b3f06c2d914b05c6f9602c8b")
-        //    || checksum.starts_with("170f20d68edb24b0e8363cfc0d5bb0610db20b9c45da86c2cb41ae9cfa8cc932"))
-        //{
-        //    std::cout << NemesisInfo::ExeDirectory() / checksum.substr(0, 64) << std::endl;
-        //    std::ofstream o(NemesisInfo::ExeDirectory() / checksum.substr(0, 64), std::ios::binary);
-
-        //    if (!o)
-        //    {
-        //        std::cout << "Fail to write" << std::endl;
-        //    }
-
-        //    o << entry.Data;
-        //    o.close();
-        //}
     }
 }
