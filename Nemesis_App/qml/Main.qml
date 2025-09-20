@@ -323,7 +323,7 @@ Window {
             topRightCorner.opacity = 0.8;
         }
 
-        onPressed: {
+        onReleased: {
             if(!containsMouse) return;
 
             Qt.callLater(Qt.quit);
