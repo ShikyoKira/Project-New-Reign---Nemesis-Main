@@ -1,5 +1,4 @@
 #include <memory>
-#include <QProcess>
 #include <QDebug>
 #include <QDir>
 #include <iostream>
@@ -176,9 +175,11 @@ void AppLauncher::readError()
     emit errorReceived(error);
 }
 
-void AppLauncher::runFinished()
+void AppLauncher::runFinished(int exit_code, QProcess::ExitStatus exit_status)
 {
-    emit finishedReceived();
+    if (exit_code == 0) return;
+
+    emit errorReceived("\n\n[ERROR] Core program crashed unexpectedly\n");
 }
 
 void AppLauncher::quitRunningProcess()

@@ -25,7 +25,7 @@ signals:
 private slots:
     void readOutput();
     void readError();
-    void runFinished();
+    void runFinished(int exit_code, QProcess::ExitStatus exit_status);
 
 public slots:
     void quitRunningProcess();
