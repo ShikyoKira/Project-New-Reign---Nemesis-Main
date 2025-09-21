@@ -97,6 +97,7 @@ void nemesis::NLine::CompileTo(DeqNstr& lines, nemesis::CompileState& state) con
     }
     catch (const nemesis::Exception&)
     {
+        throw;
     }
     catch (const std::exception& ex)
     {
