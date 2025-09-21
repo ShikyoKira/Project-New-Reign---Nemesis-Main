@@ -13,7 +13,8 @@ std::string nemesis::SubTemplateObject::GetHash() const
     if (!HashCache.empty()) return HashCache;
 
     auto lines = Serialize();
-    std::ostringstream oss("SubTemplateObject:" + Name);
+    std::ostringstream oss;
+    oss << "SubTemplateObject:" << Name << "\n";
 
     for (auto& line : lines)
     {

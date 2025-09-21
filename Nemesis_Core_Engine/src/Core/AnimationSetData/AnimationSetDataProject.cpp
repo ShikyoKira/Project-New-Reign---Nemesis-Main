@@ -320,7 +320,7 @@ std::string nemesis::AnimationSetDataProject::GetHash(nemesis::CompileState& sta
         if (requests.empty()) continue;
 
         hash_set.insert(requests.get_hash());
-        hash_set.insert(templt_obj->GetHash());
+        hash_set.insert(templt_obj->GetClassName() + ":" + templt_obj->GetHash());
     }
 
     for (auto& hash : hash_set)

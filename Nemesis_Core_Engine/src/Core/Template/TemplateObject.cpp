@@ -19,11 +19,17 @@ std::string nemesis::TemplateObject::GetHash() const
     if (!HashCache.empty()) return HashCache;
 
     auto lines = Serialize();
-    std::ostringstream oss("TemplateObject:" + TemplateClass->GetName());
+    std::ostringstream oss;
+    oss << "TemplateObject:" << TemplateClass->GetName() << "\n";
 
     for (auto& line : lines)
     {
         oss << line.ToString() << "\n";
+    }
+
+    if (Child)
+    {
+        oss << Child->GetHash() << "\n";
     }
 
     return HashCache = nemesis::SHA256::hex(oss.str());

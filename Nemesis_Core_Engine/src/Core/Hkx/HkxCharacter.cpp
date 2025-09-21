@@ -6,6 +6,7 @@
 #include "Logger.h"
 #include "NemesisInfo.h"
 
+#include "Utilities/Crc32.h"
 #include "Utilities/StringExtension.h"
 
 void nemesis::HkxCharacter::PopulateContentsFromFile(nemesis::HkxCharacter& character)
@@ -45,6 +46,118 @@ void nemesis::HkxCharacter::PopulateContentsFromFile(nemesis::HkxCharacter& char
         character.RootNode = node_pair.second;
         break;
     }
+}
+
+void nemesis::HkxCharacter::CompileFileAsHkx(const std::filesystem::path& filepath,
+                                             nemesis::CompileState& state,
+                                             nemesis::PlatformType platform,
+                                             nemesis::HavokVersion version,
+                                             bool include_xml) const
+{
+    Logger::Log(LITERAL_PATH("Compiling Target File: ") + PATH_TO_STRING(filepath));
+
+    std::string hash = GetHash(state) + static_cast<char>(version);
+    auto* entry      = nemesis::CacheManager::GetEntry(hash);
+
+    if (entry)
+    {
+        auto future = CopyFromCache(*entry, filepath);
+        Compile(state);
+
+        if (!nemesis::iequals(PATH_TO_STRING(filepath.filename()), LITERAL_PATH("build_info.hkx")))
+        {
+            static nemesis::CRC32 crc32;
+            size_t checksum = crc32.FullCRC(entry->Data);
+            state.AddCheckSum(filepath, std::to_string(checksum));
+        }
+
+        future.get();
+    }
+    else
+    {
+        DeqNstr lines = Compile(state);
+        std::ostringstream stream;
+        UMap<size_t, const nemesis::Line*> modded_lines;
+        size_t line_counter = 0;
+
+        for (auto& line : lines)
+        {
+            stream << line + "\n";
+            line_counter += std::count(line.begin(), line.end(), '\n') + 1;
+            auto* file_ptr = line.GetFilePathPtr();
+
+            if (!file_ptr) continue;
+
+            modded_lines.insert({line_counter, &line});
+        }
+
+        CompileToHkx(
+            hash, filepath, stream.str(), state, platform, version, include_xml, modded_lines, []() {})
+            .get();
+    }
+
+    Logger::Log(LITERAL_PATH("Compiled Target File: ") + PATH_TO_STRING(filepath));
+}
+
+void nemesis::HkxCharacter::ScheduleCompileFileAs(const std::filesystem::path& filepath,
+                                                  nemesis::CompileState& state,
+                                                  nemesis::PlatformType platform,
+                                                  nemesis::HavokVersion version,
+                                                  bool include_xml,
+                                                  std::function<void()> callback) const
+{
+    std::string hash = GetHash(state) + static_cast<char>(version);
+    auto* entry      = nemesis::CacheManager::GetEntry(hash);
+    std::future<void> future;
+
+    if (entry)
+    {
+        future = CopyFromCache(*entry, filepath);
+        Compile(state);
+
+        if (!nemesis::iequals(PATH_TO_STRING(filepath.filename()), LITERAL_PATH("build_info.hkx")))
+        {
+            static nemesis::CRC32 crc32;
+            size_t checksum = crc32.FullCRC(entry->Data);
+            state.AddCheckSum(filepath, std::to_string(checksum));
+        }
+    }
+    else
+    {
+        SPtr<DeqNstr> lines = std::make_shared<DeqNstr>();
+        CompileTo(*lines, state);
+
+        std::ostringstream stream;
+        UMap<size_t, const nemesis::Line*> modded_lines;
+        size_t line_counter = 0;
+
+        for (auto& line : *lines)
+        {
+            stream << line + "\n";
+            line_counter += std::count(line.begin(), line.end(), '\n') + 1;
+            auto* file_ptr = line.GetFilePathPtr();
+
+            if (!file_ptr) continue;
+
+            modded_lines.insert({line_counter, &line});
+        }
+
+        future = CompileToHkx(hash,
+                              filepath,
+                              stream.str(),
+                              state,
+                              platform,
+                              version,
+                              include_xml,
+                              modded_lines,
+                              // lines is required to be included to keep it alive throughout
+                              // the whole async process for modded_lines reference when
+                              // there is an error during compilation
+                              [hash, lines, callback]() { callback(); });
+    }
+
+    std::scoped_lock<std::mutex> lock(CompileFutureMutex);
+    CompileFuture.emplace_back(std::move(future));
 }
 
 void nemesis::HkxCharacter::CompileTo(DeqNstr& lines, nemesis::CompileState& state) const

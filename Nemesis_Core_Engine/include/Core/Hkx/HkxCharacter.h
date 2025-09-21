@@ -14,6 +14,18 @@ namespace nemesis
         HkxCharacter() = default;
 
     public:
+        void CompileFileAsHkx(const std::filesystem::path& filepath,
+                              nemesis::CompileState& state,
+                              nemesis::PlatformType platform,
+                              nemesis::HavokVersion version,
+                              bool include_xml) const override;
+        void ScheduleCompileFileAs(const std::filesystem::path& filepath,
+                                   nemesis::CompileState& state,
+                                   nemesis::PlatformType platform,
+                                   nemesis::HavokVersion version,
+                                   bool include_xml,
+                                   std::function<void()> callback) const override;
+
         void CompileTo(DeqNstr& lines, nemesis::CompileState& state) const override;
         void SerializeTo(DeqNstr& lines) const override;
 

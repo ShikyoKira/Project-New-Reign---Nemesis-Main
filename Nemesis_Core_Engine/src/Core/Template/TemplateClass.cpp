@@ -553,7 +553,7 @@ nemesis::TemplateClass::CreateRequest(const std::string& list_name,
 
     if (!(ss >> component)) return nullptr;
 
-    request->SetHash(nemesis::SHA256::hex(component));
+    request->SetExpression(component);
 
     if (component[0] == '-')
     {

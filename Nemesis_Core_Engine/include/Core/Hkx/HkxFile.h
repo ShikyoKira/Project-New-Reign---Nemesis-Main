@@ -59,31 +59,32 @@ namespace nemesis
                                         const std::filesystem::path& output_path) const;
 
     public:
-        std::filesystem::path CompileFile(nemesis::CompileState& state,
-                                          nemesis::PlatformType platform,
-                                          nemesis::HavokVersion version,
-                                          bool include_xml) const;
-        void CompileFileAsXml(const std::filesystem::path& filepath, nemesis::CompileState& state) const;
-        void CompileFileAsHkx(const std::filesystem::path& filepath,
-                              nemesis::CompileState& state,
-                              nemesis::PlatformType platform,
-                              nemesis::HavokVersion version,
-                              bool include_xml) const;
-        std::filesystem::path ScheduleCompileFile(nemesis::CompileState& state,
+        virtual std::filesystem::path CompileFile(nemesis::CompileState& state,
                                                   nemesis::PlatformType platform,
                                                   nemesis::HavokVersion version,
                                                   bool include_xml) const;
+        virtual void CompileFileAsXml(const std::filesystem::path& filepath,
+                                      nemesis::CompileState& state) const;
+        virtual void CompileFileAsHkx(const std::filesystem::path& filepath,
+                                      nemesis::CompileState& state,
+                                      nemesis::PlatformType platform,
+                                      nemesis::HavokVersion version,
+                                      bool include_xml) const;
+        virtual std::filesystem::path ScheduleCompileFile(nemesis::CompileState& state,
+                                                          nemesis::PlatformType platform,
+                                                          nemesis::HavokVersion version,
+                                                          bool include_xml) const;
+        virtual void ScheduleCompileFileAs(const std::filesystem::path& filepath,
+                                           nemesis::CompileState& state,
+                                           nemesis::PlatformType platform,
+                                           nemesis::HavokVersion version,
+                                           bool include_xml,
+                                           std::function<void()> callback) const;
         void ScheduleCompileFileAs(const std::filesystem::path& filepath,
                                    nemesis::CompileState& state,
                                    nemesis::PlatformType platform,
                                    nemesis::HavokVersion version,
                                    bool include_xml) const;
-        void ScheduleCompileFileAs(const std::filesystem::path& filepath,
-                                   nemesis::CompileState& state,
-                                   nemesis::PlatformType platform,
-                                   nemesis::HavokVersion version,
-                                   bool include_xml,
-                                   std::function<void()> callback) const;
         void WaitForCompleteCompilation() const;
 
         void AddTemplate(const SPtr<nemesis::TemplateObject>& templt_obj);

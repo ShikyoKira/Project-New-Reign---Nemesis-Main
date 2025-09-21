@@ -354,15 +354,6 @@ void nemesis::HkxFile::ScheduleCompileFileAs(const std::filesystem::path& filepa
                                              nemesis::CompileState& state,
                                              nemesis::PlatformType platform,
                                              nemesis::HavokVersion version,
-                                             bool include_xml) const
-{
-    ScheduleCompileFileAs(filepath, state, platform, version, include_xml, [] {});
-}
-
-void nemesis::HkxFile::ScheduleCompileFileAs(const std::filesystem::path& filepath,
-                                             nemesis::CompileState& state,
-                                             nemesis::PlatformType platform,
-                                             nemesis::HavokVersion version,
                                              bool include_xml,
                                              std::function<void()> callback) const
 {
@@ -417,6 +408,15 @@ void nemesis::HkxFile::ScheduleCompileFileAs(const std::filesystem::path& filepa
 
     std::scoped_lock<std::mutex> lock(CompileFutureMutex);
     CompileFuture.emplace_back(std::move(future));
+}
+
+void nemesis::HkxFile::ScheduleCompileFileAs(const std::filesystem::path& filepath,
+                                             nemesis::CompileState& state,
+                                             nemesis::PlatformType platform,
+                                             nemesis::HavokVersion version,
+                                             bool include_xml) const
+{
+    ScheduleCompileFileAs(filepath, state, platform, version, include_xml, [] {});
 }
 
 void nemesis::HkxFile::WaitForCompleteCompilation() const
@@ -560,6 +560,11 @@ std::string nemesis::HkxFile::GetHash(nemesis::CompileState& state) const
 
     for (auto& templt_obj : TemplateMap)
     {
+        auto& requests = state.GetRequests(templt_obj.first);
+
+        if (requests.empty()) continue;
+
+        hash_set.insert(requests.get_hash());
         hash_set.insert(templt_obj.first + ":" + templt_obj.second->GetHash());
     }
 

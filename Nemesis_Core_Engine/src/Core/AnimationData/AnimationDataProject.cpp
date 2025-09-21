@@ -190,7 +190,7 @@ std::string nemesis::AnimationDataProject::GetHash(nemesis::CompileState& state)
         if (requests.empty()) continue;
 
         hash_set.insert(requests.get_hash());
-        hash_set.insert(clip_data->GetHash());
+        hash_set.insert(clip_data->GetClassName() + ":" + clip_data->GetHash());
     }
 
     for (auto& motion_data : MotionDataTemplateList)
@@ -200,7 +200,7 @@ std::string nemesis::AnimationDataProject::GetHash(nemesis::CompileState& state)
         if (requests.empty()) continue;
 
         hash_set.insert(requests.get_hash());
-        hash_set.insert(motion_data->GetHash());
+        hash_set.insert(motion_data->GetClassName() + ":" + motion_data->GetHash());
     }
 
     for (auto& hash : hash_set)

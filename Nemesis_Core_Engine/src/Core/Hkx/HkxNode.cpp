@@ -404,7 +404,7 @@ std::string nemesis::HkxNode::GetHash() const
 
     auto lines = Serialize();
     std::ostringstream oss;
-    oss << "HkxNode:" + NodeId << "\n";
+    oss << "HkxNode:" << NodeId << "\n";
 
     for (auto& line : lines)
     {

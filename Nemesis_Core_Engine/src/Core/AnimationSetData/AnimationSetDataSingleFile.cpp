@@ -75,7 +75,7 @@ std::future<void> nemesis::AnimationSetDataSingleFile::CompileFileCore(const std
 
             for (auto& line : lines)
             {
-                oss << line + "\n";
+                oss << line.ToString() << "\n";
             }
 
             std::string content = oss.str();
@@ -94,7 +94,7 @@ std::string nemesis::AnimationSetDataSingleFile::GetHash(nemesis::CompileState& 
     USetStr mod_set;
     SetStr hash_set;
     std::ostringstream oss;
-    oss << "AnimationSetDataSingleFile" << "\n";
+    oss << "AnimationSetDataSingleFile\n";
 
     for (auto& mod : state.GetSelectedMods())
     {

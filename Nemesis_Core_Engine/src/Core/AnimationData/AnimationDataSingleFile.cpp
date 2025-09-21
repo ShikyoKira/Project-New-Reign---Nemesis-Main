@@ -89,9 +89,10 @@ std::future<void> nemesis::AnimationDataSingleFile::CompileFileCore(const std::f
 
 std::string nemesis::AnimationDataSingleFile::GetHash(nemesis::CompileState& state) const
 {
-    std::ostringstream oss("AnimationDataSingleFile");
     USetStr mod_set;
     SetStr hash_set;
+    std::ostringstream oss;
+    oss << "AnimationDataSingleFile\n";
 
     for (auto& mod : state.GetSelectedMods())
     {

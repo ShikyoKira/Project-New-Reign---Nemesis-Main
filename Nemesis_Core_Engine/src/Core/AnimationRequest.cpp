@@ -2,6 +2,8 @@
 
 #include "Core/Template/TemplateClass.h"
 
+#include "Utilities/Sha256.h"
+
 std::atomic_uint32_t nemesis::AnimationRequest::IdCounter = 0;
 
 nemesis::AnimationRequest::AnimationRequest(const std::string& list_name,
@@ -17,14 +19,24 @@ nemesis::AnimationRequest::~AnimationRequest() noexcept
     --IdCounter;
 }
 
-void nemesis::AnimationRequest::SetHash(const std::string& hash)
+void nemesis::AnimationRequest::SetExpression(const std::string& expr)
 {
-    Hash = hash;
+    Expression = expr;
 }
 
-const std::string& nemesis::AnimationRequest::GetHash() const
+std::string nemesis::AnimationRequest::GetHash() const
 {
-    return Hash;
+    if (!HashCache.empty()) return HashCache;
+
+    std::ostringstream oss;
+    oss << Expression << "\n";
+
+    for (auto& request : Requests)
+    {
+        oss << request->GetHash() << "\n";
+    }
+
+    return HashCache = nemesis::SHA256::hex(oss.str());
 }
 
 void nemesis::AnimationRequest::SetIndex(size_t index) noexcept
