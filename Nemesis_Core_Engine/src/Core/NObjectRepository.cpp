@@ -430,7 +430,6 @@ void nemesis::NObjectRepository::Compile(nemesis::CompilationManager& manager,
     Logger::Log("Compiling Core Objects...", true);
 
     manager.ClearCheckSum();
-    nemesis::ThreadPool cthread_pool;
     nemesis::ThreadPool thread_pool;
     int TotalObjects = Characters.size() + Behaviors.size() + 1 + (AnimDataSingleFile != nullptr)
                        + (AnimSetDataSingleFile != nullptr);
@@ -439,7 +438,7 @@ void nemesis::NObjectRepository::Compile(nemesis::CompilationManager& manager,
     for (auto& character : Characters)
     {
         auto& state = manager.CreateCompileState(character->GetFilePath());
-        cthread_pool.priority_enqueue(
+        thread_pool.priority_enqueue(
             character->GetSize(),
             [&character, &state, &CompiledObjectCounter, &prgs_callback, TotalObjects]()
             {
@@ -449,7 +448,7 @@ void nemesis::NObjectRepository::Compile(nemesis::CompilationManager& manager,
             });
     }
 
-    cthread_pool.join_all();
+    thread_pool.wait_for_all();
     const nemesis::HkxBehavior* build_info_bhv;
 
     for (auto& behavior : Behaviors)
