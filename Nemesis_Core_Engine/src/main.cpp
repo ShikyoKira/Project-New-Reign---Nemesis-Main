@@ -406,7 +406,7 @@ int main(int argc, char* argv[])
     }
     catch (const nemesis::ThreadPool::ThreadException&)
     {
-        return 1;
+        return 0;
     }
     catch (const std::exception& ex)
     {
@@ -414,7 +414,7 @@ int main(int argc, char* argv[])
         std::cout << std::endl;
         Logger::Log(std::string("[ERROR] ") + ex.what(), true);
         std::cout << std::endl;
-        return 1;
+        return 0;
     }
     catch (...)
     {
@@ -422,6 +422,6 @@ int main(int argc, char* argv[])
         std::cout << std::endl;
         Logger::Log("[ERROR] Unknown exception captured", true);
         std::cout << std::endl;
-        return 1;
+        return 0;
     }
 }
