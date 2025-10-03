@@ -196,7 +196,7 @@ bool nemesis::HkxNode::TryInjectEventNames(DeqNstr& lines,
                                             + nemesis::to_utf8_string(line.GetFilePath()) + ") ");
         }
 
-        line += "\t\t\t<!-- " + name + "-->";
+        line += "\t\t\t<!-- " + name + " -->";
     }
 
     return true;
@@ -233,7 +233,7 @@ bool nemesis::HkxNode::TryInjectVariableNames(DeqNstr& lines,
                                             + nemesis::to_utf8_string(line.GetFilePath()) + ") ");
         }
 
-        line += "\t\t\t<!-- " + name + "-->";
+        line += "\t\t\t<!-- " + name + " -->";
     }
 
     return true;
