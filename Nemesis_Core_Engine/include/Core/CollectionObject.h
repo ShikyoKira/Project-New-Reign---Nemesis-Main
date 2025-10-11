@@ -16,6 +16,7 @@ namespace nemesis
 
             size_t BaseIndex, OriginalSize;
 
+            nemesis::NLine* GoToLine(size_t linenum);
             nemesis::NLine* GetNextLine();
 
         public:

@@ -3,6 +3,8 @@
 #include "Core/CollectionObject.h"
 #include "Core/CompileState.h"
 #include "Core/ForEachObject.h"
+#include "Core/GoToEndObject.h"
+#include "Core/GoToObject.h"
 #include "Core/IfObject.h"
 #include "Core/LineStream.h"
 #include "Core/ModLine.h"
@@ -24,22 +26,40 @@ UPtr<nemesis::NObject> nemesis::NObject::ParseLine(nemesis::LineStream& stream,
 {
     auto token = stream.GetToken();
 
-    switch (token.Type)
+    try
     {
-        case nemesis::LineStream::TokenType::IF:
-            return ParseIfObject(stream, manager);
-        case nemesis::LineStream::TokenType::FOR_EACH:
-            return ParseForEachObject(stream, manager);
-        case nemesis::LineStream::TokenType::NONE:
+        switch (token.Type)
         {
-            auto nline = std::make_unique<nemesis::NLine>(token.Value, manager);
-            add_nline_event(token.Value);
-            return nline;
+            case nemesis::LineStream::TokenType::IF:
+                return ParseIfObject(stream, manager);
+            case nemesis::LineStream::TokenType::FOR_EACH:
+                return ParseForEachObject(stream, manager);
+            case nemesis::LineStream::TokenType::NONE:
+            {
+                auto nline = std::make_unique<nemesis::NLine>(token.Value, manager);
+                add_nline_event(token.Value);
+                return nline;
+            }
+            case nemesis::LineStream::TokenType::BREAK:
+                return std::make_unique<nemesis::BreakObject>(token.Value, manager);
+            case nemesis::LineStream::TokenType::GO_TO:
+                return std::make_unique<nemesis::GoToObject>(token.Value, manager);
+            case nemesis::LineStream::TokenType::GO_TO_END:
+                return std::make_unique<nemesis::GoToEndObject>();
+            default:
+                break;
         }
-        case nemesis::LineStream::TokenType::BREAK:
-            return std::make_unique<nemesis::BreakObject>(token.Value, manager);
-        default:
-            break;
+    }
+    catch (const nemesis::NObjectException&)
+    {
+        throw;
+    }
+    catch (const std::exception& ex)
+    {
+        auto& token_value = token.Value;
+        throw nemesis::NObjectException(
+            "Syntax Error: " + std::string(ex.what()) + " (Line: " + std::to_string(token_value.GetLineNumber())
+            + ", File: " + nemesis::to_utf8_string(token_value.GetFilePath()) + ")");
     }
 
     auto& token_value = token.Value;

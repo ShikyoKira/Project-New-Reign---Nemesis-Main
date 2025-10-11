@@ -56,5 +56,10 @@ namespace nemesis
         std::string Break(const std::string& condition) noexcept;
 
         std::string EndSyntax() noexcept;
+
+        std::string GoTo() noexcept;
+        std::string GoTo(const std::string& linenum) noexcept;
+
+        std::string GoToEnd() noexcept;
     }
 }

@@ -94,7 +94,7 @@ set(LineModifier_HeaderFiles
 source_group("Header Files\\Core\\LineModifier" FILES ${LineModifier_HeaderFiles})
 
 set(Statement_HeaderFiles
-    "include/Core/Statement/AnimationBaseFilenameStatement.h" 
+    "include/Core/Statement/AnimationBaseFilenameStatement.h"
     "include/Core/Statement/AnimationEventStatement.h"
     "include/Core/Statement/AnimationFilenameStatement.h" 
     "include/Core/Statement/AnimationFilePathStatement.h"
@@ -229,7 +229,7 @@ set(AllHeaderFiles
     ${ExAnimation_HeaderFiles}
     ${Utilities_HeaderFiles}
     ${HeaderFiles}
-    )
+     "include/Core/GoToObject.h" "include/Core/GoToEndObject.h")
 
 
 ################################################################################
@@ -426,7 +426,7 @@ set(AllSourceFiles
     ${ExAnimation_SourceFiles}
     ${Utilities_SourceFiles}
     ${SourceFiles}
-    )
+     "src/Core/GoToObject.cpp" "src/Core/GoToEndObject.cpp")
 
 
 ################################################################################

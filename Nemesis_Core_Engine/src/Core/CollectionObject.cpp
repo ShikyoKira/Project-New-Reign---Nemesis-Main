@@ -1,4 +1,6 @@
 #include "Core/CollectionObject.h"
+#include "Core/GoToEndObject.h"
+#include "Core/GoToObject.h"
 #include "Core/NLine.h"
 
 #include "Core/Statement/ConditionalStatement.h"
@@ -6,6 +8,25 @@
 #include "Utilities/ConditionSyntax.h"
 
 namespace ns = nemesis::syntax;
+
+nemesis::NLine* nemesis::CollectionObject::ObjectMatcher::GoToLine(size_t linenum)
+{
+    size_t origin_counter = 0;
+
+    for (size_t i = 0; i < Objects.size(); ++i)
+    {
+        nemesis::NLine* line_ptr = dynamic_cast<nemesis::NLine*>(Objects[i].get());
+
+        if (!line_ptr) continue;
+
+        if (++origin_counter != linenum) continue;
+
+        BaseIndex = i + 1;
+        return line_ptr;
+    }
+
+    return nullptr;
+}
 
 nemesis::NLine* nemesis::CollectionObject::ObjectMatcher::GetNextLine()
 {
@@ -22,7 +43,8 @@ nemesis::NLine* nemesis::CollectionObject::ObjectMatcher::GetNextLine()
     return nullptr;
 }
 
-nemesis::CollectionObject::ObjectMatcher::ObjectMatcher(Vec<UPtr<nemesis::NObject>>& objects, size_t ori_size)
+nemesis::CollectionObject::ObjectMatcher::ObjectMatcher(Vec<UPtr<nemesis::NObject>>& objects,
+                                                        size_t ori_size)
     : Objects(objects)
     , OriginalSize(ori_size)
 {
@@ -30,17 +52,25 @@ nemesis::CollectionObject::ObjectMatcher::ObjectMatcher(Vec<UPtr<nemesis::NObjec
 
 void nemesis::CollectionObject::ObjectMatcher::MatchAndUpdate(const Vec<UPtr<nemesis::NObject>>& objects)
 {
-    if (OriginalSize > objects.size())
-    {
-        throw nemesis::NObjectException("Failed to update node. Missing data or node ID mismatched");
-    }
-
     BaseIndex              = 0;
     size_t new_index_begin = 0;
+    DeqNstr lines;
 
     for (size_t i = 0; i < objects.size(); ++i)
     {
         auto& object   = objects[i];
+        auto* gotoend_ptr = dynamic_cast<const nemesis::GoToEndObject*>(object.get());
+
+        if (gotoend_ptr) return;
+
+        auto* goto_ptr = dynamic_cast<const nemesis::GoToObject*>(object.get());
+
+        if (goto_ptr)
+        {
+            GoToLine(goto_ptr->GoToLineNum());
+            continue;
+        }
+
         auto* line_ptr = dynamic_cast<const nemesis::NLine*>(object.get());
 
         if (!line_ptr)
@@ -79,17 +109,24 @@ void nemesis::CollectionObject::ObjectMatcher::MatchAndUpdate(const Vec<UPtr<nem
 void nemesis::CollectionObject::ObjectMatcher::MatchAndUpdate(const std::string& mod_code,
                                                               const Vec<UPtr<nemesis::NObject>>& objects)
 {
-    if (OriginalSize > objects.size())
-    {
-        throw nemesis::NObjectException("Failed to update node. Missing data or node ID mismatched");
-    }
-
     BaseIndex              = 0;
     size_t new_index_begin = 0;
 
     for (size_t i = 0; i < objects.size(); ++i)
     {
-        auto& object   = objects[i];
+        auto& object      = objects[i];
+        auto* gotoend_ptr = dynamic_cast<const nemesis::GoToEndObject*>(object.get());
+
+        if (gotoend_ptr) return;
+
+        auto* goto_ptr = dynamic_cast<const nemesis::GoToObject*>(object.get());
+
+        if (goto_ptr)
+        {
+            GoToLine(goto_ptr->GoToLineNum());
+            continue;
+        }
+
         auto* line_ptr = dynamic_cast<const nemesis::NLine*>(object.get());
 
         if (!line_ptr)

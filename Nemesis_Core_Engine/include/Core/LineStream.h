@@ -22,7 +22,9 @@ namespace nemesis
             MOD_CLOSE,
             FOR_EACH,
             CLOSE,
-            BREAK
+            BREAK,
+            GO_TO,
+            GO_TO_END
         };
 
         struct Token

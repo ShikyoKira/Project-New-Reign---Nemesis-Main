@@ -70,6 +70,15 @@ nemesis::LineStream::TokenParser::TokenParser()
                          ns::EndSyntax(),
                          [](const std::string& body)
                          { return std::make_pair(body, nemesis::LineStream::BREAK); });
+
+    StringMatcher.Insert(ns::GoTo(),
+                         ns::EndSyntax(),
+                         [](const std::string& body)
+                         { return std::make_pair(body, nemesis::LineStream::GO_TO); });
+
+    StringMatcher.Insert(ns::GoToEnd(),
+                         [](const std::string& body)
+                         { return std::make_pair("", nemesis::LineStream::GO_TO_END); });
 }
 
 UPtr<nemesis::LineStream::Token> nemesis::LineStream::TokenParser::GenerateToken(const nemesis::Line& line)

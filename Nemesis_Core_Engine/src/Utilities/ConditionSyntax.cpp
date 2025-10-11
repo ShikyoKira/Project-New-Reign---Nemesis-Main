@@ -184,5 +184,19 @@ namespace nemesis
         {
             return "^" + CloseComment();
         }
+
+        std::string GoTo() noexcept
+        {
+            return OpenComment() + "GOTO ^";
+        }
+
+        std::string GoTo(const std::string& linenum) noexcept
+        {
+            return GoTo() + linenum + EndSyntax();
+        }
+        std::string GoToEnd() noexcept
+        {
+            return Comment("GOTOEND");
+        }
     }
 }
