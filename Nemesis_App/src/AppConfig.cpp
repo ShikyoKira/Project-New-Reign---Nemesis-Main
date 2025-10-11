@@ -69,7 +69,7 @@ AppConfig::~AppConfig()
 {
     if (!IniSettings) return;
 
-    IniSettings->setValue("DataDirectory", DataDirectory);
+    IniSettings->setValue("DataDirectory", getDataDirectory());
     IniSettings->setValue("StageDirectory", StageDirectory);
     IniSettings->setValue("Platform", Platform);
     IniSettings->setValue("Width", QString::number(Width));
@@ -94,7 +94,13 @@ AppConfig::~AppConfig()
 
 QString AppConfig::getDataDirectory() const
 {
-    return DataDirectory;
+    if (!DataDirectory.isEmpty()) return DataDirectory;
+
+#if _WIN32
+    return QString::fromStdWString(std::filesystem::current_path().parent_path());
+#else
+    return QString::fromStdString(std::filesystem::current_path().parent_path());
+#endif
 }
 
 QString AppConfig::getStageDirectory() const
