@@ -293,7 +293,7 @@ void nemesis::HkxFile::CompileFileAsHkx(const std::filesystem::path& filepath,
 {
     Logger::Log(LITERAL_PATH("Compiling Target File: ") + PATH_TO_STRING(filepath));
 
-    std::string hash = GetHash(state) + static_cast<char>(version);
+    std::string hash = GetHash(state) + static_cast<char>(platform) + static_cast<char>(version);
     auto* entry      = nemesis::CacheManager::GetEntry(hash);
 
     if (entry)
@@ -357,7 +357,7 @@ void nemesis::HkxFile::ScheduleCompileFileAs(const std::filesystem::path& filepa
                                              bool include_xml,
                                              std::function<void()> callback) const
 {
-    std::string hash = GetHash(state) + static_cast<char>(version);
+    std::string hash = GetHash(state) + static_cast<char>(platform) + static_cast<char>(version);
     auto* entry      = nemesis::CacheManager::GetEntry(hash);
     std::future<void> future;
 

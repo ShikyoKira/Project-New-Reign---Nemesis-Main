@@ -45,7 +45,7 @@ void nemesis::CacheManager::SaveFile(const std::filesystem::path& filepath)
 
         uint64_t length = static_cast<uint64_t>(entry.second.Data.size());
         ofs.write(reinterpret_cast<const char*>(&ns), sizeof(ns));
-        ofs.write(entry.first.data(), 65);
+        ofs.write(entry.first.data(), 66);
         ofs.write(reinterpret_cast<const char*>(&length), sizeof(length));
         ofs.write(entry.second.Data.data(), length);
     }
@@ -70,8 +70,8 @@ void nemesis::CacheManager::LoadFile(const std::filesystem::path& filepath)
         
         if (!ifs) break;
 
-        std::string checksum(65, '\0');
-        ifs.read(&checksum[0], 65);
+        std::string checksum(66, '\0');
+        ifs.read(&checksum[0], 66);
 
         if (!ifs) break;
 
