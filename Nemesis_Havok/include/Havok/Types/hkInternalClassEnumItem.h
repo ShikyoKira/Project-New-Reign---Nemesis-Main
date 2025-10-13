@@ -86,7 +86,7 @@ namespace nemesis
                 {
                     const Pair<std::string, T>& each = *it;
 
-                    if (each.second == 0) continue;
+                    if (each.first == "0") continue;
 
                     if ((remaining & each.second) != each.second) continue;
 

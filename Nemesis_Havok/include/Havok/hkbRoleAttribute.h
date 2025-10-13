@@ -38,8 +38,8 @@ namespace nemesis
             {"ROLE_TIME", 7},
         };
         nemesis::hkEnum<RoleFlags, short> m_flags = {
-            //{"FLAG_NONE", 0},
             {"0", 0},
+            {"FLAG_NONE", 0},
             {"FLAG_RAGDOLL", 1},
             {"FLAG_NORMALIZED", 2},
             {"FLAG_NOT_VARIABLE", 4},
