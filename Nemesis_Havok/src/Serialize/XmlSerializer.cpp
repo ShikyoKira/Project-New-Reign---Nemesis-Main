@@ -103,7 +103,7 @@ void nemesis::XmlSerializer::WriteHkxParam(const std::string& name, const std::s
 {
     if (name.empty())
     {
-        (*Stream) << std::string(Indent, '\t') << val << "\n";
+        (*Stream) << std::string(Indent, '\t') << (encode_xml ? EncodeXmlValue(val) : val) << "\n";
         return;
     }
 
@@ -164,7 +164,9 @@ nemesis::XmlSerializer::XmlSerializer(nemesis::HavokVersion version)
     ContentsVersionString = Header.GetContentsVersionString();
 }
 
-void nemesis::XmlSerializer::WriteFileHeader() {}
+void nemesis::XmlSerializer::WriteFileHeader()
+{
+}
 
 void nemesis::XmlSerializer::Serialize(const nemesis::hkPackfile& packfile)
 {
@@ -311,7 +313,7 @@ void nemesis::XmlSerializer::WriteValue(const std::string& name, unsigned long l
 
 void nemesis::XmlSerializer::WriteValue(const std::string& name, Float16 val)
 {
-    float f = 0;
+    float f = val;
     WriteHkxParam(name, ToString(f, 6));
 }
 
