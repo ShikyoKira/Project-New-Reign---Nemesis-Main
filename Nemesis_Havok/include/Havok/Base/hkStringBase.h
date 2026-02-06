@@ -17,5 +17,10 @@ namespace nemesis
 
         virtual const std::string& GetValue() const noexcept;
         virtual const std::string& SetValue(const std::string& val);
+
+        bool operator==(const std::string& str) const;
+        bool operator==(const nemesis::hkStringBase& str) const;
+        bool operator!=(const std::string& str) const;
+        bool operator!=(const nemesis::hkStringBase& str) const;
     };
 }
