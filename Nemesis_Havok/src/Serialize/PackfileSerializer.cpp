@@ -939,3 +939,13 @@ void nemesis::PackfileSerializer::WriteArrayObject(const std::string& name,
         WriteObject(name, *list[i]);
     }
 }
+
+void nemesis::PackfileSerializer::WriteArrayRefObject(const std::string& name,
+                                                      const nemesis::hkRefVariant* (&list)[],
+                                                      size_t size)
+{
+    for (size_t i = 0; i < size; ++i)
+    {
+        WriteObject(name, *list[i]);
+    }
+}

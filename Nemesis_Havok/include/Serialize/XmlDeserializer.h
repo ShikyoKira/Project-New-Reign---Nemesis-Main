@@ -79,8 +79,10 @@ namespace nemesis
                 iss >> val;
 
                 if (iss.fail())
+                {
                     throw std::runtime_error("Invalid input type (Value: " + iss.str()
                                              + ", Line: " + std::to_string(CurrentLine) + ")");
+                }
 
                 return val;
             }
@@ -134,7 +136,7 @@ namespace nemesis
         }
 
         template <typename T>
-        T& ReadComplexContainer(const std::string& name, T& container)
+        T& ReadContainer(const std::string& name, T& container)
         {
             if (name.empty()) return ReadValue(*CurrentBlock, container);
 
@@ -142,7 +144,7 @@ namespace nemesis
 
             if (!TryReadHkxParam(name, str)) return container;
 
-            std::string new_str = TrimXmlString(str);
+            std::string new_str = str;
 
             for (auto& ch : new_str)
             {
@@ -155,6 +157,7 @@ namespace nemesis
                 }
             }
 
+            new_str = TrimXmlString(new_str);
             nemesis::XmlDeserializer::StreamBlock stream_block(str, new_str);
             return ReadValue(stream_block, container);
         }
@@ -315,6 +318,9 @@ namespace nemesis
         nemesis::HavokObject**
         ReadArrayObject(const std::string& name, nemesis::HavokObject* (&list)[], size_t size) override;
 
+        nemesis::hkRefVariant**
+        ReadArrayRefObject(const std::string& name, nemesis::hkRefVariant* (&list)[], size_t size) override;
+
         nemesis::hkSmallArrayBase& ReadArrayObject(const std::string& name,
                                                    nemesis::hkSmallArrayBase& array) override;
         nemesis::hkArrayBase& ReadArrayObject(const std::string& name, nemesis::hkArrayBase& array) override;
@@ -326,6 +332,68 @@ namespace nemesis
                                              nemesis::HavokObject** ptr_ptr_obj);
         nemesis::HavokObject** ReadRefObject(const std::string& name,
                                              nemesis::HavokObject** ptr_ptr_obj) override;
+
+        template <typename T>
+        T** ReadArrayValueImplt(const std::string& name, T* (&list)[], size_t size)
+        {
+            std::string str;
+
+            if (!TryReadHkxParam(name, str)) return list;
+
+            nemesis::XmlDeserializer::StreamBlock stream_block(str, str);
+
+            for (size_t i = 0; i < size; ++i)
+            {
+                ReadValue("", *list[i]);
+            }
+
+            if (!stream_block.Stream.eof())
+            {
+                throw std::runtime_error("Malformed fixed size array: unable to parse string value (Size: "
+                                         + std::to_string(size) + ", Value : " + stream_block.Text
+                                         + ", Line: " + std::to_string(CurrentLine) + ")");
+            }
+
+            return list;
+        }
+
+        template <typename T>
+        T** ReadArrayContainerImplt(const std::string& name, T* (&list)[], size_t size)
+        {
+            std::string str;
+
+            if (!TryReadHkxParam(name, str)) return list;
+
+            std::string new_str = str;
+
+            for (auto& ch : new_str)
+            {
+                switch (ch)
+                {
+                    case '(':
+                    case ')':
+                        ch = ' ';
+                        break;
+                }
+            }
+
+            new_str = TrimXmlString(new_str);
+            nemesis::XmlDeserializer::StreamBlock stream_block(str, new_str);
+
+            for (size_t i = 0; i < size; ++i)
+            {
+                ReadValue(stream_block, *list[i]);
+            }
+
+            if (!stream_block.Stream.eof())
+            {
+                throw std::runtime_error("Malformed fixed size array: unable to parse string value (Size: "
+                                         + std::to_string(size) + ", Value : " + stream_block.Text
+                                         + ", Line: " + std::to_string(CurrentLine) + ")");
+            }
+
+            return list;
+        }
 
     public:
         nemesis::hkClass& ReadClass(nemesis::hkClass& cls) override;

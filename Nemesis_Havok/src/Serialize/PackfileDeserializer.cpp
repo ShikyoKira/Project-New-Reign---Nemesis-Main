@@ -559,7 +559,7 @@ nemesis::hkEnumBase& nemesis::PackfileDeserializer::ReadValue(const std::string&
 
 nemesis::hkVector4& nemesis::PackfileDeserializer::ReadValue(const std::string& name, nemesis::hkVector4& vec4)
 {
-    float x, y, z, w;
+    float x = 0.0, y = 0.0, z = 0.0, w = 0.0;
     ReadValue("", x);
     ReadValue("", y);
     ReadValue("", z);
@@ -582,7 +582,7 @@ nemesis::hkVector8& nemesis::PackfileDeserializer::ReadValue(const std::string& 
 nemesis::hkQuaternion& nemesis::PackfileDeserializer::ReadValue(const std::string& name,
                                                                 nemesis::hkQuaternion& quaternion)
 {
-    float x, y, z, r;
+    float x = 0.0, y = 0.0, z = 0.0, r = 0.0;
     ReadValue("", x);
     ReadValue("", y);
     ReadValue("", z);
@@ -802,6 +802,18 @@ nemesis::HavokObject** nemesis::PackfileDeserializer::ReadArrayObject(const std:
     for (size_t i = 0; i < size; ++i)
     {
         ReadObject(name, *list[i]);
+    }
+
+    return list;
+}
+
+nemesis::hkRefVariant** nemesis::PackfileDeserializer::ReadArrayRefObject(const std::string& name,
+                                                                          nemesis::hkRefVariant* (&list)[],
+                                                                          size_t size)
+{
+    for (size_t i = 0; i < size; ++i)
+    {
+        ReadRefObject(name, *list[i]);
     }
 
     return list;

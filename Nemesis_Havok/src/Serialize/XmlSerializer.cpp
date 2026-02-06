@@ -808,7 +808,14 @@ void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,
                                              size_t size,
                                              size_t type_size)
 {
-    throw std::runtime_error("WriteArrayValue with a list of raw pointers is unsupported");
+    std::stringstream ss;
+
+    for (size_t i = 0; i < size; ++i)
+    {
+        ss.write(reinterpret_cast<const char*>(list[i]), type_size);
+}
+
+    WriteHkxParam(name, ss.str());
 }
 
 void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,
@@ -836,132 +843,91 @@ void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,
                                              const nemesis::hkVector4* (&list)[],
                                              size_t size)
 {
-    for (size_t i = 0; i < size; i++)
-    {
-        auto& each = *list[i];
-        WriteValue("", each);
+    WriteArrayValueImplt(name, list, size);
     }
-}
 
 void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,
                                              const nemesis::hkVector8* (&list)[],
                                              size_t size)
 {
-    for (size_t i = 0; i < size; i++)
-    {
-        auto& each = *list[i];
-        WriteValue("", each);
+    WriteArrayValueImplt(name, list, size);
     }
-}
 
 void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,
                                              const nemesis::hkQuaternion* (&list)[],
                                              size_t size)
 {
-    for (size_t i = 0; i < size; i++)
-    {
-        auto& each = *list[i];
-        WriteValue("", each);
-    }
+    WriteArrayValueImplt(name, list, size);
 }
 
 void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,
                                              const nemesis::hkQsTransform* (&list)[],
                                              size_t size)
 {
-    for (size_t i = 0; i < size; i++)
-    {
-        auto& each = *list[i];
-        WriteValue("", each);
+    WriteArrayValueImplt(name, list, size);
     }
-}
 
 void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,
                                              const nemesis::hkUFloat8* (&list)[],
                                              size_t size)
 {
-    for (size_t i = 0; i < size; i++)
-    {
-        auto& each = *list[i];
-        WriteValue("", each);
+    WriteArrayValueImplt(name, list, size);
     }
-}
 
 void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,
                                              const nemesis::hkLong* (&list)[],
                                              size_t size)
 {
-    for (size_t i = 0; i < size; i++)
-    {
-        auto& each = *list[i];
-        WriteValue("", each);
+    WriteArrayValueImplt(name, list, size);
     }
-}
 
 void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,
                                              const nemesis::hkUlong* (&list)[],
                                              size_t size)
 {
-    for (size_t i = 0; i < size; i++)
-    {
-        auto& each = *list[i];
-        WriteValue("", each);
+    WriteArrayValueImplt(name, list, size);
     }
-}
 
 void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,
                                              const nemesis::hkHalf* (&list)[],
                                              size_t size)
 {
-    for (size_t i = 0; i < size; i++)
-    {
-        auto& each = *list[i];
-        WriteValue("", each);
+    WriteArrayValueImplt(name, list, size);
     }
-}
 
 void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,
                                              const nemesis::hkTransform* (&list)[],
                                              size_t size)
 {
-    for (size_t i = 0; i < size; i++)
-    {
-        auto& each = *list[i];
-        WriteValue("", each);
-    }
+    WriteArrayValueImplt(name, list, size);
 }
 
 void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,
                                              const nemesis::hkMatrix3* (&list)[],
                                              size_t size)
 {
-    for (size_t i = 0; i < size; i++)
-    {
-        auto& each = *list[i];
-        WriteValue("", each);
+    WriteArrayValueImplt(name, list, size);
     }
-}
 
 void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,
                                              const nemesis::hkMatrix4* (&list)[],
                                              size_t size)
 {
-    for (size_t i = 0; i < size; i++)
-    {
-        auto& each = *list[i];
-        WriteValue("", each);
-    }
+    WriteArrayValueImplt(name, list, size);
 }
 
 void nemesis::XmlSerializer::WriteArrayObject(const std::string& name,
                                               const nemesis::HavokObject* (&list)[],
                                               size_t size)
 {
-    for (size_t i = 0; i < size; i++)
+    WriteArrayObjectImplt(name, list, size);
+}
+
+void nemesis::XmlSerializer::WriteArrayRefObject(const std::string& name,
+                                                 const nemesis::hkRefVariant* (&list)[],
+                                                 size_t size)
     {
-        auto& each = *list[i];
-        WriteObject("", each);
-    }
+    WriteArrayObjectImplt(name, list, size);
 }
 
 void nemesis::XmlSerializer::WriteSerializeIgnoredArrayValue(const std::string& name,

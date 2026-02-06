@@ -255,6 +255,10 @@ namespace nemesis
         WriteArrayObject(const std::string& name, const nemesis::HavokObject* (&list)[], size_t size)
             = 0;
 
+        virtual void
+        WriteArrayRefObject(const std::string& name, const nemesis::hkRefVariant* (&list)[], size_t size)
+            = 0;
+
         virtual void WriteSerializeIgnoredArrayValue(const std::string& name,
                                                      const void* (&list)[],
                                                      size_t size,
@@ -430,14 +434,28 @@ namespace nemesis
         {
             static_assert(std::is_base_of_v<nemesis::HavokObject, T>, "Only havok objects are allowed");
 
-            const nemesis::HavokObject* p_array[N];
-
-            for (size_t i = 0; i < N; ++i)
+            if constexpr (std::is_base_of_v<nemesis::hkRefVariant, T>)
             {
-                p_array[i] = array[i];
-            }
+                const nemesis::hkRefVariant* p_array[N];
 
-            WriteArrayObject(name, p_array, N);
+                for (size_t i = 0; i < N; ++i)
+                {
+                    p_array[i] = array[i];
+                }
+
+                WriteArrayRefObject(name, p_array, N);
+            }
+            else
+            {
+                const nemesis::HavokObject* p_array[N];
+
+                for (size_t i = 0; i < N; ++i)
+                {
+                    p_array[i] = array[i];
+                }
+
+                WriteArrayObject(name, p_array, N);
+            }
         }
 
         template <typename T, size_t N>
@@ -445,14 +463,28 @@ namespace nemesis
         {
             static_assert(std::is_base_of_v<nemesis::HavokObject, T>, "Only havok objects are allowed");
 
-            const nemesis::HavokObject* p_array[N];
-
-            for (size_t i = 0; i < N; ++i)
+            if constexpr (std::is_base_of_v<nemesis::hkRefVariant, T>)
             {
-                p_array[i] = &array[i];
-            }
+                const nemesis::hkRefVariant* p_array[N];
 
-            WriteArrayObject(name, p_array, N);
+                for (size_t i = 0; i < N; ++i)
+                {
+                    p_array[i] = &array[i];
+                }
+
+                WriteArrayRefObject(name, p_array, N);
+            }
+            else
+            {
+                const nemesis::HavokObject* p_array[N];
+
+                for (size_t i = 0; i < N; ++i)
+                {
+                    p_array[i] = &array[i];
+                }
+
+                WriteArrayObject(name, p_array, N);
+            }
         }
 
         template <typename T, size_t N>

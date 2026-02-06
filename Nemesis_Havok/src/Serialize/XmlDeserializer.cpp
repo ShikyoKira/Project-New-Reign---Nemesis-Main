@@ -520,9 +520,9 @@ void nemesis::XmlDeserializer::ParseHkxObjectMap()
         }
         else
         {
-            auto hk_ptr = PackfilePtr->CreateObject(cls_name);
+            auto hk_ptr     = PackfilePtr->CreateObject(cls_name);
             auto* bhv_graph = dynamic_cast<nemesis::hkbBehaviorGraph*>(hk_ptr);
-            
+
             if (bhv_graph)
             {
                 BehaviorGraphList.push_back({node_name, bhv_graph});
@@ -695,9 +695,11 @@ void nemesis::XmlDeserializer::Skip(unsigned int step) {}
 
 bool& nemesis::XmlDeserializer::ReadValue(const std::string& name, bool& val)
 {
+    val = false;
+
     if (name.empty()) return ReadValue(*CurrentBlock, val);
 
-    if (!TryReadHkxParam(name, val)) return val = false;
+    if (!TryReadHkxParam(name, val)) return val;
 
     return val;
 }
@@ -904,8 +906,7 @@ nemesis::hkCharacterPropertyId& nemesis::XmlDeserializer::ReadValue(const std::s
 
             if (-1 <= val && val < size) return;
 
-            throw std::runtime_error("Character property id out of bounds (" + std::to_string(val)
-                                     + ")");
+            throw std::runtime_error("Character property id out of bounds (" + std::to_string(val) + ")");
         });
     return prop_id = val;
 }
@@ -1007,7 +1008,7 @@ nemesis::hkVector4& nemesis::XmlDeserializer::ReadValue(nemesis::XmlDeserializer
                                                         nemesis::hkVector4& vec4,
                                                         bool skip_last)
 {
-    float x, y, z, w = 0.0;
+    float x = 0.0, y = 0.0, z = 0.0, w = 0.0;
 
     if (skip_last)
     {
@@ -1031,20 +1032,20 @@ nemesis::hkVector4& nemesis::XmlDeserializer::ReadValue(nemesis::XmlDeserializer
 
 nemesis::hkVector4& nemesis::XmlDeserializer::ReadValue(const std::string& name, nemesis::hkVector4& vec4)
 {
-    return ReadComplexContainer(name, vec4);
+    return ReadContainer(name, vec4);
 }
 
 nemesis::hkVector8& nemesis::XmlDeserializer::ReadValue(nemesis::XmlDeserializer::StreamBlock& stream_block,
                                                         nemesis::hkVector8& vec8)
 {
-    ReadValue(stream_block, vec8.GetLin());
+    ReadValue(stream_block, vec8.GetLin(), false);
     ReadValue(stream_block, vec8.GetAng());
     return vec8;
 }
 
 nemesis::hkVector8& nemesis::XmlDeserializer::ReadValue(const std::string& name, nemesis::hkVector8& vec8)
 {
-    return ReadComplexContainer(name, vec8);
+    return ReadContainer(name, vec8);
 }
 
 nemesis::hkQuaternion&
@@ -1061,14 +1062,14 @@ nemesis::XmlDeserializer::ReadValue(nemesis::XmlDeserializer::StreamBlock& strea
 
     if (!stream_block.Stream.fail()) return quaternion;
 
-    throw std::runtime_error("Malformed hkQuaternion: unable to parse string value (Value: " + stream_block.Text
-                             + ", Line: " + std::to_string(CurrentLine) + ")");
+    throw std::runtime_error("Malformed hkQuaternion: unable to parse string value (Value: "
+                             + stream_block.Text + ", Line: " + std::to_string(CurrentLine) + ")");
 }
 
 nemesis::hkQuaternion& nemesis::XmlDeserializer::ReadValue(const std::string& name,
                                                            nemesis::hkQuaternion& quaternion)
 {
-    return ReadComplexContainer(name, quaternion);
+    return ReadContainer(name, quaternion);
 }
 
 nemesis::hkQsTransform&
@@ -1084,7 +1085,7 @@ nemesis::XmlDeserializer::ReadValue(nemesis::XmlDeserializer::StreamBlock& strea
 nemesis::hkQsTransform& nemesis::XmlDeserializer::ReadValue(const std::string& name,
                                                             nemesis::hkQsTransform& qs_transform)
 {
-    return ReadComplexContainer(name, qs_transform);
+    return ReadContainer(name, qs_transform);
 }
 
 nemesis::hkUFloat8& nemesis::XmlDeserializer::ReadValue(const std::string& name, nemesis::hkUFloat8& ufloat8)
@@ -1113,7 +1114,7 @@ nemesis::hkUlong& nemesis::XmlDeserializer::ReadValue(const std::string& name, n
 
 nemesis::hkHalf& nemesis::XmlDeserializer::ReadValue(const std::string& name, nemesis::hkHalf& half)
 {
-    float val;
+    float val = 0.0;
     ReadValue(name, val);
     half = val;
     return half;
@@ -1122,29 +1123,33 @@ nemesis::hkHalf& nemesis::XmlDeserializer::ReadValue(const std::string& name, ne
 nemesis::hkTransform& nemesis::XmlDeserializer::ReadValue(nemesis::XmlDeserializer::StreamBlock& stream_block,
                                                           nemesis::hkTransform& transform)
 {
-    ReadValue(stream_block, transform.GetRotation());
-    ReadValue(stream_block, transform.GetTranslation());
+    auto& rotation = transform.GetRotation();
+    ReadValue(stream_block, rotation.GetCol0(), true);
+    ReadValue(stream_block, rotation.GetCol1(), true);
+    ReadValue(stream_block, rotation.GetCol2(), true);
+    ReadValue(stream_block, transform.GetTranslation(), true);
+    transform.GetTranslation().SetW(1);
     return transform;
 }
 
 nemesis::hkTransform& nemesis::XmlDeserializer::ReadValue(const std::string& name,
                                                           nemesis::hkTransform& transform)
 {
-    return ReadComplexContainer(name, transform);
+    return ReadContainer(name, transform);
 }
 
 nemesis::hkMatrix3& nemesis::XmlDeserializer::ReadValue(nemesis::XmlDeserializer::StreamBlock& stream_block,
                                                         nemesis::hkMatrix3& matrix3)
 {
-    ReadValue(stream_block, matrix3.GetCol0());
-    ReadValue(stream_block, matrix3.GetCol1());
-    ReadValue(stream_block, matrix3.GetCol2());
+    ReadValue(stream_block, matrix3.GetCol0(), true);
+    ReadValue(stream_block, matrix3.GetCol1(), true);
+    ReadValue(stream_block, matrix3.GetCol2(), true);
     return matrix3;
 }
 
 nemesis::hkMatrix3& nemesis::XmlDeserializer::ReadValue(const std::string& name, nemesis::hkMatrix3& matrix3)
 {
-    return ReadComplexContainer(name, matrix3);
+    return ReadContainer(name, matrix3);
 }
 
 nemesis::hkMatrix4& nemesis::XmlDeserializer::ReadValue(nemesis::XmlDeserializer::StreamBlock& stream_block,
@@ -1159,16 +1164,30 @@ nemesis::hkMatrix4& nemesis::XmlDeserializer::ReadValue(nemesis::XmlDeserializer
 
 nemesis::hkMatrix4& nemesis::XmlDeserializer::ReadValue(const std::string& name, nemesis::hkMatrix4& matrix4)
 {
-    return ReadComplexContainer(name, matrix4);
+    return ReadContainer(name, matrix4);
 }
 
 void**
 nemesis::XmlDeserializer::ReadArrayValue(const std::string& name, void* list[], size_t size, size_t type_size)
 {
+    std::string str;
+
+    if (name.empty() || !TryReadHkxParam(name, str))
+    {
+        for (size_t i = 0; i < size; ++i)
+        {
+            char empty = 0;
+            std::memcpy(reinterpret_cast<char*>(list[i]), &empty, type_size);
+        }
+
+        return list;
+    }
+
+    nemesis::XmlDeserializer::StreamBlock stream_block(str, str);
+
     for (size_t i = 0; i < size; ++i)
     {
-        char empty = 0;
-        std::memcpy(reinterpret_cast<char*>(list[i]), &empty, type_size);
+        stream_block.Stream.read(reinterpret_cast<char*>(list[i]), type_size);
     }
 
     return list;
@@ -1196,70 +1215,70 @@ nemesis::XmlDeserializer::ReadArrayValue(const std::string& name, nemesis::hkEnu
 nemesis::hkVector4**
 nemesis::XmlDeserializer::ReadArrayValue(const std::string& name, nemesis::hkVector4* (&list)[], size_t size)
 {
-    return list;
+    return ReadArrayContainerImplt(name, list, size);
 }
 
 nemesis::hkVector8**
 nemesis::XmlDeserializer::ReadArrayValue(const std::string& name, nemesis::hkVector8* (&list)[], size_t size)
 {
-    return list;
+    return ReadArrayContainerImplt(name, list, size);
 }
 
 nemesis::hkQuaternion** nemesis::XmlDeserializer::ReadArrayValue(const std::string& name,
                                                                  nemesis::hkQuaternion* (&list)[],
                                                                  size_t size)
 {
-    return list;
+    return ReadArrayContainerImplt(name, list, size);
 }
 
 nemesis::hkQsTransform** nemesis::XmlDeserializer::ReadArrayValue(const std::string& name,
                                                                   nemesis::hkQsTransform* (&list)[],
                                                                   size_t size)
 {
-    return list;
+    return ReadArrayContainerImplt(name, list, size);
 }
 
 nemesis::hkUFloat8**
 nemesis::XmlDeserializer::ReadArrayValue(const std::string& name, nemesis::hkUFloat8* (&list)[], size_t size)
 {
-    return list;
+    return ReadArrayValueImplt(name, list, size);
 }
 
 nemesis::hkLong**
 nemesis::XmlDeserializer::ReadArrayValue(const std::string& name, nemesis::hkLong* (&list)[], size_t size)
 {
-    return list;
+    return ReadArrayValueImplt(name, list, size);
 }
 
 nemesis::hkUlong**
 nemesis::XmlDeserializer::ReadArrayValue(const std::string& name, nemesis::hkUlong* (&list)[], size_t size)
 {
-    return list;
+    return ReadArrayValueImplt(name, list, size);
 }
 
 nemesis::hkHalf**
 nemesis::XmlDeserializer::ReadArrayValue(const std::string& name, nemesis::hkHalf* (&list)[], size_t size)
 {
-    return list;
+    return ReadArrayValueImplt(name, list, size);
 }
 
 nemesis::hkTransform** nemesis::XmlDeserializer::ReadArrayValue(const std::string& name,
                                                                 nemesis::hkTransform* (&list)[],
                                                                 size_t size)
 {
-    return list;
+    return ReadArrayContainerImplt(name, list, size);
 }
 
 nemesis::hkMatrix3**
 nemesis::XmlDeserializer::ReadArrayValue(const std::string& name, nemesis::hkMatrix3* (&list)[], size_t size)
 {
-    return list;
+    return ReadArrayContainerImplt(name, list, size);
 }
 
 nemesis::hkMatrix4**
 nemesis::XmlDeserializer::ReadArrayValue(const std::string& name, nemesis::hkMatrix4* (&list)[], size_t size)
 {
-    return list;
+    return ReadArrayContainerImplt(name, list, size);
 }
 
 nemesis::HavokObject** nemesis::XmlDeserializer::ReadArrayObject(const std::string& name,
@@ -1269,6 +1288,31 @@ nemesis::HavokObject** nemesis::XmlDeserializer::ReadArrayObject(const std::stri
     for (size_t i = 0; i < size; ++i)
     {
         ReadObject(name, *list[i]);
+    }
+
+    return list;
+}
+
+nemesis::hkRefVariant** nemesis::XmlDeserializer::ReadArrayRefObject(const std::string& name,
+                                                                     nemesis::hkRefVariant* (&list)[],
+                                                                     size_t size)
+{
+    std::string str;
+
+    if (!TryReadHkxParam(name, str)) return list;
+
+    nemesis::XmlDeserializer::StreamBlock stream_block(str, str);
+
+    for (size_t i = 0; i < size; ++i)
+    {
+        ReadRefObject(stream_block, *list[i]);
+    }
+
+    if (!stream_block.Stream.eof())
+    {
+        throw std::runtime_error("Malformed fixed size array: unable to parse string value (Size: "
+                                 + std::to_string(size) + ", Value : " + stream_block.Text
+                                 + ", Line: " + std::to_string(CurrentLine) + ")");
     }
 
     return list;

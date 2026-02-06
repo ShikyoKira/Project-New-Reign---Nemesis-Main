@@ -305,6 +305,10 @@ namespace nemesis
                               const nemesis::HavokObject* (&list)[],
                               size_t size) override;
 
+        void WriteArrayRefObject(const std::string& name,
+                                 const nemesis::hkRefVariant* (&list)[],
+                                 size_t size) override;
+
         template <typename T>
         void WriteArrayValueImplt(const std::string& name, const T* (&list)[], size_t size)
         {

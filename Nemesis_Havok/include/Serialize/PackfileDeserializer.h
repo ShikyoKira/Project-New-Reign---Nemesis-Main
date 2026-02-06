@@ -218,6 +218,9 @@ namespace nemesis
         nemesis::HavokObject**
         ReadArrayObject(const std::string& name, nemesis::HavokObject* (&list)[], size_t size) override;
 
+        nemesis::hkRefVariant**
+        ReadArrayRefObject(const std::string& name, nemesis::hkRefVariant* (&list)[], size_t size) override;
+
         nemesis::hkSmallArrayBase& ReadArrayObject(const std::string& name,
                                                    nemesis::hkSmallArrayBase& array) override;
         nemesis::hkArrayBase& ReadArrayObject(const std::string& name, nemesis::hkArrayBase& array) override;

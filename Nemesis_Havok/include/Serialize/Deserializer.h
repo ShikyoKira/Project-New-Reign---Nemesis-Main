@@ -53,7 +53,7 @@ namespace nemesis
         UPtr<std::istream> Stream;
 
         unsigned char PointerSize;
-        unsigned char Endian;
+        unsigned char Endian = 1;
         unsigned char PaddingOption;
         std::string ContentsVersionString;
         nemesis::HavokVersion ContentsVersion;
@@ -209,8 +209,13 @@ namespace nemesis
         virtual nemesis::hkMatrix4**
         ReadArrayValue(const std::string& name, nemesis::hkMatrix4* (&list)[], size_t size)
             = 0;
+
         virtual nemesis::HavokObject**
         ReadArrayObject(const std::string& name, nemesis::HavokObject* (&list)[], size_t size)
+            = 0;
+
+        virtual nemesis::hkRefVariant**
+        ReadArrayRefObject(const std::string& name, nemesis::hkRefVariant* (&list)[], size_t size)
             = 0;
 
         virtual nemesis::hkSmallArrayBase& ReadArrayObject(const std::string& name,
@@ -300,14 +305,28 @@ namespace nemesis
         {
             static_assert(std::is_base_of_v<nemesis::HavokObject, T>, "Only havok objects are allowed");
 
-            nemesis::HavokObject* p_array[N];
-
-            for (size_t i = 0; i < N; ++i)
+            if constexpr (std::is_base_of_v<nemesis::hkRefVariant, T>)
             {
-                p_array[i] = array[i];
-            }
+                nemesis::hkRefVariant* p_array[N];
 
-            ReadArrayObject(name, p_array, N);
+                for (size_t i = 0; i < N; ++i)
+                {
+                    p_array[i] = array[i];
+                }
+
+                ReadArrayRefObject(name, p_array, N);
+            }
+            else
+            {
+                nemesis::HavokObject* p_array[N];
+
+                for (size_t i = 0; i < N; ++i)
+                {
+                    p_array[i] = array[i];
+                }
+
+                ReadArrayObject(name, p_array, N);
+            }
         }
         
         template <typename T, size_t N>
@@ -315,14 +334,28 @@ namespace nemesis
         {
             static_assert(std::is_base_of_v<nemesis::HavokObject, T>, "Only havok objects are allowed");
 
-            nemesis::HavokObject* p_array[N];
-
-            for (size_t i = 0; i < N; ++i)
+            if constexpr (std::is_base_of_v<nemesis::hkRefVariant, T>)
             {
-                p_array[i] = &array[i];
-            }
+                nemesis::hkRefVariant* p_array[N];
 
-            ReadArrayObject(name, p_array, N);
+                for (size_t i = 0; i < N; ++i)
+                {
+                    p_array[i] = &array[i];
+                }
+
+                ReadArrayRefObject(name, p_array, N);
+            }
+            else
+            {
+                nemesis::HavokObject* p_array[N];
+
+                for (size_t i = 0; i < N; ++i)
+                {
+                    p_array[i] = &array[i];
+                }
+
+                ReadArrayObject(name, p_array, N);
+            }
         }
 
         virtual nemesis::hkClass& ReadClass(nemesis::hkClass& cls);

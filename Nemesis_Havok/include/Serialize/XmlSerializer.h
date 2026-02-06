@@ -198,6 +198,81 @@ namespace nemesis
             return new_cont;
         }
 
+        static void StringReplace(std::string& _ch, const std::string& oldvalue, const std::string& newvalue)
+        {
+            if (oldvalue.empty()) return;
+
+            size_t position = _ch.find(oldvalue);
+
+            while (position != NOT_FOUND)
+            {
+                _ch.replace(position, oldvalue.length(), newvalue);
+                position = _ch.find(oldvalue, position + newvalue.length());
+            }
+        }
+
+        template <typename T>
+        void WriteArrayValueImplt(const std::string& name, const T* (&list)[], size_t size)
+        {
+            std::ostream* cur_stream = Stream;
+            std::stringstream ss;
+            Stream = &ss;
+            std::string str;
+
+            {
+                nemesis::OnScopeEnds on_ends([&, cur_indent = Indent]() { Indent = cur_indent; });
+                Indent = 0;
+
+                for (size_t i = 0; i < size; i++)
+                {
+                    auto& each = *list[i];
+                    WriteValue("", each);
+                }
+
+                str = ss.str();
+                StringReplace(str, "\n", " ");
+            }
+
+            while (!str.empty() && str.back() == ' ')
+            {
+                str.pop_back();
+            }
+
+            Stream = cur_stream;
+            WriteHkxParam(name, str);
+        }
+
+        template <typename T>
+        void WriteArrayObjectImplt(const std::string& name, const T* (&list)[], size_t size)
+        {
+            std::ostream* cur_stream = Stream;
+            std::stringstream ss;
+            Stream = &ss;
+            std::string str;
+
+            {
+                nemesis::OnScopeEnds on_ends([&, cur_indent = Indent]() { Indent = cur_indent; });
+                Indent = 0;
+
+                for (size_t i = 0; i < size; i++)
+                {
+                    auto& each = *list[i];
+                    WriteObject("", each);
+                }
+
+                str = ss.str();
+                StringReplace(str, "\n", " ");
+            }
+
+            while (!str.empty() && str.back() == ' ')
+            {
+                str.pop_back();
+            }
+
+            Stream = cur_stream;
+            WriteHkxParam(name, str);
+        }
+
     public:
         XmlSerializer(nemesis::HavokVersion version);
 
@@ -348,6 +423,10 @@ namespace nemesis
         void WriteArrayObject(const std::string& name,
                               const nemesis::HavokObject* (&list)[],
                               size_t size) override;
+
+        void WriteArrayRefObject(const std::string& name,
+                                 const nemesis::hkRefVariant* (&list)[],
+                                 size_t size) override;
 
         void WriteSerializeIgnoredArrayValue(const std::string& name,
                                              const void* (&list)[],
