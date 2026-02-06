@@ -36,7 +36,7 @@ namespace nemesis
         nemesis::hkRefPtr<nemesis::hkpConstraintOwner> m_owner;
         nemesis::hkRefPtr<nemesis::hkpConstraintData> m_data;
         nemesis::hkRefPtr<nemesis::hkpModifierConstraintAtom> m_constraintModifiers;
-        std::array<nemesis::hkpEntity*, 2> m_entities;
+        std::array<nemesis::hkRefPtr<nemesis::hkpEntity>, 2> m_entities;
         nemesis::hkEnum<ConstraintPriority, unsigned char> m_priority = {
             {"PRIORITY_INVALID", 0},
             {"PRIORITY_PSI", 1},

@@ -28,7 +28,7 @@ namespace nemesis
         using InstanceType = nemesis::hkInternalClassEnumItem<unsigned char>;
 
         nemesis::hkRefPtr<nemesis::hkpConstraintInstance> m_constraint;
-        std::array<nemesis::hkpEntity*, 2> m_entities;
+        std::array<nemesis::hkRefPtr<nemesis::hkpEntity>, 2> m_entities;
         nemesis::hkRefPtr<nemesis::hkpConstraintAtom> m_atoms;
         unsigned short m_atomsSize;
         unsigned char m_callbackRequest;
