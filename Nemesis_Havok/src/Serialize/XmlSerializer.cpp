@@ -44,7 +44,9 @@ std::string nemesis::XmlSerializer::ToString(const nemesis::hkMatrix4 matrix4)
 
 std::string nemesis::XmlSerializer::ToString(const nemesis::hkTransform transform)
 {
-    return ToString(transform.GetRotation()) + ToString(transform.GetTranslation());
+    auto& rotation = transform.GetRotation();
+    return ToString(rotation.GetCol0(), true) + ToString(rotation.GetCol1(), true)
+           + ToString(rotation.GetCol2(), true) + ToString(transform.GetTranslation(), true);
 }
 
 std::string nemesis::XmlSerializer::EncodeXmlValue(const std::string& val)
@@ -813,7 +815,7 @@ void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,
     for (size_t i = 0; i < size; ++i)
     {
         ss.write(reinterpret_cast<const char*>(list[i]), type_size);
-}
+    }
 
     WriteHkxParam(name, ss.str());
 }
@@ -844,14 +846,14 @@ void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,
                                              size_t size)
 {
     WriteArrayValueImplt(name, list, size);
-    }
+}
 
 void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,
                                              const nemesis::hkVector8* (&list)[],
                                              size_t size)
 {
     WriteArrayValueImplt(name, list, size);
-    }
+}
 
 void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,
                                              const nemesis::hkQuaternion* (&list)[],
@@ -865,35 +867,35 @@ void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,
                                              size_t size)
 {
     WriteArrayValueImplt(name, list, size);
-    }
+}
 
 void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,
                                              const nemesis::hkUFloat8* (&list)[],
                                              size_t size)
 {
     WriteArrayValueImplt(name, list, size);
-    }
+}
 
 void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,
                                              const nemesis::hkLong* (&list)[],
                                              size_t size)
 {
     WriteArrayValueImplt(name, list, size);
-    }
+}
 
 void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,
                                              const nemesis::hkUlong* (&list)[],
                                              size_t size)
 {
     WriteArrayValueImplt(name, list, size);
-    }
+}
 
 void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,
                                              const nemesis::hkHalf* (&list)[],
                                              size_t size)
 {
     WriteArrayValueImplt(name, list, size);
-    }
+}
 
 void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,
                                              const nemesis::hkTransform* (&list)[],
@@ -907,7 +909,7 @@ void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,
                                              size_t size)
 {
     WriteArrayValueImplt(name, list, size);
-    }
+}
 
 void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,
                                              const nemesis::hkMatrix4* (&list)[],
@@ -926,7 +928,7 @@ void nemesis::XmlSerializer::WriteArrayObject(const std::string& name,
 void nemesis::XmlSerializer::WriteArrayRefObject(const std::string& name,
                                                  const nemesis::hkRefVariant* (&list)[],
                                                  size_t size)
-    {
+{
     WriteArrayObjectImplt(name, list, size);
 }
 
