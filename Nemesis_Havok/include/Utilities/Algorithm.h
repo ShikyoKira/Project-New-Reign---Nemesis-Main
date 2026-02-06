@@ -2,6 +2,8 @@
 
 #include <filesystem>
 
+#include "Utilities/Types.h"
+
 namespace nemesis
 {
     inline std::string to_utf8_string(const std::filesystem::path& path)

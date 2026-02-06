@@ -33,7 +33,7 @@ void nemesis::PackfileSerializer::RunLocalQueue()
         auto& queue = LocalQueue->at(i);
 
 #ifdef _DEBUG
-        size_t addr = Stream->tellp();
+        size_t addr      = Stream->tellp();
         std::string& log = local_log.emplace_back(space + "Local Queue : " + NumberToHex(addr, true) + " ("
                                                   + std::to_string(addr) + ")");
 #endif
@@ -42,7 +42,7 @@ void nemesis::PackfileSerializer::RunLocalQueue()
 
 #ifdef _DEBUG
         size_t end_addr = Stream->tellp();
-         log += " | Size: " + std::to_string(end_addr - addr);
+        log += " | Size: " + std::to_string(end_addr - addr);
 #endif
     }
 
@@ -165,8 +165,7 @@ void nemesis::PackfileSerializer::FlushSectionHeaderList()
     }
 }
 
-nemesis::PackfileSerializer::PackfileSerializer(nemesis::PlatformType platform,
-                                                nemesis::HavokVersion version)
+nemesis::PackfileSerializer::PackfileSerializer(nemesis::PlatformType platform, nemesis::HavokVersion version)
     : Header(platform, version)
     , PltfrmType(platform)
 {
@@ -440,7 +439,9 @@ void nemesis::PackfileSerializer::WriteValue(const std::string& name, const neme
     WriteValue(name, cstring, 16);
 }
 
-void nemesis::PackfileSerializer::WriteValue(const std::string& name, const nemesis::hkCString& cstring, unsigned int padding_size)
+void nemesis::PackfileSerializer::WriteValue(const std::string& name,
+                                             const nemesis::hkCString& cstring,
+                                             unsigned int padding_size)
 {
     TryPadToPointerSize();
 
@@ -697,14 +698,14 @@ void nemesis::PackfileSerializer::WriteObject(const std::string& name, const nem
 
         unsigned int cls_addr = TryClass(cls);
         auto itr              = GlobalMap.find(ref_ptr);
-        
+
         if (itr != GlobalMap.end())
         {
             global_fixup->Destination = itr->second;
             return;
         }
 
-        unsigned int dest        = Stream->tellp();
+        unsigned int dest         = Stream->tellp();
         global_fixup->Destination = dest;
         WriteVirtualFixup(dest, cls_addr);
         GlobalMap.insert({ref_ptr, dest});

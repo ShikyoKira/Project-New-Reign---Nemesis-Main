@@ -1,8 +1,7 @@
 #include "Havok/hkpEntity.h"
 
 REGISTER_HAVOK_POINTER_SOURCE(hkpEntity,
-                              [](nemesis::HavokVersion version)
-                              { return &nemesis::hkpEntity::Class; });
+                              [](nemesis::HavokVersion version) { return &nemesis::hkpEntity::Class; });
 
 nemesis::hkpEntity::hkpEntity() noexcept
     : nemesis::hkpEntity(Class)
@@ -130,7 +129,8 @@ void nemesis::hkpEntity::DeserializeFrom(nemesis::Deserializer& deserializer)
     }
     else
     {
-        deserializer.ReadValue("numUserDatasInContactPointProperties", m_numShapeKeysInContactPointProperties);
+        deserializer.ReadValue("numUserDatasInContactPointProperties",
+                               m_numShapeKeysInContactPointProperties);
         deserializer.Skip(2);
     }
 
