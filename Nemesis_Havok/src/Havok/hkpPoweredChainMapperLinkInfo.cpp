@@ -1,3 +1,4 @@
+#include "Havok/hkpEntity.h"
 #include "Havok/hkpPoweredChainMapperLinkInfo.h"
 
 REGISTER_HAVOK_POINTER_SOURCE(hkpPoweredChainMapperLinkInfo,
