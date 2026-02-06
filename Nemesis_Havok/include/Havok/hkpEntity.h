@@ -1,11 +1,12 @@
 #pragma once
 
 #include "Havok/Base/hkLocalFrame.h"
-#include "Havok/Base/hkpWorldObject.h"
 #include "Havok/Base/hkpBreakableBody.h"
+#include "Havok/Base/hkpWorldObject.h"
 
 #include "Havok/hkConstraintInternal.h"
 #include "Havok/hkpEntityExtendedListeners.h"
+#include "Havok/hkpEntitySmallArraySerializeOverrideType.h"
 #include "Havok/hkpEntitySpuCollisionCallback.h"
 #include "Havok/hkpMaterial.h"
 #include "Havok/hkpMaxSizeMotion.h"
@@ -37,7 +38,7 @@ namespace nemesis
         unsigned int m_solverData;
         unsigned short m_storageIndex;
         unsigned short m_contactPointCallbackDelay;
-        nemesis::hkSmallArray<nemesis::hkConstraintInternal> m_constraintsMaster;
+        nemesis::hkpEntitySmallArraySerializeOverrideType m_constraintsMaster;
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::hkpConstraintInstance>> m_constraintsSlave;
         nemesis::hkArray<unsigned char> m_constraintRuntime;
         nemesis::hkRefPtr<nemesis::HavokObject> m_simulationIsland;
@@ -47,8 +48,8 @@ namespace nemesis
         unsigned int m_uid;
         nemesis::hkpEntitySpuCollisionCallback m_spuCollisionCallback;
         nemesis::hkpMaxSizeMotion m_motion;
-        nemesis::hkSmallArray<nemesis::hkRefPtr<nemesis::HavokObject>> m_contactListeners;
-        nemesis::hkSmallArray<nemesis::hkRefPtr<nemesis::HavokObject>> m_actions;
+        nemesis::hkpEntitySmallArraySerializeOverrideType m_contactListeners;
+        nemesis::hkpEntitySmallArraySerializeOverrideType m_actions;
         nemesis::hkRefPtr<nemesis::hkLocalFrame> m_localFrame;
         nemesis::hkRefPtr<nemesis::hkpEntityExtendedListeners> m_extendedListeners;
         unsigned int m_npData;

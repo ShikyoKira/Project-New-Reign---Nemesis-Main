@@ -2,6 +2,7 @@
 
 #include "Havok/Base/hkpConstraintData.h"
 
+#include "Havok/hkpConstraintInstanceSmallArraySerializeOverrideType.h"
 #include "Havok/hkpConstraintOwner.h"
 #include "Havok/hkpModifierConstraintAtom.h"
 #include "Havok/hkpConstraintListener.h"
@@ -51,7 +52,7 @@ namespace nemesis
             {"ON_DESTRUCTION_REMOVE", 1},
             {"ON_DESTRUCTION_RESET_REMOVE", 2},
         };
-        nemesis::hkSmallArray<nemesis::hkRefPtr<nemesis::hkpConstraintListener>> m_listeners;
+        nemesis::hkpConstraintInstanceSmallArraySerializeOverrideType m_listeners;
         nemesis::hkStringPtr m_name;
         nemesis::hkUlong m_userData;
         nemesis::hkConstraintInternal* m_internal;
