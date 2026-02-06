@@ -19,7 +19,7 @@ void nemesis::hkMemoryResourceContainer::SerializeTo(nemesis::Serializer& serial
 {
     nemesis::hkResourceContainer::SerializeTo(serializer);        // offset: 0/0 size: 8/16 align: 4/8
 
-    if (serializer.GetContentsVersion() > HavokVersion::HK_660)
+    if (serializer.GetContentsVersion() == HavokVersion::HK_660)
     {
         serializer.WriteValue("nameIsAllocated", m_nameIsAllocated);
         serializer.Pad(serializer.GetPointerSize());
@@ -36,7 +36,7 @@ void nemesis::hkMemoryResourceContainer::DeserializeFrom(nemesis::Deserializer& 
 {
     nemesis::hkResourceContainer::DeserializeFrom(deserializer);   // offset: 0/0 size: 8/16 align: 4/8
 
-    if (deserializer.GetContentsVersion() > HavokVersion::HK_660)
+    if (deserializer.GetContentsVersion() == HavokVersion::HK_660)
     {
         deserializer.ReadValue("nameIsAllocated", m_nameIsAllocated);
         deserializer.Pad(deserializer.GetPointerSize());
