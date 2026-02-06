@@ -830,12 +830,10 @@ nemesis::hkSmallArrayBase& nemesis::PackfileDeserializer::ReadArrayObject(const 
     ConsumePointer();
     array.Clear();
 
-    if (itr == LocalMap.end()) return array;
-
     unsigned short size = ReadSmallArraySize(name);
     array.SetSize(size);
 
-    if (size <= 0) return array;
+    if (itr == LocalMap.end() || size <= 0) return array;
 
     LocalQueue->emplace_back(
         [&array, name, this]
@@ -872,9 +870,7 @@ nemesis::hkArrayBase& nemesis::PackfileDeserializer::ReadArrayObject(const std::
     unsigned int size = ReadArraySize(name);
     array.SetSize(size);
 
-    if (itr == LocalMap.end()) return array;
-
-    if (size <= 0) return array;
+    if (itr == LocalMap.end() || size <= 0) return array;
 
     LocalQueue->emplace_back(
         [&array, name, this]
@@ -1076,7 +1072,7 @@ unsigned short nemesis::PackfileDeserializer::ReadSmallArraySize(const std::stri
 {
     unsigned short m_size = Read<unsigned short>(name);
     unsigned short m_capacityAndFlag;
-    AssertValue(m_capacityAndFlag, {static_cast<unsigned short>(m_size | 0x80 << 24)});
+    AssertValue(m_capacityAndFlag, {static_cast<unsigned short>(m_size | 0x80 << 8)});
     return m_size;
 }
 
