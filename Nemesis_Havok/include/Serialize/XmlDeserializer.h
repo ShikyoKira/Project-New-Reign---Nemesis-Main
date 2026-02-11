@@ -44,8 +44,7 @@ namespace nemesis
         size_t CurrentLine = 1;
 
         UPtr<nemesis::XmlDeserializer::XmlElementData> CurrentElement;
-        UPtr<nemesis::XmlDeserializer::StreamBlock> CurrentBlock
-            = std::make_unique<nemesis::XmlDeserializer::StreamBlock>("");
+        UPtr<nemesis::XmlDeserializer::StreamBlock> CurrentBlock;
 
         Vec<Pair<std::string, const nemesis::hkbBehaviorGraph*>> BehaviorGraphList;  
         UMap<std::string, nemesis::HavokObject*> HkxObjectMap;
@@ -56,6 +55,32 @@ namespace nemesis
         UMap<std::string, std::move_only_function<void(const nemesis::hkbBehaviorGraphStringData&)>>
             ReferenceValidation;
         USetStr ValidatedReference;
+
+        static void AppendString(std::string& out, char32_t cp)
+        {
+            if (cp <= 0x7F)
+            {
+                out.push_back(static_cast<char>(cp));
+            }
+            else if (cp <= 0x7FF)
+            {
+                out.push_back(static_cast<char>(0xC0 | (cp >> 6)));
+                out.push_back(static_cast<char>(0x80 | (cp & 0x3F)));
+            }
+            else if (cp <= 0xFFFF)
+            {
+                out.push_back(static_cast<char>(0xE0 | (cp >> 12)));
+                out.push_back(static_cast<char>(0x80 | ((cp >> 6) & 0x3F)));
+                out.push_back(static_cast<char>(0x80 | (cp & 0x3F)));
+            }
+            else
+            {
+                out.push_back(static_cast<char>(0xF0 | (cp >> 18)));
+                out.push_back(static_cast<char>(0x80 | ((cp >> 12) & 0x3F)));
+                out.push_back(static_cast<char>(0x80 | ((cp >> 6) & 0x3F)));
+                out.push_back(static_cast<char>(0x80 | (cp & 0x3F)));
+            }
+        }
 
         std::string GetXmlInnerText(bool decode_xml = true);
 
@@ -286,6 +311,24 @@ namespace nemesis
 
     protected:
         void** ReadArrayValue(const std::string& name, void* list[], size_t size, size_t type_size) override;
+        bool** ReadArrayValue(const std::string& name, bool* (&list)[], size_t size) override;
+        char** ReadArrayValue(const std::string& name, char* (&list)[], size_t size) override;
+        unsigned char**
+        ReadArrayValue(const std::string& name, unsigned char* (&list)[], size_t size) override;
+        short** ReadArrayValue(const std::string& name, short* (&list)[], size_t size) override;
+        unsigned short**
+        ReadArrayValue(const std::string& name, unsigned short* (&list)[], size_t size) override;
+        int** ReadArrayValue(const std::string& name, int* (&list)[], size_t size) override;
+        unsigned int** ReadArrayValue(const std::string& name, unsigned int* (&list)[], size_t size) override;
+        long** ReadArrayValue(const std::string& name, long* (&list)[], size_t size) override;
+        unsigned long**
+        ReadArrayValue(const std::string& name, unsigned long* (&list)[], size_t size) override;
+        long long** ReadArrayValue(const std::string& name, long long* (&list)[], size_t size) override;
+        unsigned long long**
+        ReadArrayValue(const std::string& name, unsigned long long* (&list)[], size_t size) override;
+        Float16** ReadArrayValue(const std::string& name, Float16* (&list)[], size_t size) override;
+        float** ReadArrayValue(const std::string& name, float* (&list)[], size_t size) override;
+        double** ReadArrayValue(const std::string& name, double* (&list)[], size_t size) override;
         nemesis::hkCString**
         ReadArrayValue(const std::string& name, nemesis::hkCString* (&list)[], size_t size) override;
         nemesis::hkStringPtr**
@@ -362,7 +405,15 @@ namespace nemesis
         {
             std::string str;
 
-            if (!TryReadHkxParam(name, str)) return list;
+            if (!TryReadHkxParam(name, str))
+            {
+                for (size_t i = 0; i < size; ++i)
+                {
+                    ReadValue("", *list[i]);
+                }
+
+                return list;
+            }
 
             std::string new_str = str;
 
@@ -377,18 +428,28 @@ namespace nemesis
                 }
             }
 
-            new_str = TrimXmlString(new_str);
-            nemesis::XmlDeserializer::StreamBlock stream_block(str, new_str);
+            auto block_ptr = CurrentBlock.release();
+            nemesis::OnScopeEnds on_ends([block_ptr, this]() { CurrentBlock.reset(block_ptr); });
+
+            new_str      = TrimXmlString(new_str);
+            CurrentBlock = std::make_unique<nemesis::XmlDeserializer::StreamBlock>(str, new_str);
 
             for (size_t i = 0; i < size; ++i)
             {
-                ReadValue(stream_block, *list[i]);
+                if constexpr (std::is_base_of_v<nemesis::hkVariant, T>)
+                {
+                    ReadValue(*CurrentBlock, *list[i]);
+                }
+                else
+                {
+                    ReadValue("", *list[i]);
+                }
             }
 
-            if (!stream_block.Stream.eof())
+            if (!CurrentBlock->Stream.eof())
             {
                 throw std::runtime_error("Malformed fixed size array: unable to parse string value (Size: "
-                                         + std::to_string(size) + ", Value : " + stream_block.Text
+                                         + std::to_string(size) + ", Value : " + CurrentBlock->Text
                                          + ", Line: " + std::to_string(CurrentLine) + ")");
             }
 

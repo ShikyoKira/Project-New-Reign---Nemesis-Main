@@ -175,6 +175,24 @@ namespace nemesis
 
     protected:
         void** ReadArrayValue(const std::string& name, void* list[], size_t size, size_t type_size) override;
+        bool** ReadArrayValue(const std::string& name, bool* (&list)[], size_t size) override;
+        char** ReadArrayValue(const std::string& name, char* (&list)[], size_t size) override;
+        unsigned char**
+        ReadArrayValue(const std::string& name, unsigned char* (&list)[], size_t size) override;
+        short** ReadArrayValue(const std::string& name, short* (&list)[], size_t size) override;
+        unsigned short**
+        ReadArrayValue(const std::string& name, unsigned short* (&list)[], size_t size) override;
+        int** ReadArrayValue(const std::string& name, int* (&list)[], size_t size) override;
+        unsigned int** ReadArrayValue(const std::string& name, unsigned int* (&list)[], size_t size) override;
+        long** ReadArrayValue(const std::string& name, long* (&list)[], size_t size) override;
+        unsigned long**
+        ReadArrayValue(const std::string& name, unsigned long* (&list)[], size_t size) override;
+        long long** ReadArrayValue(const std::string& name, long long* (&list)[], size_t size) override;
+        unsigned long long**
+        ReadArrayValue(const std::string& name, unsigned long long* (&list)[], size_t size) override;
+        Float16** ReadArrayValue(const std::string& name, Float16* (&list)[], size_t size) override;
+        float** ReadArrayValue(const std::string& name, float* (&list)[], size_t size) override;
+        double** ReadArrayValue(const std::string& name, double* (&list)[], size_t size) override;
         nemesis::hkCString**
         ReadArrayValue(const std::string& name, nemesis::hkCString* (&list)[], size_t size) override;
         nemesis::hkStringPtr**

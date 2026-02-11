@@ -697,6 +697,89 @@ void** nemesis::PackfileDeserializer::ReadArrayValue(const std::string& name,
     return list;
 }
 
+bool** nemesis::PackfileDeserializer::ReadArrayValue(const std::string& name, bool* (&list)[], size_t size)
+{
+    return ReadArrayValueImplt(name, list, size);
+}
+
+char** nemesis::PackfileDeserializer::ReadArrayValue(const std::string& name, char* (&list)[], size_t size)
+{
+    return ReadArrayValueImplt(name, list, size);
+}
+
+unsigned char**
+nemesis::PackfileDeserializer::ReadArrayValue(const std::string& name, unsigned char* (&list)[], size_t size)
+{
+    return ReadArrayValueImplt(name, list, size);
+}
+
+short**
+nemesis::PackfileDeserializer::ReadArrayValue(const std::string& name, short* (&list)[], size_t size)
+{
+    return ReadArrayValueImplt(name, list, size);
+}
+
+unsigned short**
+nemesis::PackfileDeserializer::ReadArrayValue(const std::string& name, unsigned short* (&list)[], size_t size)
+{
+    return ReadArrayValueImplt(name, list, size);
+}
+
+int**
+nemesis::PackfileDeserializer::ReadArrayValue(const std::string& name, int* (&list)[], size_t size)
+{
+    return ReadArrayValueImplt(name, list, size);
+}
+
+unsigned int**
+nemesis::PackfileDeserializer::ReadArrayValue(const std::string& name, unsigned int* (&list)[], size_t size)
+{
+    return ReadArrayValueImplt(name, list, size);
+}
+
+long** nemesis::PackfileDeserializer::ReadArrayValue(const std::string& name, long* (&list)[], size_t size)
+{
+    return ReadArrayValueImplt(name, list, size);
+}
+
+unsigned long**
+nemesis::PackfileDeserializer::ReadArrayValue(const std::string& name, unsigned long* (&list)[], size_t size)
+{
+    return ReadArrayValueImplt(name, list, size);
+}
+
+long long**
+nemesis::PackfileDeserializer::ReadArrayValue(const std::string& name, long long* (&list)[], size_t size)
+{
+    return ReadArrayValueImplt(name, list, size);
+}
+
+unsigned long long** nemesis::PackfileDeserializer::ReadArrayValue(const std::string& name,
+                                                                   unsigned long long* (&list)[],
+                                                                   size_t size)
+{
+    return ReadArrayValueImplt(name, list, size);
+}
+
+Float16** nemesis::PackfileDeserializer::ReadArrayValue(const std::string& name, Float16* (&list)[],
+                                                                   size_t size)
+{
+    return ReadArrayValueImplt(name, list, size);
+}
+
+float** nemesis::PackfileDeserializer::ReadArrayValue(const std::string& name, float* (&list)[],
+                                                                   size_t size)
+{
+    return ReadArrayValueImplt(name, list, size);
+}
+
+double**
+nemesis::PackfileDeserializer::ReadArrayValue(const std::string& name, double* (&list)[],
+                                                                   size_t size)
+{
+    return ReadArrayValueImplt(name, list, size);
+}
+
 nemesis::hkCString** nemesis::PackfileDeserializer::ReadArrayValue(const std::string& name,
                                                                    nemesis::hkCString* (&list)[],
                                                                    size_t size)

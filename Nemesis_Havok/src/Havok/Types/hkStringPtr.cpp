@@ -24,19 +24,15 @@ nemesis::hkStringPtr& nemesis::hkStringPtr::operator=(const nemesis::hkStringPtr
     return *this;
 }
 
-void nemesis::hkStringPtr::Clear()
-{
-    Null = true;
-    m_stringAndFlag.clear();
-}
-
 const std::string& nemesis::hkStringPtr::SetValue(const std::string& val)
 {
-    Null = false;
-    return m_stringAndFlag = val;
-}
+    if (val == "\u2400")
+    {
+        Null = true;
+        m_stringAndFlag.clear();
+        return m_stringAndFlag;
+    }
 
-bool nemesis::hkStringPtr::IsNull() const noexcept
-{
-    return Null;
+    Null                   = false;
+    return m_stringAndFlag = val;
 }

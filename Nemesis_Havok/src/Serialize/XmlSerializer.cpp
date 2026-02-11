@@ -51,35 +51,41 @@ std::string nemesis::XmlSerializer::ToString(const nemesis::hkTransform transfor
 
 std::string nemesis::XmlSerializer::EncodeXmlValue(const std::string& val)
 {
-    std::string encoded_text;
-    encoded_text.reserve(val.length() * 1.2);
+    std::ostringstream oss;
 
-    for (char c : val)
+    for (auto& ch : val)
     {
-        switch (c)
+        switch (ch)
         {
             case '&':
-                encoded_text.append("&amp;");
-                break;
+                oss << "&amp;";
+                continue;
             case '<':
-                encoded_text.append("&lt;");
-                break;
+                oss << "&lt;";
+                continue;
             case '>':
-                encoded_text.append("&gt;");
-                break;
+                oss << "&gt;";
+                continue;
             case '"':
-                encoded_text.append("&quot;");
-                break;
+                oss << "&quot;";
+                continue;
             case '\'':
-                encoded_text.append("&apos;");
-                break;
+                oss << "&apos;";
+                continue;
             default:
-                encoded_text.push_back(c);
                 break;
         }
+
+        if (ch <= 127)
+        {
+            oss << ch;
+            continue;
+        }
+
+        oss << "&#" << static_cast<int>(ch) << ";";
     }
 
-    return encoded_text;
+    return oss.str();
 }
 
 std::string nemesis::XmlSerializer::GetId(const nemesis::HavokObject* hkx_ptr)
@@ -260,73 +266,75 @@ std::string nemesis::XmlSerializer::RawData() const
 
 void nemesis::XmlSerializer::WriteValue(const std::string& name, bool val)
 {
-    WriteHkxParam(name, val ? "true" : "false");
+    static std::string true_val("true");
+    static std::string false_val("true");
+    WriteHkxParam(name, val ? true_val : false_val, false);
 }
 
 void nemesis::XmlSerializer::WriteValue(const std::string& name, char val)
 {
-    WriteHkxParam(name, std::to_string(static_cast<int>(val)));
+    WriteHkxParam(name, std::to_string(static_cast<int>(val)), false);
 }
 
 void nemesis::XmlSerializer::WriteValue(const std::string& name, unsigned char val)
 {
-    WriteHkxParam(name, std::string(1, val));
+    WriteHkxParam(name, std::to_string(val), false);
 }
 
 void nemesis::XmlSerializer::WriteValue(const std::string& name, short val)
 {
-    WriteHkxParam(name, std::to_string(val));
+    WriteHkxParam(name, std::to_string(val), false);
 }
 
 void nemesis::XmlSerializer::WriteValue(const std::string& name, unsigned short val)
 {
-    WriteHkxParam(name, std::to_string(val));
+    WriteHkxParam(name, std::to_string(val), false);
 }
 
 void nemesis::XmlSerializer::WriteValue(const std::string& name, int val)
 {
-    WriteHkxParam(name, std::to_string(val));
+    WriteHkxParam(name, std::to_string(val), false);
 }
 
 void nemesis::XmlSerializer::WriteValue(const std::string& name, unsigned int val)
 {
-    WriteHkxParam(name, std::to_string(val));
+    WriteHkxParam(name, std::to_string(val), false);
 }
 
 void nemesis::XmlSerializer::WriteValue(const std::string& name, long val)
 {
-    WriteHkxParam(name, std::to_string(val));
+    WriteHkxParam(name, std::to_string(val), false);
 }
 
 void nemesis::XmlSerializer::WriteValue(const std::string& name, unsigned long val)
 {
-    WriteHkxParam(name, std::to_string(val));
+    WriteHkxParam(name, std::to_string(val), false);
 }
 
 void nemesis::XmlSerializer::WriteValue(const std::string& name, long long val)
 {
-    WriteHkxParam(name, std::to_string(val));
+    WriteHkxParam(name, std::to_string(val), false);
 }
 
 void nemesis::XmlSerializer::WriteValue(const std::string& name, unsigned long long val)
 {
-    WriteHkxParam(name, std::to_string(val));
+    WriteHkxParam(name, std::to_string(val), false);
 }
 
 void nemesis::XmlSerializer::WriteValue(const std::string& name, Float16 val)
 {
     float f = val;
-    WriteHkxParam(name, ToString(f, 6));
+    WriteHkxParam(name, ToString(f, 6), false);
 }
 
 void nemesis::XmlSerializer::WriteValue(const std::string& name, float val)
 {
-    WriteHkxParam(name, ToString(val, 6));
+    WriteHkxParam(name, ToString(val, 6), false);
 }
 
 void nemesis::XmlSerializer::WriteValue(const std::string& name, double val)
 {
-    WriteHkxParam(name, ToString(val, 6));
+    WriteHkxParam(name, ToString(val, 6), false);
 }
 
 void nemesis::XmlSerializer::WriteValue(const std::string& name, const std::string& val, bool terminate)
@@ -405,15 +413,21 @@ void nemesis::XmlSerializer::WriteValue(const std::string& name, const nemesis::
 
     if (cstring.IsNull())
     {
-        WriteHkxParam(name, "&#9216;", false);
+        WriteHkxParam(name, "\u2400");
         return;
     }
 
-    WriteHkxParam(name, cstring.GetValue(), true);
+    WriteHkxParam(name, cstring.GetValue());
 }
 
 void nemesis::XmlSerializer::WriteValue(const std::string& name, const nemesis::hkStringPtr& string_ptr)
 {
+    if (string_ptr.IsNull())
+    {
+        WriteHkxParam(name, "\u2400");
+        return;
+    }
+
     WriteHkxParam(name, string_ptr.GetValue());
 }
 
@@ -424,59 +438,60 @@ void nemesis::XmlSerializer::WriteValue(const std::string& name, const nemesis::
 
 void nemesis::XmlSerializer::WriteValue(const std::string& name, const nemesis::hkVector4& vec4)
 {
-    WriteHkxParam(name, ToString(vec4));
+    WriteHkxParam(name, ToString(vec4), false);
 }
 
 void nemesis::XmlSerializer::WriteValue(const std::string& name, const nemesis::hkVector8& vec8)
 {
-    WriteHkxParam(name, ToString(vec8.GetLin()) + ToString(vec8.GetAng()));
+    WriteHkxParam(name, ToString(vec8.GetLin()) + ToString(vec8.GetAng()), false);
 }
 
 void nemesis::XmlSerializer::WriteValue(const std::string& name, const nemesis::hkQuaternion& quaternion)
 {
-    WriteHkxParam(name, ToString(quaternion));
+    WriteHkxParam(name, ToString(quaternion), false);
 }
 
 void nemesis::XmlSerializer::WriteValue(const std::string& name, const nemesis::hkQsTransform& qs_transform)
 {
     WriteHkxParam(name,
                   ToString(qs_transform.GetTranslation(), true) + ToString(qs_transform.GetRotation())
-                      + ToString(qs_transform.GetScale(), true));
+                      + ToString(qs_transform.GetScale(), true),
+                  false);
 }
 
 void nemesis::XmlSerializer::WriteValue(const std::string& name, const nemesis::hkUFloat8& ufloat8)
 {
-    WriteHkxParam(name, ToString(ufloat8.AsFloat(), 6));
+    WriteHkxParam(name, ToString(ufloat8.AsFloat(), 6), false);
 }
 
 void nemesis::XmlSerializer::WriteValue(const std::string& name, const nemesis::hkLong& _long)
 {
-    WriteHkxParam(name, std::to_string(_long.AsInt64()));
+    WriteHkxParam(name, std::to_string(_long.AsInt64()), false);
 }
 
 void nemesis::XmlSerializer::WriteValue(const std::string& name, const nemesis::hkUlong& ulong)
 {
-    WriteHkxParam(name, std::to_string(ulong.AsUint64()));
+    WriteHkxParam(name, std::to_string(ulong.AsUint64()), false);
 }
 
 void nemesis::XmlSerializer::WriteValue(const std::string& name, const nemesis::hkHalf& half)
 {
-    WriteHkxParam(name, std::to_string(half.AsFloat()));
+    WriteHkxParam(name, std::to_string(half.AsFloat()), false);
 }
 
 void nemesis::XmlSerializer::WriteValue(const std::string& name, const nemesis::hkTransform& transform)
 {
-    WriteHkxParam(name, ToString(transform));
+    WriteHkxParam(name, ToString(transform), false);
 }
 
 void nemesis::XmlSerializer::WriteValue(const std::string& name, const nemesis::hkMatrix3& matrix3)
 {
-    WriteHkxParam(name, ToString(matrix3));
+    WriteHkxParam(name, ToString(matrix3), false);
 }
 
 void nemesis::XmlSerializer::WriteValue(const std::string& name, const nemesis::hkMatrix4& matrix4)
 {
-    WriteHkxParam(name, ToString(matrix4));
+    WriteHkxParam(name, ToString(matrix4), false);
 }
 
 void nemesis::XmlSerializer::WriteObject(const std::string& name, const nemesis::hkSmallArrayBase& array)
@@ -493,12 +508,12 @@ void nemesis::XmlSerializer::WriteObject(const std::string& name, const nemesis:
 {
     if (ref_obj.IsNull())
     {
-        WriteHkxParam(name, "null");
+        WriteHkxParam(name, "null", false);
         return;
     }
 
     auto& hkx_obj = ref_obj.GetReference();
-    WriteHkxParam(name, GetId(&hkx_obj));
+    WriteHkxParam(name, GetId(&hkx_obj), false);
 
     LocalQueue->emplace_front(
         [&ref_obj, &hkx_obj, this]()
@@ -562,7 +577,7 @@ void nemesis::XmlSerializer::WriteObject(const std::string& name,
 {
     if (!ptr_obj_ptr || !(*ptr_obj_ptr))
     {
-        WriteHkxParam(name, "null");
+        WriteHkxParam(name, "null", false);
         return;
     }
 
@@ -818,6 +833,86 @@ void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,
     }
 
     WriteHkxParam(name, ss.str());
+}
+
+void nemesis::XmlSerializer::WriteArrayValue(const std::string& name, const bool* (&list)[], size_t size)
+{
+    WriteArrayValueImplt(name, list, size);
+}
+
+void nemesis::XmlSerializer::WriteArrayValue(const std::string& name, const char* (&list)[], size_t size)
+{
+    WriteArrayValueImplt(name, list, size);
+}
+
+void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,
+                                             const unsigned char* (&list)[],
+                                             size_t size)
+{
+    WriteArrayValueImplt(name, list, size);
+}
+
+void nemesis::XmlSerializer::WriteArrayValue(const std::string& name, const short* (&list)[], size_t size)
+{
+    WriteArrayValueImplt(name, list, size);
+}
+
+void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,
+                                             const unsigned short* (&list)[],
+                                             size_t size)
+{
+    WriteArrayValueImplt(name, list, size);
+}
+
+void nemesis::XmlSerializer::WriteArrayValue(const std::string& name, const int* (&list)[], size_t size)
+{
+    WriteArrayValueImplt(name, list, size);
+}
+
+void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,
+                                             const unsigned int* (&list)[],
+                                             size_t size)
+{
+    WriteArrayValueImplt(name, list, size);
+}
+
+void nemesis::XmlSerializer::WriteArrayValue(const std::string& name, const long* (&list)[], size_t size)
+{
+    WriteArrayValueImplt(name, list, size);
+}
+
+void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,
+                                             const unsigned long* (&list)[],
+                                             size_t size)
+{
+    WriteArrayValueImplt(name, list, size);
+}
+
+void nemesis::XmlSerializer::WriteArrayValue(const std::string& name, const long long* (&list)[], size_t size)
+{
+    WriteArrayValueImplt(name, list, size);
+}
+
+void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,
+                                             const unsigned long long* (&list)[],
+                                             size_t size)
+{
+    WriteArrayValueImplt(name, list, size);
+}
+
+void nemesis::XmlSerializer::WriteArrayValue(const std::string& name, const Float16* (&list)[], size_t size)
+{
+    WriteArrayValueImplt(name, list, size);
+}
+
+void nemesis::XmlSerializer::WriteArrayValue(const std::string& name, const float* (&list)[], size_t size)
+{
+    WriteArrayValueImplt(name, list, size);
+}
+
+void nemesis::XmlSerializer::WriteArrayValue(const std::string& name, const double* (&list)[], size_t size)
+{
+    WriteArrayValueImplt(name, list, size);
 }
 
 void nemesis::XmlSerializer::WriteArrayValue(const std::string& name,

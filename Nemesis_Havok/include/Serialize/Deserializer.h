@@ -169,11 +169,32 @@ namespace nemesis
     protected:
         virtual void** ReadArrayValue(const std::string& name, void* list[], size_t size, size_t type_size)
             = 0;
-        virtual nemesis::hkCString** ReadArrayValue(const std::string& name,
-                                                                nemesis::hkCString* (&list)[],
-                                                                size_t size)
+        virtual bool** ReadArrayValue(const std::string& name, bool* (&list)[], size_t size) = 0;
+        virtual char** ReadArrayValue(const std::string& name, char* (&list)[], size_t size) = 0;
+        virtual unsigned char** ReadArrayValue(const std::string& name, unsigned char* (&list)[], size_t size)
             = 0;
-        virtual nemesis::hkStringPtr** ReadArrayValue(const std::string& name, nemesis::hkStringPtr* (&list)[], size_t size)
+        virtual short** ReadArrayValue(const std::string& name, short* (&list)[], size_t size) = 0;
+        virtual unsigned short**
+        ReadArrayValue(const std::string& name, unsigned short* (&list)[], size_t size)
+            = 0;
+        virtual int** ReadArrayValue(const std::string& name, int* (&list)[], size_t size) = 0;
+        virtual unsigned int** ReadArrayValue(const std::string& name, unsigned int* (&list)[], size_t size)
+            = 0;
+        virtual long** ReadArrayValue(const std::string& name, long* (&list)[], size_t size) = 0;
+        virtual unsigned long** ReadArrayValue(const std::string& name, unsigned long* (&list)[], size_t size)
+            = 0;
+        virtual long long** ReadArrayValue(const std::string& name, long long* (&list)[], size_t size) = 0;
+        virtual unsigned long long**
+        ReadArrayValue(const std::string& name, unsigned long long* (&list)[], size_t size)
+            = 0;
+        virtual Float16** ReadArrayValue(const std::string& name, Float16* (&list)[], size_t size) = 0;
+        virtual float** ReadArrayValue(const std::string& name, float* (&list)[], size_t size)     = 0;
+        virtual double** ReadArrayValue(const std::string& name, double* (&list)[], size_t size)   = 0;
+        virtual nemesis::hkCString**
+        ReadArrayValue(const std::string& name, nemesis::hkCString* (&list)[], size_t size)
+            = 0;
+        virtual nemesis::hkStringPtr**
+        ReadArrayValue(const std::string& name, nemesis::hkStringPtr* (&list)[], size_t size)
             = 0;
         virtual nemesis::hkEnumBase**
         ReadArrayValue(const std::string& name, nemesis::hkEnumBase* (&list)[], size_t size)
@@ -184,9 +205,11 @@ namespace nemesis
         virtual nemesis::hkVector8**
         ReadArrayValue(const std::string& name, nemesis::hkVector8* (&list)[], size_t size)
             = 0;
-        virtual nemesis::hkQuaternion** ReadArrayValue(const std::string& name, nemesis::hkQuaternion* (&list)[], size_t size)
+        virtual nemesis::hkQuaternion**
+        ReadArrayValue(const std::string& name, nemesis::hkQuaternion* (&list)[], size_t size)
             = 0;
-        virtual nemesis::hkQsTransform** ReadArrayValue(const std::string& name, nemesis::hkQsTransform* (&list)[], size_t size)
+        virtual nemesis::hkQsTransform**
+        ReadArrayValue(const std::string& name, nemesis::hkQsTransform* (&list)[], size_t size)
             = 0;
         virtual nemesis::hkUFloat8**
         ReadArrayValue(const std::string& name, nemesis::hkUFloat8* (&list)[], size_t size)
@@ -246,28 +269,14 @@ namespace nemesis
                               || std::is_base_of_v<nemesis::hkVariant, T>,
                           "Only primitive numeric types are allowed");
 
-            if constexpr (std::is_base_of_v<nemesis::hkVariant, T>)
+            T* p_array[N];
+
+            for (size_t i = 0; i < N; ++i)
             {
-                T* p_array[N];
-
-                for (size_t i = 0; i < N; ++i)
-                {
-                    p_array[i] = &array[i];
-                }
-
-                ReadArrayValue(name, p_array, N);
+                p_array[i] = &array[i];
             }
-            else
-            {
-                void* c_array[N];
 
-                for (size_t i = 0; i < N; ++i)
-                {
-                    c_array[i] = &array[i];
-                }
-
-                ReadArrayValue(name, c_array, N, sizeof(T));
-            }
+            ReadArrayValue(name, p_array, N);
         }
 
         template <typename T,

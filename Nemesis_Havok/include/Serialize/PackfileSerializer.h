@@ -272,6 +272,21 @@ namespace nemesis
                              const void* (&list)[],
                              size_t size,
                              size_t type_size) override;
+        void WriteArrayValue(const std::string& name, const bool* (&list)[], size_t size) override;
+        void WriteArrayValue(const std::string& name, const char* (&list)[], size_t size) override;
+        void WriteArrayValue(const std::string& name, const unsigned char* (&list)[], size_t size) override;
+        void WriteArrayValue(const std::string& name, const short* (&list)[], size_t size) override;
+        void WriteArrayValue(const std::string& name, const unsigned short* (&list)[], size_t size) override;
+        void WriteArrayValue(const std::string& name, const int* (&list)[], size_t size) override;
+        void WriteArrayValue(const std::string& name, const unsigned int* (&list)[], size_t size) override;
+        void WriteArrayValue(const std::string& name, const long* (&list)[], size_t size) override;
+        void WriteArrayValue(const std::string& name, const unsigned long* (&list)[], size_t size) override;
+        void WriteArrayValue(const std::string& name, const long long* (&list)[], size_t size) override;
+        void
+        WriteArrayValue(const std::string& name, const unsigned long long* (&list)[], size_t size) override;
+        void WriteArrayValue(const std::string& name, const Float16* (&list)[], size_t size) override;
+        void WriteArrayValue(const std::string& name, const float* (&list)[], size_t size) override;
+        void WriteArrayValue(const std::string& name, const double* (&list)[], size_t size) override;
         void
         WriteArrayValue(const std::string& name, const nemesis::hkCString* (&list)[], size_t size) override;
         void

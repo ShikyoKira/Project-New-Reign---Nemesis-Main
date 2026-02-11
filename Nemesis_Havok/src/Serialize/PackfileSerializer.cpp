@@ -446,7 +446,6 @@ void nemesis::PackfileSerializer::WriteValue(const std::string& name,
     TryPadToPointerSize();
 
     unsigned int pos = Stream->tellp();
-
     WriteUSize(0);
 
     if (cstring.IsNull()) return;
@@ -483,11 +482,11 @@ void nemesis::PackfileSerializer::WriteValue(const std::string& name,
     TryPadToPointerSize();
 
     unsigned int pos = Stream->tellp();
-    auto& val        = string_ptr.GetValue();
-
     WriteUSize(0);
 
-    if (string_ptr.IsNull() || val.empty() || val == "\u2400") return;
+    if (string_ptr.IsNull()) return;
+
+    auto& val = string_ptr.GetValue();
 
     LocalQueue->emplace_back(
         [&val, pos, padding_size, this]()
@@ -831,6 +830,86 @@ void nemesis::PackfileSerializer::WriteArrayValue(const std::string& name,
     {
         WriteFromPointer(list[i], type_size);
     }
+}
+
+void nemesis::PackfileSerializer::WriteArrayValue(const std::string& name, const bool* (&list)[], size_t size)
+{
+    WriteArrayValueImplt(name, list, size);
+}
+
+void nemesis::PackfileSerializer::WriteArrayValue(const std::string& name, const char* (&list)[], size_t size)
+{
+    WriteArrayValueImplt(name, list, size);
+}
+
+void nemesis::PackfileSerializer::WriteArrayValue(const std::string& name,
+                                             const unsigned char* (&list)[],
+                                             size_t size)
+{
+    WriteArrayValueImplt(name, list, size);
+}
+
+void nemesis::PackfileSerializer::WriteArrayValue(const std::string& name, const short* (&list)[], size_t size)
+{
+    WriteArrayValueImplt(name, list, size);
+}
+
+void nemesis::PackfileSerializer::WriteArrayValue(const std::string& name,
+                                             const unsigned short* (&list)[],
+                                             size_t size)
+{
+    WriteArrayValueImplt(name, list, size);
+}
+
+void nemesis::PackfileSerializer::WriteArrayValue(const std::string& name, const int* (&list)[], size_t size)
+{
+    WriteArrayValueImplt(name, list, size);
+}
+
+void nemesis::PackfileSerializer::WriteArrayValue(const std::string& name,
+                                             const unsigned int* (&list)[],
+                                             size_t size)
+{
+    WriteArrayValueImplt(name, list, size);
+}
+
+void nemesis::PackfileSerializer::WriteArrayValue(const std::string& name, const long* (&list)[], size_t size)
+{
+    WriteArrayValueImplt(name, list, size);
+}
+
+void nemesis::PackfileSerializer::WriteArrayValue(const std::string& name,
+                                             const unsigned long* (&list)[],
+                                             size_t size)
+{
+    WriteArrayValueImplt(name, list, size);
+}
+
+void nemesis::PackfileSerializer::WriteArrayValue(const std::string& name, const long long* (&list)[], size_t size)
+{
+    WriteArrayValueImplt(name, list, size);
+}
+
+void nemesis::PackfileSerializer::WriteArrayValue(const std::string& name,
+                                             const unsigned long long* (&list)[],
+                                             size_t size)
+{
+    WriteArrayValueImplt(name, list, size);
+}
+
+void nemesis::PackfileSerializer::WriteArrayValue(const std::string& name, const Float16* (&list)[], size_t size)
+{
+    WriteArrayValueImplt(name, list, size);
+}
+
+void nemesis::PackfileSerializer::WriteArrayValue(const std::string& name, const float* (&list)[], size_t size)
+{
+    WriteArrayValueImplt(name, list, size);
+}
+
+void nemesis::PackfileSerializer::WriteArrayValue(const std::string& name, const double* (&list)[], size_t size)
+{
+    WriteArrayValueImplt(name, list, size);
 }
 
 void nemesis::PackfileSerializer::WriteArrayValue(const std::string& name,

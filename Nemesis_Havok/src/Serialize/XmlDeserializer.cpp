@@ -29,7 +29,6 @@ std::string nemesis::XmlDeserializer::GetXmlInnerText(bool decode_xml)
     while (!Stream->eof())
     {
         char ch = Stream->get();
-        char nx = Stream->peek();
 
         if (ch == '\n')
         {
@@ -38,6 +37,8 @@ std::string nemesis::XmlDeserializer::GetXmlInnerText(bool decode_xml)
 
         if (ch == '<')
         {
+            char nx = Stream->peek();
+
             if (nx == '!')
             {
                 Stream->get();
@@ -156,6 +157,7 @@ std::string nemesis::XmlDeserializer::DecodeXmlValue(const std::string& val)
     };
 
     std::string decoded_text = val;
+    std::string decoded_text_2;
 
     for (auto& entity : xml_entities)
     {
@@ -168,7 +170,41 @@ std::string nemesis::XmlDeserializer::DecodeXmlValue(const std::string& val)
         }
     }
 
-    return decoded_text;
+    for (size_t i = 0; i < decoded_text.length(); i++)
+    {
+        if (decoded_text[i] == '&' && decoded_text[i + 1] == '#')
+        {
+            size_t semi     = decoded_text.find(';', i);
+            std::string num = decoded_text.substr(i + 2, semi - i - 2);
+
+            if (num == "9216")
+            {
+                AppendString(decoded_text_2, u'\u2400');
+                i = semi;
+                continue;
+            }
+
+            char32_t ch = 0;
+
+            if (num[0] == 'x' || num[0] == 'X')
+            {
+                ch = static_cast<char32_t>(std::stoul(num.substr(1), nullptr, 16));
+            }
+            else
+            {
+                ch = static_cast<char32_t>(std::stoul(num, nullptr, 10));
+            }
+
+            AppendString(decoded_text_2, ch);
+            i = semi;
+        }
+        else
+        {
+            AppendString(decoded_text_2, decoded_text[i]);
+        }
+    }
+
+    return decoded_text_2;
 }
 
 UPtr<nemesis::XmlDeserializer::XmlElementData> nemesis::XmlDeserializer::CreateXmlTag()
@@ -697,7 +733,12 @@ bool& nemesis::XmlDeserializer::ReadValue(const std::string& name, bool& val)
 {
     val = false;
 
-    if (name.empty()) return ReadValue(*CurrentBlock, val);
+    if (name.empty())
+    {
+        if (!CurrentBlock) return val;
+
+        return ReadValue(*CurrentBlock, val);
+    }
 
     if (!TryReadHkxParam(name, val)) return val;
 
@@ -706,9 +747,14 @@ bool& nemesis::XmlDeserializer::ReadValue(const std::string& name, bool& val)
 
 char& nemesis::XmlDeserializer::ReadValue(const std::string& name, char& ch)
 {
-    int i;
+    int i = 0;
 
-    if (name.empty()) return ch = static_cast<char>(ReadValue(*CurrentBlock, i));
+    if (name.empty())
+    {
+        if (!CurrentBlock) return ch = static_cast<char>(i);
+
+        return ch = static_cast<char>(ReadValue(*CurrentBlock, i));
+    }
 
     if (!TryReadHkxParam(name, i)) return ch = '\0';
 
@@ -717,17 +763,17 @@ char& nemesis::XmlDeserializer::ReadValue(const std::string& name, char& ch)
 
 unsigned char& nemesis::XmlDeserializer::ReadValue(const std::string& name, unsigned char& ch)
 {
-    std::string str;
+    int i = 0;
 
     if (name.empty())
     {
-        str       = ReadString(*CurrentBlock);
-        return ch = str.empty() ? '\0' : str.front();
+        auto str  = ReadString(*CurrentBlock);
+        return ch = str.empty() ? '\0' : stoi(str);
     }
 
-    if (!TryReadHkxParam(name, str) || str.empty()) return ch = '\0';
+    if (!TryReadHkxParam(name, i)) return ch = '\0';
 
-    return ch = str.front();
+    return ch = static_cast<unsigned char>(i);
 }
 
 short& nemesis::XmlDeserializer::ReadValue(const std::string& name, short& byte)
@@ -750,7 +796,12 @@ unsigned short& nemesis::XmlDeserializer::ReadValue(const std::string& name, uns
 
 int& nemesis::XmlDeserializer::ReadValue(const std::string& name, int& val)
 {
-    if (name.empty()) return ReadValue(*CurrentBlock, val);
+    if (name.empty())
+    {
+        if (!CurrentBlock) return val = 0;
+
+        return ReadValue(*CurrentBlock, val);
+    }
 
     if (!TryReadHkxParam(name, val)) return val = 0;
 
@@ -759,7 +810,12 @@ int& nemesis::XmlDeserializer::ReadValue(const std::string& name, int& val)
 
 unsigned int& nemesis::XmlDeserializer::ReadValue(const std::string& name, unsigned int& val)
 {
-    if (name.empty()) return ReadValue(*CurrentBlock, val);
+    if (name.empty())
+    {
+        if (!CurrentBlock) return val = 0;
+
+        return ReadValue(*CurrentBlock, val);
+    }
 
     if (!TryReadHkxParam(name, val)) return val = 0;
 
@@ -768,7 +824,12 @@ unsigned int& nemesis::XmlDeserializer::ReadValue(const std::string& name, unsig
 
 long& nemesis::XmlDeserializer::ReadValue(const std::string& name, long& val)
 {
-    if (name.empty()) return ReadValue(*CurrentBlock, val);
+    if (name.empty())
+    {
+        if (!CurrentBlock) return val = 0;
+
+        return ReadValue(*CurrentBlock, val);
+    }
 
     if (!TryReadHkxParam(name, val)) return val = 0;
 
@@ -777,7 +838,12 @@ long& nemesis::XmlDeserializer::ReadValue(const std::string& name, long& val)
 
 unsigned long& nemesis::XmlDeserializer::ReadValue(const std::string& name, unsigned long& val)
 {
-    if (name.empty()) return ReadValue(*CurrentBlock, val);
+    if (name.empty())
+    {
+        if (!CurrentBlock) return val = 0;
+
+        return ReadValue(*CurrentBlock, val);
+    }
 
     if (!TryReadHkxParam(name, val)) return val = 0;
 
@@ -786,7 +852,12 @@ unsigned long& nemesis::XmlDeserializer::ReadValue(const std::string& name, unsi
 
 long long& nemesis::XmlDeserializer::ReadValue(const std::string& name, long long& val)
 {
-    if (name.empty()) return ReadValue(*CurrentBlock, val);
+    if (name.empty())
+    {
+        if (!CurrentBlock) return val = 0;
+
+        return ReadValue(*CurrentBlock, val);
+    }
 
     if (!TryReadHkxParam(name, val)) return val = 0;
 
@@ -795,7 +866,12 @@ long long& nemesis::XmlDeserializer::ReadValue(const std::string& name, long lon
 
 unsigned long long& nemesis::XmlDeserializer::ReadValue(const std::string& name, unsigned long long& val)
 {
-    if (name.empty()) return ReadValue(*CurrentBlock, val);
+    if (name.empty())
+    {
+        if (!CurrentBlock) return val = 0;
+
+        return ReadValue(*CurrentBlock, val);
+    }
 
     if (!TryReadHkxParam(name, val)) return val = 0;
 
@@ -804,18 +880,28 @@ unsigned long long& nemesis::XmlDeserializer::ReadValue(const std::string& name,
 
 Float16& nemesis::XmlDeserializer::ReadValue(const std::string& name, Float16& val)
 {
-    float f;
+    float f = 0.0;
 
-    if (name.empty()) return val = ReadValue(*CurrentBlock, f);
+    if (name.empty())
+    {
+        if (!CurrentBlock) return val = 0.0;
 
-    if (!TryReadHkxParam(name, f)) return val = 0;
+        return val = ReadValue(*CurrentBlock, f);
+    }
+
+    if (!TryReadHkxParam(name, f)) return val = 0.0;
 
     return val = f;
 }
 
 float& nemesis::XmlDeserializer::ReadValue(const std::string& name, float& val)
 {
-    if (name.empty()) return ReadValue(*CurrentBlock, val);
+    if (name.empty())
+    {
+        if (!CurrentBlock) return val;
+
+        return ReadValue(*CurrentBlock, val);
+    }
 
     if (!TryReadHkxParam(name, val)) return val = 0;
 
@@ -824,7 +910,12 @@ float& nemesis::XmlDeserializer::ReadValue(const std::string& name, float& val)
 
 double& nemesis::XmlDeserializer::ReadValue(const std::string& name, double& val)
 {
-    if (name.empty()) return ReadValue(*CurrentBlock, val);
+    if (name.empty())
+    {
+        if (!CurrentBlock) return val;
+
+        return ReadValue(*CurrentBlock, val);
+    }
 
     if (!TryReadHkxParam(name, val)) return val = 0;
 
@@ -924,8 +1015,13 @@ nemesis::hkCString& nemesis::XmlDeserializer::ReadValue(const std::string& name,
 
     if (!name.empty())
     {
-        TryReadHkxParam(name, val, false);
-        val = val == "&#9216;" ? "" : DecodeXmlValue(val);
+        if (!TryReadHkxParam(name, val, false))
+        {
+            cstring.Clear();
+            return cstring;
+        }
+
+        val = DecodeXmlValue(val);
     }
     else
     {
@@ -952,15 +1048,7 @@ nemesis::hkCString& nemesis::XmlDeserializer::ReadValue(const std::string& name,
         CurrentElement = nullptr;
     }
 
-    if (val.empty())
-    {
-        cstring.Clear();
-    }
-    else
-    {
-        cstring.SetValue(val);
-    }
-
+    cstring.SetValue(val);
     return cstring;
 }
 
@@ -978,15 +1066,7 @@ nemesis::hkStringPtr& nemesis::XmlDeserializer::ReadValue(const std::string& nam
 
     if (!TryReadHkxParam(name, val)) return string_ptr;
 
-    if (val.empty())
-    {
-        string_ptr.Clear();
-    }
-    else
-    {
-        string_ptr.SetValue(val);
-    }
-
+    string_ptr.SetValue(val);
     return string_ptr;
 }
 
@@ -1052,7 +1132,7 @@ nemesis::hkQuaternion&
 nemesis::XmlDeserializer::ReadValue(nemesis::XmlDeserializer::StreamBlock& stream_block,
                                     nemesis::hkQuaternion& quaternion)
 {
-    float x, y, z, r;
+    float x = 0.0, y = 0.0, z = 0.0, r = 0.0;
     stream_block.Stream >> x >> y >> z >> r;
 
     quaternion.SetX(x);
@@ -1090,7 +1170,7 @@ nemesis::hkQsTransform& nemesis::XmlDeserializer::ReadValue(const std::string& n
 
 nemesis::hkUFloat8& nemesis::XmlDeserializer::ReadValue(const std::string& name, nemesis::hkUFloat8& ufloat8)
 {
-    unsigned char byte;
+    unsigned char byte = 0;
     ReadValue(name, byte);
     ufloat8 = byte;
     return ufloat8;
@@ -1098,7 +1178,7 @@ nemesis::hkUFloat8& nemesis::XmlDeserializer::ReadValue(const std::string& name,
 
 nemesis::hkLong& nemesis::XmlDeserializer::ReadValue(const std::string& name, nemesis::hkLong& _long)
 {
-    int64_t val;
+    int64_t val = 0;
     ReadValue(name, val);
     _long = val;
     return _long;
@@ -1106,7 +1186,7 @@ nemesis::hkLong& nemesis::XmlDeserializer::ReadValue(const std::string& name, ne
 
 nemesis::hkUlong& nemesis::XmlDeserializer::ReadValue(const std::string& name, nemesis::hkUlong& ulong)
 {
-    uint64_t val;
+    uint64_t val = 0;
     ReadValue(name, val);
     ulong = val;
     return ulong;
@@ -1191,6 +1271,83 @@ nemesis::XmlDeserializer::ReadArrayValue(const std::string& name, void* list[], 
     }
 
     return list;
+}
+
+bool** nemesis::XmlDeserializer::ReadArrayValue(const std::string& name, bool* (&list)[], size_t size)
+{
+    return ReadArrayContainerImplt(name, list, size);
+}
+
+char** nemesis::XmlDeserializer::ReadArrayValue(const std::string& name, char* (&list)[], size_t size)
+{
+    return ReadArrayContainerImplt(name, list, size);
+}
+
+unsigned char**
+nemesis::XmlDeserializer::ReadArrayValue(const std::string& name, unsigned char* (&list)[], size_t size)
+{
+    return ReadArrayContainerImplt(name, list, size);
+}
+
+short** nemesis::XmlDeserializer::ReadArrayValue(const std::string& name, short* (&list)[], size_t size)
+{
+    return ReadArrayContainerImplt(name, list, size);
+}
+
+unsigned short**
+nemesis::XmlDeserializer::ReadArrayValue(const std::string& name, unsigned short* (&list)[], size_t size)
+{
+    return ReadArrayContainerImplt(name, list, size);
+}
+
+int** nemesis::XmlDeserializer::ReadArrayValue(const std::string& name, int* (&list)[], size_t size)
+{
+    return ReadArrayContainerImplt(name, list, size);
+}
+
+unsigned int**
+nemesis::XmlDeserializer::ReadArrayValue(const std::string& name, unsigned int* (&list)[], size_t size)
+{
+    return ReadArrayContainerImplt(name, list, size);
+}
+
+long**
+nemesis::XmlDeserializer::ReadArrayValue(const std::string& name, long* (&list)[], size_t size)
+{
+    return ReadArrayContainerImplt(name, list, size);
+}
+
+unsigned long**
+nemesis::XmlDeserializer::ReadArrayValue(const std::string& name, unsigned long* (&list)[], size_t size)
+{
+    return ReadArrayContainerImplt(name, list, size);
+}
+
+long long**
+nemesis::XmlDeserializer::ReadArrayValue(const std::string& name, long long* (&list)[], size_t size)
+{
+    return ReadArrayContainerImplt(name, list, size);
+}
+
+unsigned long long**
+nemesis::XmlDeserializer::ReadArrayValue(const std::string& name, unsigned long long* (&list)[], size_t size)
+{
+    return ReadArrayContainerImplt(name, list, size);
+}
+
+Float16** nemesis::XmlDeserializer::ReadArrayValue(const std::string& name, Float16* (&list)[], size_t size)
+{
+    return ReadArrayContainerImplt(name, list, size);
+}
+
+float** nemesis::XmlDeserializer::ReadArrayValue(const std::string& name, float* (&list)[], size_t size)
+{
+    return ReadArrayContainerImplt(name, list, size);
+}
+
+double** nemesis::XmlDeserializer::ReadArrayValue(const std::string& name, double* (&list)[], size_t size)
+{
+    return ReadArrayContainerImplt(name, list, size);
 }
 
 nemesis::hkCString**
@@ -1351,9 +1508,19 @@ nemesis::hkSmallArrayBase& nemesis::XmlDeserializer::ReadArrayObject(const std::
 
         std::string str     = GetXmlInnerText();
         std::string new_str = TrimXmlString(str);
-        new_str.erase(
-            std::remove_if(new_str.begin(), new_str.end(), [](char ch) { return ch == '(' || ch == ')'; }),
-            new_str.end());
+        
+        for (auto& ch : new_str)
+        {
+            switch (ch)
+            {
+                case '(':
+                case ')':
+                {
+                    ch = ' ';
+                    break;
+                }
+            }
+        }
 
         CurrentBlock = std::make_unique<nemesis::XmlDeserializer::StreamBlock>(str, new_str);
         array.DeserializeFrom(*this);
@@ -1401,9 +1568,19 @@ nemesis::hkArrayBase& nemesis::XmlDeserializer::ReadArrayObject(const std::strin
 
         std::string str     = GetXmlInnerText();
         std::string new_str = TrimXmlString(str);
-        new_str.erase(
-            std::remove_if(new_str.begin(), new_str.end(), [](char ch) { return ch == '(' || ch == ')'; }),
-            new_str.end());
+
+        for (auto& ch : new_str)
+        {
+            switch (ch)
+            {
+                case '(':
+                case ')':
+                {
+                    ch = ' ';
+                    break;
+                }
+            }
+        }
 
         CurrentBlock = std::make_unique<nemesis::XmlDeserializer::StreamBlock>(str, new_str);
         array.DeserializeFrom(*this);

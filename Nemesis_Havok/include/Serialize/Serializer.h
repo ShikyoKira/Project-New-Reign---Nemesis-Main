@@ -212,6 +212,25 @@ namespace nemesis
         virtual void
         WriteArrayValue(const std::string& name, const void* (&list)[], size_t size, size_t type_size)
             = 0;
+        virtual void WriteArrayValue(const std::string& name, const bool* (&list)[], size_t size)         = 0;
+        virtual void WriteArrayValue(const std::string& name, const char* (&list)[], size_t size)         = 0;
+        virtual void WriteArrayValue(const std::string& name, const unsigned char* (&list)[], size_t size)
+            = 0;
+        virtual void WriteArrayValue(const std::string& name, const short* (&list)[], size_t size)        = 0;
+        virtual void WriteArrayValue(const std::string& name, const unsigned short* (&list)[], size_t size)
+            = 0;
+        virtual void WriteArrayValue(const std::string& name, const int* (&list)[], size_t size)          = 0;
+        virtual void WriteArrayValue(const std::string& name, const unsigned int* (&list)[], size_t size) = 0;
+        virtual void WriteArrayValue(const std::string& name, const long* (&list)[], size_t size)         = 0;
+        virtual void WriteArrayValue(const std::string& name, const unsigned long* (&list)[], size_t size)
+            = 0;
+        virtual void WriteArrayValue(const std::string& name, const long long* (&list)[], size_t size)    = 0;
+        virtual void
+        WriteArrayValue(const std::string& name, const unsigned long long* (&list)[], size_t size)
+            = 0;
+        virtual void WriteArrayValue(const std::string& name, const Float16* (&list)[], size_t size)      = 0;
+        virtual void WriteArrayValue(const std::string& name, const float* (&list)[], size_t size)        = 0;
+        virtual void WriteArrayValue(const std::string& name, const double* (&list)[], size_t size)       = 0;
         virtual void WriteArrayValue(const std::string& name, const nemesis::hkCString* (&list)[], size_t size)
             = 0;
         virtual void
@@ -350,28 +369,14 @@ namespace nemesis
                               || std::is_base_of_v<nemesis::hkVariant, T>,
                           "Only primitive numeric types are allowed");
 
-            if constexpr (std::is_base_of_v<nemesis::hkVariant, T>)
+            const T* p_array[N];
+
+            for (size_t i = 0; i < N; ++i)
             {
-                const T* p_array[N];
-
-                for (size_t i = 0; i < N; ++i)
-                {
-                    p_array[i] = &array[i];
-                }
-
-                WriteArrayValue(name, p_array, N);
+                p_array[i] = &array[i];
             }
-            else
-            {
-                const void* c_array[N];
 
-                for (size_t i = 0; i < N; ++i)
-                {
-                    c_array[i] = &array[i];
-                }
-
-                WriteArrayValue(name, c_array, N, sizeof(T));
-            }
+            WriteArrayValue(name, p_array, N);
         }
 
         template <typename T, size_t N>

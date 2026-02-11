@@ -9,6 +9,12 @@ nemesis::hkStringBase::hkStringBase(const std::string& val)
 {
 }
 
+void nemesis::hkStringBase::Clear()
+{
+    Null = true;
+    m_stringAndFlag.clear();
+}
+
 const std::string& nemesis::hkStringBase::GetValue() const noexcept
 {
     return m_stringAndFlag;
@@ -37,4 +43,9 @@ bool nemesis::hkStringBase::operator!=(const std::string& str) const
 bool nemesis::hkStringBase::operator!=(const nemesis::hkStringBase& str) const
 {
     return m_stringAndFlag != str.m_stringAndFlag;
+}
+
+bool nemesis::hkStringBase::IsNull() const noexcept
+{
+    return Null;
 }
