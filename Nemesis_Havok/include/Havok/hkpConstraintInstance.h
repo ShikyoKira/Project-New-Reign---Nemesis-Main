@@ -55,7 +55,7 @@ namespace nemesis
         nemesis::hkpConstraintInstanceSmallArraySerializeOverrideType m_listeners;
         nemesis::hkStringPtr m_name;
         nemesis::hkUlong m_userData;
-        nemesis::hkConstraintInternal* m_internal;
+        nemesis::hkConstraintInternal* m_internal = nullptr;
         unsigned int m_uid;
 
     public:

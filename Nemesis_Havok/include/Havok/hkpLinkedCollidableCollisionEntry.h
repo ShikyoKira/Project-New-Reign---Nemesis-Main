@@ -27,8 +27,8 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpLinkedCollidableCollisionEntry);
 
-        nemesis::hkpAgentNnEntry* m_agentEntry;
-        nemesis::hkpLinkedCollidable* m_partner;
+        nemesis::hkpAgentNnEntry* m_agentEntry = nullptr;
+        nemesis::hkpLinkedCollidable* m_partner = nullptr;
 
     public:
         hkpLinkedCollidableCollisionEntry() noexcept;

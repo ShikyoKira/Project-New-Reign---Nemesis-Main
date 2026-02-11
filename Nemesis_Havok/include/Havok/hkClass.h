@@ -35,14 +35,14 @@ namespace nemesis
         //static const UMap<std::string, nemesis::hkClass*>& GetClassMap();
 
     protected:
-        const char* m_name;
-        const nemesis::hkClass* m_parent;
+        const char* m_name = nullptr;
+        const nemesis::hkClass* m_parent = nullptr;
         int m_objectSize;
         int m_numImplementedInterfaces;
         std::span<const nemesis::hkClassEnum*> m_declaredEnums;
         std::span<const nemesis::hkClassMember*> m_declaredMembers;
-        void* m_defaults;
-        const nemesis::hkCustomAttributes* m_attributes;
+        void* m_defaults = nullptr;
+        const nemesis::hkCustomAttributes* m_attributes = nullptr;
         FlagValues m_flags;
         int m_describedVersion;
 

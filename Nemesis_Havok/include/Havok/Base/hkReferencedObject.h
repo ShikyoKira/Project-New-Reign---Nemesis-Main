@@ -22,7 +22,7 @@ namespace nemesis
                                                 nemesis::hkClass::FlagValues::FLAGS_NONE,
                                                 0};
 
-        const nemesis::hkClass* RefClass;
+        const nemesis::hkClass* RefClass = nullptr;
 
         unsigned short m_memSizeAndFlags;
         short m_referenceCount;

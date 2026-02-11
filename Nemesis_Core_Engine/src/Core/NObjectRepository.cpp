@@ -449,7 +449,7 @@ void nemesis::NObjectRepository::Compile(nemesis::CompilationManager& manager,
     }
 
     thread_pool.wait_for_all();
-    const nemesis::HkxBehavior* build_info_bhv;
+    const nemesis::HkxBehavior* build_info_bhv = nullptr;
 
     for (auto& behavior : Behaviors)
     {

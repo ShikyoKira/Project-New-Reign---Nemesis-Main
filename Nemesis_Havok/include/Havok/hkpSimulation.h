@@ -27,7 +27,7 @@ namespace nemesis
         using LastProcessingStep = nemesis::hkInternalClassEnumItem<unsigned char>;
 
         unsigned int m_determinismCheckFrameCounter;
-        nemesis::hkpWorld* m_world;
+        nemesis::hkpWorld* m_world                                              = nullptr;
         nemesis::hkEnum<LastProcessingStep, unsigned char> m_lastProcessingStep = {
             {"INTEGRATE", 0},
             {"COLLIDE", 1},

@@ -45,7 +45,7 @@ namespace nemesis
         nemesis::hkVector4 m_angularVelocity;
         std::array<nemesis::hkVector4, 2> m_deactivationRefPosition;
         std::array<unsigned int, 2> m_deactivationRefOrientation;
-        nemesis::hkpMaxSizeMotion* m_savedMotion;
+        nemesis::hkpMaxSizeMotion* m_savedMotion = nullptr;
         unsigned short m_savedQualityTypeIndex;
         nemesis::hkHalf m_gravityFactor;
 

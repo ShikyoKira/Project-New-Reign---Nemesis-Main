@@ -24,7 +24,7 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpConstraintChainInstanceAction);
 
-        nemesis::hkpConstraintChainInstance* m_constraintInstance;
+        nemesis::hkpConstraintChainInstance* m_constraintInstance = nullptr;
 
     public:
         hkpConstraintChainInstanceAction() noexcept;
