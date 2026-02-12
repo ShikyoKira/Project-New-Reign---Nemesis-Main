@@ -267,7 +267,7 @@ std::string nemesis::XmlSerializer::RawData() const
 void nemesis::XmlSerializer::WriteValue(const std::string& name, bool val)
 {
     static std::string true_val("true");
-    static std::string false_val("true");
+    static std::string false_val("false");
     WriteHkxParam(name, val ? true_val : false_val, false);
 }
 
