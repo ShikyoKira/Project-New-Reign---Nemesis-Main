@@ -528,7 +528,7 @@ nemesis::hkStringPtr& nemesis::PackfileDeserializer::ReadValue(const std::string
 
     if (itr == LocalMap.end())
     {
-        string_ptr.SetValue("");
+        string_ptr.Clear();
         return string_ptr;
     }
 

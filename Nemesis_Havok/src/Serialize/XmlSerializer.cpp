@@ -33,7 +33,8 @@ std::string nemesis::XmlSerializer::ToString(const nemesis::hkQuaternion& quater
 
 std::string nemesis::XmlSerializer::ToString(const nemesis::hkMatrix3& matrix3)
 {
-    return ToString(matrix3.GetCol0()) + ToString(matrix3.GetCol1()) + ToString(matrix3.GetCol2());
+    return ToString(matrix3.GetCol0(), true) + ToString(matrix3.GetCol1(), true)
+           + ToString(matrix3.GetCol2(), true);
 }
 
 std::string nemesis::XmlSerializer::ToString(const nemesis::hkMatrix4& matrix4)
@@ -51,6 +52,8 @@ std::string nemesis::XmlSerializer::ToString(const nemesis::hkTransform& transfo
 
 std::string nemesis::XmlSerializer::EncodeXmlValue(const std::string& val)
 {
+    if (val == "\u2400") return "&#9216;";
+
     std::ostringstream oss;
 
     for (auto& ch : val)
@@ -461,7 +464,7 @@ void nemesis::XmlSerializer::WriteValue(const std::string& name, const nemesis::
 
 void nemesis::XmlSerializer::WriteValue(const std::string& name, const nemesis::hkUFloat8& ufloat8)
 {
-    WriteHkxParam(name, ToString(ufloat8.AsFloat(), 6), false);
+    WriteHkxParam(name, std::to_string(ufloat8.AsByte()), false);
 }
 
 void nemesis::XmlSerializer::WriteValue(const std::string& name, const nemesis::hkLong& _long)
