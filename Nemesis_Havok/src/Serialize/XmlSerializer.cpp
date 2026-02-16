@@ -6,7 +6,7 @@
 
 #include "Utilities/Algorithm.h"
 
-std::string nemesis::XmlSerializer::ToString(const nemesis::hkVector4 vec4, bool skip_last)
+std::string nemesis::XmlSerializer::ToString(const nemesis::hkVector4& vec4, bool skip_last)
 {
     if (skip_last)
     {
@@ -22,7 +22,7 @@ std::string nemesis::XmlSerializer::ToString(const nemesis::hkVector4 vec4, bool
     return "(" + StringJoin(" ", values) + ")";
 }
 
-std::string nemesis::XmlSerializer::ToString(const nemesis::hkQuaternion quaternion)
+std::string nemesis::XmlSerializer::ToString(const nemesis::hkQuaternion& quaternion)
 {
     std::array<std::string, 4> values{ToString(quaternion.GetX(), 6),
                                       ToString(quaternion.GetY(), 6),
@@ -31,18 +31,18 @@ std::string nemesis::XmlSerializer::ToString(const nemesis::hkQuaternion quatern
     return "(" + StringJoin(" ", values) + ")";
 }
 
-std::string nemesis::XmlSerializer::ToString(const nemesis::hkMatrix3 matrix3)
+std::string nemesis::XmlSerializer::ToString(const nemesis::hkMatrix3& matrix3)
 {
     return ToString(matrix3.GetCol0()) + ToString(matrix3.GetCol1()) + ToString(matrix3.GetCol2());
 }
 
-std::string nemesis::XmlSerializer::ToString(const nemesis::hkMatrix4 matrix4)
+std::string nemesis::XmlSerializer::ToString(const nemesis::hkMatrix4& matrix4)
 {
     return ToString(matrix4.GetCol0()) + ToString(matrix4.GetCol1()) + ToString(matrix4.GetCol2())
            + ToString(matrix4.GetCol3());
 }
 
-std::string nemesis::XmlSerializer::ToString(const nemesis::hkTransform transform)
+std::string nemesis::XmlSerializer::ToString(const nemesis::hkTransform& transform)
 {
     auto& rotation = transform.GetRotation();
     return ToString(rotation.GetCol0(), true) + ToString(rotation.GetCol1(), true)
