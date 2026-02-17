@@ -1,4 +1,35 @@
-#pragma once#include "Havok/Base/hkReferencedObject.h"#include "Havok/hkxAttributeGroup.h"namespace nemesis{    struct hkxAttributeHolder : nemesis::hkReferencedObject    {
-        static constexpr nemesis::hkClass Class{0x7468cc44,                                                "hkxAttributeHolder",                                                &nemesis::hkReferencedObject::Class,                                                32,                                                nullptr,                                                0,                                                {},                                                {},                                                nullptr,                                                nullptr,                                                nemesis::hkClass::FlagValues::  FLAGS_NONE,                                                0};    private:
-        nemesis::hkArray<nemesis::hkxAttributeGroup> m_attributeGroups;    public:
-        hkxAttributeHolder(const nemesis::hkClass& cls) noexcept;        void SerializeTo(nemesis::Serializer& serializer) const override;        void DeserializeFrom(nemesis::Deserializer& deserializer) override;    };    constexpr nemesis::hkClass nemesis::hkxAttributeHolder::Class;}
+#pragma once
+
+#include "Havok/Base/hkReferencedObject.h"
+
+#include "Havok/hkxAttributeGroup.h"
+
+namespace nemesis
+{
+    struct hkxAttributeHolder : nemesis::hkReferencedObject
+    {
+        static constexpr nemesis::hkClass Class{0x7468cc44,
+                                                "hkxAttributeHolder",
+                                                &nemesis::hkReferencedObject::Class,
+                                                32,
+                                                nullptr,
+                                                0,
+                                                {},
+                                                {},
+                                                nullptr,
+                                                nullptr,
+                                                nemesis::hkClass::FlagValues::  FLAGS_NONE,
+                                                0};
+
+    private:
+        nemesis::hkArray<nemesis::hkxAttributeGroup> m_attributeGroups;
+
+    public:
+        hkxAttributeHolder(const nemesis::hkClass& cls) noexcept;
+
+        void SerializeTo(nemesis::Serializer& serializer) const override;
+        void DeserializeFrom(nemesis::Deserializer& deserializer) override;
+    };
+
+    constexpr nemesis::hkClass nemesis::hkxAttributeHolder::Class;
+}
