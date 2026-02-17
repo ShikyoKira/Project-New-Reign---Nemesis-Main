@@ -24,10 +24,10 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpSimpleContactConstraintDataInfo);
 
-        unsigned short m_flags = 0; // align 16
-        unsigned short m_index = 0;
+        unsigned short m_flags{}; // align 16
+        unsigned short m_index{};
         float m_internalData0 = 0;
-        unsigned short m_biNormalAxis = 0;
+        unsigned short m_biNormalAxis{};
         nemesis::hkHalf m_rollingFrictionMultiplier;
         nemesis::hkHalf m_internalData1;
         std::array<nemesis::hkHalf, 2> m_rhsRolling;

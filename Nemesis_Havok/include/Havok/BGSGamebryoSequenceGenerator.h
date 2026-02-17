@@ -36,9 +36,9 @@ namespace nemesis
         };
         float m_fPercent{};
         nemesis::hkRefPtr<nemesis::HavokObject> m_events;
-        float m_fTime           = 0.0f;
-        bool m_bDelayedActivate = false;
-        bool m_bLooping         = false;
+        float m_fTime{};
+        bool m_bDelayedActivate{};
+        bool m_bLooping{};
 
     public:
         BGSGamebryoSequenceGenerator() noexcept;

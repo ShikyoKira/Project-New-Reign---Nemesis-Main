@@ -22,16 +22,16 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(BSDirectAtModifier);
 
-        bool m_directAtTarget = false;
-        short m_sourceBoneIndex = 0;
+        bool m_directAtTarget{};
+        short m_sourceBoneIndex{};
         short m_startBoneIndex{};
         short m_endBoneIndex{};
         float m_limitHeadingDegrees{};
-        float m_limitPitchDegrees   = 0.0f;
+        float m_limitPitchDegrees{};
         float m_offsetHeadingDegrees{};
-        float m_offsetPitchDegrees   = 0.0f;
-        float m_onGain               = 0.0f;
-        float m_offGain              = 0.0f;
+        float m_offsetPitchDegrees{};
+        float m_onGain{};
+        float m_offGain{};
         nemesis::hkVector4 m_targetLocation;
         unsigned int m_userInfo{};
         bool m_directAtCamera{};

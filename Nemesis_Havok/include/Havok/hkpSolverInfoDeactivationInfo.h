@@ -24,9 +24,9 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpSolverInfoDeactivationInfo);
 
-        float m_linearVelocityThresholdInv     = 0.0f;
-        float m_angularVelocityThresholdInv    = 0.0f;
-        float m_slowObjectVelocityMultiplier   = 0.0f;
+        float m_linearVelocityThresholdInv{};
+        float m_angularVelocityThresholdInv{};
+        float m_slowObjectVelocityMultiplier{};
         float m_relativeSleepVelocityThreshold{};
         std::array<float, 2> m_maxDistSqrd{};
         std::array<nemesis::hkHalf, 2> m_maxRotSqrd_0;

@@ -25,8 +25,8 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkpTriSampledHeightFieldBvTreeShape);
 
         nemesis::hkpSingleShapeContainer m_childContainer;
-        int m_childSize              = 0;
-        bool m_wantAabbRejectionTest = false;
+        int m_childSize{};
+        bool m_wantAabbRejectionTest{};
         std::array<unsigned char, 12> m_padding{};
 
     public:
