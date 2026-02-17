@@ -22,7 +22,7 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbDetectCloseToGroundModifierInternalState);
 
-        bool m_isCloseToGround;
+        bool m_isCloseToGround{};
 
     public:
         hkbDetectCloseToGroundModifierInternalState() noexcept;

@@ -22,8 +22,8 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpSerializedSubTrack1nInfo);
 
-        int m_sectorIndex;
-        int m_offsetInSector;
+        int m_sectorIndex{};
+        int m_offsetInSector{};
 
     public:
         hkpSerializedSubTrack1nInfo() noexcept;

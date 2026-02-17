@@ -24,8 +24,8 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbEvaluateExpressionModifierInternalExpressionData);
 
-        bool m_raisedEvent;
-        bool m_wasTrueInPreviousFrame;
+        bool m_raisedEvent{};
+        bool m_wasTrueInPreviousFrame{};
 
     public:
         hkbEvaluateExpressionModifierInternalExpressionData() noexcept;

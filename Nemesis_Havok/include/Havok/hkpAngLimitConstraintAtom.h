@@ -22,11 +22,11 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpAngLimitConstraintAtom);
 
-        unsigned char m_isEnabled;
-        unsigned char m_limitAxis;
-        float m_minAngle;
-        float m_maxAngle;
-        float m_angularLimitsTauFactor;
+        unsigned char m_isEnabled{};
+        unsigned char m_limitAxis{};
+        float m_minAngle{};
+        float m_maxAngle{};
+        float m_angularLimitsTauFactor{};
 
     public:
         hkpAngLimitConstraintAtom() noexcept;

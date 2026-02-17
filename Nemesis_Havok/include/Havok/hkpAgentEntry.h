@@ -22,10 +22,10 @@ namespace nemesis
                                                 0};
 
     private:
-        unsigned char m_streamCommand;
-        unsigned char m_agentType;
-        unsigned char m_numContactPoints;
-        unsigned char m_size;
+        unsigned char m_streamCommand{};
+        unsigned char m_agentType{};
+        unsigned char m_numContactPoints{};
+        unsigned char m_size{};
 
     public:
         hkpAgentEntry(const nemesis::hkClass& cls) noexcept;

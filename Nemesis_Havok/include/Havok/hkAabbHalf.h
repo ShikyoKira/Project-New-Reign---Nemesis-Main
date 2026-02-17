@@ -50,8 +50,8 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkAabbHalf);
 
-        std::array<unsigned short, 6> m_data;
-        std::array<unsigned short, 2> m_extras;
+        std::array<unsigned short, 6> m_data{};
+        std::array<unsigned short, 2> m_extras{};
 
     public:
         hkAabbHalf() noexcept;

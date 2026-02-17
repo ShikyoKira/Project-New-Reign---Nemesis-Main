@@ -27,7 +27,7 @@ namespace nemesis
 
         nemesis::hkRefPtr<nemesis::hkxMesh> m_mesh;
         nemesis::hkRefPtr<nemesis::hkxNode> m_mapping;
-        int m_numMapping;
+        int m_numMapping{};
         nemesis::hkArray<nemesis::hkCString> m_nodeNames;
         nemesis::hkArray<nemesis::hkMatrix4> m_bindPose;
         nemesis::hkMatrix4 m_initSkinTransform;

@@ -7,7 +7,7 @@ namespace nemesis
 	struct hkVariableId : nemesis::hkVariant
 	{
     private:
-        int Value;
+        int Value{};
 
 	public:
         nemesis::hkVariableId& operator=(const nemesis::hkVariableId& var_id);

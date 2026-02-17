@@ -23,9 +23,9 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkpCompressedSampledHeightFieldShape);
 
         nemesis::hkArray<unsigned short> m_storage;
-        bool m_triangleFlip;
-        float m_offset;
-        float m_scale;
+        bool m_triangleFlip{};
+        float m_offset{};
+        float m_scale{};
 
     public:
         hkpCompressedSampledHeightFieldShape() noexcept;

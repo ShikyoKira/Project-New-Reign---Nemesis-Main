@@ -22,11 +22,11 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(BSInterpValueModifier);
 
-        float m_source;
-        float m_target;
-        float m_result;
-        float m_gain;
-        float m_timeStep;
+        float m_source{};
+        float m_target{};
+        float m_result{};
+        float m_gain{};
+        float m_timeStep{};
 
     public:
         BSInterpValueModifier() noexcept;

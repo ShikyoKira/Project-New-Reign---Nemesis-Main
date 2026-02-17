@@ -20,8 +20,8 @@ namespace nemesis
                                                 0};
 
     private:
-        float m_strength;
-        int m_typeAndFlags;
+        float m_strength{};
+        int m_typeAndFlags{};
         nemesis::hkRefPtr<nemesis::hkRefCountedProperties> m_extractedMotion;
 
     public:

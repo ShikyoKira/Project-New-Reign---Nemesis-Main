@@ -23,7 +23,7 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkbMoveCharacterModifier);
 
         nemesis::hkVector4 m_offsetPerSecondMS;
-        float m_timeSinceLastModify;
+        float m_timeSinceLastModify{};
 
     public:
         hkbMoveCharacterModifier() noexcept;

@@ -22,8 +22,8 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbDelayedModifierInternalState);
 
-        float m_secondsElapsed;
-        bool m_isActive;
+        float m_secondsElapsed{};
+        bool m_isActive{};
 
     public:
         hkbDelayedModifierInternalState() noexcept;

@@ -23,7 +23,7 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkpPoweredChainMapperTarget);
 
         nemesis::hkRefPtr<nemesis::hkpPoweredChainData> m_chain;
-        int m_infoIndex;
+        int m_infoIndex{};
 
     public:
         hkpPoweredChainMapperTarget() noexcept;

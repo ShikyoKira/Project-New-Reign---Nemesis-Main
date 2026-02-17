@@ -9,7 +9,7 @@ namespace nemesis
 	struct hkHalf : nemesis::hkVariant
 	{
     private:
-        short m_value;
+        short m_value{};
 
 	public:
         hkHalf() = default;

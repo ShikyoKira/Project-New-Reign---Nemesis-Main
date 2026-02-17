@@ -22,8 +22,8 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpLimitedForceConstraintMotor);
 
-        float m_minForce;
-        float m_maxForce;
+        float m_minForce{};
+        float m_maxForce{};
 
     public:
         hkpLimitedForceConstraintMotor() noexcept;

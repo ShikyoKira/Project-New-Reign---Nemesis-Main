@@ -22,9 +22,9 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbGetUpModifierInternalState);
 
-        float m_timeSinceBegin;
-        float m_timeStep;
-        bool m_initNextModify;
+        float m_timeSinceBegin{};
+        float m_timeStep{};
+        bool m_initNextModify{};
 
     public:
         hkbGetUpModifierInternalState() noexcept;

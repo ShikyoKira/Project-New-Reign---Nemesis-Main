@@ -26,7 +26,7 @@ namespace nemesis
         using WeldingType = nemesis::hkInternalClassEnumItem<unsigned char>;
 
         nemesis::hkVector4 m_scaling;
-        int m_numBitsForSubpartIndex;
+        int m_numBitsForSubpartIndex{};
         nemesis::hkArray<nemesis::hkpMeshShapeSubpart> m_subparts;
         nemesis::hkArray<unsigned short> m_weldingInfo;
         nemesis::hkEnum<WeldingType, unsigned char> m_weldingType = {
@@ -35,8 +35,8 @@ namespace nemesis
             {"WELDING_TYPE_TWO_SIDED", 5},
             {"WELDING_TYPE_NONE", 6},
         };
-        float m_radius;
-        std::array<int, 3> m_pad;
+        float m_radius{};
+        std::array<int, 3> m_pad{};
 
     public:
         hkpMeshShape() noexcept;

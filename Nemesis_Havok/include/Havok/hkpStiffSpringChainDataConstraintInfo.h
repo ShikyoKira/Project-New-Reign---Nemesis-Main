@@ -26,7 +26,7 @@ namespace nemesis
 
         nemesis::hkVector4 m_pivotInA;
         nemesis::hkVector4 m_pivotInB;
-        float m_springLength;
+        float m_springLength{};
 
     public:
         hkpStiffSpringChainDataConstraintInfo() noexcept;

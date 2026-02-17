@@ -27,7 +27,7 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkHalf8);
 
         std::array<nemesis::hkHalf, 8> m_quad; // align 16
-        std::array<short, 8> m_halfs;          // align 16
+        std::array<short, 8> m_halfs{};        // align 16
 
     public:
         hkHalf8() noexcept;

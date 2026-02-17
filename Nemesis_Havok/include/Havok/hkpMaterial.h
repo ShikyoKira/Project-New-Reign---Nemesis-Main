@@ -34,8 +34,8 @@ namespace nemesis
             {"RESPONSE_MAX_ID", 4},
         };
         nemesis::hkHalf m_rollingFrictionMultiplier;
-        float m_friction;
-        float m_restitution;
+        float m_friction{};
+        float m_restitution{};
 
     public:
         hkpMaterial() noexcept;

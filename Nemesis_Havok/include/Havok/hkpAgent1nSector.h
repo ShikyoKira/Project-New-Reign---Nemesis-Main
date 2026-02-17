@@ -24,11 +24,11 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpAgent1nSector);
 
-        unsigned int m_bytesAllocated;
-        unsigned int m_pad0;
-        unsigned int m_pad1;
-        unsigned int m_pad2;
-        std::array<unsigned char, 496> m_data;
+        unsigned int m_bytesAllocated{};
+        unsigned int m_pad0{};
+        unsigned int m_pad1{};
+        unsigned int m_pad2{};
+        std::array<unsigned char, 496> m_data{};
 
     public:
         hkpAgent1nSector() noexcept;

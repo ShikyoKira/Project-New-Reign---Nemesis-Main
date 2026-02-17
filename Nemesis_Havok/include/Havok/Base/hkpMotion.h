@@ -37,16 +37,16 @@ namespace nemesis
             {"MOTION_CHARACTER", 7},
             {"MOTION_MAX_ID", 8},
         };
-        unsigned char m_deactivationIntegrateCounter;
-        std::array<unsigned short, 2> m_deactivationNumInactiveFrames;
+        unsigned char m_deactivationIntegrateCounter{};
+        std::array<unsigned short, 2> m_deactivationNumInactiveFrames{};
         nemesis::hkMotionState m_motionState;
         nemesis::hkVector4 m_inertiaAndMassInv;
         nemesis::hkVector4 m_linearVelocity;
         nemesis::hkVector4 m_angularVelocity;
         std::array<nemesis::hkVector4, 2> m_deactivationRefPosition;
-        std::array<unsigned int, 2> m_deactivationRefOrientation;
+        std::array<unsigned int, 2> m_deactivationRefOrientation{};
         nemesis::hkpMaxSizeMotion* m_savedMotion = nullptr;
-        unsigned short m_savedQualityTypeIndex;
+        unsigned short m_savedQualityTypeIndex{};
         nemesis::hkHalf m_gravityFactor;
 
     public:

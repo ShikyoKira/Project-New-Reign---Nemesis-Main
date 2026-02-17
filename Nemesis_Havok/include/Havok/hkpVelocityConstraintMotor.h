@@ -22,9 +22,9 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpVelocityConstraintMotor);
 
-        float m_tau;
-        float m_velocityTarget;
-        bool m_useVelocityTargetFromConstraintTargets;
+        float m_tau{};
+        float m_velocityTarget{};
+        bool m_useVelocityTargetFromConstraintTargets{};
 
     public:
         hkpVelocityConstraintMotor() noexcept;

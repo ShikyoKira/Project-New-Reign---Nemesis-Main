@@ -27,7 +27,7 @@ namespace nemesis
         using TokenType = nemesis::hkInternalClassEnumItem<char>;
         using Operator = nemesis::hkInternalClassEnumItem<char>;
 
-        float m_data;
+        float m_data{};
         nemesis::hkEnum<TokenType, char> m_type = {
             {"TOKEN_TYPE_NONE", 0},
             {"TOKEN_TYPE_OPERATOR", 1},

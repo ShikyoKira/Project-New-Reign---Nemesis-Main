@@ -27,20 +27,20 @@ namespace nemesis
         nemesis::hkVector4 m_kneeAxisLS;
         nemesis::hkVector4 m_footEndLS;
         nemesis::hkbEventProperty m_ungroundedEvent;
-        float m_footPlantedAnkleHeightMS;
-        float m_footRaisedAnkleHeightMS;
-        float m_maxAnkleHeightMS;
-        float m_minAnkleHeightMS;
-        float m_maxKneeAngleDegrees;
-        float m_minKneeAngleDegrees;
-        float m_verticalError;
-        float m_maxAnkleAngleDegrees;
-        short m_hipIndex;
-        short m_kneeIndex;
-        short m_ankleIndex;
-        bool m_hitSomething;
-        bool m_isPlantedMS;
-        bool m_isOriginalAnkleTransformMSSet;
+        float m_footPlantedAnkleHeightMS{};
+        float m_footRaisedAnkleHeightMS{};
+        float m_maxAnkleHeightMS{};
+        float m_minAnkleHeightMS{};
+        float m_maxKneeAngleDegrees{};
+        float m_minKneeAngleDegrees{};
+        float m_verticalError{};
+        float m_maxAnkleAngleDegrees{};
+        short m_hipIndex{};
+        short m_kneeIndex{};
+        short m_ankleIndex{};
+        bool m_hitSomething{};
+        bool m_isPlantedMS{};
+        bool m_isOriginalAnkleTransformMSSet{};
 
     public:
         hkbFootIkModifierLeg() noexcept;

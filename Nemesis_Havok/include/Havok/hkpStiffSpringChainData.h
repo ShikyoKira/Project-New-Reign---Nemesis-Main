@@ -27,9 +27,9 @@ namespace nemesis
 
         nemesis::hkpBridgeAtoms m_atoms;
         nemesis::hkArray<nemesis::hkpStiffSpringChainDataConstraintInfo> m_infos;
-        float m_tau;
-        float m_damping;
-        float m_cfm;
+        float m_tau{};
+        float m_damping{};
+        float m_cfm{};
 
     public:
         hkpStiffSpringChainData() noexcept;

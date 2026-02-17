@@ -24,12 +24,12 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkAabbUint32);
 
-        std::array<unsigned int, 3> m_min; // align 16
-        std::array<unsigned char, 3> m_expansionMin;
-        unsigned char m_expansionShift;
-        std::array<unsigned int, 3> m_max;
-        std::array<unsigned char, 3> m_expansionMax;
-        unsigned char m_shapeKeyByte;
+        std::array<unsigned int, 3> m_min{}; // align 16
+        std::array<unsigned char, 3> m_expansionMin{};
+        unsigned char m_expansionShift{};
+        std::array<unsigned int, 3> m_max{};
+        std::array<unsigned char, 3> m_expansionMax{};
+        unsigned char m_shapeKeyByte{};
 
     public:
         hkAabbUint32() noexcept;

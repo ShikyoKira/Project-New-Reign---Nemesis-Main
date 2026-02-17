@@ -25,8 +25,8 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkaSkeletonPartition);
 
         nemesis::hkStringPtr m_name;
-        short m_startBoneIndex;
-        short m_numBones;
+        short m_startBoneIndex{};
+        short m_numBones{};
 
     public:
         hkaSkeletonPartition() noexcept;

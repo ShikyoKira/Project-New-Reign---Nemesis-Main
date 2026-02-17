@@ -25,7 +25,7 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkxSpline);
 
         nemesis::hkArray<nemesis::hkxSplineControlPoint> m_controlPoints;
-        bool m_isClosed;
+        bool m_isClosed{};
 
     public:
         hkxSpline() noexcept;

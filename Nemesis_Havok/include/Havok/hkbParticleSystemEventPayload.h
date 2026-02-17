@@ -31,11 +31,11 @@ namespace nemesis
             {"SMOKE", 3},
             {"SPARKS", 4},
         };
-        short m_emitBoneIndex;
+        short m_emitBoneIndex{};
         nemesis::hkVector4 m_offset;
         nemesis::hkVector4 m_direction;
-        int m_numParticles;
-        float m_speed;
+        int m_numParticles{};
+        float m_speed{};
 
     public:
         hkbParticleSystemEventPayload() noexcept;

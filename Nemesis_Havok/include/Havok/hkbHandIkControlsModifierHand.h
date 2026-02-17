@@ -23,8 +23,8 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkbHandIkControlsModifierHand);
 
         nemesis::hkbHandIkControlData m_controlData;
-        int m_handIndex;
-        bool m_enable;
+        int m_handIndex{};
+        bool m_enable{};
 
     public:
         hkbHandIkControlsModifierHand() noexcept;

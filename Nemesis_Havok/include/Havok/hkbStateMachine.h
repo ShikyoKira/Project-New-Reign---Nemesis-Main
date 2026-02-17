@@ -33,15 +33,15 @@ namespace nemesis
         nemesis::hkbEvent m_eventToSendWhenStateOrTransitionChanges;
         nemesis::hkRefPtr<nemesis::hkbStateChooser> m_startStateChooser;
         nemesis::hkRefPtr<nemesis::hkbCustomIdSelector> m_startStateIdSelector;
-        int m_startStateId;
+        int m_startStateId{};
         nemesis::hkEventId m_returnToPreviousStateEventId;
         nemesis::hkEventId m_randomTransitionEventId;
         nemesis::hkEventId m_transitionToNextHigherStateEventId;
         nemesis::hkEventId m_transitionToNextLowerStateEventId;
         nemesis::hkVariableId m_syncVariableIndex;
-        int m_currentStateId;
-        bool m_wrapAroundStateId;
-        char m_maxSimultaneousTransitions;
+        int m_currentStateId{};
+        bool m_wrapAroundStateId{};
+        char m_maxSimultaneousTransitions{};
         nemesis::hkEnum<StartStateMode, char> m_startStateMode = {
             {"START_STATE_MODE_DEFAULT", 0},
             {"START_STATE_MODE_SYNC", 1},
@@ -53,7 +53,7 @@ namespace nemesis
             {"SELF_TRANSITION_MODE_TRANSITION_TO_START_STATE", 1},
             {"SELF_TRANSITION_MODE_FORCE_TRANSITION_TO_START_STATE", 2},
         };
-        bool m_isActive;
+        bool m_isActive{};
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::hkbStateMachineStateInfo>> m_states;
         nemesis::hkRefPtr<nemesis::hkbStateMachineTransitionInfoArray> m_wildcardTransitions;
         nemesis::hkRefPtr<nemesis::HavokObject> m_stateIdToIndexMap;
@@ -61,13 +61,13 @@ namespace nemesis
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::HavokObject>> m_transitionFlags;
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::HavokObject>> m_wildcardTransitionFlags;
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::HavokObject>> m_delayedTransitions;
-        float m_timeInState;
-        float m_lastLocalTime;
-        int m_previousStateId;
-        int m_nextStartStateIndexOverride;
-        bool m_stateOrTransitionChanged;
-        bool m_echoNextUpdate;
-        unsigned short m_sCurrentStateIndexAndEntered;
+        float m_timeInState{};
+        float m_lastLocalTime{};
+        int m_previousStateId{};
+        int m_nextStartStateIndexOverride{};
+        bool m_stateOrTransitionChanged{};
+        bool m_echoNextUpdate{};
+        unsigned short m_sCurrentStateIndexAndEntered{};
 
     public:
         hkbStateMachine() noexcept;

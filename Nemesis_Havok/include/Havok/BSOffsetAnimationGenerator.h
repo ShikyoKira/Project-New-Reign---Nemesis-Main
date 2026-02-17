@@ -24,15 +24,15 @@ namespace nemesis
 
         nemesis::hkRefPtr<nemesis::hkbGenerator> m_pDefaultGenerator;    // align 16
         nemesis::hkRefPtr<nemesis::hkbGenerator> m_pOffsetClipGenerator; // align 16
-        float m_fOffsetVariable;
-        float m_fOffsetRangeStart;
-        float m_fOffsetRangeEnd;
+        float m_fOffsetVariable{};
+        float m_fOffsetRangeStart{};
+        float m_fOffsetRangeEnd{};
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::HavokObject>> m_BoneOffsetA;
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::HavokObject>> m_BoneIndexA;
-        float m_fCurrentPercentage;
-        unsigned int m_iCurrentFrame;
-        bool m_bZeroOffset;
-        bool m_bOffsetValid;
+        float m_fCurrentPercentage{};
+        unsigned int m_iCurrentFrame{};
+        bool m_bZeroOffset{};
+        bool m_bOffsetValid{};
 
     public:
         BSOffsetAnimationGenerator() noexcept;

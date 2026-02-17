@@ -7,8 +7,8 @@ namespace nemesis
     struct hkPropertyCommon : nemesis::HavokObject
     {
     private:
-        unsigned int m_key;
-        unsigned int m_alignmentPadding;
+        unsigned int m_key{};
+        unsigned int m_alignmentPadding{};
 
     public:
         hkPropertyCommon() noexcept;

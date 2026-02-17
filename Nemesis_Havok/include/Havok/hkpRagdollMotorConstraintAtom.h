@@ -23,9 +23,9 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpRagdollMotorConstraintAtom);
 
-        bool m_isEnabled;
-        short m_initializedOffset;
-        short m_previousTargetAnglesOffset;
+        bool m_isEnabled{};
+        short m_initializedOffset{};
+        short m_previousTargetAnglesOffset{};
         nemesis::hkMatrix3 m_target_bRca;
         std::array<nemesis::hkRefPtr<nemesis::hkpConstraintMotor>, 3> m_motors;
 

@@ -23,8 +23,8 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkMemoryResourceHandle);
 
         nemesis::hkRefPtr<nemesis::hkReferencedObject> m_variant;
-        bool m_objectIsRerencedObject;
-        bool m_nameIsAllocated;
+        bool m_objectIsRerencedObject{};
+        bool m_nameIsAllocated{};
         nemesis::hkStringPtr m_name;
         nemesis::hkArray<nemesis::hkMemoryResourceHandleExternalLink> m_references;
 

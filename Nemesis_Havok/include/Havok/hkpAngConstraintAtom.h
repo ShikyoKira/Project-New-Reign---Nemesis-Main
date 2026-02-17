@@ -22,8 +22,8 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpAngConstraintAtom);
 
-        unsigned char m_firstConstrainedAxis;
-        unsigned char m_numConstrainedAxes;
+        unsigned char m_firstConstrainedAxis{};
+        unsigned char m_numConstrainedAxes{};
 
     public:
         hkpAngConstraintAtom() noexcept;

@@ -23,7 +23,7 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkxVertexAnimation);
 
-        float m_time;
+        float m_time{};
         nemesis::hkxVertexBuffer m_vertData;
         nemesis::hkArray<int> m_vertexIndexMap;
         nemesis::hkArray<nemesis::hkxVertexAnimationUsageMap> m_componentMap;

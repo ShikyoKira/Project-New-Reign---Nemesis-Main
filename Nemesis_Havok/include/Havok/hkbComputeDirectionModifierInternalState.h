@@ -23,9 +23,9 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkbComputeDirectionModifierInternalState);
 
         nemesis::hkVector4 m_pointOut;
-        float m_groundAngleOut;
-        float m_upAngleOut;
-        bool m_computedOutput;
+        float m_groundAngleOut{};
+        float m_upAngleOut{};
+        bool m_computedOutput{};
 
     public:
         hkbComputeDirectionModifierInternalState() noexcept;

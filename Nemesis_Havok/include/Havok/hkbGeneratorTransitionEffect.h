@@ -25,21 +25,21 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkbGeneratorTransitionEffect);
 
         nemesis::hkRefPtr<nemesis::hkbGenerator> m_transitionGenerator;
-        float m_blendInDuration;
-        float m_blendOutDuration;
-        bool m_syncToGeneratorStartTime;
+        float m_blendInDuration{};
+        float m_blendOutDuration{};
+        bool m_syncToGeneratorStartTime{};
         nemesis::hkRefPtr<nemesis::HavokObject> m_fromGenerator;
         nemesis::hkRefPtr<nemesis::HavokObject> m_toGenerator;
-        float m_timeInTransition;
-        float m_duration;
-        float m_effectiveBlendInDuration;
-        float m_effectiveBlendOutDuration;
-        char m_toGeneratorState;
-        bool m_echoTransitionGenerator;
-        bool m_echoToGenerator;
-        bool m_justActivated;
-        bool m_updateActiveNodes;
-        char m_stage;
+        float m_timeInTransition{};
+        float m_duration{};
+        float m_effectiveBlendInDuration{};
+        float m_effectiveBlendOutDuration{};
+        char m_toGeneratorState{};
+        bool m_echoTransitionGenerator{};
+        bool m_echoToGenerator{};
+        bool m_justActivated{};
+        bool m_updateActiveNodes{};
+        char m_stage{};
 
     public:
         hkbGeneratorTransitionEffect() noexcept;

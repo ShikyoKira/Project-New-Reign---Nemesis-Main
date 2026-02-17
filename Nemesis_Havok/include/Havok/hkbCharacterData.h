@@ -44,9 +44,9 @@ namespace nemesis
         nemesis::hkRefPtr<nemesis::hkbMirroredSkeletonInfo> m_mirroredSkeletonInfo;
         nemesis::hkArray<short> m_boneAttachmentBoneIndices;
         nemesis::hkArray<nemesis::hkMatrix4> m_boneAttachmentTransforms;
-        float m_scale;
-        short m_numHands;
-        short m_numFloatSlots;
+        float m_scale{};
+        short m_numHands{};
+        short m_numFloatSlots{};
 
     public:
         hkbCharacterData() noexcept;

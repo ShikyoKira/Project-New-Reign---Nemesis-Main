@@ -37,7 +37,7 @@ namespace nemesis
             {"NODE_TYPE_BLEND", 9},
             {"NODE_TYPE_TRANSITION_EFFECT", 10},
         };
-        unsigned char m_depth;
+        unsigned char m_depth{};
         nemesis::hkStringPtr m_referenceBehaviorName;
         nemesis::hkArray<nemesis::hkCString> m_selfTransitionNames;
 

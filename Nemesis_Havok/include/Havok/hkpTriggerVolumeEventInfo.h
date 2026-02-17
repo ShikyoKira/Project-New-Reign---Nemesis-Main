@@ -24,7 +24,7 @@ namespace nemesis
 
         using Operation = nemesis::hkInternalClassEnumItem<int>;
 
-        uint64_t m_sortValue;
+        uint64_t m_sortValue{};
         nemesis::hkRefPtr<nemesis::hkpRigidBody> m_body;
         nemesis::hkEnum<Operation, int> m_operation = {
             {"ADDED_OP", 0},

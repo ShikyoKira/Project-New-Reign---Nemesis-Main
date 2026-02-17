@@ -28,7 +28,7 @@ namespace nemesis
         nemesis::hkQuaternion m_currentRotation;
         nemesis::hkVector4 m_localAxisOfRotation;
         nemesis::hkVector4 m_localFacingDirection;
-        bool m_resultIsDelta;
+        bool m_resultIsDelta{};
 
     public:
         hkbComputeRotationToTargetModifier() noexcept;

@@ -24,12 +24,12 @@ namespace nemesis
 
         using CharacterControlCommand = nemesis::hkInternalClassEnumItem<unsigned char>;
 
-        uint64_t m_characterId;
+        uint64_t m_characterId{};
         nemesis::hkEnum<CharacterControlCommand, unsigned char> m_command = {
             {"COMMAND_HIDE", 0},
             {"COMMAND_SHOW", 1},
         };
-        int m_padding;
+        int m_padding{};
 
     public:
         hkbCharacterControlCommand() noexcept;

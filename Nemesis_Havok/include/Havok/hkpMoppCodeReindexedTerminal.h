@@ -24,8 +24,8 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpMoppCodeReindexedTerminal);
 
-        unsigned int m_origShapeKey;
-        unsigned int m_reindexedShapeKey;
+        unsigned int m_origShapeKey{};
+        unsigned int m_reindexedShapeKey{};
 
     public:
         hkpMoppCodeReindexedTerminal() noexcept;

@@ -26,8 +26,8 @@ namespace nemesis
 
         nemesis::hkVector4 m_keyframedPosition;
         nemesis::hkQuaternion m_keyframedRotation;
-        short m_boneIndex;
-        bool m_isValid;
+        short m_boneIndex{};
+        bool m_isValid{};
 
     public:
         hkbKeyframeBonesModifierKeyframeInfo() noexcept;

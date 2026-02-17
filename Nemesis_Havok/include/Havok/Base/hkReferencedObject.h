@@ -24,8 +24,8 @@ namespace nemesis
 
         const nemesis::hkClass* RefClass = nullptr;
 
-        unsigned short m_memSizeAndFlags;
-        short m_referenceCount;
+        unsigned short m_memSizeAndFlags{};
+        short m_referenceCount{};
 
     public:
         hkReferencedObject(const nemesis::hkClass& cls) noexcept;

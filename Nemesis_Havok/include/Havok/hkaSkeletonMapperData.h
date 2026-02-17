@@ -36,7 +36,7 @@ namespace nemesis
         nemesis::hkArray<nemesis::hkaSkeletonMapperDataChainMapping> m_chainMappings;
         nemesis::hkArray<short> m_unmappedBones;
         nemesis::hkQsTransform m_extractedMotionMapping;
-        bool m_keepUnmappedLocal;
+        bool m_keepUnmappedLocal{};
         nemesis::hkEnum<MappingType, int> m_mappingType = {
             {"HK_RAGDOLL_MAPPING", 0},
             {"HK_RETARGETING_MAPPING", 1},

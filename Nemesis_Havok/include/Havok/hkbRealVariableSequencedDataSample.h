@@ -24,8 +24,8 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbRealVariableSequencedDataSample);
 
-        float m_time;
-        float m_value;
+        float m_time{};
+        float m_value{};
 
     public:
         hkbRealVariableSequencedDataSample() noexcept;

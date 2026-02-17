@@ -24,8 +24,8 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkpTriSampledHeightFieldCollection);
 
         nemesis::hkRefPtr<nemesis::hkpSampledHeightFieldShape> m_heightfield;
-        int m_childSize;
-        float m_radius;
+        int m_childSize{};
+        float m_radius{};
         nemesis::hkArray<unsigned short> m_weldingInfo;
         nemesis::hkVector4 m_triangleExtrusion;
 

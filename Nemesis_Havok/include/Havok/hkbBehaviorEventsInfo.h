@@ -22,9 +22,9 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbBehaviorEventsInfo);
 
-        uint64_t m_characterId;
+        uint64_t m_characterId{};
         nemesis::hkArray<short> m_externalEventIds;
-        int m_padding;
+        int m_padding{};
 
     public:
         hkbBehaviorEventsInfo() noexcept;

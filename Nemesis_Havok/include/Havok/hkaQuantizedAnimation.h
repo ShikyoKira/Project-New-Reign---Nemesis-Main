@@ -23,7 +23,7 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkaQuantizedAnimation);
 
         nemesis::hkArray<unsigned char> m_data;
-        unsigned int m_endian;
+        unsigned int m_endian{};
         nemesis::hkRefPtr<nemesis::HavokObject> m_skeleton;
 
     public:

@@ -23,9 +23,9 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkbSenseHandleModifierRange);
 
         nemesis::hkbEventProperty m_event;
-        float m_minDistance;
-        float m_maxDistance;
-        bool m_ignoreHandle;
+        float m_minDistance{};
+        float m_maxDistance{};
+        bool m_ignoreHandle{};
 
     public:
         hkbSenseHandleModifierRange() noexcept;

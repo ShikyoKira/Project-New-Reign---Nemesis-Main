@@ -24,17 +24,17 @@ namespace nemesis
 
         using MeasurementMode = nemesis::hkInternalClassEnumItem<unsigned char>;
 
-        unsigned char m_isEnabled;
-        unsigned char m_twistAxisInA;
-        unsigned char m_refAxisInB;
+        unsigned char m_isEnabled{};
+        unsigned char m_twistAxisInA{};
+        unsigned char m_refAxisInB{};
         nemesis::hkEnum<MeasurementMode, unsigned char> m_angleMeasurementMode = {
             {"ZERO_WHEN_VECTORS_ALIGNED", 0},
             {"ZERO_WHEN_VECTORS_PERPENDICULAR", 1},
         };
-        unsigned char m_memOffsetToAngleOffset;
-        float m_minAngle;
-        float m_maxAngle;
-        float m_angularLimitsTauFactor;
+        unsigned char m_memOffsetToAngleOffset{};
+        float m_minAngle{};
+        float m_maxAngle{};
+        float m_angularLimitsTauFactor{};
 
     public:
         hkpConeLimitConstraintAtom() noexcept;

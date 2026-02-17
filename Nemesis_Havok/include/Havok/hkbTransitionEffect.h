@@ -37,7 +37,7 @@ namespace nemesis
             {"EVENT_MODE_IGNORE_FROM_GENERATOR", 2},
             {"EVENT_MODE_IGNORE_TO_GENERATOR", 3},
         };
-        char m_defaultEventMode;
+        char m_defaultEventMode{};
 
     public:
         hkbTransitionEffect() noexcept;

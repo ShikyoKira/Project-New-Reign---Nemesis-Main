@@ -28,7 +28,7 @@ namespace nemesis
 
         nemesis::hkRefPtr<nemesis::HavokObject> m_vertexDataClass;
         nemesis::hkRefPtr<nemesis::HavokObject> m_vertexData;
-        int m_numVertexData;
+        int m_numVertexData{};
         nemesis::hkRefPtr<nemesis::hkxVertexDescription> m_vertexDesc;
         nemesis::hkxVertexBufferVertexData m_data;
         nemesis::hkxVertexDescriptionElementDecl m_desc;

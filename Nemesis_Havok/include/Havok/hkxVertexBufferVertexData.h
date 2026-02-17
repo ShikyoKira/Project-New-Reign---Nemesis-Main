@@ -35,12 +35,12 @@ namespace nemesis
         nemesis::hkArray<unsigned int> m_uint32Data;
         nemesis::hkArray<unsigned short> m_uint16Data;
         nemesis::hkArray<unsigned char> m_uint8Data;
-        unsigned int m_numVerts;
-        unsigned int m_vectorStride;
-        unsigned int m_floatStride;
-        unsigned int m_uint32Stride;
-        unsigned int m_uint16Stride;
-        unsigned int m_uint8Stride;
+        unsigned int m_numVerts{};
+        unsigned int m_vectorStride{};
+        unsigned int m_floatStride{};
+        unsigned int m_uint32Stride{};
+        unsigned int m_uint16Stride{};
+        unsigned int m_uint8Stride{};
 
         static int FloatToInt(float val);
         static float IntToFloat(int val);

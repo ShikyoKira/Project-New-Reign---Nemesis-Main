@@ -27,8 +27,8 @@ namespace nemesis
         nemesis::hkbGeneratorSyncInfo m_syncInfo;
         nemesis::hkStringPtr m_name;
         nemesis::hkRefPtr<nemesis::hkReferencedObject> m_internalState;
-        short m_nodeId;
-        bool m_hasActivateBeenCalled;
+        short m_nodeId{};
+        bool m_hasActivateBeenCalled{};
 
     public:
         hkbNodeInternalStateInfo() noexcept;

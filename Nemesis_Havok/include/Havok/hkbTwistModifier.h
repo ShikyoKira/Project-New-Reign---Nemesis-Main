@@ -26,9 +26,9 @@ namespace nemesis
         using RotationAxisCoordinates = nemesis::hkInternalClassEnumItem<char>;
 
         nemesis::hkVector4 m_axisOfRotation;
-        float m_twistAngle;
-        short m_startBoneIndex;
-        short m_endBoneIndex;
+        float m_twistAngle{};
+        short m_startBoneIndex{};
+        short m_endBoneIndex{};
         nemesis::hkEnum<SetAngleMethod, char> m_setAngleMethod = {
             {"LINEAR", 0},
             {"RAMPED", 1},
@@ -37,7 +37,7 @@ namespace nemesis
             {"ROTATION_AXIS_IN_MODEL_COORDINATES", 0},
             {"ROTATION_AXIS_IN_LOCAL_COORDINATES", 1},
         };
-        bool m_isAdditive;
+        bool m_isAdditive{};
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::HavokObject>> m_boneChainIndices;
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::HavokObject>> m_parentBoneIndices;
 

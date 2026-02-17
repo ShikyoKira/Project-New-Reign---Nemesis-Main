@@ -22,8 +22,8 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpSoftContactModifierConstraintAtom);
 
-        float m_tau;
-        float m_maxAcceleration;
+        float m_tau{};
+        float m_maxAcceleration{};
 
     public:
         hkpSoftContactModifierConstraintAtom() noexcept;

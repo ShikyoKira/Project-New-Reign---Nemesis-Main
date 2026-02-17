@@ -22,8 +22,8 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpLinearParametricCurve);
 
-        float m_smoothingFactor;
-        bool m_closedLoop;
+        float m_smoothingFactor{};
+        bool m_closedLoop{};
         nemesis::hkVector4 m_dirNotParallelToTangentAlongWholePath;
         nemesis::hkArray<nemesis::hkVector4> m_points;
         nemesis::hkArray<float> m_distance;

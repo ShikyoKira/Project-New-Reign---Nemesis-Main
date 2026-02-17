@@ -38,8 +38,8 @@ namespace nemesis
             {"HKX_DU_BLENDINDICES", 128},
             {"HKX_DU_USERDATA", 256},
         };
-        unsigned char m_useIndexOrig;
-        unsigned char m_useIndexLocal;
+        unsigned char m_useIndexOrig{};
+        unsigned char m_useIndexLocal{};
 
     public:
         hkxVertexAnimationUsageMap() noexcept;

@@ -33,7 +33,7 @@ namespace nemesis
         nemesis::hkRefPtr<nemesis::HavokObject> m_sharedEventQueue;
         nemesis::hkRefPtr<nemesis::hkbGeneratorOutputListener> m_generatorOutputListener;
         nemesis::hkRefPtr<nemesis::hkbProjectData> m_projectData;
-        bool m_eventTriggeredTransition;
+        bool m_eventTriggeredTransition{};
         nemesis::hkRefPtr<nemesis::HavokObject> m_world;
         nemesis::hkRefPtr<nemesis::HavokObject> m_attachmentManager;
         nemesis::hkRefPtr<nemesis::HavokObject> m_animationCache;

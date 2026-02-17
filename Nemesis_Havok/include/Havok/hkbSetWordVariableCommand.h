@@ -27,8 +27,8 @@ namespace nemesis
         using VariableType = nemesis::hkInternalClassEnumItem<unsigned char>;
 
         nemesis::hkVector4 m_quadValue;
-        uint64_t m_characterId;
-        int m_variableId;
+        uint64_t m_characterId{};
+        int m_variableId{};
         nemesis::hkbVariableValue m_value;
         nemesis::hkEnum<VariableType, unsigned char> m_type = {
             {"VARIABLE_TYPE_INVALID", -1},
@@ -42,7 +42,7 @@ namespace nemesis
             {"VARIABLE_TYPE_VECTOR4", 7},
             {"VARIABLE_TYPE_QUATERNION", 8},
         };
-        bool m_global;
+        bool m_global{};
 
     public:
         hkbSetWordVariableCommand() noexcept;

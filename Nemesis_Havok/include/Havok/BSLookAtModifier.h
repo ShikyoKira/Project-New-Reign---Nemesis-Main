@@ -25,24 +25,24 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(BSLookAtModifier);
 
-        bool m_lookAtTarget;
+        bool m_lookAtTarget{};
         nemesis::hkArray<nemesis::BSLookAtModifierBoneData> m_bones;
         nemesis::hkArray<nemesis::BSLookAtModifierBoneData> m_eyeBones;
-        float m_limitAngleDegrees;
-        float m_limitAngleThresholdDegrees;
-        bool m_continueLookOutsideOfLimit;
-        float m_onGain;
-        float m_offGain;
-        bool m_useBoneGains;
+        float m_limitAngleDegrees{};
+        float m_limitAngleThresholdDegrees{};
+        bool m_continueLookOutsideOfLimit{};
+        float m_onGain{};
+        float m_offGain{};
+        bool m_useBoneGains{};
         nemesis::hkVector4 m_targetLocation;
-        bool m_targetOutsideLimits;
+        bool m_targetOutsideLimits{};
         nemesis::hkbEventProperty m_targetOutOfLimitEvent;
-        bool m_lookAtCamera;
-        float m_lookAtCameraX;
-        float m_lookAtCameraY;
-        float m_lookAtCameraZ;
-        float m_timeStep;
-        bool m_ballBonesValid;
+        bool m_lookAtCamera{};
+        float m_lookAtCameraX{};
+        float m_lookAtCameraY{};
+        float m_lookAtCameraZ{};
+        float m_timeStep{};
+        bool m_ballBonesValid{};
         nemesis::hkRefPtr<nemesis::HavokObject> m_pSkeletonMemory;
 
     public:

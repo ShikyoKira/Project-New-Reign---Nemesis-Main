@@ -25,10 +25,10 @@ namespace nemesis
         nemesis::hkVector4 m_from;
         nemesis::hkVector4 m_focus;
         nemesis::hkVector4 m_up;
-        float m_fov;
-        float m_far;
-        float m_near;
-        bool m_leftHanded;
+        float m_fov{};
+        float m_far{};
+        float m_near{};
+        bool m_leftHanded{};
 
     public:
         hkxCamera() noexcept;

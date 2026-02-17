@@ -29,7 +29,7 @@ namespace nemesis
 
         nemesis::hkpBridgeAtoms m_atoms;
         nemesis::hkRefPtr<nemesis::hkpParametricCurve> m_path;
-        float m_maxFrictionForce;
+        float m_maxFrictionForce{};
         nemesis::hkEnum<OrientationConstraintType, char> m_angularConstrainedDOF = {
             {"CONSTRAIN_ORIENTATION_INVALID", 0},
             {"CONSTRAIN_ORIENTATION_NONE", 1},

@@ -22,10 +22,10 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbDelayedModifier);
 
-        float m_delaySeconds;
-        float m_durationSeconds;
-        float m_secondsElapsed;
-        bool m_isActive;
+        float m_delaySeconds{};
+        float m_durationSeconds{};
+        float m_secondsElapsed{};
+        bool m_isActive{};
 
     public:
         hkbDelayedModifier() noexcept;

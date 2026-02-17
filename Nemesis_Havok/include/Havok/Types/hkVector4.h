@@ -9,8 +9,8 @@ namespace nemesis
 	struct hkVector4 : nemesis::hkVariant
 	{
     private:
-        float X; // align 16
-        float Y, Z, W;
+        float X{}; // align 16
+        float Y{}, Z{}, W{};
 
 	public:
         hkVector4() noexcept;

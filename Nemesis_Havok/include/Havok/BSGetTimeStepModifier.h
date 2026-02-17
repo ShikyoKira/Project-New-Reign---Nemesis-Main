@@ -22,7 +22,7 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(BSGetTimeStepModifier);
 
-        float m_timeStep;
+        float m_timeStep{};
 
     public:
         BSGetTimeStepModifier() noexcept;

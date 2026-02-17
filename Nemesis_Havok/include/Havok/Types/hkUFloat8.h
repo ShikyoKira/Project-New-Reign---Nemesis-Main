@@ -31,7 +31,7 @@ namespace nemesis
             DECODE_EXPONENT_BIAS  = (ENCODED_EXPONENT_BIAS << (FLOAT_MANTISSA_BITS - ENCODE_MANTISSA_SHIFT)),
         };
 
-        unsigned char m_value;
+        unsigned char m_value{};
 
     public:
         hkUFloat8() = default;

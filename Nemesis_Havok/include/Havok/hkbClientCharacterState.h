@@ -31,7 +31,7 @@ namespace nemesis
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::hkbAuxiliaryNodeInfo>> m_auxiliaryInfo;
         nemesis::hkArray<short> m_activeEventIds;
         nemesis::hkArray<short> m_activeVariableIds;
-        uint64_t m_characterId;
+        uint64_t m_characterId{};
         nemesis::hkStringPtr m_instanceName;
         nemesis::hkStringPtr m_templateName;
         nemesis::hkStringPtr m_fullPathToProject;
@@ -40,8 +40,8 @@ namespace nemesis
         nemesis::hkRefPtr<nemesis::hkbBehaviorGraphData> m_behaviorData;
         nemesis::hkRefPtr<nemesis::hkbBehaviorGraphInternalState> m_behaviorInternalState;
         nemesis::hkRefPtr<nemesis::HavokObject> m_nodeIdToInternalStateMap;
-        bool m_visible;
-        float m_elapsedSimulationTime;
+        bool m_visible{};
+        float m_elapsedSimulationTime{};
         nemesis::hkRefPtr<nemesis::hkaSkeleton> m_skeleton;
         nemesis::hkQsTransform m_worldFromModel;
         nemesis::hkArray<nemesis::hkQsTransform> m_poseModelSpace;

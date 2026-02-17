@@ -22,10 +22,10 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbExtractRagdollPoseModifier);
 
-        short m_poseMatchingBone0;
-        short m_poseMatchingBone1;
-        short m_poseMatchingBone2;
-        bool m_enableComputeWorldFromModel;
+        short m_poseMatchingBone0{};
+        short m_poseMatchingBone1{};
+        short m_poseMatchingBone2{};
+        bool m_enableComputeWorldFromModel{};
 
     public:
         hkbExtractRagdollPoseModifier() noexcept;

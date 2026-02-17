@@ -24,10 +24,10 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkaSkeletonMapperDataChainMapping);
 
-        short m_startBoneA;
-        short m_endBoneA;
-        short m_startBoneB;
-        short m_endBoneB;
+        short m_startBoneA{};
+        short m_endBoneA{};
+        short m_startBoneB{};
+        short m_endBoneB{};
         nemesis::hkQsTransform m_startAFromBTransform;
         nemesis::hkQsTransform m_endAFromBTransform;
 

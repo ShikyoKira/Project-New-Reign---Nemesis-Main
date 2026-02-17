@@ -27,11 +27,11 @@ namespace nemesis
 
         nemesis::hkpBridgeAtoms m_atoms;
         nemesis::hkArray<nemesis::hkpBallSocketChainDataConstraintInfo> m_infos;
-        float m_tau;
-        float m_damping;
-        float m_cfm;
-        float m_maxErrorDistance;
-        bool m_useStabilizedCode;
+        float m_tau{};
+        float m_damping{};
+        float m_cfm{};
+        float m_maxErrorDistance{};
+        bool m_useStabilizedCode{};
 
     public:
         hkpBallSocketChainData() noexcept;

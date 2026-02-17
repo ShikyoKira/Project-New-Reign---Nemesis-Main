@@ -22,7 +22,7 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbCharacterSkinInfo);
 
-        uint64_t m_characterId;
+        uint64_t m_characterId{};
         nemesis::hkArray<uint64_t> m_skinIds;
         nemesis::hkArray<uint64_t> m_deformableSkins;
         nemesis::hkArray<uint64_t> m_rigidSkins;

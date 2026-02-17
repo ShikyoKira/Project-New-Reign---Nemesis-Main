@@ -26,8 +26,8 @@ namespace nemesis
 
         nemesis::hkEventId m_enterEventId;
         nemesis::hkEventId m_exitEventId;
-        float m_enterTime;
-        float m_exitTime;
+        float m_enterTime{};
+        float m_exitTime{};
 
     public:
         hkbStateMachineTimeInterval() noexcept;

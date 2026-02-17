@@ -24,7 +24,7 @@ namespace nemesis
 
         nemesis::hkRefPtr<nemesis::hkbVariableBindingSet> m_variableBindingSet;
         nemesis::hkArray<nemesis::HavokObject> m_cachedBindables;
-        bool m_areBindablesCached;
+        bool m_areBindablesCached{};
 
     public:
         hkbBindable(const nemesis::hkClass& cls) noexcept;

@@ -22,10 +22,10 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpTypedBroadPhaseHandle);
 
-        char m_type;
-        char m_ownerOffset;
-        char m_objectQualityType;
-        unsigned int m_collisionFilterInfo;
+        char m_type{};
+        char m_ownerOffset{};
+        char m_objectQualityType{};
+        unsigned int m_collisionFilterInfo{};
 
     public:
         hkpTypedBroadPhaseHandle() noexcept;

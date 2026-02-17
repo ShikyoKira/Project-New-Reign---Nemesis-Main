@@ -22,8 +22,8 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbTestStateChooser);
 
-        int m_int;
-        float m_real;
+        int m_int{};
+        float m_real{};
         nemesis::hkStringPtr m_string;
 
     public:

@@ -30,8 +30,8 @@ namespace nemesis
         nemesis::hkRefPtr<nemesis::hkpConstraintInstance> m_constraint;
         std::array<nemesis::hkRefPtr<nemesis::hkpEntity>, 2> m_entities;
         nemesis::hkRefPtr<nemesis::hkpConstraintAtom> m_atoms;
-        unsigned short m_atomsSize;
-        unsigned char m_callbackRequest;
+        unsigned short m_atomsSize{};
+        unsigned char m_callbackRequest{};
         nemesis::hkEnum<ConstraintPriority, unsigned char> m_priority = {
             {"PRIORITY_INVALID", 0},
             {"PRIORITY_PSI", 1},
@@ -41,18 +41,18 @@ namespace nemesis
             {"PRIORITY_TOI_FORCED", 5},
             {"NUM_PRIORITIES", 6},
         };
-        unsigned short m_sizeOfSchemas;
-        unsigned short m_numSolverResults;
-        unsigned short m_numSolverElemTemps;
-        unsigned char m_whoIsMaster;
+        unsigned short m_sizeOfSchemas{};
+        unsigned short m_numSolverResults{};
+        unsigned short m_numSolverElemTemps{};
+        unsigned char m_whoIsMaster{};
         nemesis::hkEnum<InstanceType, unsigned char> m_constraintType = {
             {"TYPE_NORMAL", 0},
             {"TYPE_CHAIN", 1},
             {"TYPE_DISABLE_SPU", 2},
         };
         nemesis::hkRefPtr<nemesis::HavokObject> m_runtime;
-        unsigned short m_runtimeSize;
-        unsigned short m_slaveIndex;
+        unsigned short m_runtimeSize{};
+        unsigned short m_slaveIndex{};
 
     public:
         hkConstraintInternal() noexcept;

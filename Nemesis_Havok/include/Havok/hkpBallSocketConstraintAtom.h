@@ -28,11 +28,11 @@ namespace nemesis
             {"METHOD_STABILIZED", 0},
             {"METHOD_OLD", 1},
         };
-        unsigned char m_bodiesToNotify;
+        unsigned char m_bodiesToNotify{};
         nemesis::hkUFloat8 m_velocityStabilizationFactor;
-        bool m_enableLinearImpulseLimit;
-        float m_maxImpulse;
-        float m_inertiaStabilizationFactor;
+        bool m_enableLinearImpulseLimit{};
+        float m_maxImpulse{};
+        float m_inertiaStabilizationFactor{};
 
     public:
         hkpBallSocketConstraintAtom() noexcept;

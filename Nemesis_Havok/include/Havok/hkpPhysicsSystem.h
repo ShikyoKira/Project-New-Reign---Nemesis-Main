@@ -34,7 +34,7 @@ namespace nemesis
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::hkpPhantom>> m_phantoms;
         nemesis::hkStringPtr m_name;
         nemesis::hkUlong m_userData;
-        bool m_active;
+        bool m_active{};
 
     public:
         hkpPhysicsSystem() noexcept;

@@ -24,7 +24,7 @@ namespace nemesis
 
         nemesis::hkQuaternion m_rotationOut;
         nemesis::hkVector4 m_axis;
-        float m_angleDegrees;
+        float m_angleDegrees{};
 
     public:
         hkbComputeRotationFromAxisAngleModifier() noexcept;

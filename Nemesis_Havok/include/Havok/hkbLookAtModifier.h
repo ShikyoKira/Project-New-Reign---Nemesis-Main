@@ -27,21 +27,21 @@ namespace nemesis
         nemesis::hkVector4 m_neckForwardLS;
         nemesis::hkVector4 m_neckRightLS;
         nemesis::hkVector4 m_eyePositionHS;
-        float m_newTargetGain;
-        float m_onGain;
-        float m_offGain;
-        float m_limitAngleDegrees;
-        float m_limitAngleLeft;
-        float m_limitAngleRight;
-        float m_limitAngleUp;
-        float m_limitAngleDown;
-        short m_headIndex;
-        short m_neckIndex;
-        bool m_isOn;
-        bool m_individualLimitsOn;
-        bool m_isTargetInsideLimitCone;
+        float m_newTargetGain{};
+        float m_onGain{};
+        float m_offGain{};
+        float m_limitAngleDegrees{};
+        float m_limitAngleLeft{};
+        float m_limitAngleRight{};
+        float m_limitAngleUp{};
+        float m_limitAngleDown{};
+        short m_headIndex{};
+        short m_neckIndex{};
+        bool m_isOn{};
+        bool m_individualLimitsOn{};
+        bool m_isTargetInsideLimitCone{};
         nemesis::hkVector4 m_lookAtLastTargetWS;
-        float m_lookAtWeight;
+        float m_lookAtWeight{};
 
     public:
         hkbLookAtModifier() noexcept;

@@ -24,18 +24,18 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbFootIkGains);
 
-        float m_onOffGain;
-        float m_groundAscendingGain;
-        float m_groundDescendingGain;
-        float m_footPlantedGain;
-        float m_footRaisedGain;
-        float m_footUnlockGain;
-        float m_worldFromModelFeedbackGain;
-        float m_errorUpDownBias;
-        float m_alignWorldFromModelGain;
-        float m_hipOrientationGain;
-        float m_maxKneeAngleDifference;
-        float m_ankleOrientationGain;
+        float m_onOffGain{};
+        float m_groundAscendingGain{};
+        float m_groundDescendingGain{};
+        float m_footPlantedGain{};
+        float m_footRaisedGain{};
+        float m_footUnlockGain{};
+        float m_worldFromModelFeedbackGain{};
+        float m_errorUpDownBias{};
+        float m_alignWorldFromModelGain{};
+        float m_hipOrientationGain{};
+        float m_maxKneeAngleDifference{};
+        float m_ankleOrientationGain{};
 
     public:
         hkbFootIkGains() noexcept;

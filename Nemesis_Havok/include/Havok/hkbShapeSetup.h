@@ -26,8 +26,8 @@ namespace nemesis
 
         using ShapeType = nemesis::hkInternalClassEnumItem<char>;
 
-        float m_capsuleHeight;
-        float m_capsuleRadius;
+        float m_capsuleHeight{};
+        float m_capsuleRadius{};
         nemesis::hkStringPtr m_fileName;
         nemesis::hkEnum<ShapeType, char> m_type = {
             {"CAPSULE", 0},

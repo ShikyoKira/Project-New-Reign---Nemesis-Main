@@ -26,16 +26,16 @@ namespace nemesis
     private:
         using hkpAgentNnTrackType = nemesis::hkInternalClassEnumItem<unsigned char>;
 
-        std::array<unsigned short, 2> m_agentIndexOnCollidable;
+        std::array<unsigned short, 2> m_agentIndexOnCollidable{};
         nemesis::hkRefPtr<nemesis::hkpContactMgr> m_contactMgr;
-        unsigned char m_collisionQualityIndex;
-        unsigned char m_forceCollideOntoPpu;
+        unsigned char m_collisionQualityIndex{};
+        unsigned char m_forceCollideOntoPpu{};
         nemesis::hkEnum<hkpAgentNnTrackType, unsigned char> m_nnTrackType = {
             {"HK_AGENT3_INVALID_TRACK", 0},
             {"HK_AGENT3_MIDPHASE_TRACK", 1},
             {"HK_AGENT3_NARROWPHASE_TRACK", 2},
         };
-        unsigned char m_padding;
+        unsigned char m_padding{};
         std::array<nemesis::hkRefPtr<nemesis::hkpLinkedCollidable>, 2> m_collidable;
 
     public:

@@ -24,11 +24,11 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkpListShape);
 
         nemesis::hkArray<nemesis::hkpListShapeChildInfo> m_childInfo;
-        unsigned short m_flags;
-        unsigned short m_numDisabledChildren;
+        unsigned short m_flags{};
+        unsigned short m_numDisabledChildren{};
         nemesis::hkVector4 m_aabbHalfExtents;
         nemesis::hkVector4 m_aabbCenter;
-        std::array<unsigned int, 8> m_enabledChildren;
+        std::array<unsigned int, 8> m_enabledChildren{};
 
     public:
         hkpListShape() noexcept;

@@ -26,7 +26,7 @@ namespace nemesis
 
         nemesis::hkArray<nemesis::hkbCompiledExpressionSetToken> m_rpn;
         nemesis::hkArray<int> m_expressionToRpnIndex;
-        char m_numExpressions;
+        char m_numExpressions{};
 
     public:
         hkbCompiledExpressionSet() noexcept;

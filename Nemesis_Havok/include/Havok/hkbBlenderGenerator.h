@@ -22,22 +22,22 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbBlenderGenerator);
 
-        float m_referencePoseWeightThreshold;
-        float m_blendParameter;
-        float m_minCyclicBlendParameter;
-        float m_maxCyclicBlendParameter;
-        short m_indexOfSyncMasterChild;
-        short m_flags;
-        bool m_subtractLastChild;
+        float m_referencePoseWeightThreshold{};
+        float m_blendParameter{};
+        float m_minCyclicBlendParameter{};
+        float m_maxCyclicBlendParameter{};
+        short m_indexOfSyncMasterChild{};
+        short m_flags{};
+        bool m_subtractLastChild{};
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::hkbBlenderGeneratorChild>> m_children;
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::HavokObject>> m_childrenInternalStates;
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::HavokObject>> m_sortedChildren;
-        float m_endIntervalWeight;
-        int m_numActiveChildren;
-        short m_beginIntervalIndex;
-        short m_endIntervalIndex;
-        bool m_initSync;
-        bool m_doSubtractiveBlend;
+        float m_endIntervalWeight{};
+        int m_numActiveChildren{};
+        short m_beginIntervalIndex{};
+        short m_endIntervalIndex{};
+        bool m_initSync{};
+        bool m_doSubtractiveBlend{};
 
     public:
         hkbBlenderGenerator() noexcept;

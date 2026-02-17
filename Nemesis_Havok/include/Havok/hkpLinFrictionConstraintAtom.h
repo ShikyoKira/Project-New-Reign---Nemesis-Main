@@ -22,9 +22,9 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpLinFrictionConstraintAtom);
 
-        unsigned char m_isEnabled;
-        unsigned char m_frictionAxis;
-        float m_maxFrictionForce;
+        unsigned char m_isEnabled{};
+        unsigned char m_frictionAxis{};
+        float m_maxFrictionForce{};
 
     public:
         hkpLinFrictionConstraintAtom() noexcept;

@@ -24,10 +24,10 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkGeometryTriangle);
 
-        int m_a;
-        int m_b;
-        int m_c;
-        int m_material;
+        int m_a{};
+        int m_b{};
+        int m_c{};
+        int m_material{};
 
     public:
         hkGeometryTriangle() noexcept;

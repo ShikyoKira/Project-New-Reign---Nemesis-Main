@@ -25,7 +25,7 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkaBone);
 
         nemesis::hkStringPtr m_name;
-        bool m_lockTranslation;
+        bool m_lockTranslation{};
 
     public:
         hkaBone() noexcept;

@@ -23,7 +23,7 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkbEventSequencedDataSequencedEvent);
 
         nemesis::hkbEvent m_event;
-        float m_time;
+        float m_time{};
 
     public:
         hkbEventSequencedDataSequencedEvent() noexcept;

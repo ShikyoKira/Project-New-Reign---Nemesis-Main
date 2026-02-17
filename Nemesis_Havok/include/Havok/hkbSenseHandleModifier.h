@@ -34,12 +34,12 @@ namespace nemesis
         nemesis::hkRefPtr<nemesis::hkbHandle> m_handleIn;
         nemesis::hkStringPtr m_localFrameName;
         nemesis::hkStringPtr m_sensorLocalFrameName;
-        float m_minDistance;
-        float m_maxDistance;
-        float m_distanceOut;
-        unsigned int m_collisionFilterInfo;
-        short m_sensorRagdollBoneIndex;
-        short m_sensorAnimationBoneIndex;
+        float m_minDistance{};
+        float m_maxDistance{};
+        float m_distanceOut{};
+        unsigned int m_collisionFilterInfo{};
+        short m_sensorRagdollBoneIndex{};
+        short m_sensorAnimationBoneIndex{};
         nemesis::hkEnum<SensingMode, char> m_sensingMode = {
             {"SENSE_IN_NEARBY_RIGID_BODIES", 0},
             {"SENSE_IN_RIGID_BODIES_OUTSIDE_THIS_CHARACTER", 1},
@@ -52,11 +52,11 @@ namespace nemesis
             {"SENSE_IN_GIVEN_CHARACTER_SKELETON", 8},
             {"SENSE_IN_GIVEN_LOCAL_FRAME_GROUP", 9},
         };
-        bool m_extrapolateSensorPosition;
-        bool m_keepFirstSensedHandle;
-        bool m_foundHandleOut;
-        float m_timeSinceLastModify;
-        int m_rangeIndexForEventToSendNextUpdate;
+        bool m_extrapolateSensorPosition{};
+        bool m_keepFirstSensedHandle{};
+        bool m_foundHandleOut{};
+        float m_timeSinceLastModify{};
+        int m_rangeIndexForEventToSendNextUpdate{};
 
     public:
         hkbSenseHandleModifier() noexcept;

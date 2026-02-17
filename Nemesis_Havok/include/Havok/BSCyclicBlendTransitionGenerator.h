@@ -29,8 +29,8 @@ namespace nemesis
         nemesis::hkRefPtr<nemesis::hkbGenerator> m_pBlenderGenerator; // align 16
         nemesis::hkbEventProperty m_EventToFreezeBlendValue;
         nemesis::hkbEventProperty m_EventToCrossBlend;
-        float m_fBlendParameter;
-        float m_fTransitionDuration;
+        float m_fBlendParameter                         = 0.0f;
+        float m_fTransitionDuration                     = 0.0f;
         nemesis::hkEnum<BlendCurve, char> m_eBlendCurve = {
             {"BLEND_CURVE_SMOOTH", 0},
             {"BLEND_CURVE_LINEAR", 1},
@@ -39,7 +39,7 @@ namespace nemesis
         };
         nemesis::hkRefPtr<nemesis::HavokObject> m_pTransitionBlenderGenerator; // align 16
         nemesis::hkRefPtr<nemesis::HavokObject> m_pTransitionEffect;           // align 16
-        char m_currentMode;
+        char m_currentMode = '\0';
 
     public:
         BSCyclicBlendTransitionGenerator() noexcept;

@@ -23,14 +23,14 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkbGetUpModifier);
 
         nemesis::hkVector4 m_groundNormal;
-        float m_duration;
-        float m_alignWithGroundDuration;
-        short m_rootBoneIndex;
-        short m_otherBoneIndex;
-        short m_anotherBoneIndex;
-        float m_timeSinceBegin;
-        float m_timeStep;
-        bool m_initNextModify;
+        float m_duration{};
+        float m_alignWithGroundDuration{};
+        short m_rootBoneIndex{};
+        short m_otherBoneIndex{};
+        short m_anotherBoneIndex{};
+        float m_timeSinceBegin{};
+        float m_timeStep{};
+        bool m_initNextModify{};
 
     public:
         hkbGetUpModifier() noexcept;

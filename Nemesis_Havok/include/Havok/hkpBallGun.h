@@ -22,11 +22,11 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpBallGun);
 
-        float m_bulletRadius;
-        float m_bulletVelocity;
-        float m_bulletMass;
-        float m_damageMultiplier;
-        int m_maxBulletsInWorld;
+        float m_bulletRadius{};
+        float m_bulletVelocity{};
+        float m_bulletMass{};
+        float m_damageMultiplier{};
+        int m_maxBulletsInWorld{};
         nemesis::hkVector4 m_bulletOffsetFromCenter;
         nemesis::hkRefPtr<nemesis::HavokObject> m_addedBodies;
 

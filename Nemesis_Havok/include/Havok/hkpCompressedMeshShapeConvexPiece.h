@@ -28,8 +28,8 @@ namespace nemesis
         nemesis::hkArray<unsigned short> m_vertices;
         nemesis::hkArray<unsigned char> m_faceVertices;
         nemesis::hkArray<unsigned short> m_faceOffsets;
-        unsigned short m_reference;
-        unsigned short m_transformIndex;
+        unsigned short m_reference{};
+        unsigned short m_transformIndex{};
 
     public:
         hkpCompressedMeshShapeConvexPiece() noexcept;

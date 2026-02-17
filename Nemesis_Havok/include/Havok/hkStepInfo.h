@@ -24,10 +24,10 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkStepInfo);
 
-        float m_startTime;
-        float m_endTime;
-        float m_deltaTime;
-        float m_invDeltaTime;
+        float m_startTime{};
+        float m_endTime{};
+        float m_deltaTime{};
+        float m_invDeltaTime{};
 
     public:
         hkStepInfo() noexcept;

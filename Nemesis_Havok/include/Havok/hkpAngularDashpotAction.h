@@ -23,8 +23,8 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkpAngularDashpotAction);
 
         nemesis::hkQuaternion m_rotation;
-        float m_strength;
-        float m_damping;
+        float m_strength{};
+        float m_damping{};
 
     public:
         hkpAngularDashpotAction() noexcept;

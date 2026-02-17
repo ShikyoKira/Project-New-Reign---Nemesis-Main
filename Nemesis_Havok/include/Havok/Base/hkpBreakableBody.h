@@ -23,7 +23,7 @@ namespace nemesis
     private:
         nemesis::hkRefPtr<nemesis::hkpBreakableBodyController> m_controller;
         nemesis::hkRefPtr<nemesis::hkpBreakableShape> m_breakableShape;
-        unsigned char m_bodyTypeAndFlags;
+        unsigned char m_bodyTypeAndFlags{};
         nemesis::hkHalf m_constraintStrength;
 
     public:

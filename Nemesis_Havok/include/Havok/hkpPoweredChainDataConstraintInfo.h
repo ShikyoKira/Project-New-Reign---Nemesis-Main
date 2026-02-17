@@ -27,7 +27,7 @@ namespace nemesis
         nemesis::hkQuaternion m_aTc;
         nemesis::hkQuaternion m_bTc;
         std::array<nemesis::hkRefPtr<nemesis::hkpConstraintMotor>, 3> m_motors;
-        bool m_switchBodies;
+        bool m_switchBodies{};
 
     public:
         hkpPoweredChainDataConstraintInfo() noexcept;

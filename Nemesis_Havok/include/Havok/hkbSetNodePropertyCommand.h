@@ -24,11 +24,11 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbSetNodePropertyCommand);
 
-        uint64_t m_characterId;
+        uint64_t m_characterId{};
         nemesis::hkStringPtr m_nodeName;
         nemesis::hkStringPtr m_propertyName;
         nemesis::hkbVariableValue m_propertyValue;
-        int m_padding;
+        int m_padding{};
 
     public:
         hkbSetNodePropertyCommand() noexcept;

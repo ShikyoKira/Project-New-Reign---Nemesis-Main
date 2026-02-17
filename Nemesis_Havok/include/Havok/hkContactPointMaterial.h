@@ -26,9 +26,9 @@ namespace nemesis
 
         nemesis::hkUlong m_userData;
         nemesis::hkUFloat8 m_friction;
-        unsigned char m_restitution;
+        unsigned char m_restitution{};
         nemesis::hkUFloat8 m_maxImpulse;
-        unsigned char m_flags;
+        unsigned char m_flags{};
 
     public:
         hkContactPointMaterial() noexcept;

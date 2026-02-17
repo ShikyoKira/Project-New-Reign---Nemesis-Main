@@ -22,11 +22,11 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbEventRaisedInfo);
 
-        uint64_t m_characterId;
+        uint64_t m_characterId{};
         nemesis::hkStringPtr m_eventName;
-        bool m_raisedBySdk;
-        int m_senderId;
-        int m_padding;
+        bool m_raisedBySdk{};
+        int m_senderId{};
+        int m_padding{};
 
     public:
         hkbEventRaisedInfo() noexcept;

@@ -22,9 +22,9 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbCharacterDataCharacterControllerInfo);
 
-        float m_capsuleHeight;
-        float m_capsuleRadius;
-        unsigned int m_collisionFilterInfo;
+        float m_capsuleHeight{};
+        float m_capsuleRadius{};
+        unsigned int m_collisionFilterInfo{};
         nemesis::hkRefPtr<nemesis::hkpCharacterControllerCinfo> m_characterControllerCinfo;
 
     public:

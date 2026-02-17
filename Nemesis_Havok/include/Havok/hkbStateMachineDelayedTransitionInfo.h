@@ -23,9 +23,9 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkbStateMachineDelayedTransitionInfo);
 
         nemesis::hkbStateMachineProspectiveTransitionInfo m_delayedTransition;
-        float m_timeDelayed;
-        bool m_isDelayedTransitionReturnToPreviousState;
-        bool m_wasInAbutRangeLastFrame;
+        float m_timeDelayed{};
+        bool m_isDelayedTransitionReturnToPreviousState{};
+        bool m_wasInAbutRangeLastFrame{};
 
     public:
         hkbStateMachineDelayedTransitionInfo() noexcept;

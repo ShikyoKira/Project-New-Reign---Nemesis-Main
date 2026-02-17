@@ -22,7 +22,7 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpBreakableBodyController);
 
-        float m_breakingImpulse;
+        float m_breakingImpulse{};
 
     public:
         hkpBreakableBodyController() noexcept;

@@ -39,13 +39,13 @@ namespace nemesis
             {"MOTION_MODE_FOLLOW_ANIMATION", 0},
             {"MOTION_MODE_DYNAMIC", 1},
         };
-        bool m_forceDownwardMomentum;
-        bool m_applyGravity;
-        bool m_setInitialVelocity;
-        bool m_isTouchingGround;
+        bool m_forceDownwardMomentum{};
+        bool m_applyGravity{};
+        bool m_setInitialVelocity{};
+        bool m_isTouchingGround{};
         nemesis::hkVector4 m_gravity;
-        float m_timestep;
-        bool m_isInitialVelocityAdded;
+        float m_timestep{};
+        bool m_isInitialVelocityAdded{};
 
     public:
         hkbCharacterControllerModifier() noexcept;

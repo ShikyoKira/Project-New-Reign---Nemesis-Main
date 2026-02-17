@@ -25,7 +25,7 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(BSIStateManagerModifier);
 
-        int m_iStateVar;
+        int m_iStateVar{};
         nemesis::hkArray<nemesis::BSIStateManagerModifierBSiStateData> m_stateData;
         nemesis::BSIStateManagerModifierBSIStateManagerStateListener m_myStateListener;
 

@@ -27,16 +27,16 @@ namespace nemesis
         using ExpressionEventMode = nemesis::hkInternalClassEnumItem<char>;
 
         nemesis::hkStringPtr m_expression;
-        int m_assignmentVariableIndex;
-        int m_assignmentEventIndex;
+        int m_assignmentVariableIndex{};
+        int m_assignmentEventIndex{};
         nemesis::hkEnum<ExpressionEventMode, char> m_eventMode = {
             {"EVENT_MODE_SEND_ONCE", 0},
             {"EVENT_MODE_SEND_ON_TRUE", 1},
             {"EVENT_MODE_SEND_ON_FALSE_TO_TRUE", 2},
             {"EVENT_MODE_SEND_EVERY_FRAME_ONCE_TRUE", 3},
         };
-        bool m_raisedEvent;
-        bool m_wasTrueInPreviousFrame;
+        bool m_raisedEvent{};
+        bool m_wasTrueInPreviousFrame{};
 
     public:
         hkbExpressionData() noexcept;

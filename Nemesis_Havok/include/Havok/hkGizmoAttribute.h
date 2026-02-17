@@ -26,7 +26,7 @@ namespace nemesis
 
         using GizmoType = nemesis::hkInternalClassEnumItem<char>;
 
-        bool m_visible;
+        bool m_visible{};
         nemesis::hkCString m_label;
         nemesis::hkEnum<GizmoType, char> m_type = {
             {"POINT", 0},

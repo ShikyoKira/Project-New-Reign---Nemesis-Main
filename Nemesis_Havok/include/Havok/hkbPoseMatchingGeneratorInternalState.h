@@ -22,11 +22,11 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbPoseMatchingGeneratorInternalState);
 
-        int m_currentMatch;
-        int m_bestMatch;
-        float m_timeSinceBetterMatch;
-        float m_error;
-        bool m_resetCurrentMatchLocalTime;
+        int m_currentMatch{};
+        int m_bestMatch{};
+        float m_timeSinceBetterMatch{};
+        float m_error{};
+        bool m_resetCurrentMatchLocalTime{};
 
     public:
         hkbPoseMatchingGeneratorInternalState() noexcept;

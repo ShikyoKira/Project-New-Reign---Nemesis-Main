@@ -24,7 +24,7 @@ namespace nemesis
 
         nemesis::hkVector4 m_up;
         nemesis::hkVector4 m_forward;
-        float m_duration;
+        float m_duration{};
         nemesis::hkArray<nemesis::hkVector4> m_referenceFrameSamples;
 
     public:

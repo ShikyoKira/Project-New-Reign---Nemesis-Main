@@ -22,7 +22,7 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbMoveCharacterModifierInternalState);
 
-        float m_timeSinceLastModify;
+        float m_timeSinceLastModify{};
 
     public:
         hkbMoveCharacterModifierInternalState() noexcept;

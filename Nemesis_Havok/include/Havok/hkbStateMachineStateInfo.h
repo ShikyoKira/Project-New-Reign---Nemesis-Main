@@ -36,9 +36,9 @@ namespace nemesis
         nemesis::hkRefPtr<nemesis::hkbStateMachineTransitionInfoArray> m_transitions;
         nemesis::hkRefPtr<nemesis::hkbGenerator> m_generator;
         nemesis::hkStringPtr m_name;
-        int m_stateId;
-        float m_probability;
-        bool m_enable;
+        int m_stateId{};
+        float m_probability{};
+        bool m_enable{};
 
     public:
         hkbStateMachineStateInfo() noexcept;

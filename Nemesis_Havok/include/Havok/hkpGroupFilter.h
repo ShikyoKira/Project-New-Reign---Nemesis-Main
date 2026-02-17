@@ -22,8 +22,8 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpGroupFilter);
 
-        int m_nextFreeSystemGroup;
-        std::array<unsigned int, 32> m_collisionLookupTable;
+        int m_nextFreeSystemGroup{};
+        std::array<unsigned int, 32> m_collisionLookupTable{};
         std::array<nemesis::hkVector4, 4> m_pad256;
 
     public:

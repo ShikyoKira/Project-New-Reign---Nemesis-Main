@@ -22,10 +22,10 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(BSSpeedSamplerModifier);
 
-        int m_state;
-        float m_direction;
-        float m_goalSpeed;
-        float m_speedOut;
+        int m_state{};
+        float m_direction{};
+        float m_goalSpeed{};
+        float m_speedOut{};
 
     public:
         BSSpeedSamplerModifier() noexcept;

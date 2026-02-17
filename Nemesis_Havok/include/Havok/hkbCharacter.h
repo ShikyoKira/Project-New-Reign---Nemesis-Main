@@ -28,8 +28,8 @@ namespace nemesis
 
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::hkbCharacter>> m_nearbyCharacters;
         nemesis::hkUlong m_userData;
-        short m_currentLod;
-        short m_numTracksInLod;
+        short m_currentLod{};
+        short m_numTracksInLod{};
         nemesis::hkStringPtr m_name;
         nemesis::hkRefPtr<nemesis::HavokObject> m_ragdollDriver;
         nemesis::hkRefPtr<nemesis::HavokObject> m_characterControllerDriver;
@@ -44,11 +44,11 @@ namespace nemesis
         nemesis::hkRefPtr<nemesis::HavokObject> m_eventQueue;
         nemesis::hkRefPtr<nemesis::HavokObject> m_worldFromModel;
         nemesis::hkRefPtr<nemesis::HavokObject> m_poseLocal;
-        int m_numPoseLocal;
-        int m_capabilities;
-        int m_effectiveCapabilities;
-        bool m_deleteWorldFromModel;
-        bool m_deletePoseLocal;
+        int m_numPoseLocal{};
+        int m_capabilities{};
+        int m_effectiveCapabilities{};
+        bool m_deleteWorldFromModel{};
+        bool m_deletePoseLocal{};
 
     public:
         hkbCharacter() noexcept;

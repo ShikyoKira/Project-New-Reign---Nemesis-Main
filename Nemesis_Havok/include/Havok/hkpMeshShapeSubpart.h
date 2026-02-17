@@ -28,8 +28,8 @@ namespace nemesis
         using MeshShapeMaterialIndexStridingType = nemesis::hkInternalClassEnumItem<char>;
 
         nemesis::hkRefPtr<nemesis::HavokObject> m_vertexBase;
-        int m_vertexStriding;
-        int m_numVertices;
+        int m_vertexStriding{};
+        int m_numVertices{};
         nemesis::hkRefPtr<nemesis::HavokObject> m_indexBase;
         nemesis::hkEnum<MeshShapeIndexStridingType, char> m_stridingType = {
             {"INDICES_INVALID", 0},
@@ -43,15 +43,15 @@ namespace nemesis
             {"MATERIAL_INDICES_INT16", 2},
             {"MATERIAL_INDICES_MAX_ID", 3},
         };
-        int m_indexStriding;
-        int m_flipAlternateTriangles;
-        int m_numTriangles;
+        int m_indexStriding{};
+        int m_flipAlternateTriangles{};
+        int m_numTriangles{};
         nemesis::hkRefPtr<nemesis::HavokObject> m_materialIndexBase;
-        int m_materialIndexStriding;
+        int m_materialIndexStriding{};
         nemesis::hkRefPtr<nemesis::HavokObject> m_materialBase;
-        int m_materialStriding;
-        int m_numMaterials;
-        int m_triangleOffset;
+        int m_materialStriding{};
+        int m_numMaterials{};
+        int m_triangleOffset{};
 
     public:
         hkpMeshShapeSubpart() noexcept;

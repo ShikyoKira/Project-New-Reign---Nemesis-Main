@@ -25,8 +25,8 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkpPairCollisionFilterMapPairFilterKeyOverrideType);
 
         nemesis::hkRefPtr<nemesis::HavokObject> m_elem;
-        int m_numElems;
-        int m_hashMod;
+        int m_numElems{};
+        int m_hashMod{};
 
     public:
         hkpPairCollisionFilterMapPairFilterKeyOverrideType() noexcept;

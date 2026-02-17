@@ -25,18 +25,18 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkbFootIkDriverInfo);
 
         nemesis::hkArray<nemesis::hkbFootIkDriverInfoLeg> m_legs;
-        float m_raycastDistanceUp;
-        float m_raycastDistanceDown;
-        float m_originalGroundHeightMS;
-        float m_verticalOffset;
-        unsigned int m_collisionFilterInfo;
-        float m_forwardAlignFraction;
-        float m_sidewaysAlignFraction;
-        float m_sidewaysSampleWidth;
-        bool m_lockFeetWhenPlanted;
-        bool m_useCharacterUpVector;
-        bool m_isQuadrupedNarrow;
-        bool m_keepSourceFootEndAboveGround;
+        float m_raycastDistanceUp{};
+        float m_raycastDistanceDown{};
+        float m_originalGroundHeightMS{};
+        float m_verticalOffset{};
+        unsigned int m_collisionFilterInfo{};
+        float m_forwardAlignFraction{};
+        float m_sidewaysAlignFraction{};
+        float m_sidewaysSampleWidth{};
+        bool m_lockFeetWhenPlanted{};
+        bool m_useCharacterUpVector{};
+        bool m_isQuadrupedNarrow{};
+        bool m_keepSourceFootEndAboveGround{};
 
     public:
         hkbFootIkDriverInfo() noexcept;

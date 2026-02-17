@@ -24,18 +24,18 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkaKeyFrameHierarchyUtilityControlData);
 
-        float m_hierarchyGain;
-        float m_velocityDamping;
-        float m_accelerationGain;
-        float m_velocityGain;
-        float m_positionGain;
-        float m_positionMaxLinearVelocity;
-        float m_positionMaxAngularVelocity;
-        float m_snapGain;
-        float m_snapMaxLinearVelocity;
-        float m_snapMaxAngularVelocity;
-        float m_snapMaxLinearDistance;
-        float m_snapMaxAngularDistance;
+        float m_hierarchyGain{};
+        float m_velocityDamping{};
+        float m_accelerationGain{};
+        float m_velocityGain{};
+        float m_positionGain{};
+        float m_positionMaxLinearVelocity{};
+        float m_positionMaxAngularVelocity{};
+        float m_snapGain{};
+        float m_snapMaxLinearVelocity{};
+        float m_snapMaxAngularVelocity{};
+        float m_snapMaxLinearDistance{};
+        float m_snapMaxAngularDistance{};
 
     public:
         hkaKeyFrameHierarchyUtilityControlData() noexcept;

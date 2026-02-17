@@ -22,9 +22,9 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbRaiseEventCommand);
 
-        uint64_t m_characterId;
-        bool m_global;
-        int m_externalId;
+        uint64_t m_characterId{};
+        bool m_global{};
+        int m_externalId{};
 
     public:
         hkbRaiseEventCommand() noexcept;

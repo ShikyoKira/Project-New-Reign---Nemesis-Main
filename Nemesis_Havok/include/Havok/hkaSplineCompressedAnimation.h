@@ -22,19 +22,19 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkaSplineCompressedAnimation);
 
-        int m_numFrames;
-        int m_numBlocks;
-        int m_maxFramesPerBlock;
-        int m_maskAndQuantizationSize;
-        float m_blockDuration;
-        float m_blockInverseDuration;
-        float m_frameDuration;
+        int m_numFrames{};
+        int m_numBlocks{};
+        int m_maxFramesPerBlock{};
+        int m_maskAndQuantizationSize{};
+        float m_blockDuration{};
+        float m_blockInverseDuration{};
+        float m_frameDuration{};
         nemesis::hkArray<unsigned int> m_blockOffsets;
         nemesis::hkArray<unsigned int> m_floatBlockOffsets;
         nemesis::hkArray<unsigned int> m_transformOffsets;
         nemesis::hkArray<unsigned int> m_floatOffsets;
         nemesis::hkArray<unsigned char> m_data;
-        int m_endian;
+        int m_endian{};
 
     public:
         hkaSplineCompressedAnimation() noexcept;

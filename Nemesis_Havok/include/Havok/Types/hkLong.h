@@ -9,7 +9,7 @@ namespace nemesis
 	struct hkLong : nemesis::hkVariant
     {
     private:
-        int64_t value;
+        int64_t value{};
 
     public:
         hkLong() = default;

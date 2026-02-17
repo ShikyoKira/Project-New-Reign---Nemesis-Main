@@ -22,7 +22,7 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpLinConstraintAtom);
 
-        unsigned char m_axisIndex;
+        unsigned char m_axisIndex{};
 
     public:
         hkpLinConstraintAtom() noexcept;

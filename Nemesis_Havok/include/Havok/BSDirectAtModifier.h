@@ -22,28 +22,28 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(BSDirectAtModifier);
 
-        bool m_directAtTarget;
-        short m_sourceBoneIndex;
-        short m_startBoneIndex;
-        short m_endBoneIndex;
-        float m_limitHeadingDegrees;
-        float m_limitPitchDegrees;
-        float m_offsetHeadingDegrees;
-        float m_offsetPitchDegrees;
-        float m_onGain;
-        float m_offGain;
+        bool m_directAtTarget = false;
+        short m_sourceBoneIndex = 0;
+        short m_startBoneIndex{};
+        short m_endBoneIndex{};
+        float m_limitHeadingDegrees{};
+        float m_limitPitchDegrees   = 0.0f;
+        float m_offsetHeadingDegrees{};
+        float m_offsetPitchDegrees   = 0.0f;
+        float m_onGain               = 0.0f;
+        float m_offGain              = 0.0f;
         nemesis::hkVector4 m_targetLocation;
-        unsigned int m_userInfo;
-        bool m_directAtCamera;
-        float m_directAtCameraX;
-        float m_directAtCameraY;
-        float m_directAtCameraZ;
-        bool m_active;
-        float m_currentHeadingOffset;
-        float m_currentPitchOffset;
-        float m_timeStep;
+        unsigned int m_userInfo{};
+        bool m_directAtCamera{};
+        float m_directAtCameraX{};
+        float m_directAtCameraY{};
+        float m_directAtCameraZ{};
+        bool m_active{};
+        float m_currentHeadingOffset{};
+        float m_currentPitchOffset{};
+        float m_timeStep{};
         nemesis::hkRefPtr<nemesis::HavokObject> m_pSkeletonMemory;
-        bool m_hasTarget;
+        bool m_hasTarget{};
         nemesis::hkVector4 m_directAtTargetLocation;
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::HavokObject>> m_boneChainIndices;
 

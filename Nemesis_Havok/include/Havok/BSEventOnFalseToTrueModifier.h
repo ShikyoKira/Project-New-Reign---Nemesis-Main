@@ -24,18 +24,18 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(BSEventOnFalseToTrueModifier);
 
-        bool m_bEnableEvent1;
-        bool m_bVariableToTest1;
+        bool m_bEnableEvent1{};
+        bool m_bVariableToTest1{};
         nemesis::hkbEventProperty m_EventToSend1;
-        bool m_bEnableEvent2;
-        bool m_bVariableToTest2;
+        bool m_bEnableEvent2{};
+        bool m_bVariableToTest2{};
         nemesis::hkbEventProperty m_EventToSend2;
-        bool m_bEnableEvent3;
-        bool m_bVariableToTest3;
+        bool m_bEnableEvent3{};
+        bool m_bVariableToTest3{};
         nemesis::hkbEventProperty m_EventToSend3;
-        bool m_bSlot1ActivatedLastFrame;
-        bool m_bSlot2ActivatedLastFrame;
-        bool m_bSlot3ActivatedLastFrame;
+        bool m_bSlot1ActivatedLastFrame{};
+        bool m_bSlot2ActivatedLastFrame{};
+        bool m_bSlot3ActivatedLastFrame{};
 
     public:
         BSEventOnFalseToTrueModifier() noexcept;

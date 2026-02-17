@@ -22,11 +22,11 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpRackAndPinionConstraintAtom);
 
-        float m_pinionRadiusOrScrewPitch;
-        bool m_isScrew;
-        char m_memOffsetToInitialAngleOffset;
-        char m_memOffsetToPrevAngle;
-        char m_memOffsetToRevolutionCounter;
+        float m_pinionRadiusOrScrewPitch{};
+        bool m_isScrew{};
+        char m_memOffsetToInitialAngleOffset{};
+        char m_memOffsetToPrevAngle{};
+        char m_memOffsetToRevolutionCounter{};
 
     public:
         hkpRackAndPinionConstraintAtom() noexcept;

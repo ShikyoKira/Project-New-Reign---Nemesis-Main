@@ -22,7 +22,7 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbCharacterAddedInfo);
 
-        uint64_t m_characterId;
+        uint64_t m_characterId{};
         nemesis::hkStringPtr m_instanceName;
         nemesis::hkStringPtr m_templateName;
         nemesis::hkStringPtr m_fullPathToProject;

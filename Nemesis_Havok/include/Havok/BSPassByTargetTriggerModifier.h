@@ -25,10 +25,10 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(BSPassByTargetTriggerModifier);
 
         nemesis::hkVector4 m_targetPosition;
-        float m_radius;
+        float m_radius{};
         nemesis::hkVector4 m_movementDirection;
         nemesis::hkbEventProperty m_triggerEvent;
-        bool m_targetPassed;
+        bool m_targetPassed{};
 
     public:
         BSPassByTargetTriggerModifier() noexcept;

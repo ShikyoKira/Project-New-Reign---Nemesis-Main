@@ -31,14 +31,14 @@ namespace nemesis
         };
         nemesis::hkVector4 m_position;
         nemesis::hkVector4 m_direction;
-        unsigned int m_color;
-        float m_angle;
-        float m_range;
-        float m_fadeStart;
-        float m_fadeEnd;
-        short m_decayRate;
-        float m_intensity;
-        bool m_shadowCaster;
+        unsigned int m_color{};
+        float m_angle{};
+        float m_range{};
+        float m_fadeStart{};
+        float m_fadeEnd{};
+        short m_decayRate{};
+        float m_intensity{};
+        bool m_shadowCaster{};
 
     public:
         hkxLight() noexcept;

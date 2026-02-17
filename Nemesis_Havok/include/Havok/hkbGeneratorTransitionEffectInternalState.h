@@ -26,26 +26,26 @@ namespace nemesis
         using Stage = nemesis::hkInternalClassEnumItem<char>;
         using SelfTransitionMode = nemesis::hkInternalClassEnumItem<char>;
 
-        float m_timeInTransition;
-        float m_duration;
-        float m_effectiveBlendInDuration;
-        float m_effectiveBlendOutDuration;
+        float m_timeInTransition{};
+        float m_duration{};
+        float m_effectiveBlendInDuration{};
+        float m_effectiveBlendOutDuration{};
         nemesis::hkEnum<ToGeneratorState, char> m_toGeneratorState = {
             {"STATE_INACTIVE", 0},
             {"STATE_READY_FOR_SET_LOCAL_TIME", 1},
             {"STATE_READY_FOR_APPLY_SELF_TRANSITION_MODE", 2},
             {"STATE_ACTIVE", 3},
         };
-        bool m_echoTransitionGenerator;
-        bool m_echoToGenerator;
+        bool m_echoTransitionGenerator{};
+        bool m_echoToGenerator{};
         nemesis::hkEnum<SelfTransitionMode, char> m_toGeneratorSelfTransitionMode = {
             {"SELF_TRANSITION_MODE_CONTINUE_IF_CYCLIC_BLEND_IF_ACYCLIC", 0},
             {"SELF_TRANSITION_MODE_CONTINUE", 1},
             {"SELF_TRANSITION_MODE_RESET", 2},
             {"SELF_TRANSITION_MODE_BLEND", 3},
         };
-        bool m_justActivated;
-        bool m_updateActiveNodes;
+        bool m_justActivated{};
+        bool m_updateActiveNodes{};
         nemesis::hkEnum<Stage, char> m_stage = {
             {"STAGE_BLENDING_IN", 0},
             {"STAGE_PLAYING_TRANSITION_GENERATOR", 1},

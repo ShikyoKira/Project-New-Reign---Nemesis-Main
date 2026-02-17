@@ -34,7 +34,7 @@ namespace nemesis
 
 	private:
         EnumType Enum;
-        StorageType Storage;
+        StorageType Storage{};
 
 	public:
         hkEnum(std::initializer_list<std::pair<std::string, StorageType>> values)

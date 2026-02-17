@@ -22,7 +22,7 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpOverwritePivotConstraintAtom);
 
-        unsigned char m_copyToPivotBFromPivotA;
+        unsigned char m_copyToPivotBFromPivotA{};
 
     public:
         hkpOverwritePivotConstraintAtom() noexcept;

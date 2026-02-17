@@ -22,12 +22,12 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpCogWheelConstraintAtom);
 
-        float m_cogWheelRadiusA;
-        float m_cogWheelRadiusB;
-        bool m_isScrew;
-        char m_memOffsetToInitialAngleOffset;
-        char m_memOffsetToPrevAngle;
-        char m_memOffsetToRevolutionCounter;
+        float m_cogWheelRadiusA{};
+        float m_cogWheelRadiusB{};
+        bool m_isScrew{};
+        char m_memOffsetToInitialAngleOffset{};
+        char m_memOffsetToPrevAngle{};
+        char m_memOffsetToRevolutionCounter{};
 
     public:
         hkpCogWheelConstraintAtom() noexcept;

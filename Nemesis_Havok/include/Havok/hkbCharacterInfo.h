@@ -24,7 +24,7 @@ namespace nemesis
 
         using Event = nemesis::hkInternalClassEnumItem<unsigned char>;
 
-        uint64_t m_characterId;
+        uint64_t m_characterId{};
         nemesis::hkStringPtr m_instanceName;
         nemesis::hkStringPtr m_templateName;
         nemesis::hkStringPtr m_fullPathToProject;
@@ -35,7 +35,7 @@ namespace nemesis
             {"ACTIVATED", 3},
             {"DEACTIVATED", 4},
         };
-        int m_padding;
+        int m_padding{};
 
     public:
         hkbCharacterInfo() noexcept;

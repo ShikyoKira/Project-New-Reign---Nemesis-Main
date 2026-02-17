@@ -22,7 +22,7 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbIntEventPayload);
 
-        int m_data;
+        int m_data{};
 
     public:
         hkbIntEventPayload() noexcept;

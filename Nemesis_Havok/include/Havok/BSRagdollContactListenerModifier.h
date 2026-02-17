@@ -27,7 +27,7 @@ namespace nemesis
 
         nemesis::hkbEventProperty m_contactEvent;
         nemesis::hkRefPtr<nemesis::hkbBoneIndexArray> m_bones;
-        bool m_throwEvent;
+        bool m_throwEvent{};
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::hkReferencedObject>> m_ragdollRigidBodies;
 
     public:

@@ -24,10 +24,10 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpConstraintInfo);
 
-        int m_maxSizeOfSchema;
-        int m_sizeOfSchemas;
-        int m_numSolverResults;
-        int m_numSolverElemTemps;
+        int m_maxSizeOfSchema{};
+        int m_sizeOfSchemas{};
+        int m_numSolverResults{};
+        int m_numSolverElemTemps{};
 
     public:
         hkpConstraintInfo() noexcept;

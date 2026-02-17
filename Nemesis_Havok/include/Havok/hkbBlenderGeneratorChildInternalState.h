@@ -24,8 +24,8 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbBlenderGeneratorChildInternalState);
 
-        bool m_isActive;
-        bool m_syncNextFrame;
+        bool m_isActive{};
+        bool m_syncNextFrame{};
 
     public:
         hkbBlenderGeneratorChildInternalState() noexcept;

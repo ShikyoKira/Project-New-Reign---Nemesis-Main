@@ -25,9 +25,9 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkpEntitySpuCollisionCallback);
 
         nemesis::hkRefPtr<nemesis::HavokObject> m_util;
-        unsigned short m_capacity;
-        unsigned char m_eventFilter;
-        unsigned char m_userFilter;
+        unsigned short m_capacity{};
+        unsigned char m_eventFilter{};
+        unsigned char m_userFilter{};
 
     public:
         hkpEntitySpuCollisionCallback() noexcept;

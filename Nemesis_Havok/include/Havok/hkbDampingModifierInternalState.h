@@ -25,9 +25,9 @@ namespace nemesis
         nemesis::hkVector4 m_dampedVector;
         nemesis::hkVector4 m_vecErrorSum;
         nemesis::hkVector4 m_vecPreviousError;
-        float m_dampedValue;
-        float m_errorSum;
-        float m_previousError;
+        float m_dampedValue{};
+        float m_errorSum{};
+        float m_previousError{};
 
     public:
         hkbDampingModifierInternalState() noexcept;

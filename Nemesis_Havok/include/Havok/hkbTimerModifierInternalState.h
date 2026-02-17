@@ -22,7 +22,7 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbTimerModifierInternalState);
 
-        float m_secondsElapsed;
+        float m_secondsElapsed{};
 
     public:
         hkbTimerModifierInternalState() noexcept;

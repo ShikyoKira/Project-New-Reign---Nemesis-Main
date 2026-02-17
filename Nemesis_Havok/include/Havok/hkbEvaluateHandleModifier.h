@@ -29,9 +29,9 @@ namespace nemesis
         nemesis::hkRefPtr<nemesis::hkbHandle> m_handle;
         nemesis::hkVector4 m_handlePositionOut;
         nemesis::hkQuaternion m_handleRotationOut;
-        bool m_isValidOut;
-        float m_extrapolationTimeStep;
-        float m_handleChangeSpeed;
+        bool m_isValidOut{};
+        float m_extrapolationTimeStep{};
+        float m_handleChangeSpeed{};
         nemesis::hkEnum<HandleChangeMode, char> m_handleChangeMode = {
             {"HANDLE_CHANGE_MODE_ABRUPT", 0},
             {"HANDLE_CHANGE_MODE_CONSTANT_VELOCITY", 1},
@@ -39,8 +39,8 @@ namespace nemesis
         nemesis::hkbHandle m_oldHandle;
         nemesis::hkVector4 m_oldHandlePosition;
         nemesis::hkQuaternion m_oldHandleRotation;
-        float m_timeSinceLastModify;
-        bool m_smoothlyChangingHandles;
+        float m_timeSinceLastModify{};
+        bool m_smoothlyChangingHandles{};
 
     public:
         hkbEvaluateHandleModifier() noexcept;

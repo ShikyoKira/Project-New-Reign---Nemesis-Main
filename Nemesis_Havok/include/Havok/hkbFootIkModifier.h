@@ -30,30 +30,30 @@ namespace nemesis
 
         nemesis::hkbFootIkGains m_gains;
         nemesis::hkArray<nemesis::hkbFootIkModifierLeg> m_legs;
-        float m_raycastDistanceUp;
-        float m_raycastDistanceDown;
-        float m_originalGroundHeightMS;
-        float m_errorOut;
+        float m_raycastDistanceUp{};
+        float m_raycastDistanceDown{};
+        float m_originalGroundHeightMS{};
+        float m_errorOut{};
         nemesis::hkVector4 m_errorOutTranslation;
         nemesis::hkQuaternion m_alignWithGroundRotation;
-        float m_verticalOffset;
-        unsigned int m_collisionFilterInfo;
-        float m_forwardAlignFraction;
-        float m_sidewaysAlignFraction;
-        float m_sidewaysSampleWidth;
-        bool m_useTrackData;
-        bool m_lockFeetWhenPlanted;
-        bool m_useCharacterUpVector;
+        float m_verticalOffset{};
+        unsigned int m_collisionFilterInfo{};
+        float m_forwardAlignFraction{};
+        float m_sidewaysAlignFraction{};
+        float m_sidewaysSampleWidth{};
+        bool m_useTrackData{};
+        bool m_lockFeetWhenPlanted{};
+        bool m_useCharacterUpVector{};
         nemesis::hkEnum<AlignMode, char> m_alignMode = {
             {"ALIGN_MODE_FORWARD_RIGHT", 0},
             {"ALIGN_MODE_FORWARD", 1},
         };
         nemesis::hkArray<nemesis::hkbFootIkModifierInternalLegData> m_internalLegData;
-        float m_prevIsFootIkEnabled;
-        bool m_isSetUp;
-        bool m_isGroundPositionValid;
-        float m_timeStep;
-        bool m_keepSourceFootEndAboveGround;
+        float m_prevIsFootIkEnabled{};
+        bool m_isSetUp{};
+        bool m_isGroundPositionValid{};
+        float m_timeStep{};
+        bool m_keepSourceFootEndAboveGround{};
 
     public:
         hkbFootIkModifier() noexcept;

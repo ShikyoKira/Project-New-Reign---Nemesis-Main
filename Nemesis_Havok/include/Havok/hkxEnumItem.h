@@ -24,7 +24,7 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkxEnumItem);
 
-        int m_value;
+        int m_value{};
         nemesis::hkStringPtr m_name;
 
     public:

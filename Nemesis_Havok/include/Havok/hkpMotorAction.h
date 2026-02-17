@@ -23,9 +23,9 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkpMotorAction);
 
         nemesis::hkVector4 m_axis;
-        float m_spinRate;
-        float m_gain;
-        bool m_active;
+        float m_spinRate{};
+        float m_gain{};
+        bool m_active{};
 
     public:
         hkpMotorAction() noexcept;

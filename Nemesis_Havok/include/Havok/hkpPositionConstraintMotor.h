@@ -22,10 +22,10 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpPositionConstraintMotor);
 
-        float m_tau;
-        float m_damping;
-        float m_proportionalRecoveryVelocity;
-        float m_constantRecoveryVelocity;
+        float m_tau{};
+        float m_damping{};
+        float m_proportionalRecoveryVelocity{};
+        float m_constantRecoveryVelocity{};
 
     public:
         hkpPositionConstraintMotor() noexcept;

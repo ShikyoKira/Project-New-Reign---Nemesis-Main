@@ -42,12 +42,12 @@ namespace nemesis
             {"HK_PREDICTIVE_COMPRESSED_ANIMATION", 5},
             {"HK_REFERENCE_POSE_ANIMATION", 6},
         };
-        float m_duration;
-        int m_numberOfTransformTracks;
-        int m_numberOfFloatTracks;
+        float m_duration{};
+        int m_numberOfTransformTracks{};
+        int m_numberOfFloatTracks{};
         nemesis::hkRefPtr<nemesis::hkaAnimatedReferenceFrame> m_extractedMotion;
         nemesis::hkRefPtr<nemesis::hkaAnnotationTrack> m_annotationTracks_0;
-        int m_numAnnotationTracks;
+        int m_numAnnotationTracks{};
         nemesis::hkArray<nemesis::hkaAnnotationTrack> m_annotationTracks_1;
 
     public:

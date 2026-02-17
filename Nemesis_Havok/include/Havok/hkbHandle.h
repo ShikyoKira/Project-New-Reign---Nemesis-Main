@@ -28,7 +28,7 @@ namespace nemesis
         nemesis::hkRefPtr<nemesis::hkLocalFrame> m_frame;
         nemesis::hkRefPtr<nemesis::hkReferencedObject> m_rigidBody;
         nemesis::hkRefPtr<nemesis::hkbCharacter> m_character;
-        short m_animationBoneIndex;
+        short m_animationBoneIndex{};
 
     public:
         hkbHandle() noexcept;

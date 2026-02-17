@@ -24,8 +24,8 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkpShapeInfo);
 
         nemesis::hkRefPtr<nemesis::hkpShape> m_shape;
-        bool m_isHierarchicalCompound;
-        bool m_hkdShapesCollected;
+        bool m_isHierarchicalCompound{};
+        bool m_hkdShapesCollected{};
         nemesis::hkArray<nemesis::hkCString> m_childShapeNames;
         nemesis::hkArray<nemesis::hkTransform> m_childTransforms;
         nemesis::hkTransform m_transform;

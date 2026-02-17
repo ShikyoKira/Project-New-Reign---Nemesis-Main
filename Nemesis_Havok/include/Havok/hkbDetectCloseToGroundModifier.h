@@ -25,12 +25,12 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkbDetectCloseToGroundModifier);
 
         nemesis::hkbEventProperty m_closeToGroundEvent;
-        float m_closeToGroundHeight;
-        float m_raycastDistanceDown;
-        unsigned int m_collisionFilterInfo;
-        short m_boneIndex;
-        short m_animBoneIndex;
-        bool m_isCloseToGround;
+        float m_closeToGroundHeight{};
+        float m_raycastDistanceDown{};
+        unsigned int m_collisionFilterInfo{};
+        short m_boneIndex{};
+        short m_animBoneIndex{};
+        bool m_isCloseToGround{};
 
     public:
         hkbDetectCloseToGroundModifier() noexcept;

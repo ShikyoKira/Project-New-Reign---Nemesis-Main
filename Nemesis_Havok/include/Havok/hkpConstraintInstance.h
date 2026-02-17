@@ -46,7 +46,7 @@ namespace nemesis
             {"PRIORITY_TOI_FORCED", 5},
             {"NUM_PRIORITIES", 6},
         };
-        bool m_wantRuntime;
+        bool m_wantRuntime{};
         nemesis::hkEnum<OnDestructionRemapInfo, unsigned char> m_destructionRemapInfo = {
             {"ON_DESTRUCTION_REMAP", 0},
             {"ON_DESTRUCTION_REMOVE", 1},
@@ -56,7 +56,7 @@ namespace nemesis
         nemesis::hkStringPtr m_name;
         nemesis::hkUlong m_userData;
         nemesis::hkConstraintInternal* m_internal = nullptr;
-        unsigned int m_uid;
+        unsigned int m_uid{};
 
     public:
         hkpConstraintInstance() noexcept;

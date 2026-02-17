@@ -24,8 +24,8 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbAttributeModifierAssignment);
 
-        int m_attributeIndex;
-        float m_attributeValue;
+        int m_attributeIndex{};
+        float m_attributeValue{};
 
     public:
         hkbAttributeModifierAssignment() noexcept;

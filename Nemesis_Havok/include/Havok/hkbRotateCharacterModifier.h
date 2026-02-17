@@ -22,10 +22,10 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbRotateCharacterModifier);
 
-        float m_degreesPerSecond;
-        float m_speedMultiplier;
+        float m_degreesPerSecond{};
+        float m_speedMultiplier{};
         nemesis::hkVector4 m_axisOfRotation;
-        float m_angle;
+        float m_angle{};
 
     public:
         hkbRotateCharacterModifier() noexcept;

@@ -27,7 +27,7 @@ namespace nemesis
 
         nemesis::hkbRigidBodyRagdollControlData m_controlData;
         nemesis::hkRefPtr<nemesis::hkbBoneIndexArray> m_bones;
-        float m_animationBlendFraction;
+        float m_animationBlendFraction{};
 
     public:
         hkbRigidBodyRagdollControlsModifier() noexcept;

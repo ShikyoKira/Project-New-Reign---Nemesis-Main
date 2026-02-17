@@ -25,8 +25,8 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkpSampledHeightFieldShapeCoarseMinMaxLevel);
 
         nemesis::hkArray<nemesis::hkVector4> m_minMaxData;
-        int m_xRes;
-        int m_zRes;
+        int m_xRes{};
+        int m_zRes{};
 
     public:
         hkpSampledHeightFieldShapeCoarseMinMaxLevel() noexcept;

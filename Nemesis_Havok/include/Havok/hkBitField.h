@@ -23,7 +23,7 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkBitField);
 
         nemesis::hkArray<unsigned int> m_words;
-        unsigned int m_numBits;
+        unsigned int m_numBits{};
         hkBitFieldStorage m_storage;
 
     public:

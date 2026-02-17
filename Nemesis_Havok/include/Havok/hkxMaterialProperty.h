@@ -24,8 +24,8 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkxMaterialProperty);
 
-        unsigned int m_key;
-        unsigned int m_value;
+        unsigned int m_key{};
+        unsigned int m_value{};
 
     public:
         hkxMaterialProperty() noexcept;

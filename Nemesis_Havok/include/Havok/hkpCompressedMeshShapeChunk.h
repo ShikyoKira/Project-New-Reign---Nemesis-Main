@@ -29,9 +29,9 @@ namespace nemesis
         nemesis::hkArray<unsigned short> m_indices;
         nemesis::hkArray<unsigned short> m_stripLengths;
         nemesis::hkArray<unsigned short> m_weldingInfo;
-        unsigned int m_materialInfo;
-        unsigned short m_reference;
-        unsigned short m_transformIndex;
+        unsigned int m_materialInfo{};
+        unsigned short m_reference{};
+        unsigned short m_transformIndex{};
 
     public:
         hkpCompressedMeshShapeChunk() noexcept;

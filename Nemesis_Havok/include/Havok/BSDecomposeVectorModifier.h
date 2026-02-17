@@ -23,10 +23,10 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(BSDecomposeVectorModifier);
 
         nemesis::hkVector4 m_vector;
-        float m_x;
-        float m_y;
-        float m_z;
-        float m_w;
+        float m_x{};
+        float m_y{};
+        float m_z{};
+        float m_w{};
 
     public:
         BSDecomposeVectorModifier() noexcept;

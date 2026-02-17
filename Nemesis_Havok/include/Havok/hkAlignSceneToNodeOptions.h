@@ -22,14 +22,14 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkAlignSceneToNodeOptions);
 
-        bool m_invert;
-        bool m_transformPositionX;
-        bool m_transformPositionY;
-        bool m_transformPositionZ;
-        bool m_transformRotation;
-        bool m_transformScale;
-        bool m_transformSkew;
-        int m_keyframe;
+        bool m_invert{};
+        bool m_transformPositionX{};
+        bool m_transformPositionY{};
+        bool m_transformPositionZ{};
+        bool m_transformRotation{};
+        bool m_transformScale{};
+        bool m_transformSkew{};
+        int m_keyframe{};
         mutable nemesis::hkArray<char> m_nodeName_0;
         mutable nemesis::hkStringPtr m_nodeName_1;
 

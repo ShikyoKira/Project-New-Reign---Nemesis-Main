@@ -22,12 +22,12 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpTwistLimitConstraintAtom);
 
-        unsigned char m_isEnabled;
-        unsigned char m_twistAxis;
-        unsigned char m_refAxis;
-        float m_minAngle;
-        float m_maxAngle;
-        float m_angularLimitsTauFactor;
+        unsigned char m_isEnabled{};
+        unsigned char m_twistAxis{};
+        unsigned char m_refAxis{};
+        float m_minAngle{};
+        float m_maxAngle{};
+        float m_angularLimitsTauFactor{};
 
     public:
         hkpTwistLimitConstraintAtom() noexcept;

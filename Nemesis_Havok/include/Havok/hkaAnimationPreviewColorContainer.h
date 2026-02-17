@@ -23,7 +23,7 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkaAnimationPreviewColorContainer);
 
         nemesis::hkRefPtr<nemesis::HavokObject> m_previewColor_0;
-        int m_numPreviewColor;
+        int m_numPreviewColor{};
         nemesis::hkArray<unsigned int> m_previewColor_1;
 
     public:

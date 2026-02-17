@@ -24,17 +24,17 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpSimpleContactConstraintDataInfo);
 
-        unsigned short m_flags; // align 16
-        unsigned short m_index;
-        float m_internalData0;
-        unsigned short m_biNormalAxis;
+        unsigned short m_flags = 0; // align 16
+        unsigned short m_index = 0;
+        float m_internalData0 = 0;
+        unsigned short m_biNormalAxis = 0;
         nemesis::hkHalf m_rollingFrictionMultiplier;
         nemesis::hkHalf m_internalData1;
         std::array<nemesis::hkHalf, 2> m_rhsRolling;
-        float m_contactRadius;
-        std::array<unsigned int, 7> m_data_0;
-        std::array<unsigned int, 5> m_data_1;
-        std::array<unsigned int, 4> m_data_2;
+        float m_contactRadius = 0;
+        std::array<unsigned int, 7> m_data_0{};
+        std::array<unsigned int, 5> m_data_1{};
+        std::array<unsigned int, 4> m_data_2{};
 
     public:
         hkpSimpleContactConstraintDataInfo() noexcept;

@@ -33,8 +33,8 @@ namespace nemesis
         };
         nemesis::hkArray<unsigned short> m_indices16;
         nemesis::hkArray<unsigned int> m_indices32;
-        unsigned int m_vertexBaseOffset;
-        unsigned int m_length;
+        unsigned int m_vertexBaseOffset{};
+        unsigned int m_length{};
 
     public:
         hkxIndexBuffer() noexcept;

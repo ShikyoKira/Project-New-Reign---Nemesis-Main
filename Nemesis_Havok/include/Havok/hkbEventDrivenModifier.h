@@ -24,8 +24,8 @@ namespace nemesis
 
         nemesis::hkEventId m_activateEventId;
         nemesis::hkEventId m_deactivateEventId;
-        bool m_activeByDefault;
-        bool m_isActive;
+        bool m_activeByDefault{};
+        bool m_isActive{};
 
     public:
         hkbEventDrivenModifier() noexcept;

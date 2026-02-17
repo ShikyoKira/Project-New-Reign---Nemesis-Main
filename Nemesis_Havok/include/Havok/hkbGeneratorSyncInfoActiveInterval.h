@@ -23,7 +23,7 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkbGeneratorSyncInfoActiveInterval);
 
         std::array<nemesis::hkbGeneratorSyncInfoSyncPoint, 2> m_syncPoints;
-        float m_fraction;
+        float m_fraction{};
 
     public:
         hkbGeneratorSyncInfoActiveInterval() noexcept;

@@ -30,11 +30,11 @@ namespace nemesis
 
         nemesis::hkStringPtr m_memberPath;
         nemesis::hkRefPtr<nemesis::HavokObject> m_memberClass;
-        int m_offsetInObjectPlusOne;
-        int m_offsetInArrayPlusOne;
+        int m_offsetInObjectPlusOne{};
+        int m_offsetInArrayPlusOne{};
         nemesis::hkVariableId m_rootVariableIndex;
         nemesis::hkVariableId m_variableIndex;
-        char m_bitIndex;
+        char m_bitIndex{};
         nemesis::hkEnum<BindingType, char> m_bindingType = {
             {"BINDING_TYPE_VARIABLE", 0},
             {"BINDING_TYPE_CHARACTER_PROPERTY", 1},
@@ -59,7 +59,7 @@ namespace nemesis
             {"TYPE_HALF", 32},        {"TYPE_STRINGPTR", 33},
             {"TYPE_RELARRAY", 34},    {"TYPE_MAX", 35},
         };
-        char m_variableType;
+        char m_variableType{};
         nemesis::hkEnum<InternalBindingFlags, char> m_flags = {
             //{"FLAG_NONE", 0},
             {"0", 0},

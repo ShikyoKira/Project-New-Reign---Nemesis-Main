@@ -33,10 +33,10 @@ namespace nemesis
         nemesis::hkRefPtr<nemesis::hkbAttachmentSetup> m_attachmentSetup;
         nemesis::hkRefPtr<nemesis::hkbHandle> m_attacherHandle;
         nemesis::hkRefPtr<nemesis::hkbHandle> m_attacheeHandle;
-        int m_attacheeLayer;
+        int m_attacheeLayer{};
         nemesis::hkRefPtr<nemesis::HavokObject> m_attacheeRB;
-        unsigned char m_oldMotionType;
-        int m_oldFilterInfo;
+        unsigned char m_oldMotionType{};
+        int m_oldFilterInfo{};
         nemesis::hkRefPtr<nemesis::HavokObject> m_attachment;
 
     public:

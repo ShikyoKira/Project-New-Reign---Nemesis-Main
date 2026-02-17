@@ -25,7 +25,7 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkpMultiRayShape);
 
         nemesis::hkArray<nemesis::hkpMultiRayShapeRay> m_rays;
-        float m_rayPenetrationDistance;
+        float m_rayPenetrationDistance{};
 
     public:
         hkpMultiRayShape() noexcept;

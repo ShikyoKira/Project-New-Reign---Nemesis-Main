@@ -24,11 +24,11 @@ namespace nemesis
 
         nemesis::hkVector4 m_positionInRbLocal;
         nemesis::hkVector4 m_mousePositionInWorld;
-        float m_springDamping;
-        float m_springElasticity;
-        float m_maxRelativeForce;
-        float m_objectDamping;
-        unsigned int m_shapeKey;
+        float m_springDamping{};
+        float m_springElasticity{};
+        float m_maxRelativeForce{};
+        float m_objectDamping{};
+        unsigned int m_shapeKey{};
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::HavokObject>> m_applyCallbacks;
 
     public:

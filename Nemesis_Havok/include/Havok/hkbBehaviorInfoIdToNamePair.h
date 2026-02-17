@@ -39,7 +39,7 @@ namespace nemesis
             {"NODE_TYPE_TRANSITION_EFFECT", 7},
             {"NODE_TYPE_BEHAVIOR_FILE_REFERENCE", 8},
         };
-        short m_id;
+        short m_id{};
 
     public:
         hkbBehaviorInfoIdToNamePair() noexcept;

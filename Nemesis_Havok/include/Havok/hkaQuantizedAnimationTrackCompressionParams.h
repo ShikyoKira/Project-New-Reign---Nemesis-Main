@@ -24,10 +24,10 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkaQuantizedAnimationTrackCompressionParams);
 
-        float m_rotationTolerance;
-        float m_translationTolerance;
-        float m_scaleTolerance;
-        float m_floatingTolerance;
+        float m_rotationTolerance{};
+        float m_translationTolerance{};
+        float m_scaleTolerance{};
+        float m_floatingTolerance{};
 
     public:
         hkaQuantizedAnimationTrackCompressionParams() noexcept;

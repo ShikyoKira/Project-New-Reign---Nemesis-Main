@@ -22,7 +22,7 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(BSComputeAddBoneAnimModifier);
 
-        short m_boneIndex;
+        short m_boneIndex = 0;
         nemesis::hkVector4 m_translationLSOut;
         nemesis::hkQuaternion m_rotationLSOut;
         nemesis::hkVector4 m_scaleLSOut;

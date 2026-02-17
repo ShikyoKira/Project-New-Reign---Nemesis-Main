@@ -24,25 +24,25 @@ namespace nemesis
                                                 0};
 
     private:
-        std::array<unsigned int, 2> m_magic;
-        int m_userTag;
-        int m_fileVersion;
-        std::array<unsigned char, 4> m_layoutRules;
-        int m_numSections;
-        int m_contentsSectionIndex;
-        int m_contentsSectionOffset;
-        int m_contentsClassNameSectionIndex;
-        int m_contentsClassNameSectionOffset;
+        std::array<unsigned int, 2> m_magic{};
+        int m_userTag{};
+        int m_fileVersion{};
+        std::array<unsigned char, 4> m_layoutRules{};
+        int m_numSections{};
+        int m_contentsSectionIndex{};
+        int m_contentsSectionOffset{};
+        int m_contentsClassNameSectionIndex{};
+        int m_contentsClassNameSectionOffset{};
         std::string m_contentsVersion;
-        int m_flags;
-        unsigned short m_maxPredicate;
-        unsigned short m_predicateArraySizePlusPadding;
+        int m_flags{};
+        unsigned short m_maxPredicate{};
+        unsigned short m_predicateArraySizePlusPadding{};
 
-        short m_unknown40;
-        short m_unknown42;
-        unsigned int m_unknown44;
-        unsigned int m_unknown48;
-        unsigned int m_unknown4C;
+        short m_unknown40{};
+        short m_unknown42{};
+        unsigned int m_unknown44{};
+        unsigned int m_unknown48{};
+        unsigned int m_unknown4C{};
 
     public:
         hkPackfileHeader();

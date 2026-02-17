@@ -26,7 +26,7 @@ namespace nemesis
 
         nemesis::hkRefPtr<nemesis::hkpMoppCode> m_code;
         nemesis::hkRefPtr<nemesis::HavokObject> m_moppData;
-        unsigned int m_moppDataSize;
+        unsigned int m_moppDataSize{};
         nemesis::hkVector4 m_codeInfoCopy;
 
     public:

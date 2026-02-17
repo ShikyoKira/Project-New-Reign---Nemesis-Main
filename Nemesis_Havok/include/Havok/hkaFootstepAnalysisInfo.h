@@ -33,9 +33,9 @@ namespace nemesis
         nemesis::hkArray<float> m_maxVel;
         nemesis::hkArray<float> m_allBonesDown;
         nemesis::hkArray<float> m_anyBonesDown;
-        float m_posTol;
-        float m_velTol;
-        float m_duration;
+        float m_posTol{};
+        float m_velTol{};
+        float m_duration{};
 
     public:
         hkaFootstepAnalysisInfo() noexcept;

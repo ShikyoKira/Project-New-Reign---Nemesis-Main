@@ -31,7 +31,7 @@ namespace nemesis
         nemesis::hkRefPtr<nemesis::hkbBoneIndexArray> m_bones;
         nemesis::hkbWorldFromModelModeData m_worldFromModelModeData;
         nemesis::hkRefPtr<nemesis::hkbBoneWeightArray> m_boneWeights;
-        float m_animationBlendFraction;
+        float m_animationBlendFraction{};
 
     public:
         hkbPoweredRagdollControlsModifier() noexcept;

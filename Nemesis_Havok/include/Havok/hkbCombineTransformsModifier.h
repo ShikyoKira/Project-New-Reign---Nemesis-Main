@@ -28,9 +28,9 @@ namespace nemesis
         nemesis::hkQuaternion m_leftRotation;
         nemesis::hkVector4 m_rightTranslation;
         nemesis::hkQuaternion m_rightRotation;
-        bool m_invertLeftTransform;
-        bool m_invertRightTransform;
-        bool m_invertResult;
+        bool m_invertLeftTransform{};
+        bool m_invertRightTransform{};
+        bool m_invertResult{};
 
     public:
         hkbCombineTransformsModifier() noexcept;

@@ -23,8 +23,8 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkRefCountedPropertiesEntry);
 
         nemesis::hkRefPtr<nemesis::hkReferencedObject> m_object;
-        unsigned short m_key;
-        unsigned short m_flags;
+        unsigned short m_key{};
+        unsigned short m_flags{};
 
     public:
         hkRefCountedPropertiesEntry() noexcept;

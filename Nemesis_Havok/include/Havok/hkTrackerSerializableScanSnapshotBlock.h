@@ -24,12 +24,12 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkTrackerSerializableScanSnapshotBlock);
 
-        int m_typeIndex;
+        int m_typeIndex{};
         nemesis::hkUlong m_start;
         nemesis::hkUlong m_size;
-        int m_arraySize;
-        int m_startReferenceIndex;
-        int m_numReferences;
+        int m_arraySize{};
+        int m_startReferenceIndex{};
+        int m_numReferences{};
 
     public:
         hkTrackerSerializableScanSnapshotBlock() noexcept;

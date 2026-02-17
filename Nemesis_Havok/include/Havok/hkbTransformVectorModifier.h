@@ -26,10 +26,10 @@ namespace nemesis
         nemesis::hkVector4 m_translation;
         nemesis::hkVector4 m_vectorIn;
         nemesis::hkVector4 m_vectorOut;
-        bool m_rotateOnly;
-        bool m_inverse;
-        bool m_computeOnActivate;
-        bool m_computeOnModify;
+        bool m_rotateOnly{};
+        bool m_inverse{};
+        bool m_computeOnActivate{};
+        bool m_computeOnModify{};
 
     public:
         hkbTransformVectorModifier() noexcept;

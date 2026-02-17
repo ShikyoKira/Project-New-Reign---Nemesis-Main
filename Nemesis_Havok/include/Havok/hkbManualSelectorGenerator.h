@@ -26,12 +26,12 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkbManualSelectorGenerator);
 
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::hkbGenerator>> m_generators;
-        char m_selectedGeneratorIndex;
+        char m_selectedGeneratorIndex{};
         nemesis::hkbCustomIdSelector m_indexSelector;
-        bool m_selectedIndexCanChangeAfterActivate;
+        bool m_selectedIndexCanChangeAfterActivate{};
         nemesis::hkRefPtr<nemesis::hkbTransitionEffect> m_generatorChangedTransitionEffect;
-        char m_currentGeneratorIndex;
-        char m_generatorIndexAtActivate;
+        char m_currentGeneratorIndex{};
+        char m_generatorIndexAtActivate{};
         nemesis::hkArray<nemesis::hkbStateMachineActiveTransitionInfo> m_activeTransitions;
 
     public:

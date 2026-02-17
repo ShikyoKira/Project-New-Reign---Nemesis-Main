@@ -22,16 +22,16 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(BSIsActiveModifier);
 
-        bool m_bIsActive0;
-        bool m_bInvertActive0;
-        bool m_bIsActive1;
-        bool m_bInvertActive1;
-        bool m_bIsActive2;
-        bool m_bInvertActive2;
-        bool m_bIsActive3;
-        bool m_bInvertActive3;
-        bool m_bIsActive4;
-        bool m_bInvertActive4;
+        bool m_bIsActive0{};
+        bool m_bInvertActive0{};
+        bool m_bIsActive1{};
+        bool m_bInvertActive1{};
+        bool m_bIsActive2{};
+        bool m_bInvertActive2{};
+        bool m_bIsActive3{};
+        bool m_bInvertActive3{};
+        bool m_bIsActive4{};
+        bool m_bInvertActive4{};
 
     public:
         BSIsActiveModifier() noexcept;

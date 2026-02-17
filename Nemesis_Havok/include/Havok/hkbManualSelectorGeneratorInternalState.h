@@ -24,8 +24,8 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbManualSelectorGeneratorInternalState);
 
-        char m_currentGeneratorIndex;
-        char m_generatorIndexAtActivate;
+        char m_currentGeneratorIndex{};
+        char m_generatorIndexAtActivate{};
         nemesis::hkArray<nemesis::hkbStateMachineActiveTransitionInfo> m_activeTransitions;
 
     public:

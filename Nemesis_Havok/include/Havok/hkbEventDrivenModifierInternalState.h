@@ -22,7 +22,7 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbEventDrivenModifierInternalState);
 
-        bool m_isActive;
+        bool m_isActive{};
 
     public:
         hkbEventDrivenModifierInternalState() noexcept;

@@ -24,22 +24,22 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpCharacterRigidBodyCinfo);
 
-        unsigned int m_collisionFilterInfo;
+        unsigned int m_collisionFilterInfo{};
         nemesis::hkRefPtr<nemesis::hkpShape> m_shape;
         nemesis::hkVector4 m_position;
         nemesis::hkQuaternion m_rotation;
-        float m_mass;
-        float m_friction;
-        float m_maxLinearVelocity;
-        float m_allowedPenetrationDepth;
+        float m_mass{};
+        float m_friction{};
+        float m_maxLinearVelocity{};
+        float m_allowedPenetrationDepth{};
         nemesis::hkVector4 m_up;
-        float m_maxSlope;
-        float m_maxForce;
-        float m_unweldingHeightOffsetFactor;
-        float m_maxSpeedForSimplexSolver;
-        float m_supportDistance;
-        float m_hardSupportDistance;
-        int m_vdbColor;
+        float m_maxSlope{};
+        float m_maxForce{};
+        float m_unweldingHeightOffsetFactor{};
+        float m_maxSpeedForSimplexSolver{};
+        float m_supportDistance{};
+        float m_hardSupportDistance{};
+        int m_vdbColor{};
 
     public:
         hkpCharacterRigidBodyCinfo() noexcept;

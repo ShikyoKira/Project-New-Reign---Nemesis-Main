@@ -26,8 +26,8 @@ namespace nemesis
 
         using HideInModeler = nemesis::hkInternalClassEnumItem<char>;
 
-        bool m_visible;
-        bool m_editable;
+        bool m_visible{};
+        bool m_editable{};
         nemesis::hkEnum<HideInModeler, char> m_hideInModeler = {
             {"NONE", 0},
             {"MAX", 1},
@@ -36,9 +36,9 @@ namespace nemesis
         nemesis::hkCString m_label;
         nemesis::hkCString m_group;
         nemesis::hkCString m_hideBaseClassMembers;
-        bool m_endGroup;
-        bool m_endGroup2;
-        bool m_advanced;
+        bool m_endGroup{};
+        bool m_endGroup2{};
+        bool m_advanced{};
 
     public:
         hkUiAttribute() noexcept;

@@ -23,7 +23,7 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkpStorageSampledHeightFieldShape);
 
         nemesis::hkArray<float> m_storage;
-        bool m_triangleFlip;
+        bool m_triangleFlip{};
 
     public:
         hkpStorageSampledHeightFieldShape() noexcept;

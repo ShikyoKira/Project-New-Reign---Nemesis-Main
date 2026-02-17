@@ -26,23 +26,23 @@ namespace nemesis
 
         nemesis::hkVector4 m_position;
         nemesis::hkVector4 m_velocity;
-        float m_dynamicFriction;
-        float m_staticFriction;
-        float m_keepContactTolerance;
+        float m_dynamicFriction{};
+        float m_staticFriction{};
+        float m_keepContactTolerance{};
         nemesis::hkVector4 m_up;
-        float m_extraUpStaticFriction;
-        float m_extraDownStaticFriction;
+        float m_extraUpStaticFriction{};
+        float m_extraDownStaticFriction{};
         nemesis::hkRefPtr<nemesis::hkpShapePhantom> m_shapePhantom;
-        float m_keepDistance;
-        float m_contactAngleSensitivity;
-        unsigned int m_userPlanes;
-        float m_maxCharacterSpeedForSolver;
-        float m_characterStrength;
-        float m_characterMass;
-        float m_maxSlope;
-        float m_penetrationRecoverySpeed;
-        int m_maxCastIterations;
-        bool m_refreshManifoldInCheckSupport;
+        float m_keepDistance{};
+        float m_contactAngleSensitivity{};
+        unsigned int m_userPlanes{};
+        float m_maxCharacterSpeedForSolver{};
+        float m_characterStrength{};
+        float m_characterMass{};
+        float m_maxSlope{};
+        float m_penetrationRecoverySpeed{};
+        int m_maxCastIterations{};
+        bool m_refreshManifoldInCheckSupport{};
 
     public:
         hkpCharacterProxyCinfo() noexcept;

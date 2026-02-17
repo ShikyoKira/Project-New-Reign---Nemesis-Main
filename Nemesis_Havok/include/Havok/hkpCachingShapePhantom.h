@@ -23,7 +23,7 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkpCachingShapePhantom);
 
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::HavokObject>> m_collisionDetails;
-        bool m_orderDirty;
+        bool m_orderDirty{};
 
     public:
         hkpCachingShapePhantom() noexcept;

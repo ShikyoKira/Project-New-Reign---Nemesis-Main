@@ -26,8 +26,8 @@ namespace nemesis
         nemesis::hkArray<int> m_nextSampleReals;
         nemesis::hkArray<int> m_nextSampleBools;
         nemesis::hkArray<int> m_nextSampleInts;
-        float m_time;
-        bool m_isEnabled;
+        float m_time{};
+        bool m_isEnabled{};
 
     public:
         hkbSequenceInternalState() noexcept;

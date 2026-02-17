@@ -26,8 +26,8 @@ namespace nemesis
 
         nemesis::hkStringPtr m_memberName;
         nemesis::hkStringPtr m_externalId;
-        bool m_externalIdIsAllocated;
-        bool m_memberNameIsAllocated;
+        bool m_externalIdIsAllocated{};
+        bool m_memberNameIsAllocated{};
 
     public:
         hkMemoryResourceHandleExternalLink() noexcept;

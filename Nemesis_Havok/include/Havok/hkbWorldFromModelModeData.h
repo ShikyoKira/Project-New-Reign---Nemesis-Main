@@ -26,9 +26,9 @@ namespace nemesis
 
         using WorldFromModelMode = nemesis::hkInternalClassEnumItem<char>;
 
-        short m_poseMatchingBone0;
-        short m_poseMatchingBone1;
-        short m_poseMatchingBone2;
+        short m_poseMatchingBone0{};
+        short m_poseMatchingBone1{};
+        short m_poseMatchingBone2{};
         nemesis::hkEnum<WorldFromModelMode, char> m_mode = {
             {"WORLD_FROM_MODEL_MODE_USE_OLD", 0},
             {"WORLD_FROM_MODEL_MODE_USE_INPUT", 1},

@@ -24,7 +24,7 @@ namespace nemesis
 
         using RigidBodyType = nemesis::hkInternalClassEnumItem<char>;
 
-        unsigned int m_collisionFilterInfo;
+        unsigned int m_collisionFilterInfo{};
         nemesis::hkEnum<RigidBodyType, char> m_type = {
             {"INVALID", -1},
             {"KEYFRAMED", 0},

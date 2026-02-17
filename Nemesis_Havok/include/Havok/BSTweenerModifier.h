@@ -22,15 +22,15 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(BSTweenerModifier);
 
-        bool m_tweenPosition;
-        bool m_tweenRotation;
-        bool m_useTweenDuration;
-        float m_tweenDuration;
+        bool m_tweenPosition{};
+        bool m_tweenRotation{};
+        bool m_useTweenDuration{};
+        float m_tweenDuration{};
         nemesis::hkVector4 m_targetPosition;
         nemesis::hkQuaternion m_targetRotation;
-        float m_duration;
+        float m_duration{};
         nemesis::hkQsTransform m_startTransform;
-        float m_time;
+        float m_time{};
 
     public:
         BSTweenerModifier() noexcept;

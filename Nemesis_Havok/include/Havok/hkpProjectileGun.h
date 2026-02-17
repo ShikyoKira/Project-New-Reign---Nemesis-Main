@@ -22,9 +22,9 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpProjectileGun);
 
-        int m_maxProjectiles;
-        float m_reloadTime;
-        float m_reload;
+        int m_maxProjectiles{};
+        float m_reloadTime{};
+        float m_reload{};
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::HavokObject>> m_projectiles;
         nemesis::hkRefPtr<nemesis::HavokObject> m_world;
         nemesis::hkRefPtr<nemesis::HavokObject> m_destructionWorld;

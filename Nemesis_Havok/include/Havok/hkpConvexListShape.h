@@ -23,10 +23,10 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpConvexListShape);
 
-        float m_minDistanceToUseConvexHullForGetClosestPoints;
+        float m_minDistanceToUseConvexHullForGetClosestPoints{};
         nemesis::hkVector4 m_aabbHalfExtents;
         nemesis::hkVector4 m_aabbCenter;
-        bool m_useCachedAabb;
+        bool m_useCachedAabb{};
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::hkpConvexShape>> m_childShapes;
 
     public:

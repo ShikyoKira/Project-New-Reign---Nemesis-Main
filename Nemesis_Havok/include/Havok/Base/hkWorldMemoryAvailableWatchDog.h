@@ -20,7 +20,7 @@ namespace nemesis
                                                 0};
 
     private:
-        int m_minMemoryAvailable;
+        int m_minMemoryAvailable{};
 
     public:
         hkWorldMemoryAvailableWatchDog(const nemesis::hkClass& cls) noexcept;

@@ -27,13 +27,13 @@ namespace nemesis
         using HeightFieldType = nemesis::hkInternalClassEnumItem<unsigned char>;
 
         nemesis::hkArray<nemesis::hkpSampledHeightFieldShapeCoarseMinMaxLevel> m_coarseTreeData;
-        int m_coarseness;
-        float m_raycastMinY;
-        float m_raycastMaxY;
-        int m_xRes;
-        int m_zRes;
-        float m_heightCenter;
-        bool m_useProjectionBasedHeight;
+        int m_coarseness{};
+        float m_raycastMinY{};
+        float m_raycastMaxY{};
+        int m_xRes{};
+        int m_zRes{};
+        float m_heightCenter{};
+        bool m_useProjectionBasedHeight{};
         nemesis::hkEnum<HeightFieldType, unsigned char> m_heightfieldType = {
             {"HEIGHTFIELD_STORAGE", 0},
             {"HEIGHTFIELD_COMPRESSED", 1},

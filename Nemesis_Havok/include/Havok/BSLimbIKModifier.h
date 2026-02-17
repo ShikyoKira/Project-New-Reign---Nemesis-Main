@@ -22,14 +22,14 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(BSLimbIKModifier);
 
-        float m_limitAngleDegrees;
-        float m_currentAngle;
-        short m_startBoneIndex;
-        short m_endBoneIndex;
-        float m_gain;
-        float m_boneRadius;
-        float m_castOffset;
-        float m_timeStep;
+        float m_limitAngleDegrees{};
+        float m_currentAngle{};
+        short m_startBoneIndex{};
+        short m_endBoneIndex{};
+        float m_gain{};
+        float m_boneRadius{};
+        float m_castOffset{};
+        float m_timeStep{};
         nemesis::hkRefPtr<nemesis::HavokObject> m_pSkeletonMemory;
 
     public:

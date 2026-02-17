@@ -23,7 +23,7 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkaSkeletonLocalFrameOnBone);
 
         nemesis::hkRefPtr<nemesis::hkLocalFrame> m_localFrame;
-        int m_boneIndex;
+        int m_boneIndex{};
 
     public:
         hkaSkeletonLocalFrameOnBone() noexcept;

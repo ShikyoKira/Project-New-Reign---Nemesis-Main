@@ -22,13 +22,13 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbSetBehaviorCommand);
 
-        uint64_t m_characterId;
+        uint64_t m_characterId{};
         nemesis::hkRefPtr<nemesis::hkbBehaviorGraph> m_behavior;
         nemesis::hkRefPtr<nemesis::hkbGenerator> m_rootGenerator;
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::hkbBehaviorGraph>> m_referencedBehaviors;
-        int m_startStateIndex;
-        bool m_randomizeSimulation;
-        int m_padding;
+        int m_startStateIndex{};
+        bool m_randomizeSimulation{};
+        int m_padding{};
 
     public:
         hkbSetBehaviorCommand() noexcept;

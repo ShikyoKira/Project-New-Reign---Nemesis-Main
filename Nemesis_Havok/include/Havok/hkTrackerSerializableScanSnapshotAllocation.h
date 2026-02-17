@@ -26,7 +26,7 @@ namespace nemesis
 
         nemesis::hkUlong m_start;
         nemesis::hkUlong m_size;
-        int m_traceId;
+        int m_traceId{};
 
     public:
         hkTrackerSerializableScanSnapshotAllocation() noexcept;

@@ -23,7 +23,7 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkxVertexDescription);
 
-        unsigned int m_stride;
+        unsigned int m_stride{};
         nemesis::hkArray<nemesis::hkxVertexDescriptionElementDecl> m_decls;
 
     public:

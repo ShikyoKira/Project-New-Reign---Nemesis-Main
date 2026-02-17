@@ -50,15 +50,15 @@ namespace nemesis
         nemesis::hkRefPtr<nemesis::HavokObject> m_nodeCloneToTemplateMap;
         nemesis::hkRefPtr<nemesis::HavokObject> m_stateListenerTemplateToCloneMap;
         nemesis::hkRefPtr<nemesis::HavokObject> m_nodePartitionInfo;
-        int m_numIntermediateOutputs;
+        int m_numIntermediateOutputs{};
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::HavokObject>> m_jobs;
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::HavokObject>> m_allPartitionMemory;
-        short m_numStaticNodes;
-        short m_nextUniqueId;
-        bool m_isActive;
-        bool m_isLinked;
-        bool m_updateActiveNodes;
-        bool m_stateOrTransitionChanged;
+        short m_numStaticNodes{};
+        short m_nextUniqueId{};
+        bool m_isActive{};
+        bool m_isLinked{};
+        bool m_updateActiveNodes{};
+        bool m_stateOrTransitionChanged{};
 
     public:
         hkbBehaviorGraph() noexcept;

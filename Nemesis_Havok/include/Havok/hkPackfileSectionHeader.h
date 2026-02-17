@@ -26,15 +26,15 @@ namespace nemesis
 
     protected:
         std::string m_sectionTag;
-        char m_nullByte;
-        int m_absoluteDataStart;
-        int m_localFixupsOffset;
-        int m_globalFixupsOffset;
-        int m_virtualFixupsOffset;
-        int m_exportsOffset;
-        int m_importsOffset;
-        int m_endOffset;
-        std::array<int, 4> m_pad;
+        char m_nullByte{};
+        int m_absoluteDataStart{};
+        int m_localFixupsOffset{};
+        int m_globalFixupsOffset{};
+        int m_virtualFixupsOffset{};
+        int m_exportsOffset{};
+        int m_importsOffset{};
+        int m_endOffset{};
+        std::array<int, 4> m_pad{};
 
     public:
         hkPackfileSectionHeader();

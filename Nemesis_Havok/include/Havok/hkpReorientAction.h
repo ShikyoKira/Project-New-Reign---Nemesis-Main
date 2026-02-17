@@ -24,8 +24,8 @@ namespace nemesis
 
         nemesis::hkVector4 m_rotationAxis;
         nemesis::hkVector4 m_upAxis;
-        float m_strength;
-        float m_damping;
+        float m_strength{};
+        float m_damping{};
 
     public:
         hkpReorientAction() noexcept;

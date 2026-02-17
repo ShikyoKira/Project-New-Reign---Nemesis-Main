@@ -9,7 +9,7 @@ namespace nemesis
     struct hkPropertyValueCommon : nemesis::HavokObject
     {
     private:
-        uint64_t m_data;
+        uint64_t m_data{};
 
     public:
         hkPropertyValueCommon() noexcept;

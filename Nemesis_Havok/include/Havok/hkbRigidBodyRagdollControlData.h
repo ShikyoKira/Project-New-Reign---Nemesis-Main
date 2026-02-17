@@ -23,7 +23,7 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkbRigidBodyRagdollControlData);
 
         nemesis::hkaKeyFrameHierarchyUtilityControlData m_keyFrameHierarchyControlData; // align 16
-        float m_durationToBlend;
+        float m_durationToBlend{};
 
     public:
         hkbRigidBodyRagdollControlData() noexcept;

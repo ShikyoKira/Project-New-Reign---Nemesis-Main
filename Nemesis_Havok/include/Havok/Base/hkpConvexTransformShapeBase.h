@@ -23,7 +23,7 @@ namespace nemesis
 
     private:
         nemesis::hkpSingleShapeContainer m_childShape;
-        int m_childShapeSize;
+        int m_childShapeSize{};
 
     public:
         hkpConvexTransformShapeBase(const nemesis::hkClass& cls) noexcept;

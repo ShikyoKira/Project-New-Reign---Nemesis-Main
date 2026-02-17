@@ -22,8 +22,8 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbCharacterSteppedInfo);
 
-        uint64_t m_characterId;
-        float m_deltaTime;
+        uint64_t m_characterId{};
+        float m_deltaTime{};
         nemesis::hkQsTransform m_worldFromModel;
         nemesis::hkArray<nemesis::hkQsTransform> m_poseModelSpace;
         nemesis::hkArray<nemesis::hkQsTransform> m_rigidAttachmentTransforms;

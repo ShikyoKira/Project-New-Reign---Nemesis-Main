@@ -24,7 +24,7 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkbBoolVariableSequencedData);
 
         nemesis::hkArray<nemesis::hkbBoolVariableSequencedDataSample> m_samples;
-        int m_variableIndex;
+        int m_variableIndex{};
 
     public:
         hkbBoolVariableSequencedData() noexcept;

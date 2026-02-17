@@ -24,11 +24,11 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbPoweredRagdollControlData);
 
-        float m_maxForce; // align 16
-        float m_tau;
-        float m_damping;
-        float m_proportionalRecoveryVelocity;
-        float m_constantRecoveryVelocity;
+        float m_maxForce{}; // align 16
+        float m_tau{};
+        float m_damping{};
+        float m_proportionalRecoveryVelocity{};
+        float m_constantRecoveryVelocity{};
 
     public:
         hkbPoweredRagdollControlData() noexcept;

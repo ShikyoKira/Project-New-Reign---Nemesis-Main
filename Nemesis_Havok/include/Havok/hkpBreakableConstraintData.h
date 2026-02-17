@@ -26,11 +26,11 @@ namespace nemesis
 
         nemesis::hkpBridgeAtoms m_atoms;
         nemesis::hkRefPtr<nemesis::hkpConstraintData> m_constraintData;
-        unsigned short m_childRuntimeSize;
-        unsigned short m_childNumSolverResults;
-        float m_solverResultLimit;
-        bool m_removeWhenBroken;
-        bool m_revertBackVelocityOnBreak;
+        unsigned short m_childRuntimeSize{};
+        unsigned short m_childNumSolverResults{};
+        float m_solverResultLimit{};
+        bool m_removeWhenBroken{};
+        bool m_revertBackVelocityOnBreak{};
 
     public:
         hkpBreakableConstraintData() noexcept;

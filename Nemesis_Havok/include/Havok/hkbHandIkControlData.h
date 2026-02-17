@@ -28,17 +28,17 @@ namespace nemesis
         nemesis::hkQuaternion m_targetRotation;
         nemesis::hkVector4 m_targetNormal;
         nemesis::hkRefPtr<nemesis::hkbHandle> m_targetHandle;
-        float m_transformOnFraction;
-        float m_normalOnFraction;
-        float m_fadeInDuration;
-        float m_fadeOutDuration;
-        float m_extrapolationTimeStep;
-        float m_handleChangeSpeed;
+        float m_transformOnFraction{};
+        float m_normalOnFraction{};
+        float m_fadeInDuration{};
+        float m_fadeOutDuration{};
+        float m_extrapolationTimeStep{};
+        float m_handleChangeSpeed{};
         nemesis::hkEnum<HandleChangeMode, char> m_handleChangeMode = {
             {"HANDLE_CHANGE_MODE_ABRUPT", 0},
             {"HANDLE_CHANGE_MODE_CONSTANT_VELOCITY", 1},
         };
-        bool m_fixUp;
+        bool m_fixUp{};
 
     public:
         hkbHandIkControlData() noexcept;

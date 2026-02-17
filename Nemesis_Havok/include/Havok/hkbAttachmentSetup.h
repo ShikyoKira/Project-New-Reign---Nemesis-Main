@@ -24,13 +24,13 @@ namespace nemesis
 
         using AttachmentType = nemesis::hkInternalClassEnumItem<char>;
 
-        float m_blendInTime;
-        float m_moveAttacherFraction;
-        float m_gain;
-        float m_extrapolationTimeStep;
-        float m_fixUpGain;
-        float m_maxLinearDistance;
-        float m_maxAngularDistance;
+        float m_blendInTime{};
+        float m_moveAttacherFraction{};
+        float m_gain{};
+        float m_extrapolationTimeStep{};
+        float m_fixUpGain{};
+        float m_maxLinearDistance{};
+        float m_maxAngularDistance{};
         nemesis::hkEnum<AttachmentType, char> m_attachmentType = {
             {"ATTACHMENT_TYPE_KEYFRAME_RIGID_BODY", 0},
             {"ATTACHMENT_TYPE_BALL_SOCKET_CONSTRAINT", 1},

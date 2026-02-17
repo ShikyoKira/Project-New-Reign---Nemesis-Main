@@ -20,7 +20,7 @@ namespace nemesis
                                                 0};
 
     private:
-        float m_radius;
+        float m_radius{};
 
     public:
         hkpConvexShape(const nemesis::hkClass& cls) noexcept;

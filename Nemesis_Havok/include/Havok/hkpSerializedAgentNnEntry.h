@@ -31,9 +31,9 @@ namespace nemesis
 
         nemesis::hkRefPtr<nemesis::hkpEntity> m_bodyA;
         nemesis::hkRefPtr<nemesis::hkpEntity> m_bodyB;
-        uint64_t m_bodyAId;
-        uint64_t m_bodyBId;
-        bool m_useEntityIds;
+        uint64_t m_bodyAId{};
+        uint64_t m_bodyBId{};
+        bool m_useEntityIds{};
         nemesis::hkEnum<SerializedAgentType, char> m_agentType = {
             {"INVALID_AGENT_TYPE", 0},
             {"BOX_BOX_AGENT3", 1},
@@ -50,11 +50,11 @@ namespace nemesis
         nemesis::hkArray<unsigned char> m_propertiesStream;
         nemesis::hkArray<nemesis::hkContactPoint> m_contactPoints;
         nemesis::hkArray<unsigned char> m_cpIdMgr;
-        std::array<unsigned char, 160> m_nnEntryData_0;
-        std::array<unsigned char, 192> m_nnEntryData_1;
+        std::array<unsigned char, 160> m_nnEntryData_0{};
+        std::array<unsigned char, 192> m_nnEntryData_1{};
         nemesis::hkpSerializedTrack1nInfo m_trackInfo;
-        std::array<unsigned char, 4> m_endianCheckBuffer;
-        unsigned int m_version;
+        std::array<unsigned char, 4> m_endianCheckBuffer{};
+        unsigned int m_version{};
 
     public:
         hkpSerializedAgentNnEntry() noexcept;

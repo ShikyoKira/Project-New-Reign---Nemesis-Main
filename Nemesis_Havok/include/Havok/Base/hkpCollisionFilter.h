@@ -32,7 +32,7 @@ namespace nemesis
 
         using hkpFilterType = nemesis::hkInternalClassEnumItem<unsigned int>;
 
-        std::array<unsigned int, 2> m_prepad;
+        std::array<unsigned int, 2> m_prepad{};
         nemesis::hkEnum<hkpFilterType, unsigned int> m_type = {
             {"HK_FILTER_UNKNOWN", 0},
             {"HK_FILTER_NULL", 1},
@@ -42,7 +42,7 @@ namespace nemesis
             {"HK_FILTER_PAIR", 5},
             {"HK_FILTER_CONSTRAINT", 6},
         };
-        std::array<unsigned int, 3> m_postpad;
+        std::array<unsigned int, 3> m_postpad{};
 
     public:
         hkpCollisionFilter() noexcept;

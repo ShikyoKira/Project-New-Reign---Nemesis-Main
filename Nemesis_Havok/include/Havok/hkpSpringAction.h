@@ -25,11 +25,11 @@ namespace nemesis
         nemesis::hkVector4 m_lastForce;
         nemesis::hkVector4 m_positionAinA;
         nemesis::hkVector4 m_positionBinB;
-        float m_restLength;
-        float m_strength;
-        float m_damping;
-        bool m_onCompression;
-        bool m_onExtension;
+        float m_restLength{};
+        float m_strength{};
+        float m_damping{};
+        bool m_onCompression{};
+        bool m_onExtension{};
 
     public:
         hkpSpringAction() noexcept;

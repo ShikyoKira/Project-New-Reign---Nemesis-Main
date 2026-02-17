@@ -24,8 +24,8 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkaSkeletonMapperDataSimpleMapping);
 
-        short m_boneA;
-        short m_boneB;
+        short m_boneA{};
+        short m_boneB{};
         nemesis::hkQsTransform m_aFromBTransform;
 
     public:

@@ -22,7 +22,7 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpMultiSphereShape);
 
-        int m_numSpheres;
+        int m_numSpheres{};
         std::array<nemesis::hkVector4, 8> m_spheres;
 
     public:

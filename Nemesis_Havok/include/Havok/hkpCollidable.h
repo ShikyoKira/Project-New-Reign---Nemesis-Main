@@ -25,12 +25,12 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpCollidable);
 
-        char m_ownerOffset;
-        unsigned char m_forceCollideOntoPpu;
-        unsigned short m_shapeSizeOnSpu;
+        char m_ownerOffset{};
+        unsigned char m_forceCollideOntoPpu{};
+        unsigned short m_shapeSizeOnSpu{};
         nemesis::hkpTypedBroadPhaseHandle m_broadPhaseHandle;
         nemesis::hkpCollidableBoundingVolumeData m_boundingVolumeData;
-        float m_allowedPenetrationDepth;
+        float m_allowedPenetrationDepth{};
 
     public:
         hkpCollidable() noexcept;

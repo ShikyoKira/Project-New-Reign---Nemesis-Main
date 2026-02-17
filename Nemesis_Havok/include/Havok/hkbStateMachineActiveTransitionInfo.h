@@ -29,9 +29,9 @@ namespace nemesis
         nemesis::hkRefPtr<nemesis::hkbNodeInternalStateInfo> m_transitionEffectInternalStateInfo;
         nemesis::hkbStateMachineTransitionInfoReference m_transitionInfoReference;
         nemesis::hkbStateMachineTransitionInfoReference m_transitionInfoReferenceForTE;
-        int m_fromStateId;
-        int m_toStateId;
-        bool m_isReturnToPreviousState;
+        int m_fromStateId{};
+        int m_toStateId{};
+        bool m_isReturnToPreviousState{};
 
     public:
         hkbStateMachineActiveTransitionInfo() noexcept;

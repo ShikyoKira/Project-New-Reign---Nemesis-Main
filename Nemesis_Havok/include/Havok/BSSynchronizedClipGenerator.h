@@ -24,23 +24,23 @@ namespace nemesis
 
         nemesis::hkRefPtr<nemesis::hkbGenerator> m_pClipGenerator; // align 16
         nemesis::hkCString m_SyncAnimPrefix;
-        bool m_bSyncClipIgnoreMarkPlacement;
-        float m_fGetToMarkTime;
-        float m_fMarkErrorThreshold;
-        bool m_bLeadCharacter;
-        bool m_bReorientSupportChar;
-        bool m_bApplyMotionFromRoot;
+        bool m_bSyncClipIgnoreMarkPlacement{};
+        float m_fGetToMarkTime{};
+        float m_fMarkErrorThreshold{};
+        bool m_bLeadCharacter{};
+        bool m_bReorientSupportChar{};
+        bool m_bApplyMotionFromRoot{};
         nemesis::hkRefPtr<nemesis::HavokObject> m_pSyncScene;
         nemesis::hkQsTransform m_StartMarkWS;
         nemesis::hkQsTransform m_EndMarkWS;
         nemesis::hkQsTransform m_StartMarkMS;
-        float m_fCurrentLerp;
+        float m_fCurrentLerp{};
         nemesis::hkRefPtr<nemesis::HavokObject> m_pLocalSyncBinding;
         nemesis::hkRefPtr<nemesis::HavokObject> m_pEventMap;
-        short m_sAnimationBindingIndex;
-        bool m_bAtMark;
-        bool m_bAllCharactersInScene;
-        bool m_bAllCharactersAtMarks;
+        short m_sAnimationBindingIndex{};
+        bool m_bAtMark{};
+        bool m_bAllCharactersInScene{};
+        bool m_bAllCharactersAtMarks{};
 
     public:
         BSSynchronizedClipGenerator() noexcept;

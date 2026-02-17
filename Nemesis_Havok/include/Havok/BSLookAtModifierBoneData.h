@@ -24,12 +24,12 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(BSLookAtModifierBoneData);
 
-        short m_index;
+        short m_index{};
         nemesis::hkVector4 m_fwdAxisLS;
-        float m_limitAngleDegrees;
-        float m_onGain;
-        float m_offGain;
-        bool m_enabled;
+        float m_limitAngleDegrees{};
+        float m_onGain{};
+        float m_offGain{};
+        bool m_enabled{};
         nemesis::hkVector4 m_currentFwdAxisLS;
 
     public:

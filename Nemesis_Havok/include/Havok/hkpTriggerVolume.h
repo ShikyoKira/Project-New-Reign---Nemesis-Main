@@ -33,7 +33,7 @@ namespace nemesis
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::hkpRigidBody>> m_overlappingBodies;
         nemesis::hkArray<nemesis::hkpTriggerVolumeEventInfo> m_eventQueue;
         nemesis::hkRefPtr<nemesis::hkpRigidBody> m_triggerBody;
-        unsigned int m_sequenceNumber;
+        unsigned int m_sequenceNumber{};
 
     public:
         hkpTriggerVolume() noexcept;

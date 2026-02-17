@@ -24,20 +24,20 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbProxyModifierProxyInfo);
 
-        float m_dynamicFriction;
-        float m_staticFriction;
-        float m_keepContactTolerance;
+        float m_dynamicFriction{};
+        float m_staticFriction{};
+        float m_keepContactTolerance{};
         nemesis::hkVector4 m_up;
-        float m_keepDistance;
-        float m_contactAngleSensitivity;
-        unsigned int m_userPlanes;
-        float m_maxCharacterSpeedForSolver;
-        float m_characterStrength;
-        float m_characterMass;
-        float m_maxSlope;
-        float m_penetrationRecoverySpeed;
-        int m_maxCastIterations;
-        bool m_refreshManifoldInCheckSupport;
+        float m_keepDistance{};
+        float m_contactAngleSensitivity{};
+        unsigned int m_userPlanes{};
+        float m_maxCharacterSpeedForSolver{};
+        float m_characterStrength{};
+        float m_characterMass{};
+        float m_maxSlope{};
+        float m_penetrationRecoverySpeed{};
+        int m_maxCastIterations{};
+        bool m_refreshManifoldInCheckSupport{};
 
     public:
         hkbProxyModifierProxyInfo() noexcept;

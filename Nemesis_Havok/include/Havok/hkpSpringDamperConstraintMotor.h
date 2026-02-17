@@ -22,8 +22,8 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpSpringDamperConstraintMotor);
 
-        float m_springConstant;
-        float m_springDamping;
+        float m_springConstant{};
+        float m_springDamping{};
 
     public:
         hkpSpringDamperConstraintMotor() noexcept;

@@ -24,8 +24,8 @@ namespace nemesis
 
         nemesis::hkVector4 m_translation;
         nemesis::hkQuaternion m_rotation;
-        bool m_setTranslation;
-        bool m_setRotation;
+        bool m_setTranslation{};
+        bool m_setRotation{};
 
     public:
         hkbSetWorldFromModelModifier() noexcept;

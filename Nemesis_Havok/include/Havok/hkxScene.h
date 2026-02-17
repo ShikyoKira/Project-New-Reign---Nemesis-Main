@@ -35,8 +35,8 @@ namespace nemesis
 
         nemesis::hkStringPtr m_modeller;
         nemesis::hkStringPtr m_asset;
-        float m_sceneLength;
-        unsigned int m_numFrames;
+        float m_sceneLength{};
+        unsigned int m_numFrames{};
         nemesis::hkRefPtr<nemesis::hkxNode> m_rootNode;
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::hkxNodeSelectionSet>> m_selectionSets;
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::hkxCamera>> m_cameras;

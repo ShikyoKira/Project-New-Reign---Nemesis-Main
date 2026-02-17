@@ -20,8 +20,8 @@ namespace nemesis
                                                 nemesis::hkClass::FlagValues::FLAGS_NONE,
                                                 0};
 
-        bool m_enable;
-        std::array<bool, 3> m_padModifier;
+        bool m_enable{};
+        std::array<bool, 3> m_padModifier{};
 
 	public:
         hkbModifier(const nemesis::hkClass& cls) noexcept;

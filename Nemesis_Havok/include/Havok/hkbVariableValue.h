@@ -24,7 +24,7 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbVariableValue);
 
-        int m_value;
+        int m_value{};
 
 	public:
         hkbVariableValue() noexcept;

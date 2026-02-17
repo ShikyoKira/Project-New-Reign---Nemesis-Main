@@ -26,7 +26,7 @@ namespace nemesis
         nemesis::hkMatrix4 m_boneFromAttachment;
         nemesis::hkRefPtr<nemesis::hkReferencedObject> m_attachment;
         nemesis::hkStringPtr m_name;
-        short m_boneIndex;
+        short m_boneIndex{};
 
     public:
         hkaBoneAttachment() noexcept;

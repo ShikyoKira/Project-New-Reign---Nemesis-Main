@@ -24,7 +24,7 @@ namespace nemesis
 
         nemesis::hkbStateMachineTransitionInfoReference m_transitionInfoReference;
         nemesis::hkbStateMachineTransitionInfoReference m_transitionInfoReferenceForTE;
-        int m_toStateId;
+        int m_toStateId{};
 
     public:
         hkbStateMachineProspectiveTransitionInfo() noexcept;

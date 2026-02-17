@@ -22,9 +22,9 @@ namespace nemesis
 
         nemesis::hkUlong m_userData;
         nemesis::hkStringPtr m_name;
-        short m_id;
-        char m_cloneState;
-        std::array<bool, 1> m_padNode;
+        short m_id{};
+        char m_cloneState{};
+        std::array<bool, 1> m_padNode{};
 
     public:
         hkbNode(const nemesis::hkClass& cls) noexcept;

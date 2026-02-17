@@ -24,15 +24,15 @@ namespace nemesis
 
         nemesis::hkVector4 m_pointIn;
         nemesis::hkVector4 m_pointOut;
-        float m_groundAngleOut;
-        float m_upAngleOut;
-        float m_verticalOffset;
-        bool m_reverseGroundAngle;
-        bool m_reverseUpAngle;
-        bool m_projectPoint;
-        bool m_normalizePoint;
-        bool m_computeOnlyOnce;
-        bool m_computedOutput;
+        float m_groundAngleOut{};
+        float m_upAngleOut{};
+        float m_verticalOffset{};
+        bool m_reverseGroundAngle{};
+        bool m_reverseUpAngle{};
+        bool m_projectPoint{};
+        bool m_normalizePoint{};
+        bool m_computeOnlyOnce{};
+        bool m_computedOutput{};
 
     public:
         hkbComputeDirectionModifier() noexcept;

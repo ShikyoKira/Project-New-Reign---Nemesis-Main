@@ -73,7 +73,7 @@ namespace nemesis
             {"TYPE_HALF", 32},        {"TYPE_STRINGPTR", 33},
             {"TYPE_RELARRAY", 34},    {"TYPE_MAX", 35},
         };
-        short m_cArraySize;
+        short m_cArraySize{};
         nemesis::hkEnum<FlagValues, unsigned short> m_flags = {
             {"FLAGS_NONE", 0},
             {"ALIGN_8", 128},
@@ -83,7 +83,7 @@ namespace nemesis
             {"ALIGN_32", 2048},
             {"ALIGN_REAL", 256},
         };
-        unsigned short m_offset;
+        unsigned short m_offset{};
         nemesis::hkRefPtr<nemesis::hkCustomAttributes> m_attributes;
 
     public:

@@ -30,18 +30,18 @@ namespace nemesis
         nemesis::hkQuaternion m_prevAnkleRotLS;
         nemesis::hkVector4 m_kneeAxisLS;
         nemesis::hkVector4 m_footEndLS;
-        float m_footPlantedAnkleHeightMS;
-        float m_footRaisedAnkleHeightMS;
-        float m_maxAnkleHeightMS;
-        float m_minAnkleHeightMS;
-        float m_maxKneeAngleDegrees;
-        float m_minKneeAngleDegrees;
-        float m_maxAnkleAngleDegrees;
-        short m_hipIndex;
-        short m_hipSiblingIndex;
-        short m_kneeIndex;
-        short m_kneeSiblingIndex;
-        short m_ankleIndex;
+        float m_footPlantedAnkleHeightMS{};
+        float m_footRaisedAnkleHeightMS{};
+        float m_maxAnkleHeightMS{};
+        float m_minAnkleHeightMS{};
+        float m_maxKneeAngleDegrees{};
+        float m_minKneeAngleDegrees{};
+        float m_maxAnkleAngleDegrees{};
+        short m_hipIndex{};
+        short m_hipSiblingIndex{};
+        short m_kneeIndex{};
+        short m_kneeSiblingIndex{};
+        short m_ankleIndex{};
 
     public:
         hkbFootIkDriverInfoLeg() noexcept;

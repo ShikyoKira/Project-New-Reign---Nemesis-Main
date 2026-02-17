@@ -24,7 +24,7 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkxNodeAnnotationData);
 
-        float m_time;
+        float m_time{};
         nemesis::hkStringPtr m_description;
 
     public:

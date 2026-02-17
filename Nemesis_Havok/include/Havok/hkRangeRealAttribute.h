@@ -24,10 +24,10 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkRangeRealAttribute);
 
-        float m_absmin;
-        float m_absmax;
-        float m_softmin;
-        float m_softmax;
+        float m_absmin{};
+        float m_absmax{};
+        float m_softmin{};
+        float m_softmax{};
 
     public:
         hkRangeRealAttribute() noexcept;

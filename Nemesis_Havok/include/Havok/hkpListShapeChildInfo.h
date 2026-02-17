@@ -23,10 +23,10 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkpListShapeChildInfo);
 
         nemesis::hkRefPtr<nemesis::hkpShape> m_shape; // align 16
-        unsigned int m_collisionFilterInfo;
-        unsigned short m_shapeInfo;
-        short m_shapeSize;
-        int m_numChildShapes;
+        unsigned int m_collisionFilterInfo{};
+        unsigned short m_shapeInfo{};
+        short m_shapeSize{};
+        int m_numChildShapes{};
 
     public:
         hkpListShapeChildInfo() noexcept;

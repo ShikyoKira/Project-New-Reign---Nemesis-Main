@@ -22,7 +22,7 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkp2dAngConstraintAtom);
 
-        unsigned char m_freeRotationAxis;
+        unsigned char m_freeRotationAxis{};
 
     public:
         hkp2dAngConstraintAtom() noexcept;

@@ -23,8 +23,8 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkbLookAtModifierInternalState);
 
         nemesis::hkVector4 m_lookAtLastTargetWS;
-        float m_lookAtWeight;
-        bool m_isTargetInsideLimitCone;
+        float m_lookAtWeight{};
+        bool m_isTargetInsideLimitCone{};
 
     public:
         hkbLookAtModifierInternalState() noexcept;

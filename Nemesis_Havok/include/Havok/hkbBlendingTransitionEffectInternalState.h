@@ -31,19 +31,19 @@ namespace nemesis
         nemesis::hkVector4 m_lastPos;
         nemesis::hkQuaternion m_lastRot;
         nemesis::hkArray<nemesis::hkQsTransform> m_characterPoseAtBeginningOfTransition;
-        float m_timeRemaining;
-        float m_timeInTransition;
-        bool m_resetToGenerator;
+        float m_timeRemaining{};
+        float m_timeInTransition{};
+        bool m_resetToGenerator{};
         nemesis::hkEnum<SelfTransitionMode, char> m_toGeneratorSelfTranstitionMode = {
             {"SELF_TRANSITION_MODE_CONTINUE_IF_CYCLIC_BLEND_IF_ACYCLIC", 0},
             {"SELF_TRANSITION_MODE_CONTINUE", 1},
             {"SELF_TRANSITION_MODE_RESET", 2},
             {"SELF_TRANSITION_MODE_BLEND", 3},
         };
-        bool m_applySelfTransition;
-        bool m_initializeCharacterPose;
-        bool m_alignThisFrame;
-        bool m_alignmentFinished;
+        bool m_applySelfTransition{};
+        bool m_initializeCharacterPose{};
+        bool m_alignThisFrame{};
+        bool m_alignmentFinished{};
 
     public:
         hkbBlendingTransitionEffectInternalState() noexcept;

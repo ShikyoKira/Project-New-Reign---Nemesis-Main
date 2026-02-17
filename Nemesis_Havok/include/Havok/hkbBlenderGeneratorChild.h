@@ -26,8 +26,8 @@ namespace nemesis
 
         nemesis::hkRefPtr<nemesis::hkbGenerator> m_generator; // align 16
         nemesis::hkRefPtr<nemesis::hkbBoneWeightArray> m_boneWeights;
-        float m_weight;
-        float m_worldFromModelWeight;
+        float m_weight{};
+        float m_worldFromModelWeight{};
 
     public:
         hkbBlenderGeneratorChild() noexcept;

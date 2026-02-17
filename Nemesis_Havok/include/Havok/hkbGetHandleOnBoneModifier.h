@@ -26,8 +26,8 @@ namespace nemesis
 
         nemesis::hkRefPtr<nemesis::hkbHandle> m_handleOut;
         nemesis::hkStringPtr m_localFrameName;
-        short m_ragdollBoneIndex;
-        short m_animationBoneIndex;
+        short m_ragdollBoneIndex{};
+        short m_animationBoneIndex{};
 
     public:
         hkbGetHandleOnBoneModifier() noexcept;

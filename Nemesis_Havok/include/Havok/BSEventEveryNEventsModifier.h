@@ -26,11 +26,11 @@ namespace nemesis
 
         nemesis::hkbEventProperty m_eventToCheckFor;
         nemesis::hkbEventProperty m_eventToSend;
-        char m_numberOfEventsBeforeSend;
-        char m_minimumNumberOfEventsBeforeSend;
-        bool m_randomizeNumberOfEvents;
-        int m_numberOfEventsSeen;
-        char m_calculatedNumberOfEventsBeforeSend;
+        char m_numberOfEventsBeforeSend{};
+        char m_minimumNumberOfEventsBeforeSend{};
+        bool m_randomizeNumberOfEvents{};
+        int m_numberOfEventsSeen{};
+        char m_calculatedNumberOfEventsBeforeSend{};
 
     public:
         BSEventEveryNEventsModifier() noexcept;

@@ -33,8 +33,8 @@ namespace nemesis
         nemesis::hkArray<nemesis::hkxNodeAnnotationData> m_annotations;
         nemesis::hkArray<float> m_linearKeyFrameHints;
         nemesis::hkStringPtr m_userProperties;
-        bool m_selected;
-        bool m_bone;
+        bool m_selected{};
+        bool m_bone{};
 
     public:
         hkxNode() noexcept;

@@ -39,7 +39,7 @@ namespace nemesis
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::HavokObject>> m_dirtySimulationIslands;
         nemesis::hkRefPtr<nemesis::HavokObject> m_maintenanceMgr;
         nemesis::hkRefPtr<nemesis::HavokObject> m_memoryWatchDog;
-        bool m_assertOnRunningOutOfSolverMemory;
+        bool m_assertOnRunningOutOfSolverMemory{};
         nemesis::hkEnum<BroadPhaseType, char> m_broadPhaseType = {
             /// Three axis sweep and prune. This is the "legacy" broad phase, optimized
             /// for fast incremental updates which happen during normal rigid body simulation.
@@ -60,7 +60,7 @@ namespace nemesis
         };
         nemesis::hkRefPtr<nemesis::HavokObject> m_broadPhase;
         nemesis::hkRefPtr<nemesis::HavokObject> m_kdTreeManager;
-        bool m_autoUpdateTree;
+        bool m_autoUpdateTree{};
         nemesis::hkRefPtr<nemesis::HavokObject> m_broadPhaseDispatcher;
         nemesis::hkRefPtr<nemesis::HavokObject> m_phantomBroadPhaseListener;
         nemesis::hkRefPtr<nemesis::HavokObject> m_entityEntityBroadPhaseListener;
@@ -71,45 +71,45 @@ namespace nemesis
         nemesis::hkRefPtr<nemesis::HavokObject> m_collisionDispatcher;
         nemesis::hkRefPtr<nemesis::HavokObject> m_convexListFilter;
         nemesis::hkRefPtr<nemesis::HavokObject> m_pendingOperations;
-        int m_pendingOperationsCount;
-        int m_pendingBodyOperationsCount;
-        int m_criticalOperationsLockCount;
-        int m_criticalOperationsLockCountForPhantoms;
-        bool m_blockExecutingPendingOperations;
-        bool m_criticalOperationsAllowed;
+        int m_pendingOperationsCount{};
+        int m_pendingBodyOperationsCount{};
+        int m_criticalOperationsLockCount{};
+        int m_criticalOperationsLockCountForPhantoms{};
+        bool m_blockExecutingPendingOperations{};
+        bool m_criticalOperationsAllowed{};
         nemesis::hkRefPtr<nemesis::HavokObject> m_pendingOperationQueues;
-        int m_pendingOperationQueueCount;
+        int m_pendingOperationQueueCount{};
         nemesis::hkMultiThreadCheck m_multiThreadCheck;
-        bool m_processActionsInSingleThread;
-        bool m_allowIntegrationOfIslandsWithoutConstraintsInASeparateJob;
-        unsigned int m_minDesiredIslandSize;
+        bool m_processActionsInSingleThread{};
+        bool m_allowIntegrationOfIslandsWithoutConstraintsInASeparateJob{};
+        unsigned int m_minDesiredIslandSize{};
         nemesis::hkRefPtr<nemesis::HavokObject> m_modifyConstraintCriticalSection;
-        int m_isLocked;
+        int m_isLocked{};
         nemesis::hkRefPtr<nemesis::HavokObject> m_islandDirtyListCriticalSection;
         nemesis::hkRefPtr<nemesis::HavokObject> m_propertyMasterLock;
-        bool m_wantSimulationIslands;
-        bool m_useHybridBroadphase;
-        float m_snapCollisionToConvexEdgeThreshold;
-        float m_snapCollisionToConcaveEdgeThreshold;
-        bool m_enableToiWeldRejection;
-        bool m_wantDeactivation;
-        bool m_shouldActivateOnRigidBodyTransformChange;
-        float m_deactivationReferenceDistance;
-        float m_toiCollisionResponseRotateNormal;
-        int m_maxSectorsPerMidphaseCollideTask;
-        int m_maxSectorsPerNarrowphaseCollideTask;
-        bool m_processToisMultithreaded;
-        int m_maxEntriesPerToiMidphaseCollideTask;
-        int m_maxEntriesPerToiNarrowphaseCollideTask;
-        int m_maxNumToiCollisionPairsSinglethreaded;
-        int m_simulationType;
-        float m_numToisTillAllowedPenetrationSimplifiedToi;
-        float m_numToisTillAllowedPenetrationToi;
-        float m_numToisTillAllowedPenetrationToiHigher;
-        float m_numToisTillAllowedPenetrationToiForced;
-        unsigned int m_lastEntityUid;
-        unsigned int m_lastIslandUid;
-        unsigned int m_lastConstraintUid;
+        bool m_wantSimulationIslands{};
+        bool m_useHybridBroadphase{};
+        float m_snapCollisionToConvexEdgeThreshold{};
+        float m_snapCollisionToConcaveEdgeThreshold{};
+        bool m_enableToiWeldRejection{};
+        bool m_wantDeactivation{};
+        bool m_shouldActivateOnRigidBodyTransformChange{};
+        float m_deactivationReferenceDistance{};
+        float m_toiCollisionResponseRotateNormal{};
+        int m_maxSectorsPerMidphaseCollideTask{};
+        int m_maxSectorsPerNarrowphaseCollideTask{};
+        bool m_processToisMultithreaded{};
+        int m_maxEntriesPerToiMidphaseCollideTask{};
+        int m_maxEntriesPerToiNarrowphaseCollideTask{};
+        int m_maxNumToiCollisionPairsSinglethreaded{};
+        int m_simulationType{};
+        float m_numToisTillAllowedPenetrationSimplifiedToi{};
+        float m_numToisTillAllowedPenetrationToi{};
+        float m_numToisTillAllowedPenetrationToiHigher{};
+        float m_numToisTillAllowedPenetrationToiForced{};
+        unsigned int m_lastEntityUid{};
+        unsigned int m_lastIslandUid{};
+        unsigned int m_lastConstraintUid{};
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::hkpPhantom>> m_phantoms;
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::HavokObject>> m_actionListeners;
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::HavokObject>> m_entityListeners;
@@ -131,10 +131,10 @@ namespace nemesis
         nemesis::hkRefPtr<nemesis::HavokObject> m_npWorld;
         nemesis::hkpWorldDynamicsStepInfo m_dynamicsStepInfo;
         std::array<nemesis::hkVector4, 2> m_broadPhaseExtents;
-        int m_broadPhaseNumMarkers;
-        int m_sizeOfToiEventQueue;
-        int m_broadPhaseQuerySize;
-        int m_broadPhaseUpdateSize;
+        int m_broadPhaseNumMarkers{};
+        int m_sizeOfToiEventQueue{};
+        int m_broadPhaseQuerySize{};
+        int m_broadPhaseUpdateSize{};
         nemesis::hkEnum<ContactPointGeneration, char> m_contactPointGeneration = {
             /// Try to gather as many contact points as possible. This
             /// gives you the highest quality at the cost of some (up to 25%)
@@ -151,7 +151,7 @@ namespace nemesis
             /// Note: Stacking small objects becomes very difficult with this option enabled
             {"CONTACT_POINT_REJECT_MANY", 2},
         };
-        bool m_BETA_useSplitCollisionPipeline;
+        bool m_BETA_useSplitCollisionPipeline{};
 
     public:
         hkpWorld() noexcept;

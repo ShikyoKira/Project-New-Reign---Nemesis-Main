@@ -24,9 +24,9 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbStateMachineTransitionInfoReference);
 
-        short m_fromStateIndex;
-        short m_transitionIndex;
-        short m_stateMachineId;
+        short m_fromStateIndex{};
+        short m_transitionIndex{};
+        short m_stateMachineId{};
 
     public:
         hkbStateMachineTransitionInfoReference() noexcept;

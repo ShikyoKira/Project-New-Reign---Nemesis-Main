@@ -26,7 +26,7 @@ namespace nemesis
 
         nemesis::hkAabb m_aabb;
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::HavokObject>> m_overlappingCollidables;
-        bool m_orderDirty;
+        bool m_orderDirty{};
 
     public:
         hkpAabbPhantom() noexcept;

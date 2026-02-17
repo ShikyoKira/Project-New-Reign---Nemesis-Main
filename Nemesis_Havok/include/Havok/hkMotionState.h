@@ -25,13 +25,13 @@ namespace nemesis
         nemesis::hkTransform m_transform;
         nemesis::hkSweptTransform m_sweptTransform;
         nemesis::hkVector4 m_deltaAngle;
-        float m_objectRadius;
+        float m_objectRadius{};
         nemesis::hkHalf m_linearDamping;
         nemesis::hkHalf m_angularDamping;
         nemesis::hkHalf m_timeFactor;
         nemesis::hkUFloat8 m_maxLinearVelocity;
         nemesis::hkUFloat8 m_maxAngularVelocity;
-        unsigned char m_deactivationClass;
+        unsigned char m_deactivationClass{};
 
     public:
         hkMotionState() noexcept;

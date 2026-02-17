@@ -24,7 +24,7 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkPackedVector3);
 
-        std::array<short, 4> m_values;
+        std::array<short, 4> m_values{};
 
     public:
         hkPackedVector3() noexcept;

@@ -43,14 +43,14 @@ namespace nemesis
         {"BITS16", 1},     \
     };
 
-        float m_rotationTolerance;
-        float m_translationTolerance;
-        float m_scaleTolerance;
-        float m_floatingTolerance;
-        unsigned short m_rotationDegree;
-        unsigned short m_translationDegree;
-        unsigned short m_scaleDegree;
-        unsigned short m_floatingDegree;
+        float m_rotationTolerance{};
+        float m_translationTolerance{};
+        float m_scaleTolerance{};
+        float m_floatingTolerance{};
+        unsigned short m_rotationDegree{};
+        unsigned short m_translationDegree{};
+        unsigned short m_scaleDegree{};
+        unsigned short m_floatingDegree{};
         nemesis::hkEnum<RotationQuantization, unsigned char> m_rotationQuantizationType
             = ROTATION_QUANTIZATION;
         nemesis::hkEnum<ScalarQuantization, unsigned char> m_translationQuantizationType = SCLAR_QUANTIZATION;

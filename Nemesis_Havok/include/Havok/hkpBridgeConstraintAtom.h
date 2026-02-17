@@ -25,7 +25,7 @@ namespace nemesis
 
         nemesis::hkRefPtr<nemesis::HavokObject> m_buildJacobianFunc;
         nemesis::hkRefPtr<nemesis::hkpConstraintData> m_constraintData;
-        std::array<unsigned char, 4> m_padding;
+        std::array<unsigned char, 4> m_padding{};
 
     public:
         hkpBridgeConstraintAtom() noexcept;

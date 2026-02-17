@@ -22,7 +22,7 @@ namespace nemesis
                                                 0};
 
     private:
-        unsigned int m_id;
+        unsigned int m_id{};
 
     public:
         hkpBroadPhaseHandle(const nemesis::hkClass& cls) noexcept;

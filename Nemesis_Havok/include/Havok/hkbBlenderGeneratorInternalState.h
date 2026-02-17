@@ -26,12 +26,12 @@ namespace nemesis
 
         nemesis::hkArray<nemesis::hkbBlenderGeneratorChildInternalState> m_childrenInternalStates;
         nemesis::hkArray<short> m_sortedChildren;
-        float m_endIntervalWeight;
-        int m_numActiveChildren;
-        short m_beginIntervalIndex;
-        short m_endIntervalIndex;
-        bool m_initSync;
-        bool m_doSubtractiveBlend;
+        float m_endIntervalWeight{};
+        int m_numActiveChildren{};
+        short m_beginIntervalIndex{};
+        short m_endIntervalIndex{};
+        bool m_initSync{};
+        bool m_doSubtractiveBlend{};
 
     public:
         hkbBlenderGeneratorInternalState() noexcept;

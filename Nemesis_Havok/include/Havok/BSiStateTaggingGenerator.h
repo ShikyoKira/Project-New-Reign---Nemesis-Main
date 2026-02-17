@@ -23,8 +23,8 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(BSiStateTaggingGenerator);
 
         nemesis::hkRefPtr<nemesis::hkbGenerator> m_pDefaultGenerator; // align 16
-        int m_iStateToSetAs;
-        int m_iPriority;
+        int m_iStateToSetAs{};
+        int m_iPriority{};
 
     public:
         BSiStateTaggingGenerator() noexcept;

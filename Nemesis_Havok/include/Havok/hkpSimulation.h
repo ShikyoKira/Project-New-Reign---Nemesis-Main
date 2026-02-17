@@ -26,18 +26,18 @@ namespace nemesis
 
         using LastProcessingStep = nemesis::hkInternalClassEnumItem<unsigned char>;
 
-        unsigned int m_determinismCheckFrameCounter;
+        unsigned int m_determinismCheckFrameCounter{};
         nemesis::hkpWorld* m_world                                              = nullptr;
         nemesis::hkEnum<LastProcessingStep, unsigned char> m_lastProcessingStep = {
             {"INTEGRATE", 0},
             {"COLLIDE", 1},
         };
-        float m_currentTime;
-        float m_currentPsiTime;
-        float m_physicsDeltaTime;
-        float m_simulateUntilTime;
-        float m_frameMarkerPsiSnap;
-        unsigned int m_previousStepResult;
+        float m_currentTime{};
+        float m_currentPsiTime{};
+        float m_physicsDeltaTime{};
+        float m_simulateUntilTime{};
+        float m_frameMarkerPsiSnap{};
+        unsigned int m_previousStepResult{};
 
     public:
         hkpSimulation() noexcept;

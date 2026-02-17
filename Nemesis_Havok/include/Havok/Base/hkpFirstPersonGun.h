@@ -22,7 +22,7 @@ namespace nemesis
     private:
         using KeyboardKey = nemesis::hkInternalClassEnumItem<unsigned char>;
 
-        unsigned char m_type;
+        unsigned char m_type{};
         nemesis::hkStringPtr m_name;
         nemesis::hkEnum<KeyboardKey, unsigned char> m_keyboardKey = {
             {"KEY_F1", 112},

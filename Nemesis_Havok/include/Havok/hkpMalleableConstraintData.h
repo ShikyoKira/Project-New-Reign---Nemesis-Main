@@ -26,7 +26,7 @@ namespace nemesis
 
         nemesis::hkRefPtr<nemesis::hkpConstraintData> m_constraintData;
         nemesis::hkpBridgeAtoms m_atoms;
-        float m_strength;
+        float m_strength{};
 
     public:
         hkpMalleableConstraintData() noexcept;

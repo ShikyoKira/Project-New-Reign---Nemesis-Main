@@ -22,7 +22,7 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbRotateCharacterModifierInternalState);
 
-        float m_angle;
+        float m_angle{};
 
     public:
         hkbRotateCharacterModifierInternalState() noexcept;

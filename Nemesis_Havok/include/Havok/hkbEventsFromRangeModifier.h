@@ -24,8 +24,8 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbEventsFromRangeModifier);
 
-        float m_inputValue;
-        float m_lowerBound;
+        float m_inputValue{};
+        float m_lowerBound{};
         nemesis::hkRefPtr<nemesis::hkbEventRangeDataArray> m_eventRanges;
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::HavokObject>> m_wasActiveInPreviousFrame;
 

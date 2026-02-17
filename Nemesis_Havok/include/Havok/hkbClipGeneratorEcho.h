@@ -24,9 +24,9 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbClipGeneratorEcho);
 
-        float m_offsetLocalTime; // align 16
-        float m_weight;
-        float m_dwdt;
+        float m_offsetLocalTime{}; // align 16
+        float m_weight{};
+        float m_dwdt{};
 
     public:
         hkbClipGeneratorEcho() noexcept;

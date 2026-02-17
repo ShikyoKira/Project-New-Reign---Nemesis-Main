@@ -24,8 +24,8 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkaSplineCompressedAnimationAnimationCompressionParams);
 
-        unsigned short m_maxFramesPerBlock;
-        bool m_enableSampleSingleTracks;
+        unsigned short m_maxFramesPerBlock{};
+        bool m_enableSampleSingleTracks{};
 
     public:
         hkaSplineCompressedAnimationAnimationCompressionParams() noexcept;

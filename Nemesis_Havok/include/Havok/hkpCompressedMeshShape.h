@@ -31,11 +31,11 @@ namespace nemesis
         using WeldingType = nemesis::hkInternalClassEnumItem<unsigned char>;
         using MaterialType = nemesis::hkInternalClassEnumItem<unsigned char>;
 
-        int m_bitsPerIndex;
-        int m_bitsPerWIndex;
-        int m_wIndexMask;
-        int m_indexMask;
-        float m_radius;
+        int m_bitsPerIndex{};
+        int m_bitsPerWIndex{};
+        int m_wIndexMask{};
+        int m_indexMask{};
+        float m_radius{};
         nemesis::hkEnum<WeldingType, unsigned char> m_weldingType = {
             {"WELDING_TYPE_ANTICLOCKWISE", 0},
             {"WELDING_TYPE_CLOCKWISE", 4},
@@ -58,12 +58,12 @@ namespace nemesis
         nemesis::hkArray<nemesis::hkpCompressedMeshShapeBigTriangle> m_bigTriangles;
         nemesis::hkArray<nemesis::hkpCompressedMeshShapeChunk> m_chunks;
         nemesis::hkArray<nemesis::hkpCompressedMeshShapeConvexPiece> m_convexPieces;
-        float m_error;
+        float m_error{};
         nemesis::hkAabb m_bounds;
-        unsigned int m_defaultCollisionFilterInfo;
+        unsigned int m_defaultCollisionFilterInfo{};
         nemesis::hkRefPtr<nemesis::HavokObject> m_meshMaterials;
-        unsigned short m_materialStriding;
-        unsigned short m_numMaterials;
+        unsigned short m_materialStriding{};
+        unsigned short m_numMaterials{};
         nemesis::hkArray<nemesis::hkpNamedMeshMaterial> m_namedMaterials;
         nemesis::hkVector4 m_scaling;
 

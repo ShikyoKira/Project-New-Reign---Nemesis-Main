@@ -32,10 +32,10 @@ namespace nemesis
         nemesis::hkRefPtr<nemesis::hkbTransitionEffect> m_transition;
         nemesis::hkRefPtr<nemesis::hkbCondition> m_condition;
         nemesis::hkEventId m_eventId;
-        int m_toStateId;
-        int m_fromNestedStateId;
-        int m_toNestedStateId;
-        short m_priority;
+        int m_toStateId{};
+        int m_fromNestedStateId{};
+        int m_toNestedStateId{};
+        short m_priority{};
         nemesis::hkEnum<TransitionFlags, short> m_flags = {
             {"FLAG_USE_TRIGGER_INTERVAL", 0x1},
             {"FLAG_USE_INITIATE_INTERVAL", 0x2},

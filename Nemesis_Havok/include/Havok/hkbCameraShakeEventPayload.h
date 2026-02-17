@@ -22,8 +22,8 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbCameraShakeEventPayload);
 
-        float m_amplitude;
-        float m_halfLife;
+        float m_amplitude{};
+        float m_halfLife{};
 
     public:
         hkbCameraShakeEventPayload() noexcept;

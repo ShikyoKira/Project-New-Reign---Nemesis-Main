@@ -7,7 +7,7 @@ namespace nemesis
     struct hkCharacterPropertyId : nemesis::hkVariant
     {
     private:
-        int Value;
+        int Value{};
 
     public:
         nemesis::hkCharacterPropertyId& operator=(const nemesis::hkCharacterPropertyId& prop_id);

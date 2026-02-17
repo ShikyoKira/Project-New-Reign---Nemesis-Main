@@ -24,8 +24,8 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbGeneratorSyncInfoSyncPoint);
 
-        int m_id;
-        float m_time;
+        int m_id{};
+        float m_time{};
 
     public:
         hkbGeneratorSyncInfoSyncPoint() noexcept;

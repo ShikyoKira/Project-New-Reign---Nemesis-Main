@@ -24,10 +24,10 @@ namespace nemesis
 
         nemesis::hkVector4 m_groundPosition;
         nemesis::hkbEventProperty m_ungroundedEvent;
-        float m_verticalError;
-        bool m_hitSomething;
-        bool m_isPlantedMS;
-        bool m_enabled;
+        float m_verticalError{};
+        bool m_hitSomething{};
+        bool m_isPlantedMS{};
+        bool m_enabled{};
 
     public:
         hkbFootIkControlsModifierLeg() noexcept;

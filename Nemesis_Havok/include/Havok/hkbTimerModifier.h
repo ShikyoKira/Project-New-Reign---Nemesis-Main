@@ -24,9 +24,9 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbTimerModifier);
 
-        float m_alarmTimeSeconds;
+        float m_alarmTimeSeconds{};
         nemesis::hkbEventProperty m_alarmEvent;
-        float m_secondsElapsed;
+        float m_secondsElapsed{};
 
     public:
         hkbTimerModifier() noexcept;

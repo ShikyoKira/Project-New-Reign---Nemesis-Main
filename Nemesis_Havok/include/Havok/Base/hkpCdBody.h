@@ -21,7 +21,7 @@ namespace nemesis
 
     private:
         nemesis::hkRefPtr<nemesis::hkpShape> m_shape;
-        unsigned int m_shapeKey;
+        unsigned int m_shapeKey{};
         nemesis::hkRefPtr<nemesis::HavokObject> m_motion;
         nemesis::hkRefPtr<nemesis::hkpCdBody> m_parent;
 

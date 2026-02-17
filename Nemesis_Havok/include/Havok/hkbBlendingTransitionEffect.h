@@ -26,8 +26,8 @@ namespace nemesis
         using EndMode = nemesis::hkInternalClassEnumItem<char>;
         using BlendCurve = nemesis::hkInternalClassEnumItem<char>;
 
-        float m_duration;
-        float m_toGeneratorStartTimeFraction;
+        float m_duration{};
+        float m_toGeneratorStartTimeFraction{};
         nemesis::hkEnum<FlagBits, unsigned short> m_flags = {
             //{"FLAG_NONE", 0x0},
             {"0", 0x0},
@@ -50,11 +50,11 @@ namespace nemesis
         nemesis::hkRefPtr<nemesis::HavokObject> m_fromGenerator;
         nemesis::hkRefPtr<nemesis::HavokObject> m_toGenerator;
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::HavokObject>> m_characterPoseAtBeginningOfTransition;
-        float m_timeRemaining;
-        float m_timeInTransition;
-        short m_alignmentBone;
-        bool m_applySelfTransition;
-        bool m_initializeCharacterPose;
+        float m_timeRemaining{};
+        float m_timeInTransition{};
+        short m_alignmentBone{};
+        bool m_applySelfTransition{};
+        bool m_initializeCharacterPose{};
 
     public:
         hkbBlendingTransitionEffect() noexcept;

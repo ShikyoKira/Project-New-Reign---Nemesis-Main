@@ -36,17 +36,17 @@ namespace nemesis
         nemesis::hkVector4 m_emissiveColor;
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::hkxMaterial>> m_subMaterials;
         nemesis::hkRefPtr<nemesis::hkReferencedObject> m_extraData;
-        std::array<float, 2> m_uvMapScale;
-        std::array<float, 2> m_uvMapOffset;
-        float m_uvMapRotation;
+        std::array<float, 2> m_uvMapScale{};
+        std::array<float, 2> m_uvMapOffset{};
+        float m_uvMapRotation                                              = 0.0f;
         nemesis::hkEnum<UVMappingAlgorithm, unsigned int> m_uvMapAlgorithm = {
             {"UVMA_SRT", 0},
             {"UVMA_TRS", 1},
             {"UVMA_3DSMAX_STYLE", 2},
             {"UVMA_MAYA_STYLE", 3},
         };
-        float m_specularMultiplier;
-        float m_specularExponent;
+        float m_specularMultiplier                                  = 0.0f;
+        float m_specularExponent                                    = 0.0f;
         nemesis::hkEnum<Transparency, unsigned char> m_transparency = {
             {"transp_none", 0},
             {"transp_alpha", 2},

@@ -22,9 +22,9 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpLinLimitConstraintAtom);
 
-        unsigned char m_axisIndex;
-        float m_min;
-        float m_max;
+        unsigned char m_axisIndex{};
+        float m_min{};
+        float m_max{};
 
     public:
         hkpLinLimitConstraintAtom() noexcept;

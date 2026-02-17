@@ -24,7 +24,7 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpMeshMaterial);
 
-        unsigned int m_filterInfo;
+        unsigned int m_filterInfo{};
 
     public:
         hkpMeshMaterial() noexcept;

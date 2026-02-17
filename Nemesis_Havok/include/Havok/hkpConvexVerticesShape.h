@@ -31,7 +31,7 @@ namespace nemesis
         nemesis::hkArray<nemesis::hkpConvexVerticesShapeFourVectors> m_rotatedVertices_0;
         nemesis::hkArray<nemesis::hkFourTransposedPoints> m_rotatedVertices_1;
         nemesis::hkArray<nemesis::hkQsTransform> m_rotatedVertices_2;
-        int m_numVertices;
+        int m_numVertices{};
         nemesis::hkRefPtr<nemesis::HavokObject> m_convexPiece;
         nemesis::hkRefPtr<nemesis::HavokObject> m_externalObject;
         nemesis::hkRefPtr<nemesis::HavokObject> m_getFaceNormals;

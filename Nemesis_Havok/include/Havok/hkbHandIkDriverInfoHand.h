@@ -28,15 +28,15 @@ namespace nemesis
         nemesis::hkVector4 m_backHandNormalLS;
         nemesis::hkVector4 m_handOffsetLS;
         nemesis::hkQuaternion m_handOrienationOffsetLS;
-        float m_maxElbowAngleDegrees;
-        float m_minElbowAngleDegrees;
-        short m_shoulderIndex;
-        short m_shoulderSiblingIndex;
-        short m_elbowIndex;
-        short m_elbowSiblingIndex;
-        short m_wristIndex;
-        bool m_enforceEndPosition;
-        bool m_enforceEndRotation;
+        float m_maxElbowAngleDegrees{};
+        float m_minElbowAngleDegrees{};
+        short m_shoulderIndex{};
+        short m_shoulderSiblingIndex{};
+        short m_elbowIndex{};
+        short m_elbowSiblingIndex{};
+        short m_wristIndex{};
+        bool m_enforceEndPosition{};
+        bool m_enforceEndRotation{};
         nemesis::hkStringPtr m_localFrameName;
 
     public:

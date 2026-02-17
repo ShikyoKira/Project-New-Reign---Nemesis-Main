@@ -22,8 +22,8 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpCylinderShape);
 
-        float m_cylRadius;
-        float m_cylBaseRadiusFactorForHeightFieldCollisions;
+        float m_cylRadius{};
+        float m_cylBaseRadiusFactorForHeightFieldCollisions{};
         nemesis::hkVector4 m_vertexA;
         nemesis::hkVector4 m_vertexB;
         nemesis::hkVector4 m_perpendicular1;

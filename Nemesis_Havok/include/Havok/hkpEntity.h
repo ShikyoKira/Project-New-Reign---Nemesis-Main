@@ -33,26 +33,26 @@ namespace nemesis
 
         nemesis::hkpMaterial m_material;
         nemesis::hkRefPtr<nemesis::HavokObject> m_limitContactImpulseUtilAndFlag;
-        float m_damageMultiplier;
+        float m_damageMultiplier{};
         nemesis::hkRefPtr<nemesis::hkpBreakableBody> m_breakableBody;
-        unsigned int m_solverData;
-        unsigned short m_storageIndex;
-        unsigned short m_contactPointCallbackDelay;
+        unsigned int m_solverData{};
+        unsigned short m_storageIndex{};
+        unsigned short m_contactPointCallbackDelay{};
         nemesis::hkpEntitySmallArraySerializeOverrideType m_constraintsMaster;
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::hkpConstraintInstance>> m_constraintsSlave;
         nemesis::hkArray<unsigned char> m_constraintRuntime;
         nemesis::hkRefPtr<nemesis::HavokObject> m_simulationIsland;
-        char m_autoRemoveLevel;
-        unsigned char m_numShapeKeysInContactPointProperties;
-        unsigned char m_responseModifierFlags;
-        unsigned int m_uid;
+        char m_autoRemoveLevel{};
+        unsigned char m_numShapeKeysInContactPointProperties{};
+        unsigned char m_responseModifierFlags{};
+        unsigned int m_uid{};
         nemesis::hkpEntitySpuCollisionCallback m_spuCollisionCallback;
         nemesis::hkpMaxSizeMotion m_motion;
         nemesis::hkpEntitySmallArraySerializeOverrideType m_contactListeners;
         nemesis::hkpEntitySmallArraySerializeOverrideType m_actions;
         nemesis::hkRefPtr<nemesis::hkLocalFrame> m_localFrame;
         nemesis::hkRefPtr<nemesis::hkpEntityExtendedListeners> m_extendedListeners;
-        unsigned int m_npData;
+        unsigned int m_npData{};
 
     public:
         hkpEntity() noexcept;

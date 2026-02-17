@@ -9,8 +9,8 @@ namespace nemesis
     struct hkQuaternion : nemesis::hkVariant
     {
     private:
-        float X; // align 16
-        float Y, Z, R;
+        float X{}; // align 16
+        float Y{}, Z{}, R{};
 
     public:
         hkQuaternion() noexcept;

@@ -24,10 +24,10 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkMultiThreadCheck);
 
-        unsigned int m_threadId;
-        int m_stackTraceId;
-        unsigned short m_markCount;
-        unsigned short m_markBitStack;
+        unsigned int m_threadId{};
+        int m_stackTraceId{};
+        unsigned short m_markCount{};
+        unsigned short m_markBitStack{};
 
     public:
         hkMultiThreadCheck() noexcept;

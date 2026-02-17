@@ -25,7 +25,7 @@ namespace nemesis
 
         using CollectionType = nemesis::hkInternalClassEnumItem<unsigned char>;
 
-        bool m_disableWelding;
+        bool m_disableWelding{};
         nemesis::hkEnum<CollectionType, unsigned char> m_collectionType = {
             {"COLLECTION_LIST", 0},
             {"COLLECTION_EXTENDED_MESH", 1},

@@ -22,8 +22,8 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpGroupCollisionFilter);
 
-        bool m_noGroupCollisionEnabled;
-        std::array<unsigned int, 32> m_collisionGroups;
+        bool m_noGroupCollisionEnabled{};
+        std::array<unsigned int, 32> m_collisionGroups{};
 
     public:
         hkpGroupCollisionFilter() noexcept;

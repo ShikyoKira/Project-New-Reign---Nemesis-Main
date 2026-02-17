@@ -23,8 +23,8 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(BSIStateManagerModifierBSiStateData);
 
         nemesis::hkRefPtr<nemesis::hkbGenerator> m_pStateMachine;
-        int m_StateID;
-        int m_iStateToSetAs;
+        int m_StateID{};
+        int m_iStateToSetAs{};
 
     public:
         BSIStateManagerModifierBSiStateData() noexcept;

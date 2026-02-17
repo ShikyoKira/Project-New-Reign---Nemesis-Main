@@ -22,11 +22,11 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbClipTrigger);
 
-        float m_localTime;
+        float m_localTime{};
         nemesis::hkbEventProperty m_event;
-        bool m_relativeToEndOfClip;
-        bool m_acyclic;
-        bool m_isAnnotation;
+        bool m_relativeToEndOfClip{};
+        bool m_acyclic{};
+        bool m_isAnnotation{};
 
     public:
         hkbClipTrigger() noexcept;

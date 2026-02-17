@@ -22,7 +22,7 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbMirrorModifier);
 
-        bool m_isAdditive;
+        bool m_isAdditive{};
 
     public:
         hkbMirrorModifier() noexcept;

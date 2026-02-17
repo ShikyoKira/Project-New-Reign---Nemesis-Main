@@ -9,7 +9,7 @@ namespace nemesis
 	struct hkUlong : nemesis::hkVariant
 	{
     private:
-        uint64_t value;
+        uint64_t value{};
 
 	public:
         hkUlong() = default;

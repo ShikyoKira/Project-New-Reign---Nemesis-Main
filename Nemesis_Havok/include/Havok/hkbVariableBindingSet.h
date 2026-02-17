@@ -26,8 +26,8 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkbVariableBindingSet);
 
         nemesis::hkArray<nemesis::hkbVariableBindingSetBinding> m_bindings;
-        int m_indexOfBindingToEnable;
-        bool m_hasOutputBinding;
+        int m_indexOfBindingToEnable{};
+        bool m_hasOutputBinding{};
 
     public:
         hkbVariableBindingSet() noexcept;

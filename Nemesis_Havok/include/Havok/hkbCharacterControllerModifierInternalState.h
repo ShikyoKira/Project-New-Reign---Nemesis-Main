@@ -23,9 +23,9 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkbCharacterControllerModifierInternalState);
 
         nemesis::hkVector4 m_gravity;
-        float m_timestep;
-        bool m_isInitialVelocityAdded;
-        bool m_isTouchingGround;
+        float m_timestep{};
+        bool m_isInitialVelocityAdded{};
+        bool m_isTouchingGround{};
 
     public:
         hkbCharacterControllerModifierInternalState() noexcept;

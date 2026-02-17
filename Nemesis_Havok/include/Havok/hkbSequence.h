@@ -41,8 +41,8 @@ namespace nemesis
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::HavokObject>> m_nextSampleReals;
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::HavokObject>> m_nextSampleBools;
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::HavokObject>> m_nextSampleInts;
-        float m_time;
-        bool m_isEnabled;
+        float m_time{};
+        bool m_isEnabled{};
 
     public:
         hkbSequence() noexcept;

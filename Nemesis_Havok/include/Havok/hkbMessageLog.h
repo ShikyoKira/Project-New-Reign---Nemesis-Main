@@ -25,7 +25,7 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkbMessageLog);
 
         nemesis::hkRefPtr<nemesis::HavokObject> m_messages;
-        int m_maxMessages;
+        int m_maxMessages{};
 
     public:
         hkbMessageLog() noexcept;

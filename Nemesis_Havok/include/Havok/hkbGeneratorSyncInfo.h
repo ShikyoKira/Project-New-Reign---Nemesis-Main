@@ -24,14 +24,14 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkbGeneratorSyncInfo);
 
         std::array<nemesis::hkbGeneratorSyncInfoSyncPoint, 16> m_syncPoints;
-        float m_baseFrequency;
-        float m_duration;
-        float m_localTime;
-        float m_playbackSpeed;
-        char m_numSyncPoints;
-        bool m_isCyclic;
-        bool m_isMirrored;
-        bool m_isAdditive;
+        float m_baseFrequency{};
+        float m_duration{};
+        float m_localTime{};
+        float m_playbackSpeed{};
+        char m_numSyncPoints{};
+        bool m_isCyclic{};
+        bool m_isMirrored{};
+        bool m_isAdditive{};
         nemesis::hkbGeneratorSyncInfoActiveInterval m_activeInterval;
 
     public:

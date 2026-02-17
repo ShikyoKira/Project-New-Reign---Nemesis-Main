@@ -22,14 +22,14 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpCollidableBoundingVolumeData);
 
-        std::array<unsigned int, 3> m_min;
-        std::array<unsigned char, 3> m_expansionMin;
-        unsigned char m_expansionShift;
-        std::array<unsigned int, 3> m_max;
-        std::array<unsigned char, 3> m_expansionMax;
-        unsigned char m_padding;
-        unsigned short m_numChildShapeAabbs;
-        unsigned short m_capacityChildShapeAabbs;
+        std::array<unsigned int, 3> m_min{};
+        std::array<unsigned char, 3> m_expansionMin{};
+        unsigned char m_expansionShift{};
+        std::array<unsigned int, 3> m_max{};
+        std::array<unsigned char, 3> m_expansionMax{};
+        unsigned char m_padding{};
+        unsigned short m_numChildShapeAabbs{};
+        unsigned short m_capacityChildShapeAabbs{};
         nemesis::hkRefPtr<nemesis::hkAabbUint32> m_childShapeAabbs;
         nemesis::hkRefPtr<nemesis::HavokObject> m_childShapeKeys;
 

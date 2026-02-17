@@ -23,7 +23,7 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbBehaviorInfo);
 
-        uint64_t m_characterId;
+        uint64_t m_characterId{};
         nemesis::hkRefPtr<nemesis::hkbBehaviorGraphData> m_data;
         nemesis::hkArray<nemesis::hkbBehaviorInfoIdToNamePair> m_idToNamePairs;
 

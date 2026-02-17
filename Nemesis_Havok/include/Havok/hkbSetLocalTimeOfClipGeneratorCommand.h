@@ -22,9 +22,9 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbSetLocalTimeOfClipGeneratorCommand);
 
-        uint64_t m_characterId;
-        float m_localTime;
-        short m_nodeId;
+        uint64_t m_characterId{};
+        float m_localTime{};
+        short m_nodeId{};
 
     public:
         hkbSetLocalTimeOfClipGeneratorCommand() noexcept;

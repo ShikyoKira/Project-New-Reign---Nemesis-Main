@@ -29,13 +29,13 @@ namespace nemesis
         nemesis::hkArray<unsigned char> m_transitionFlags;
         nemesis::hkArray<unsigned char> m_wildcardTransitionFlags;
         nemesis::hkArray<nemesis::hkbStateMachineDelayedTransitionInfo> m_delayedTransitions;
-        float m_timeInState;
-        float m_lastLocalTime;
-        int m_currentStateId;
-        int m_previousStateId;
-        int m_nextStartStateIndexOverride;
-        bool m_stateOrTransitionChanged;
-        bool m_echoNextUpdate;
+        float m_timeInState{};
+        float m_lastLocalTime{};
+        int m_currentStateId{};
+        int m_previousStateId{};
+        int m_nextStartStateIndexOverride{};
+        bool m_stateOrTransitionChanged{};
+        bool m_echoNextUpdate{};
 
     public:
         hkbStateMachineInternalState() noexcept;

@@ -27,13 +27,13 @@ namespace nemesis
 
         nemesis::hkpBridgeAtoms m_atoms;
         nemesis::hkArray<nemesis::hkpPoweredChainDataConstraintInfo> m_infos;
-        float m_tau;
-        float m_damping;
-        float m_cfmLinAdd;
-        float m_cfmLinMul;
-        float m_cfmAngAdd;
-        float m_cfmAngMul;
-        float m_maxErrorDistance;
+        float m_tau{};
+        float m_damping{};
+        float m_cfmLinAdd{};
+        float m_cfmLinMul{};
+        float m_cfmAngAdd{};
+        float m_cfmAngMul{};
+        float m_maxErrorDistance{};
 
     public:
         hkpPoweredChainData() noexcept;

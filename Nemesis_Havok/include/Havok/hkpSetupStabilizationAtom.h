@@ -22,11 +22,11 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpSetupStabilizationAtom);
 
-        bool m_enabled;
-        float m_maxLinImpulse;
-        float m_maxAngImpulse;
-        float m_maxAngle;
-        std::array<unsigned char, 8> m_padding;
+        bool m_enabled{};
+        float m_maxLinImpulse{};
+        float m_maxAngImpulse{};
+        float m_maxAngle{};
+        std::array<unsigned char, 8> m_padding{};
 
     public:
         hkpSetupStabilizationAtom() noexcept;

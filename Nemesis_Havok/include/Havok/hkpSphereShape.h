@@ -22,7 +22,7 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpSphereShape);
 
-        std::array<unsigned int, 3> m_pad16;
+        std::array<unsigned int, 3> m_pad16{};
 
     public:
         hkpSphereShape() noexcept;

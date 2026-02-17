@@ -25,8 +25,8 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkpConstraintInstanceSmallArraySerializeOverrideType);
 
         nemesis::hkRefPtr<nemesis::HavokObject> m_data;
-        unsigned short m_size;
-        unsigned short m_capacityAndFlags;
+        unsigned short m_size{};
+        unsigned short m_capacityAndFlags{};
 
     public:
         hkpConstraintInstanceSmallArraySerializeOverrideType() noexcept;

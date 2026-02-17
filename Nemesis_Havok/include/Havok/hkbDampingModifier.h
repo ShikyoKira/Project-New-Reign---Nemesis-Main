@@ -22,19 +22,19 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkbDampingModifier);
 
-        float m_kP;
-        float m_kI;
-        float m_kD;
-        bool m_enableScalarDamping;
-        bool m_enableVectorDamping;
-        float m_rawValue;
-        float m_dampedValue;
+        float m_kP{};
+        float m_kI{};
+        float m_kD{};
+        bool m_enableScalarDamping{};
+        bool m_enableVectorDamping{};
+        float m_rawValue{};
+        float m_dampedValue{};
         nemesis::hkVector4 m_rawVector;
         nemesis::hkVector4 m_dampedVector;
         nemesis::hkVector4 m_vecErrorSum;
         nemesis::hkVector4 m_vecPreviousError;
-        float m_errorSum;
-        float m_previousError;
+        float m_errorSum{};
+        float m_previousError{};
 
     public:
         hkbDampingModifier() noexcept;

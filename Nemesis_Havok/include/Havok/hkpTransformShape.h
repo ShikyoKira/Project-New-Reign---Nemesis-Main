@@ -25,7 +25,7 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkpTransformShape);
 
         nemesis::hkpSingleShapeContainer m_childShape;
-        int m_childShapeSize;
+        int m_childShapeSize{};
         nemesis::hkQuaternion m_rotation;
         nemesis::hkTransform m_transform;
 

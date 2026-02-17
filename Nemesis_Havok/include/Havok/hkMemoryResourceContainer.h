@@ -24,7 +24,7 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkMemoryResourceContainer);
 
-        bool m_nameIsAllocated;
+        bool m_nameIsAllocated{};
         nemesis::hkStringPtr m_name;
         nemesis::hkRefPtr<nemesis::hkMemoryResourceContainer> m_parent;
         nemesis::hkArray<nemesis::hkRefPtr<nemesis::hkMemoryResourceHandle>> m_resourceHandles;

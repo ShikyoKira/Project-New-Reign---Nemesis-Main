@@ -24,8 +24,8 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkaSkeletonMapperDataPartitionMappingRange);
 
-        int m_startMappingIndex;
-        int m_numMappings;
+        int m_startMappingIndex{};
+        int m_numMappings{};
 
     public:
         hkaSkeletonMapperDataPartitionMappingRange() noexcept;

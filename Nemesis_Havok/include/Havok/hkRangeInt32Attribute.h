@@ -24,10 +24,10 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkRangeInt32Attribute);
 
-        int m_absmin;
-        int m_absmax;
-        int m_softmin;
-        int m_softmax;
+        int m_absmin{};
+        int m_absmax{};
+        int m_softmin{};
+        int m_softmax{};
 
     public:
         hkRangeInt32Attribute() noexcept;

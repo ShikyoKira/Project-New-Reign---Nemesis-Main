@@ -28,7 +28,7 @@ namespace nemesis
         using DataUsage = nemesis::hkInternalClassEnumItem<unsigned short>;
         using DataHint = nemesis::hkInternalClassEnumItem<unsigned short>;
 
-        unsigned int m_byteOffset;
+        unsigned int m_byteOffset{};
         nemesis::hkEnum<DataType, unsigned short> m_type = {
             {"HKX_DT_NONE", 0},
             {"HKX_DT_UINT8", 1},
@@ -48,8 +48,8 @@ namespace nemesis
             {"HKX_DU_BLENDINDICES", 128},
             {"HKX_DU_USERDATA", 256},
         };
-        unsigned int m_byteStride;
-        unsigned char m_numElements;
+        unsigned int m_byteStride{};
+        unsigned char m_numElements{};
         nemesis::hkEnum<DataHint, unsigned short> m_hint = {
             {"HKX_DH_NONE", 0},
             {"HKX_DH_LIGHTMAP", 1},

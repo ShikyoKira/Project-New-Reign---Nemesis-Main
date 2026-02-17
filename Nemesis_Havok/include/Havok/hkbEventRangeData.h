@@ -24,7 +24,7 @@ namespace nemesis
 
         using EventRangeMode = nemesis::hkInternalClassEnumItem<char>;
 
-        float m_upperBound;
+        float m_upperBound{};
         nemesis::hkbEventProperty m_event;
         nemesis::hkEnum<EventRangeMode, char> m_eventMode = {
             {"EVENT_MODE_SEND_ON_ENTER_RANGE", 0},

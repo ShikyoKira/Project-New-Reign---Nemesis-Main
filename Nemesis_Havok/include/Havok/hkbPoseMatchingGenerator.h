@@ -25,25 +25,25 @@ namespace nemesis
         using Mode = nemesis::hkInternalClassEnumItem<char>;
 
         nemesis::hkQuaternion m_worldFromModelRotation;
-        float m_blendSpeed;
-        float m_minSpeedToSwitch;
-        float m_minSwitchTimeNoError;
-        float m_minSwitchTimeFullError;
+        float m_blendSpeed{};
+        float m_minSpeedToSwitch{};
+        float m_minSwitchTimeNoError{};
+        float m_minSwitchTimeFullError{};
         nemesis::hkEventId m_startPlayingEventId;
         nemesis::hkEventId m_startMatchingEventId;
-        short m_rootBoneIndex;
-        short m_otherBoneIndex;
-        short m_anotherBoneIndex;
-        short m_pelvisIndex;
+        short m_rootBoneIndex{};
+        short m_otherBoneIndex{};
+        short m_anotherBoneIndex{};
+        short m_pelvisIndex{};
         nemesis::hkEnum<Mode, char> m_mode = {
             {"MODE_MATCH", 0},
             {"MODE_PLAY", 1},
         };
-        int m_currentMatch;
-        int m_bestMatch;
-        float m_timeSinceBetterMatch;
-        float m_error;
-        bool m_resetCurrentMatchLocalTime;
+        int m_currentMatch{};
+        int m_bestMatch{};
+        float m_timeSinceBetterMatch{};
+        float m_error{};
+        bool m_resetCurrentMatchLocalTime{};
         nemesis::hkRefPtr<nemesis::HavokObject> m_poseMatchingUtility;
 
     public:

@@ -25,8 +25,8 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(BSDistTriggerModifier);
 
         nemesis::hkVector4 m_targetPosition;
-        float m_distance;
-        float m_distanceTrigger;
+        float m_distance{};
+        float m_distanceTrigger{};
         nemesis::hkbEventProperty m_triggerEvent;
 
     public:

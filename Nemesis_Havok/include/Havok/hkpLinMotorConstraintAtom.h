@@ -23,11 +23,11 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpLinMotorConstraintAtom);
 
-        bool m_isEnabled;
-        unsigned char m_motorAxis;
-        short m_initializedOffset;
-        short m_previousTargetPositionOffset;
-        float m_targetPosition;
+        bool m_isEnabled{};
+        unsigned char m_motorAxis{};
+        short m_initializedOffset{};
+        short m_previousTargetPositionOffset{};
+        float m_targetPosition{};
         nemesis::hkRefPtr<nemesis::hkpConstraintMotor> m_motor;
 
     public:

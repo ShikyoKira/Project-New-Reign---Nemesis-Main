@@ -27,10 +27,10 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkbCharacterControllerControlData);
 
         nemesis::hkVector4 m_desiredVelocity;
-        float m_verticalGain;
-        float m_horizontalCatchUpGain;
-        float m_maxVerticalSeparation;
-        float m_maxHorizontalSeparation;
+        float m_verticalGain{};
+        float m_horizontalCatchUpGain{};
+        float m_maxVerticalSeparation{};
+        float m_maxHorizontalSeparation{};
 
     public:
         hkbCharacterControllerControlData() noexcept;

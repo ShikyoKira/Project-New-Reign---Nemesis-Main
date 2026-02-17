@@ -23,8 +23,8 @@ namespace nemesis
         REGISTER_HAVOK_POINTER_HEADER(hkpDashpotAction);
 
         std::array<nemesis::hkVector4, 2> m_point;
-        float m_strength;
-        float m_damping;
+        float m_strength{};
+        float m_damping{};
         nemesis::hkVector4 m_impulse;
 
     public:

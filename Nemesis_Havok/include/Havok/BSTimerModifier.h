@@ -24,10 +24,10 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(BSTimerModifier);
 
-        float m_alarmTimeSeconds;
+        float m_alarmTimeSeconds{};
         nemesis::hkbEventProperty m_alarmEvent;
-        bool m_resetAlarm;
-        float m_secondsElapsed;
+        bool m_resetAlarm{};
+        float m_secondsElapsed{};
 
     public:
         BSTimerModifier() noexcept;

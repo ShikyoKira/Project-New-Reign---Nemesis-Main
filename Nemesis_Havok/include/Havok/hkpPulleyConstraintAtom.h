@@ -24,8 +24,8 @@ namespace nemesis
 
         nemesis::hkVector4 m_fixedPivotAinWorld;
         nemesis::hkVector4 m_fixedPivotBinWorld;
-        float m_ropeLength;
-        float m_leverageOnBodyB;
+        float m_ropeLength{};
+        float m_leverageOnBodyB{};
 
     public:
         hkpPulleyConstraintAtom() noexcept;

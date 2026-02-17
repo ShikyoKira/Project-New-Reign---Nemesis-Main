@@ -22,8 +22,8 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpStiffSpringConstraintAtom);
 
-        float m_length;
-        float m_maxLength;
+        float m_length{};
+        float m_maxLength{};
 
     public:
         hkpStiffSpringConstraintAtom() noexcept;

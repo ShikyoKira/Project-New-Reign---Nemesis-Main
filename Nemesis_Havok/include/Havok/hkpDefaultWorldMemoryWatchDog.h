@@ -22,7 +22,7 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpDefaultWorldMemoryWatchDog);
 
-        int m_freeHeapMemoryRequested;
+        int m_freeHeapMemoryRequested{};
 
     public:
         hkpDefaultWorldMemoryWatchDog() noexcept;

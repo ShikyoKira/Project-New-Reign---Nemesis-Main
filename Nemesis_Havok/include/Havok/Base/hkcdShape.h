@@ -87,7 +87,7 @@ namespace nemesis
             {"USER", 4},
             {"NUM_DISPATCH_TYPES", 5},
         };
-        unsigned char m_bitsPerKey;
+        unsigned char m_bitsPerKey{};
         nemesis::hkEnum<ShapeInfoCodecType, unsigned char> m_shapeInfoCodecType = {
             {"NULL_CODEC", 0},
             {"UFM358", 1},

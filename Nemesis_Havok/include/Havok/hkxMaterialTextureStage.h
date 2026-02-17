@@ -43,7 +43,7 @@ namespace nemesis
             {"TEX_DOMINANTS", 12},
             {"TEX_NOTEXPORTED", 13},
         };
-        int m_tcoordChannel;
+        int m_tcoordChannel{};
 
     public:
         hkxMaterialTextureStage() noexcept;

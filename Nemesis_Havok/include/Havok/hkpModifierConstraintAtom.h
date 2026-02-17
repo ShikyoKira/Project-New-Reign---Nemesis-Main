@@ -22,10 +22,10 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpModifierConstraintAtom);
 
-        unsigned short m_modifierAtomSize;
-        unsigned short m_childSize;
+        unsigned short m_modifierAtomSize{};
+        unsigned short m_childSize{};
         nemesis::hkRefPtr<nemesis::hkpConstraintAtom> m_child;
-        std::array<unsigned int, 2> m_pad;
+        std::array<unsigned int, 2> m_pad{};
 
     public:
         hkpModifierConstraintAtom() noexcept;

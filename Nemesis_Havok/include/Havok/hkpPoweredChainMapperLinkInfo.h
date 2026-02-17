@@ -22,8 +22,8 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpPoweredChainMapperLinkInfo);
 
-        int m_firstTargetIdx;
-        int m_numTargets;
+        int m_firstTargetIdx{};
+        int m_numTargets{};
         nemesis::hkRefPtr<nemesis::hkpConstraintInstance> m_limitConstraint;
 
     public:

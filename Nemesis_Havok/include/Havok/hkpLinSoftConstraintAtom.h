@@ -22,9 +22,9 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpLinSoftConstraintAtom);
 
-        unsigned char m_axisIndex;
-        float m_tau;
-        float m_damping;
+        unsigned char m_axisIndex{};
+        float m_tau{};
+        float m_damping{};
 
     public:
         hkpLinSoftConstraintAtom() noexcept;

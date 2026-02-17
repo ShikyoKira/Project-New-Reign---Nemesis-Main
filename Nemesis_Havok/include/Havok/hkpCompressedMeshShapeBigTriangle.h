@@ -24,12 +24,12 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpCompressedMeshShapeBigTriangle);
 
-        unsigned short m_a;
-        unsigned short m_b;
-        unsigned short m_c;
-        unsigned int m_material;
-        unsigned short m_weldingInfo;
-        unsigned short m_transformIndex;
+        unsigned short m_a{};
+        unsigned short m_b{};
+        unsigned short m_c{};
+        unsigned int m_material{};
+        unsigned short m_weldingInfo{};
+        unsigned short m_transformIndex{};
 
     public:
         hkpCompressedMeshShapeBigTriangle() noexcept;

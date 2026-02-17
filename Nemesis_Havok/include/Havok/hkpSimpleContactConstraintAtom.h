@@ -24,13 +24,13 @@ namespace nemesis
     private:
         REGISTER_HAVOK_POINTER_HEADER(hkpSimpleContactConstraintAtom);
 
-        unsigned short m_sizeOfAllAtoms;
-        unsigned short m_numContactPoints;
-        unsigned short m_numReservedContactPoints;
-        unsigned char m_numUserDatasForBodyA;
-        unsigned char m_numUserDatasForBodyB;
-        unsigned char m_contactPointPropertiesStriding;
-        unsigned short m_maxNumContactPoints;
+        unsigned short m_sizeOfAllAtoms{};
+        unsigned short m_numContactPoints{};
+        unsigned short m_numReservedContactPoints{};
+        unsigned char m_numUserDatasForBodyA{};
+        unsigned char m_numUserDatasForBodyB{};
+        unsigned char m_contactPointPropertiesStriding{};
+        unsigned short m_maxNumContactPoints{};
         nemesis::hkpSimpleContactConstraintDataInfo m_info; // align 16
 
     public:
