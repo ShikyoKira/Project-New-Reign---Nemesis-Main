@@ -44,8 +44,8 @@ How to use Nemesis for users?
 Youtube tutorial on how to use Nemesis: https://www.youtube.com/watch?v=mug-KFBwJTo
 
 Build requirement for developers:
-- [Qt5](https://www.qt.io/download-open-source)
-- [boost](https://www.boost.org/users/download/) 
+- [Qt5](https://www.qt.io/download-qt-installer-oss?hsCtaTracking=99d9dd4f-5681-48d2-b096-470725510d34%7C074ddad0-fdef-4e53-8aa8-5e8a876d6ab4) - Select 5.15.2, unselect everything in that category except MSVC 2019 64-bit and anything QT*
+- [boost](https://boostorg.jfrog.io/artifactory/main/release/1.72.0/source/) 
 - [Python-3.5.6](https://www.python.org/downloads/release/python-356/) - Prebuilt binary version [here](https://drive.google.com/open?id=1Uqq0iQhc0qsWAiz3EFzqMWxB27BG-M5T)
 - C++17 and/or later
 
