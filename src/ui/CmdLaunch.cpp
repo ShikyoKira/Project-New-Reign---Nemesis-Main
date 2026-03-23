@@ -57,7 +57,7 @@ void CmdGenerateInitialize(VecStr modlist, const NemesisInfo* nemesisInfo)
     for (auto& each : modlist)
     {
         nemesis::to_lower(each);
-        wstring mod = nemesis::transform_to<wstring>(mod);
+        wstring mod = nemesis::transform_to<wstring>(each);
         auto itr = modinfo.find(mod);
 
         if (itr != modinfo.end())
