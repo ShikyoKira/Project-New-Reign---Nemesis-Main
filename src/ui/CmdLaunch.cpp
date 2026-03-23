@@ -71,7 +71,7 @@ void CmdGenerateInitialize(VecStr modlist, const NemesisInfo* nemesisInfo)
     BehaviorStart* worker = new BehaviorStart(nemesisInfo);
     worker->addBehaviorPick(behaviorPriority, chosenBehavior);
 
-    QObject::connect(thread, SIGNAL(started()), worker, SLOT(GenerateBehavior()));
+    QObject::connect(thread, SIGNAL(started()), worker, SLOT(InitializeGeneration()));
     QObject::connect(worker, SIGNAL(end()), thread, SLOT(quit()));
     QObject::connect(worker, SIGNAL(end()), worker, SLOT(deleteLater()));
     QObject::connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
